@@ -9,11 +9,23 @@ Suggestions and Ideas are always open to implementing or changing as a rule for 
 
 The rules are as follows:
 * Documentation - Remember to create documentation of code that you create. You don't want someone pinging you at 2 a.m. asking you how this line of code works 'namsayin?
-* 
+* Update tasks in Asana regularly for immediate QA
+* Packages - Inform the team if you plan on using a package for a specific feature. So they can also use it and not install other packages for the same issue.
 > Feel free to add more!
+
+# Roles
+[UI]
+ - Gomer
+ - Kaezx
+[UX]
+ - Nina
+ - Patrick
+[API]
+ - Job
 
 # Useful Links
 - [Dart and Flutter guides](https://flutterbyexample.com/)
+- []
 
 ## Getting Started
 
