@@ -42,7 +42,7 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
         const SizedBox(height: 15.0,),
         Padding(
           padding: const EdgeInsets.all(25),
-          child: Image.asset('assets/images/language-select.png',),
+          child: Image.asset('assets/images/create-account-screen.png',),
         ),
         const SizedBox(height: 20.0,),
         const Text('Create an account!',
@@ -59,7 +59,7 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
               fontFamily: 'Body 2',
               color: Color.fromRGBO(37, 47, 72, 1.0)),
         ),
-        const SizedBox(height: 15.0,),
+        const SizedBox(height: 50.0,),
          SizedBox(
           width: 328,
           height: 50,
@@ -81,14 +81,14 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         const Text(
           'Already have an account?',
           style: TextStyle(
             fontSize: 12,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         SizedBox(
           width: 328,
           height: 52,
