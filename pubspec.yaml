@@ -29,6 +29,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  # dependency to detect if the user is shaking their phone.  
+  shake: ^2.0.0
+  # countdown timer dependency
+  circular_countdown_timer: ^0.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -39,9 +44,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # dependency to detect if the user is shaking their phone.  
-  shake: ^2.0.0
 
   
   # The "flutter_lints" package below contains a set of recommended lints to
