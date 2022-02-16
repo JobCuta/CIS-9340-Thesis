@@ -28,19 +28,23 @@ class RegisterWidget extends StatefulWidget {
 
 class _RegisterState extends State<RegisterWidget>{
   bool isSwitched = false;
+  bool isPasswordVisible = false;
+  String password = '';
 
   @override
   Widget build(BuildContext context){
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Text('Register',
+        const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text('Register',
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.w800,
                 fontSize: 30,
                 fontFamily: 'Header 5'),
+            ),
           ),
-        const SizedBox(height: 15.0,),
+        const SizedBox(height: 10.0,),
         const Text('Please enter your credentials to continue',
           textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.w400,
@@ -49,21 +53,61 @@ class _RegisterState extends State<RegisterWidget>{
               fontFamily: 'Body 2',
               color: Color.fromRGBO(37, 47, 72, 1.0)),
         ),
-        const SizedBox(height: 20.0,),
-        const SizedBox(
-          width: 320,
-          height: 61,
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Email',
-              hintText: 'Email',
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(),
-            ),
+        const SizedBox(height: 15.0,),
+        Container(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text('Email', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
+              const TextField(
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: 'Enter your Email',
+                  border: OutlineInputBorder(),
+                  //errorText: 'This Field is Required',
+                ),
+              ),
+              const SizedBox(height: 15.0,),
+              const Text('Password', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
+              TextField(
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: 'Enter your Password',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: isPasswordVisible
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility),
+                    onPressed: () =>
+                        setState(() => isPasswordVisible = !isPasswordVisible),
+                  ),
+                  //errorText: 'This Field is Required',
+                ),
+                obscureText: isPasswordVisible,
+              ),
+              const SizedBox(height: 15.0,),
+              const Text('Confirm Password', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
+              TextField(
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: 'Confirm your Password',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: isPasswordVisible
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility),
+                    onPressed: () =>
+                        setState(() => isPasswordVisible = !isPasswordVisible),
+                  ),
+                  //errorText: 'This Field is Required',
+                ),
+                obscureText: isPasswordVisible,
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 20.0,),
+        const SizedBox(height: 15.0,),
         Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Column(
@@ -99,7 +143,7 @@ class _RegisterState extends State<RegisterWidget>{
               ],
             ),
         ),
-        const SizedBox(height: 100.0,),
+        const SizedBox(height: 50.0,),
         SizedBox(
           width: 328,
           height: 50,
