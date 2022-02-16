@@ -43,7 +43,7 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
         const SizedBox(height: 15.0,),
         Padding(
           padding: const EdgeInsets.all(25),
-          child: Image.asset('assets/images/create-account-screen.png',),
+          child: Image.asset('assets/images/sample.png',),
         ),
         const SizedBox(height: 20.0,),
         const Text('Create an account!',
