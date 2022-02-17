@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/intro/ShakeScreen.dart';
 
 void main() {
-  runApp(const intro());
+  runApp(const Intro());
 }
 
-class intro extends StatelessWidget {
-  const intro({Key? key}) : super(key: key);
+class Intro extends StatelessWidget {
+  const Intro({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,11 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
               padding: const EdgeInsets.all(12),
               primary: Colors.blue,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => ShakeScreen()
+              ));
+            },
             child: const Text(
               'Start your journey',
               style: TextStyle(
