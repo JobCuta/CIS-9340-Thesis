@@ -203,7 +203,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
           ),
           child: const Text('Continue',
             style: TextStyle(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               fontFamily: 'Proxima Nova',
               fontSize: 20,
               color: Colors.white,
