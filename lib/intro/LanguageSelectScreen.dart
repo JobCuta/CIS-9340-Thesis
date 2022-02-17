@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'IntroductionScreen.dart';
 
 void main() => runApp(const LanguageSelect());
 
@@ -198,6 +199,9 @@ class _LanguagesState extends State<LanguagesWidget> {
                   color: Colors.white)),
           onPressed: () {
             //navigate to next page
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) => Intro()
+            ));
           },
         ),
       ),
