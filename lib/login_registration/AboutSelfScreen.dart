@@ -33,19 +33,17 @@ class _AboutSelfState extends State<AboutSelfWidget>{
   String lastName = '';
   String nickName = '';
   String? gender;
-  late DateTime date;
-  late String strDate;
+  DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
-    final now = DateTime.now();
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: date ?? now,
-        firstDate: now,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != date) {
+    if (picked != null && picked != selectedDate) {
       setState(() {
-        date = picked;
+        selectedDate = picked;
       });
     }
   }
@@ -238,7 +236,7 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                     FocusScope.of(context).requestFocus(FocusNode());
                     // Show Date Picker Here
                     _selectDate(context);
-                    _textEditingController.text = DateFormat('yyyy/MM/dd').format(date);
+                    _textEditingController.text = DateFormat('yyyy/MM/dd').format(selectedDate);
                   },
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -247,10 +245,11 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
+                    suffixIcon: Icon(Icons.calendar_today_rounded,color: Colors.green,),
                     contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                   ),
                   onSaved: (String? value) {
-                    strDate = value!;
+                    selectedDate = value! as DateTime;
                   },
                 ),
                 const SizedBox(height: 20.0,),
