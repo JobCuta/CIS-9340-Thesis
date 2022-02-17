@@ -11,12 +11,15 @@ The rules are as follows:
 * Documentation - Remember to create documentation of code that you create. You don't want someone pinging you at 2 a.m. asking you how this line of code works 'namsayin?
 * Update tasks in Asana regularly for immediate QA
 * Packages - Inform the team if you plan on using a package for a specific feature. So they can also use it and not install other packages for the same issue.
+* Naming Conventions for files
+    - Screens : [Name]Screen.dart
+    - Components : [Name]Component.dart
 > Feel free to add more!
 
 # Roles
 [UI]
  - Gomer
- - Kaezx
+ - Lance
 [UX]
  - Nina
  - Patrick
@@ -25,19 +28,9 @@ The rules are as follows:
 
 # Useful Links
 - [Dart and Flutter guides](https://flutterbyexample.com/)
-- []
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-amogus jobus
+# Packages Used
+- GetX (https://pub.dev/packages/get)
+- 
