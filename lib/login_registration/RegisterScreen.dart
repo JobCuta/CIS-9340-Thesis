@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,138 +29,208 @@ class _RegisterState extends State<RegisterWidget>{
   bool isSwitched = false;
   bool isPasswordVisible = false;
   String password = '';
+  String confirmPassword = '';
+  String email = '';
 
   @override
   Widget build(BuildContext context){
-    return Column(
-      children: <Widget>[
+    return ListView(
+      children: <Widget> [
         const Padding(
-          padding: EdgeInsets.all(20),
-          child: Text('Register',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.w800,
-                fontSize: 30,
-                fontFamily: 'Header 5'),
-            ),
+          padding: EdgeInsets.all(24.0),
+          child: Center(
+              child: Text('Register',
+                style: TextStyle(fontWeight: FontWeight.w800,
+                    fontSize: 30,
+                    fontFamily: 'Header 5'),
+              )
           ),
-        const SizedBox(height: 10.0,),
-        const Text('Please enter your credentials to continue',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.w400,
+        ),
+        const Center(
+          child: Text('Please enter your credentials to continue',
+            style: TextStyle(fontWeight: FontWeight.w400,
               fontSize: 14,
               letterSpacing: 1,
               fontFamily: 'Body 2',
-              color: Color.fromRGBO(37, 47, 72, 1.0)),
-        ),
-        const SizedBox(height: 15.0,),
-        Container(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text('Email', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
-              const TextField(
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: 'Enter your Email',
-                  border: OutlineInputBorder(),
-                  //errorText: 'This Field is Required',
-                ),
-              ),
-              const SizedBox(height: 15.0,),
-              const Text('Password', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
-              TextField(
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: 'Enter your Password',
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: isPasswordVisible
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
-                    onPressed: () =>
-                        setState(() => isPasswordVisible = !isPasswordVisible),
-                  ),
-                  //errorText: 'This Field is Required',
-                ),
-                obscureText: isPasswordVisible,
-              ),
-              const SizedBox(height: 15.0,),
-              const Text('Confirm Password', textAlign: TextAlign.left, style: TextStyle(height: 1.2, fontSize: 15),),
-              TextField(
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: 'Confirm your Password',
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: isPasswordVisible
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
-                    onPressed: () =>
-                        setState(() => isPasswordVisible = !isPasswordVisible),
-                  ),
-                  //errorText: 'This Field is Required',
-                ),
-                obscureText: isPasswordVisible,
-              ),
-            ],
+            ),
           ),
         ),
-        const SizedBox(height: 15.0,),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+        const SizedBox(height: 20.0,),
+        Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
+          child: Form(
             child: Column(
-              children: [
+              children: <Widget> [
                 Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'I have read and understood the ',
-                          style: DefaultTextStyle.of(context).style,
-                            children: const <TextSpan>[
-                              TextSpan(text: 'terms of use', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
-                              TextSpan(text: ' and '),
-                              TextSpan(text: 'privacy policy', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
-                            ]
-                        ),
+                  children: const [
+                    Text('Email',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromRGBO(94, 102, 104, 1)
                       ),
                     ),
-                    Switch(
-                      value: isSwitched,
-                        onChanged: (value){
-                          setState(() {
-                            isSwitched = value;
-                            if (kDebugMode) {
-                              print(isSwitched);
-                            }
-                          });
-                        },
-                    )
                   ],
                 ),
+                const SizedBox(height: 5.0,),
+                TextField(
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Enter your email',
+                    //errorText: 'This Field is Required',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[700],
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                  ),
+                  onChanged: (val) {
+                    setState(() => email = val);
+                  },
+                ),
+                const SizedBox(height: 20.0,),
+                Row(
+                  children: const [
+                    Text('Password',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromRGBO(94, 102, 104, 1)
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0,),
+                TextField(
+                  obscureText: isPasswordVisible,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Enter your password',
+                    //errorText: 'This Field is Required',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[700],
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (val) {
+                    setState(() => password = val);
+                  },
+                ),
+                const SizedBox(height: 20.0,),
+                Row(
+                  children: const [
+                    Text('Confirm Password',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromRGBO(94, 102, 104, 1)
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0,),
+                TextField(
+                  obscureText: isPasswordVisible,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Confirm your password',
+                    //errorText: 'This Field is Required',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[700],
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (val) {
+                    setState(() => confirmPassword = val);
+                  },
+                ),
+                const SizedBox(height: 15.0,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'I have read and understood the ',
+                                style: DefaultTextStyle.of(context).style,
+                                children: const <TextSpan>[
+                                  TextSpan(text: 'terms of use', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                                  TextSpan(text: ' and '),
+                                  TextSpan(text: 'privacy policy', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Switch(
+                            value: isSwitched,
+                              onChanged: (value){
+                              setState(() {
+                                isSwitched = value;
+                              });
+                              },
+                            activeColor: Colors.white,
+                            activeTrackColor: Colors.green,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 50.0,),
+                SizedBox(
+                  width: 328,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      primary: Colors.green,
+                    ),
+                    onPressed: (){},
+                    //navigate to next page
+                    child: const Text(
+                      'Log in',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ),
-        ),
-        const SizedBox(height: 50.0,),
-        SizedBox(
-          width: 328,
-          height: 50,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              padding: const EdgeInsets.all(12),
-              primary: Colors.green,
-            ),
-            onPressed: () {},
-            child: const Text(
-              'Continue',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              ),
             ),
           ),
         ),
