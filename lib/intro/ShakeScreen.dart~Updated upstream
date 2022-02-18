@@ -50,19 +50,16 @@ class _ShakeScreenState extends State<ShakeScreen> {
     var breathing = [
       'assets/images/breathing.png',
       'Take a minute to breathe and meditate',
-      'Meditating refreshes your mind and readies you for anything.',
       'Breathing'
     ];
     var meditation = [
       'assets/images/meditating.png',
       'Notice your surroundings, relax your mind and body as you do so',
-      'Being aware of your surroundings helps your mind and body focus more!',
       'Meditating'
     ];
     var walking = [
       'assets/images/walking.png',
       'Pace around your environment and clear you mind',
-      'Meditating as you walk helps reduce stress and anxiety!',
       'Walking'
     ];
 
@@ -77,8 +74,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
                 home: ExerciseScreen(
                     assetImage: randomExercise[0],
                     prompt: randomExercise[1],
-                    reason: randomExercise[2],
-                    type: randomExercise[3]))),
+                    type: randomExercise[2]))),
       );
     });
   }
@@ -115,7 +111,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
                     margin: const EdgeInsets.all(50),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                        color: Colors.orange[300]!.withOpacity(0.50),
+                        color: Colors.orange[300]!,
                         // border: Border.all(color: Colors.black38, width: 2),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8))),
@@ -139,7 +135,8 @@ class _ShakeScreenState extends State<ShakeScreen> {
                             style: const TextStyle(
                                 fontSize: 16, color: Colors.white)),
                       ],
-                    )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
+                    )),
+                // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
                 TextButton(
                     child: Text('SHAKE (Emulator)'),
                     onPressed: () {
@@ -160,15 +157,10 @@ class _ShakeScreenState extends State<ShakeScreen> {
 class ExerciseScreen extends StatefulWidget {
   final String assetImage;
   final String prompt;
-  final String reason;
   final String type;
 
   const ExerciseScreen(
-      {key,
-      required this.assetImage,
-      required this.prompt,
-      required this.reason,
-      required this.type})
+      {key, required this.assetImage, required this.prompt, required this.type})
       : super(key: key);
 
   @override
@@ -179,19 +171,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   var breathing = [
     'assets/images/breathing.png',
     'Take a minute to breathe and meditate',
-    'Meditating refreshes your mind and readies you for anything.',
     'Breathing'
   ];
   var meditation = [
     'assets/images/meditating.png',
     'Notice your surroundings, relax your mind and body as you do so',
-    'Being aware of your surroundings helps your mind and body focus more!',
     'Meditating'
   ];
   var walking = [
     'assets/images/walking.png',
     'Pace around your environment and clear you mind',
-    'Meditating as you walk helps reduce stress and anxiety!',
     'Walking'
   ];
 
@@ -257,7 +246,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       margin: const EdgeInsets.all(50),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: Colors.orange[300]!.withOpacity(0.50),
+                          color: Colors.orange[300]!,
                           // border: Border.all(color: Colors.black38, width: 2),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8))),
@@ -277,7 +266,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                         : (widget.type == 'Walking')
                                             ? const WalkingCycleWidget()
                                             : const MeditationCycleWidget(),
-                                    height: 30)
+                                    height: 40)
                                 : const Text('Good job!',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -291,10 +280,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           indent: 5,
                           endIndent: 5,
                         ),
-                        Text((position == 2) ? widget.reason : widget.prompt,
+                        Text(widget.prompt,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                                fontSize: 19, color: Colors.white)),
+                                fontSize: 16, color: Colors.white)),
                       ])),
                   // Button for the user to randomly generate a new exercise
                   (position == 1)
@@ -319,8 +308,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                         home: ExerciseScreen(
                                             assetImage: randomExercise[0],
                                             prompt: randomExercise[1],
-                                            reason: randomExercise[2],
-                                            type: randomExercise[3]))),
+                                            type: randomExercise[2]))),
                               );
                             },
                             child: const Text(
@@ -345,11 +333,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   primary: Colors.blue[400],
                                 ),
                                 onPressed: () {
+                                  var randomExercise =
+                                      (otherExercises..shuffle()).first;
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MaterialApp(
-                                            home: CreateAccountScreen())),
+                                            home: ExerciseScreen(
+                                                assetImage: randomExercise[0],
+                                                prompt: randomExercise[1],
+                                                type: randomExercise[2]))),
                                   );
                                 },
                                 child: const Text(
@@ -364,22 +357,18 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           : const Text(''),
                   // Allows the user to skip the exercises -> proceeds to the createAccountScreen
                   Visibility(
-                    visible: position <= 1,
-                    child: TextButton(
-                      // style: TextButton.styleFrom(primary: Colors.transparent),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MaterialApp(
-                                    home: CreateAccountScreen())));
-                      },
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(color: Colors.blue[300], fontSize: 24),
-                      ),
-                    ),
-                  )
+                      visible: position <= 1,
+                      child: TextButton(
+                          child: Text('Skip',
+                              style: TextStyle(
+                                  color: Colors.blue[400], fontSize: 20)),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MaterialApp(
+                                        home: CreateAccountScreen())));
+                          }))
                 ]);
           })
     ]));
@@ -505,8 +494,8 @@ class _InitialCountdownWidgetState extends State<InitialCountdownWidget> {
         duration: 10,
         initialDuration: 0,
         controller: widget.timerController,
-        width: MediaQuery.of(context).size.width / 3,
-        height: MediaQuery.of(context).size.height / 5,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 6,
         ringColor: Colors.orange[300]!,
         fillColor: Colors.orange[100]!,
         backgroundColor: Colors.orange[500],
@@ -553,8 +542,8 @@ class _MainCountdownWidgetState extends State<MainCountdownWidget> {
         duration: 60,
         initialDuration: 0,
         controller: widget.timerController,
-        width: MediaQuery.of(context).size.width / 3,
-        height: MediaQuery.of(context).size.height / 5,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 6,
         ringColor: Colors.orange[300]!,
         fillColor: Colors.orange[100]!,
         backgroundColor: Colors.orange[500],
