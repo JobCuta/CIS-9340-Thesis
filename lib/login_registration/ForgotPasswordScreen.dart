@@ -247,6 +247,5 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
       ),
     );
   }
-  //Widget Builder for popup
 }
 

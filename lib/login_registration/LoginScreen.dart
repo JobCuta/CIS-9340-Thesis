@@ -142,7 +142,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                         suffixIcon: IconButton(
                           icon: Icon(
-                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                              _isObscure ? Icons.visibility_off : Icons.visibility),
                           onPressed: () {
                             setState(() {
                               _isObscure = !_isObscure;
