@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/login_registration/ForgotPasswordScreen.dart';
 
 void main() => runApp(const LoginScreen());
 
@@ -165,6 +166,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => const ForgotPasswordScreen()
+                              ));
                               //Go to Forgot Your Password Screen
                             },
                             child: const Text('Forgot your password?',

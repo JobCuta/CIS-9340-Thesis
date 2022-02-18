@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/login_registration/AboutSelfScreen.dart';
 
 void main() {
   runApp(const RegisterScreen());
@@ -27,7 +28,8 @@ class RegisterWidget extends StatefulWidget {
 
 class _RegisterState extends State<RegisterWidget>{
   bool isSwitched = false;
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
+  bool isPasswordVisible2 = true;
   String password = '';
   String confirmPassword = '';
   String email = '';
@@ -145,7 +147,7 @@ class _RegisterState extends State<RegisterWidget>{
                 ),
                 const SizedBox(height: 5.0,),
                 TextField(
-                  obscureText: isPasswordVisible,
+                  obscureText: isPasswordVisible2,
                   style: const TextStyle(
                     fontSize: 14.0,
                   ),
@@ -160,10 +162,10 @@ class _RegisterState extends State<RegisterWidget>{
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
                       icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                          isPasswordVisible2 ? Icons.visibility : Icons.visibility_off),
                       onPressed: () {
                         setState(() {
-                          isPasswordVisible = !isPasswordVisible;
+                          isPasswordVisible2 = !isPasswordVisible2;
                         });
                       },
                     ),
@@ -219,8 +221,12 @@ class _RegisterState extends State<RegisterWidget>{
                       padding: const EdgeInsets.all(10),
                       primary: Colors.green,
                     ),
-                    onPressed: (){},
-                    //navigate to next page
+                    onPressed: (){
+                      //navigate to next page
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => const AboutSelfScreen()
+                      ));
+                    },
                     child: const Text(
                       'Log in',
                       style: TextStyle(

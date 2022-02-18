@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/login_registration/AnonymousScreen.dart';
+import 'package:flutter_application_1/login_registration/LoginScreen.dart';
 import 'package:intl/intl.dart';
 
 
@@ -46,6 +48,51 @@ class _AboutSelfState extends State<AboutSelfWidget>{
         selectedDate = picked;
       });
     }
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Account successfully Registered!', textAlign: TextAlign.center,),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children:  <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: Image.asset('assets/images/yellow_icon.png'),
+          ),
+          const Text('Check your email to confirm your account in order to log in', textAlign: TextAlign.center,),
+        ],
+      ),
+      actions: <Widget>[
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              padding: const EdgeInsets.all(10),
+              primary: Colors.green,
+              fixedSize: const Size(245, 50),
+            ),
+            onPressed: (){
+              //navigate to next page
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => const LoginScreen()
+              ));
+            },
+            child: const Text(
+              'Okay!',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   final TextEditingController _textEditingController = TextEditingController();
@@ -264,8 +311,12 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                       padding: const EdgeInsets.all(10),
                       primary: Colors.green,
                     ),
-                    onPressed: (){},
-                    //navigate to next page
+                    onPressed: (){
+                      //navigate to next page
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => _buildPopupDialog(context),
+                      ));
+                    },
                     child: const Text(
                       'Log in',
                       style: TextStyle(
@@ -287,8 +338,12 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                       padding: const EdgeInsets.all(10),
                       primary: Colors.white,
                     ),
-                    onPressed: (){},
-                    //navigate to next page
+                    onPressed: (){
+                      //navigate to next page
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => const AnonymousScreen()
+                      ));
+                    },
                     child: const Text(
                       'Stay Anonymous',
                       style: TextStyle(
@@ -305,8 +360,6 @@ class _AboutSelfState extends State<AboutSelfWidget>{
       ],
     );
   }
-
-
 }
 /**
  * errorText: 'This Field is Required',
