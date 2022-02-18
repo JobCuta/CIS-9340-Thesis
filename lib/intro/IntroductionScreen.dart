@@ -13,12 +13,12 @@ class Intro extends StatelessWidget {
     return  MaterialApp(
       home: Scaffold(
         body: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/introBackground.png"),
+                  image: AssetImage("assets/images/Background.png"),
                   fit: BoxFit.cover)),
-          child: CreateAccountWidget(),
+          child: const CreateAccountWidget(),
         ),
       ),
     );

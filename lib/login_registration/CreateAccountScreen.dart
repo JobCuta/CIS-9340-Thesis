@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/login_registration/LoginScreen.dart';
+import 'RegisterScreen.dart';
 
 void main() {
   runApp(const CreateAccountScreen());
@@ -11,9 +13,9 @@ class CreateAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(242, 255, 245, 0.8),
+        backgroundColor: Color.fromRGBO(199, 237, 234, 1.0),
         body: SafeArea(
-            child: CreateAccountWidget(),
+          child: CreateAccountWidget(),
         ),
       ),
     );
@@ -34,16 +36,17 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         const Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
           child: Text(
             'Before we continue...',
             softWrap: true,
+            style: TextStyle(fontSize: 20),
           ),
         ),
         const SizedBox(height: 15.0,),
         Padding(
-          padding: const EdgeInsets.all(25),
-          child: Image.asset('assets/images/sample.png',),
+          padding: const EdgeInsets.all(5),
+          child: Image.asset('assets/images/create.png'),
         ),
         const SizedBox(height: 20.0,),
         const Text('Create an account!',
@@ -52,16 +55,19 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
               fontFamily: 'Header 5'),
         ),
         const SizedBox(height: 10.0,),
-        const Text('All interactions and data are fully encrypted and secure. Your data is safe with us!',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.w400,
-              fontSize: 14,
-              letterSpacing: 1,
-              fontFamily: 'Body 2',
-              color: Color.fromRGBO(37, 47, 72, 1.0)),
+        const Padding(
+          padding:  EdgeInsets.all(8.0),
+          child:  Text('All interactions and data are fully encrypted and secure. Your data is safe with us!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.w400,
+                fontSize: 14,
+                letterSpacing: 1,
+                fontFamily: 'Body 2',
+                color: Color.fromRGBO(37, 47, 72, 1.0)),
+          ),
         ),
         const SizedBox(height: 50.0,),
-         SizedBox(
+        SizedBox(
           width: 328,
           height: 50,
           child: ElevatedButton(
@@ -72,7 +78,11 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
               padding: const EdgeInsets.all(12),
               primary: Colors.green,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => const RegisterScreen()
+              ));
+            },
             child: const Text(
               'Sign up',
               style: TextStyle(
@@ -101,7 +111,11 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
               padding: const EdgeInsets.all(15),
               primary: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => const LoginScreen()
+              ));
+            },
             child: const Text(
               'Log in',
               style: TextStyle(
