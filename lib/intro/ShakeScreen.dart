@@ -146,7 +146,21 @@ class _ShakeScreenState extends State<ShakeScreen> {
                       _pageController.jumpToPage(1);
                       detector.stopListening();
                       startTime();
-                    })
+                    }),
+                TextButton(
+                  // style: TextButton.styleFrom(primary: Colors.transparent),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MaterialApp(
+                                home: CreateAccountScreen())));
+                  },
+                  child: Text(
+                    'Skip',
+                    style: TextStyle(color: Colors.blue[300], fontSize: 24),
+                  ),
+                ),
               ],
             );
           },
