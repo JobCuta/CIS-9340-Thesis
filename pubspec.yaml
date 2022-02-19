@@ -32,8 +32,11 @@ dependencies:
   
   # dependency to detect if the user is shaking their phone.  
   shake: ^2.0.0
+
   # countdown timer dependency
   circular_countdown_timer: ^0.2.0
+  
+  # dependency for the fading text (Random Exercises)
   animated_text_kit: ^4.2.1
 
   #dependecy for date picker.
@@ -41,6 +44,9 @@ dependencies:
 
   #dependency for pin code field.
   pinput: ^1.2.0
+
+  # Dependency for the step progress indicator
+  step_progress_indicator: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -91,7 +91,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
-                      'assets/images/Background.png',
+                      'assets/images/orange_background.png',
                     ),
                     fit: BoxFit.cover))),
         PageView.builder(
@@ -148,7 +148,6 @@ class _ShakeScreenState extends State<ShakeScreen> {
                       startTime();
                     }),
                 TextButton(
-                  // style: TextButton.styleFrom(primary: Colors.transparent),
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
@@ -227,7 +226,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    'assets/images/Background.png',
+                    'assets/images/orange_background.png',
                   ),
                   fit: BoxFit.cover))),
       PageView.builder(
