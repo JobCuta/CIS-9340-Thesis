@@ -26,25 +26,34 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   String email = '';
   String password = '';
   bool _isObscure = true;
-  final _text = TextEditingController();
   late bool _validate = false;
   bool isButtonActive = false;
-  late TextEditingController emailController;
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController passwordController;
 
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
+    passwordController = TextEditingController();
     emailController.addListener(() {
-      final isButtonActive = emailController.text.isNotEmpty;
-      setState(() => this.isButtonActive = isButtonActive);
+      var emailFilled = emailController.text.isNotEmpty;
+      passwordController.addListener(() {
+        var passwordFilled = passwordController.text.isNotEmpty;
+        if (emailFilled && passwordFilled == true) {
+          const isButtonActive = true;
+          setState(() => this.isButtonActive = isButtonActive);
+        } else {
+          const isButtonActive = false;
+          setState(() => this.isButtonActive = isButtonActive);
+        }
+      });
     });
   }
 
   @override
   void dispose() {
-    _text.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -128,6 +137,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                     ),
                     const SizedBox(height: 5.0,),
                     TextField(
+                      controller: passwordController,
                       obscureText: _isObscure,
                       style: const TextStyle(
                         fontSize: 14.0,
@@ -155,7 +165,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                       },
                       onTap: () {
                         setState(() {
-                          _text.text.isEmpty ? _validate = true : _validate = false;
+                          emailController.text.isEmpty ? _validate = true : _validate = false;
                         });
                       },
                     ),
