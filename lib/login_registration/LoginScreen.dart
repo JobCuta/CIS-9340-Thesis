@@ -29,17 +29,29 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   late bool _validate = false;
   bool isButtonActive = false;
   late TextEditingController emailController = TextEditingController();
-  late TextEditingController passwordController;
+  late TextEditingController passwordController = TextEditingController();
 
 
   @override
   void initState() {
     super.initState();
-    passwordController = TextEditingController();
     emailController.addListener(() {
       var emailFilled = emailController.text.isNotEmpty;
       passwordController.addListener(() {
         var passwordFilled = passwordController.text.isNotEmpty;
+        if (emailFilled && passwordFilled == true) {
+          const isButtonActive = true;
+          setState(() => this.isButtonActive = isButtonActive);
+        } else {
+          const isButtonActive = false;
+          setState(() => this.isButtonActive = isButtonActive);
+        }
+      });
+    });
+    passwordController.addListener(() {
+      var passwordFilled = passwordController.text.isNotEmpty;
+      emailController.addListener(() {
+        var emailFilled = emailController.text.isNotEmpty;
         if (emailFilled && passwordFilled == true) {
           const isButtonActive = true;
           setState(() => this.isButtonActive = isButtonActive);
@@ -121,6 +133,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                       ),
                       onChanged: (val) {
                         setState(() => email = val);
+                      },
+                      onTap: () {
+                        setState(() {
+                          emailController.text.isEmpty ? _validate = false : _validate = false;
+                        });
                       },
                     ),
                     const SizedBox(height: 20.0,),
