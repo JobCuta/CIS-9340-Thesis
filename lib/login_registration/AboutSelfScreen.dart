@@ -36,6 +36,50 @@ class _AboutSelfState extends State<AboutSelfWidget>{
   String nickName = '';
   String? gender;
   DateTime selectedDate = DateTime.now();
+  late bool _validate = false;
+  bool isButtonActive = false;
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameController.addListener(() {
+      var firstNameFilled = firstNameController.text.isNotEmpty;
+      lastNameController.addListener(() {
+        var lastNameFilled = lastNameController.text.isNotEmpty;
+            if (firstNameFilled && lastNameFilled == true){
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            } else {
+              const isButtonActive = false;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
+          });
+        });
+        lastNameController.addListener(() {
+          var lastNameFilled = lastNameController.text.isNotEmpty;
+          firstNameController.addListener(() {
+            var firstNameFilled = firstNameController.text.isNotEmpty;
+            if (lastNameFilled && firstNameFilled == true){
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            } else {
+              const isButtonActive = false;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
+          });
+        });
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    super.dispose();
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -95,8 +139,6 @@ class _AboutSelfState extends State<AboutSelfWidget>{
     );
   }
 
-  final TextEditingController _textEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -142,10 +184,11 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   style: const TextStyle(
                     fontSize: 14.0,
                   ),
+                  controller: firstNameController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your name',
-                    //errorText: 'This Field is Required',
+                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -154,6 +197,11 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   ),
                   onChanged: (val) {
                     setState(() => firstName = val);
+                  },
+                  onTap: (){
+                    setState(() {
+                      firstNameController.text.isNotEmpty ? _validate = false : _validate = false;
+                    });
                   },
                 ),
                 const SizedBox(height: 20.0,),
@@ -173,10 +221,11 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   style: const TextStyle(
                     fontSize: 14.0,
                   ),
+                  controller: lastNameController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your name',
-                    //errorText: 'This Field is Required',
+                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -185,6 +234,11 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   ),
                   onChanged: (val) {
                     setState(() => lastName = val);
+                  },
+                  onTap: (){
+                    setState(() {
+                      lastNameController.text.isNotEmpty ? _validate = false : _validate = false;
+                    });
                   },
                 ),
                 const SizedBox(height: 20.0,),
@@ -207,7 +261,6 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your Nickname',
-                    //errorText: 'This Field is Required',
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -231,15 +284,15 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                DropdownButtonFormField(
+                  decoration:  InputDecoration(
+                    border: const OutlineInputBorder(),
                     hintText: 'Choose your Gender',
-                    //errorText: 'This Field is Required',
-                    hintStyle: TextStyle(
+                    errorText: _validate ? 'This field is required' : null,
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                   ),
                      value: gender,
                      icon: const Icon(Icons.keyboard_arrow_down),
@@ -262,6 +315,7 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                         gender = value;
                       });
                      },
+                  validator: (value) => value == null ? 'field required' : null,
                 ),
                 const SizedBox(height: 20.0,),
                 Row(
@@ -277,26 +331,29 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                 ),
                 const SizedBox(height: 5.0,),
                 TextFormField(
-                  controller: _textEditingController,
+                  controller: birthDateController,
                   onTap: (){
                     // Below line stops keyboard from appearing
                     FocusScope.of(context).requestFocus(FocusNode());
                     // Show Date Picker Here
                     _selectDate(context);
-                    _textEditingController.text = DateFormat('yyyy/MM/dd').format(selectedDate);
+                    birthDateController.text = DateFormat('yyyy/MM/dd').format(selectedDate);
                   },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
                     hintText: 'Enter your birthday',
-                    //errorText: 'This Field is Required',
-                    hintStyle: TextStyle(
+                    errorText: _validate ? 'This field is required' : null,
+                    hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                     ),
-                    suffixIcon: Icon(Icons.calendar_today_rounded,color: Colors.green,),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    suffixIcon: const Icon(Icons.calendar_today_rounded,color: Colors.green,),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                   ),
                   onSaved: (String? value) {
                     selectedDate = value! as DateTime;
+                    setState(() {
+                      birthDateController.text.isNotEmpty ? _validate = false : _validate = false;
+                    });
                   },
                 ),
                 const SizedBox(height: 20.0,),
