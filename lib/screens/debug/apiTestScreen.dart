@@ -21,10 +21,8 @@ class DebugState extends State {
   final lc = [TextEditingController(), TextEditingController()];
 
   handleLogin() async {
-    var response =
-        await UserProvider().login(LoginForm(lc[0].text, lc[1].text));
-    var test = response["status"];
-    log("test $test");
+    var response = await UserProvider().login(LoginForm(lc[0].text, lc[1].text));
+    log("test $response");
   }
 
   @override

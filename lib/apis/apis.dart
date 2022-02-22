@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
@@ -17,15 +19,21 @@ class UserProvider extends GetConnect {
   Future login(LoginForm loginData) async {
     final response = await post(domain + paths["login"], loginData.form());
     var map = Map<String, dynamic>.from(response.body);
-    String message;
-    bool status;
-    if (response.hasError) {
-      status = false;
-      message = map["non_field_errors"];
+    String message = "";
+    bool status = false;
+    if (response.hasError && map.containsKey("non_field_errors")) {
+      message = map["non_field_errors"][0];
     } else {
-      status = true;
-      message = map["key"];
+      if (map.containsKey("key")) {
+        status = true;
+        // message = map["key"];
+        message = "Successfully logged in.";
+      } else {
+        message = "Unknown error checking if response contains login key";
+      }
     }
+
+    await UserSecureStorage.setKeyLogin(map["key"]);
     return {"message": message, "status": status};
   }
 
