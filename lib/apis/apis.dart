@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
@@ -29,7 +27,8 @@ class UserProvider extends GetConnect {
         // message = map["key"];
         message = "Successfully logged in.";
       } else {
-        message = "Unknown error checking if response contains login key";
+        message =
+            "Unknown error occurred checking if response contains login key";
       }
     }
 
@@ -40,7 +39,26 @@ class UserProvider extends GetConnect {
   Future register(Map userData) async {
     final response = await post(domain + paths["register"], userData);
     var map = Map<String, dynamic>.from(response.body);
-    return map;
+    String message = "";
+    bool status = false;
+    if (response.hasError) {
+      if (map.containsKey("email")) {
+        message = map["email"][0];
+      } else if (map.containsKey("password1")) {
+        message = map["password1"][0];
+      } else if (map.containsKey("non_field_errors")) {
+        message = map["non_field_errors"].join(",");
+      }
+    } else {
+      if (map.containsKey("details")) {
+        status = true;
+        message = map["details"];
+      } else {
+        message =
+            "Unknown error occured verifying user details during registration";
+      }
+    }
+    return {"message": message, "status": status};
   }
 
   Future<Response> forgotPassword(String email) async =>
