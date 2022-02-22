@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/intro/ShakeScreen.dart';
+
+import 'ShakeScreen.dart';
 
 void main() {
   runApp(const Intro());
@@ -76,7 +77,7 @@ class _CreateAccountScreenState extends State<CreateAccountWidget>{
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => ShakeScreen()
+                  builder: (context) => const ShakeScreen()
               ));
             },
             child: const Text(

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login_registration/ForgotPasswordScreen.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
-import '../apis/apis.dart';
-import '../constants/forms.dart';
+import 'ForgotPasswordScreen.dart';
 
 void main() => runApp(const LoginScreen());
 

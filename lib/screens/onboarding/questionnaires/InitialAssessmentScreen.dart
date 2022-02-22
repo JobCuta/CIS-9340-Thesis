@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/questionnaires/PHQ9Screen.dart';
+
+import 'PHQ9Screen.dart';
 
 void main() {
   runApp(const MaterialApp(home: InitialAssessmentScreen()));

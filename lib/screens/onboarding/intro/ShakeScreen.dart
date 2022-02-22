@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login_registration/CreateAccountScreen.dart';
 import 'dart:async';
 
 import 'package:shake/shake.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+
+import '../login_registration/CreateAccountScreen.dart';
 
 void main() {
   runApp(const MaterialApp(home: ShakeScreen()));

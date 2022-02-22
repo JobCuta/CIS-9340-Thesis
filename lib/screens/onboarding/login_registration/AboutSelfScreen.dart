@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login_registration/AnonymousScreen.dart';
-import 'package:flutter_application_1/login_registration/LoginScreen.dart';
 import 'package:intl/intl.dart';
+
+import 'AnonymousScreen.dart';
+import 'LoginScreen.dart';
 
 
 void main() {

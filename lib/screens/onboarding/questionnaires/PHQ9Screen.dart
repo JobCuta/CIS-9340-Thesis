@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_application_1/questionnaires/PHQ9Screen.dart';
-import 'package:flutter_application_1/questionnaires/InitialAssessmentScreen.dart';
-import 'package:flutter_application_1/questionnaires/EmotionalEvaluationScreen.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+
+import 'EmotionalEvaluationScreen.dart';
+import 'InitialAssessmentScreen.dart';
 
 class PHQ9Screen extends StatefulWidget {
   bool initialAssessment = false;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login_registration/AboutSelfScreen.dart';
 
+import 'AboutSelfScreen.dart';
 import 'LoginScreen.dart';
 
 void main() {
