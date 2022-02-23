@@ -32,6 +32,7 @@ class _RegisterState extends State<RegisterWidget>{
   bool isPasswordVisible = true;
   bool isPasswordVisible2 = true;
   bool isButtonActive = false;
+  bool allFieldsFilled = false;
   late bool _validate = false;
   late bool _validateEmail = false;
   String email = '';
@@ -42,6 +43,7 @@ class _RegisterState extends State<RegisterWidget>{
   late TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+
   @override
   void initState() {
     super.initState();
@@ -51,9 +53,47 @@ class _RegisterState extends State<RegisterWidget>{
         var passwordFilled = passwordController.text.isNotEmpty;
         confirmPasswordController.addListener(() {
           var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
+          } else {
+            const isButtonActive = false;
             setState(() => this.isButtonActive = isButtonActive);
+          }
+        });
+      });
+    });
+    emailController.addListener(() {
+      var emailFilled = emailController.text.isNotEmpty;
+      confirmPasswordController.addListener(() {
+        var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
+        passwordController.addListener(() {
+          var passwordFilled = passwordController.text.isNotEmpty;
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
+          } else {
+            const isButtonActive = false;
+            setState(() => this.isButtonActive = isButtonActive);
+          }
+        });
+      });
+    });
+    passwordController.addListener(() {
+      var passwordFilled = passwordController.text.isNotEmpty;
+      confirmPasswordController.addListener(() {
+        var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
+        emailController.addListener(() {
+          var emailFilled = emailController.text.isNotEmpty;
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
           } else {
             const isButtonActive = false;
             setState(() => this.isButtonActive = isButtonActive);
@@ -67,9 +107,29 @@ class _RegisterState extends State<RegisterWidget>{
         var emailFilled = emailController.text.isNotEmpty;
         confirmPasswordController.addListener(() {
           var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
+          } else {
+            const isButtonActive = false;
             setState(() => this.isButtonActive = isButtonActive);
+          }
+        });
+      });
+    });
+    confirmPasswordController.addListener(() {
+      var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
+      emailController.addListener(() {
+        var emailFilled = emailController.text.isNotEmpty;
+        passwordController.addListener(() {
+          var passwordFilled = passwordController.text.isNotEmpty;
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
           } else {
             const isButtonActive = false;
             setState(() => this.isButtonActive = isButtonActive);
@@ -83,9 +143,11 @@ class _RegisterState extends State<RegisterWidget>{
         var passwordFilled = passwordController.text.isNotEmpty;
         emailController.addListener(() {
           var emailFilled = emailController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
-            setState(() => this.isButtonActive = isButtonActive);
+          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
+            if (passwordController.text == confirmPasswordController.text) {
+              const isButtonActive = true;
+              setState(() => this.isButtonActive = isButtonActive);
+            }
           } else {
             const isButtonActive = false;
             setState(() => this.isButtonActive = isButtonActive);
@@ -116,20 +178,6 @@ class _RegisterState extends State<RegisterWidget>{
       _validate = false;
     });
     return true;
-  }
-
-  String? validateEmail(String value) {
-    if (value.isEmpty) {
-      return "This field is required.";
-    } else if (value.isNotEmpty) {
-      bool emailValid = RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(value);
-      if (emailValid != true) {
-        return "Please enter a valid email.";
-      }
-    } else if (value == null) {
-
-    }
-    return null;
   }
 
   @override
@@ -228,7 +276,7 @@ class _RegisterState extends State<RegisterWidget>{
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
                       icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                          isPasswordVisible ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
@@ -277,7 +325,7 @@ class _RegisterState extends State<RegisterWidget>{
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
                       icon: Icon(
-                          isPasswordVisible2 ? Icons.visibility : Icons.visibility_off),
+                          isPasswordVisible2 ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible2 = !isPasswordVisible2;
@@ -316,13 +364,18 @@ class _RegisterState extends State<RegisterWidget>{
                               ),
                             ),
                           ),
-                          Switch(
+                          Switch.adaptive(
                             value: isSwitched,
-                              onChanged: (value){
-                              setState(() {
-                                isSwitched = value;
-                              });
-                              },
+                            onChanged: (value) {
+                              isSwitched = value;
+                              if (value == true) {
+                                const isButtonActive = true;
+                                setState(() => this.isButtonActive = isButtonActive);
+                              } else {
+                                const isButtonActive = false;
+                                setState(() => this.isButtonActive = isButtonActive);
+                              }
+                            },
                             activeColor: Colors.white,
                             activeTrackColor: Colors.green,
                           ),
