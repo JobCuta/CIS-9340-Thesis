@@ -373,14 +373,19 @@ class _AboutSelfState extends State<AboutSelfWidget>{
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Account successfully Registered!', textAlign: TextAlign.center,),
+      title: const Text('Account successfully registered!', textAlign: TextAlign.center,),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children:  <Widget>[
+          const Divider(
+            height: 1.0,
+            thickness: 1.0,
+            color: Colors.grey,
+          ),
           Padding(
             padding: const EdgeInsets.all(5),
-            child: Image.asset('assets/images/yellow_icon.png'),
+            child: Image.asset('assets/images/yellow_person.png'),
           ),
           const Text('Check your email to confirm your account in order to log in', textAlign: TextAlign.center,),
         ],
