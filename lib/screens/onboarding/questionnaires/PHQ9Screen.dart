@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_application_1/questionnaires/PHQ9Screen.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import 'PHQ9Interpretation.dart';
 import 'EmotionalEvaluationScreen.dart';
 import 'InitialAssessmentScreen.dart';
 
@@ -52,6 +52,18 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
     'Pick an option'
   ];
 
+  final List<String> assetImages = [
+    'assets/images/PHQ9_1.png',
+    'assets/images/PHQ9_2.png',
+    'assets/images/PHQ9_3.png',
+    'assets/images/PHQ9_4.png',
+    'assets/images/PHQ9_5.png',
+    'assets/images/PHQ9_6.png',
+    'assets/images/PHQ9_7.png',
+    'assets/images/PHQ9_8.png',
+    'assets/images/PHQ9_9.png'
+  ];
+
   // corresponding values for the user's answers
   final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -60,7 +72,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
     return Scaffold(
       body: PageView.builder(
           // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
-          // physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           itemCount: questions.length,
           itemBuilder: (context, position) {
@@ -96,12 +108,12 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       // PHQ9 Questions
-                      const Image(
+                      Image(
                           width: 200,
                           height: 200,
-                          image: AssetImage('assets/images/splash.png')),
+                          image: AssetImage(assetImages[position])),
                       Container(
-                        height: 100,
+                        // height: 100,
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
                             vertical: 13.0, horizontal: 14.0),
@@ -131,6 +143,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             value: answers[position],
                             icon: const Icon(Icons.keyboard_arrow_down),
                             onChanged: (String? newValue) {
+                              print(position);
                               setState(() {
                                 //  stores the value selected by the user so they can view their previous choices when they go back
                                 answers[position] = newValue ?? "";
@@ -221,12 +234,25 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     ? Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MaterialApp(
+                                            builder: (context) => MaterialApp(
                                                     home:
-                                                        EmotionalEvaluationScreen(
-                                                  initialAssessment: true,
+                                                        PHQ9InterpretationScreen(
+                                                  sum: answerValues.fold(
+                                                      0,
+                                                      (prev, current) =>
+                                                          prev + current),
                                                 ))))
+
+                                    // Leads to EmotionalEvaluationScreen
+                                    // ? Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const MaterialApp(
+                                    //                 home:
+                                    //                     EmotionalEvaluationScreen(
+                                    //               initialAssessment: true,
+                                    //             ))))
                                     :
                                     // Checks if the user selected a valid value
                                     (answers[position] == 'Pick an option')
@@ -237,7 +263,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         ),
                       ),
                     ])),
-              )
+              ),
             ]);
           }),
     );

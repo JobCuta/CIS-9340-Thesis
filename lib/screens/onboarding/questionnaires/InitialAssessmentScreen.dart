@@ -66,6 +66,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     style: ElevatedButton.styleFrom(
+                      elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),

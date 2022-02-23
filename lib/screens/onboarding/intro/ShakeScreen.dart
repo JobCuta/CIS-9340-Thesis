@@ -92,7 +92,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
-                      'assets/images/orange_background.png',
+                      'assets/images/orange_circles_background.png',
                     ),
                     fit: BoxFit.cover))),
         PageView.builder(
@@ -227,7 +227,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    'assets/images/orange_background.png',
+                    'assets/images/orange_circles_background.png',
                   ),
                   fit: BoxFit.cover))),
       PageView.builder(
