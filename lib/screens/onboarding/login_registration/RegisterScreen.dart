@@ -33,12 +33,14 @@ class _RegisterState extends State<RegisterWidget>{
   bool isPasswordVisible2 = true;
   bool isButtonActive = false;
   late bool _validate = false;
+  late bool _validateEmail = false;
   String email = '';
   String password = '';
   String confirmPassword = '';
   late TextEditingController emailController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
   late TextEditingController confirmPasswordController = TextEditingController();
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -99,6 +101,37 @@ class _RegisterState extends State<RegisterWidget>{
     super.dispose();
   }
 
+  bool validateIfPasswordsMatch(String newPass, String confirmPass) {
+    if (newPass != confirmPass) {
+      setState(() {
+        _validate = true;
+      });
+      return false;
+    } else if (newPass.isEmpty || confirmPass.isEmpty) {
+      setState(() {
+        _validate = true;
+      });
+    }
+    setState(() {
+      _validate = false;
+    });
+    return true;
+  }
+
+  String? validateEmail(String value) {
+    if (value.isEmpty) {
+      return "This field is required.";
+    } else if (value.isNotEmpty) {
+      bool emailValid = RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(value);
+      if (emailValid != true) {
+        return "Please enter a valid email.";
+      }
+    } else if (value == null) {
+
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context){
     return ListView(
@@ -125,6 +158,7 @@ class _RegisterState extends State<RegisterWidget>{
         const SizedBox(height: 20.0,),
         Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
           child: Form(
+            key: _form,
             child: Column(
               children: <Widget> [
                 Row(
@@ -146,8 +180,8 @@ class _RegisterState extends State<RegisterWidget>{
                   controller: emailController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
+                    errorText: _validateEmail ? 'This field is required' : null,
                     hintText: 'Enter your email',
-                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -159,7 +193,9 @@ class _RegisterState extends State<RegisterWidget>{
                   },
                   onTap: (){
                     setState(() {
-                      emailController.text.isNotEmpty ? _validate = false : _validate = false;
+                      emailController.text.isEmpty
+                          ? _validateEmail = false
+                          : _validateEmail = false;
                     });
                   },
                 ),
@@ -185,7 +221,6 @@ class _RegisterState extends State<RegisterWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your password',
-                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -202,11 +237,13 @@ class _RegisterState extends State<RegisterWidget>{
                     ),
                   ),
                   onChanged: (val) {
-                    setState(() => password = val);
+                    validateIfPasswordsMatch(passwordController.text, confirmPasswordController.text);
                   },
                   onTap: () {
                     setState(() {
-                      passwordController.text.isEmpty ? _validate = true : _validate = false;
+                      emailController.text.isEmpty
+                          ? _validateEmail = true
+                          : _validateEmail = false;
                     });
                   },
                 ),
@@ -232,7 +269,7 @@ class _RegisterState extends State<RegisterWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Confirm your password',
-                    errorText: _validate ? 'This field is required' : null,
+                    errorText: _validate ? 'Please make sure your passwords match.' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -249,11 +286,13 @@ class _RegisterState extends State<RegisterWidget>{
                     ),
                   ),
                   onChanged: (val) {
-                    setState(() => confirmPassword = val);
+                    validateIfPasswordsMatch(passwordController.text, confirmPasswordController.text);
                   },
                   onTap: () {
                     setState(() {
-                      confirmPasswordController.text.isEmpty ? _validate = true : _validate = false;
+                      emailController.text.isEmpty
+                          ? _validateEmail = true
+                          : _validateEmail = false;
                     });
                   },
                 ),
@@ -305,7 +344,7 @@ class _RegisterState extends State<RegisterWidget>{
                       primary: Colors.green,
                     ),
                     child: const Text(
-                      'Log in',
+                      'Continue',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
