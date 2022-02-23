@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/services.dart';
 import 'AboutSelfScreen.dart';
 
 void main() {
@@ -31,154 +32,11 @@ class _RegisterState extends State<RegisterWidget>{
   bool isSwitched = false;
   bool isPasswordVisible = true;
   bool isPasswordVisible2 = true;
-  bool isButtonActive = false;
-  bool allFieldsFilled = false;
-  late bool _validate = false;
   late bool _validateEmail = false;
   String email = '';
   String password = '';
   String confirmPassword = '';
-  late TextEditingController emailController = TextEditingController();
-  late TextEditingController passwordController = TextEditingController();
-  late TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-
-
-  @override
-  void initState() {
-    super.initState();
-    emailController.addListener(() {
-      var emailFilled = emailController.text.isNotEmpty;
-      passwordController.addListener(() {
-        var passwordFilled = passwordController.text.isNotEmpty;
-        confirmPasswordController.addListener(() {
-          var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    emailController.addListener(() {
-      var emailFilled = emailController.text.isNotEmpty;
-      confirmPasswordController.addListener(() {
-        var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-        passwordController.addListener(() {
-          var passwordFilled = passwordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    passwordController.addListener(() {
-      var passwordFilled = passwordController.text.isNotEmpty;
-      confirmPasswordController.addListener(() {
-        var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-        emailController.addListener(() {
-          var emailFilled = emailController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    passwordController.addListener(() {
-      var passwordFilled = passwordController.text.isNotEmpty;
-      emailController.addListener(() {
-        var emailFilled = emailController.text.isNotEmpty;
-        confirmPasswordController.addListener(() {
-          var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    confirmPasswordController.addListener(() {
-      var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-      emailController.addListener(() {
-        var emailFilled = emailController.text.isNotEmpty;
-        passwordController.addListener(() {
-          var passwordFilled = passwordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    confirmPasswordController.addListener(() {
-      var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-      passwordController.addListener(() {
-        var passwordFilled = passwordController.text.isNotEmpty;
-        emailController.addListener(() {
-          var emailFilled = emailController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled && isSwitched == true){
-            if (passwordController.text == confirmPasswordController.text) {
-              const isButtonActive = true;
-              setState(() => this.isButtonActive = isButtonActive);
-            }
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
-  bool validateIfPasswordsMatch(String newPass, String confirmPass) {
-    if (newPass != confirmPass) {
-      setState(() {
-        _validate = true;
-      });
-      return false;
-    } else if (newPass.isEmpty || confirmPass.isEmpty) {
-      setState(() {
-        _validate = true;
-      });
-    }
-    setState(() {
-      _validate = false;
-    });
-    return true;
-  }
 
   @override
   Widget build(BuildContext context){
@@ -221,14 +79,12 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
+                TextFormField(
                   style: const TextStyle(
                     fontSize: 14.0,
                   ),
-                  controller: emailController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
-                    errorText: _validateEmail ? 'This field is required' : null,
                     hintText: 'Enter your email',
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
@@ -236,15 +92,19 @@ class _RegisterState extends State<RegisterWidget>{
                     ),
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                   ),
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required.';
+                    } else {
+                      _validateEmail = EmailValidator.validate(input);
+                      if (_validateEmail != true) {
+                        return 'Please enter a valid email.';
+                      }
+                    }
+                    return null;
+                  },
                   onChanged: (val) {
                     setState(() => email = val);
-                  },
-                  onTap: (){
-                    setState(() {
-                      emailController.text.isEmpty
-                          ? _validateEmail = false
-                          : _validateEmail = false;
-                    });
                   },
                 ),
                 const SizedBox(height: 20.0,),
@@ -260,8 +120,10 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
-                  controller: passwordController,
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp('[ ]')),
+                  ],
                   obscureText: isPasswordVisible,
                   style: const TextStyle(
                     fontSize: 14.0,
@@ -284,16 +146,16 @@ class _RegisterState extends State<RegisterWidget>{
                       },
                     ),
                   ),
-                  onChanged: (val) {
-                    validateIfPasswordsMatch(passwordController.text, confirmPasswordController.text);
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required.';
+                    }
+                    if (input.trim().length < 8) {
+                      return 'Password must be at least 8 characters in length';
+                    }
+                    return null;
                   },
-                  onTap: () {
-                    setState(() {
-                      emailController.text.isEmpty
-                          ? _validateEmail = true
-                          : _validateEmail = false;
-                    });
-                  },
+                  onChanged: (val) => password = val,
                 ),
                 const SizedBox(height: 20.0,),
                 Row(
@@ -308,8 +170,10 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
-                  controller: confirmPasswordController,
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp('[ ]')),
+                  ],
                   obscureText: isPasswordVisible2,
                   style: const TextStyle(
                     fontSize: 14.0,
@@ -317,7 +181,6 @@ class _RegisterState extends State<RegisterWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Confirm your password',
-                    errorText: _validate ? 'Please make sure your passwords match.' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -333,16 +196,16 @@ class _RegisterState extends State<RegisterWidget>{
                       },
                     ),
                   ),
-                  onChanged: (val) {
-                    validateIfPasswordsMatch(passwordController.text, confirmPasswordController.text);
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required';
+                    }
+                    if (input != password) {
+                      return 'Passwords do not match. Please try again.';
+                    }
+                    return null;
                   },
-                  onTap: () {
-                    setState(() {
-                      emailController.text.isEmpty
-                          ? _validateEmail = true
-                          : _validateEmail = false;
-                    });
-                  },
+                  onChanged: (val) => confirmPassword = val,
                 ),
                 const SizedBox(height: 15.0,),
                 Padding(
@@ -367,14 +230,9 @@ class _RegisterState extends State<RegisterWidget>{
                           Switch.adaptive(
                             value: isSwitched,
                             onChanged: (value) {
-                              isSwitched = value;
-                              if (value == true) {
-                                const isButtonActive = true;
-                                setState(() => this.isButtonActive = isButtonActive);
-                              } else {
-                                const isButtonActive = false;
-                                setState(() => this.isButtonActive = isButtonActive);
-                              }
+                              setState(() {
+                                isSwitched = value;
+                              });
                             },
                             activeColor: Colors.white,
                             activeTrackColor: Colors.green,
@@ -403,11 +261,13 @@ class _RegisterState extends State<RegisterWidget>{
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: isButtonActive ? (){
+                    onPressed: isSwitched ? () {
+                      if (_form.currentState!.validate()) {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => const AboutSelfScreen()
+                        ));
+                      }
                       //navigate to next page
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const AboutSelfScreen()
-                      ));
                     }
                     :null,
                   ),
