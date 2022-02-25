@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/services.dart';
 import 'AboutSelfScreen.dart';
 
 void main() {
@@ -31,73 +32,11 @@ class _RegisterState extends State<RegisterWidget>{
   bool isSwitched = false;
   bool isPasswordVisible = true;
   bool isPasswordVisible2 = true;
-  bool isButtonActive = false;
-  late bool _validate = false;
+  late bool _validateEmail = false;
   String email = '';
   String password = '';
   String confirmPassword = '';
-  late TextEditingController emailController = TextEditingController();
-  late TextEditingController passwordController = TextEditingController();
-  late TextEditingController confirmPasswordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    emailController.addListener(() {
-      var emailFilled = emailController.text.isNotEmpty;
-      passwordController.addListener(() {
-        var passwordFilled = passwordController.text.isNotEmpty;
-        confirmPasswordController.addListener(() {
-          var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
-            setState(() => this.isButtonActive = isButtonActive);
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    passwordController.addListener(() {
-      var passwordFilled = passwordController.text.isNotEmpty;
-      emailController.addListener(() {
-        var emailFilled = emailController.text.isNotEmpty;
-        confirmPasswordController.addListener(() {
-          var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
-            setState(() => this.isButtonActive = isButtonActive);
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-    confirmPasswordController.addListener(() {
-      var confirmPasswordFilled = confirmPasswordController.text.isNotEmpty;
-      passwordController.addListener(() {
-        var passwordFilled = passwordController.text.isNotEmpty;
-        emailController.addListener(() {
-          var emailFilled = emailController.text.isNotEmpty;
-          if (emailFilled && passwordFilled && confirmPasswordFilled == true){
-            const isButtonActive = true;
-            setState(() => this.isButtonActive = isButtonActive);
-          } else {
-            const isButtonActive = false;
-            setState(() => this.isButtonActive = isButtonActive);
-          }
-        });
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context){
@@ -125,6 +64,7 @@ class _RegisterState extends State<RegisterWidget>{
         const SizedBox(height: 20.0,),
         Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
           child: Form(
+            key: _form,
             child: Column(
               children: <Widget> [
                 Row(
@@ -139,28 +79,32 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
+                TextFormField(
                   style: const TextStyle(
                     fontSize: 14.0,
                   ),
-                  controller: emailController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your email',
-                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
                     ),
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                   ),
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required.';
+                    } else {
+                      _validateEmail = EmailValidator.validate(input);
+                      if (_validateEmail != true) {
+                        return 'Please enter a valid email.';
+                      }
+                    }
+                    return null;
+                  },
                   onChanged: (val) {
                     setState(() => email = val);
-                  },
-                  onTap: (){
-                    setState(() {
-                      emailController.text.isNotEmpty ? _validate = false : _validate = false;
-                    });
                   },
                 ),
                 const SizedBox(height: 20.0,),
@@ -176,8 +120,10 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
-                  controller: passwordController,
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp('[ ]')),
+                  ],
                   obscureText: isPasswordVisible,
                   style: const TextStyle(
                     fontSize: 14.0,
@@ -185,7 +131,6 @@ class _RegisterState extends State<RegisterWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Enter your password',
-                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -193,7 +138,7 @@ class _RegisterState extends State<RegisterWidget>{
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
                       icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                          isPasswordVisible ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
@@ -201,14 +146,16 @@ class _RegisterState extends State<RegisterWidget>{
                       },
                     ),
                   ),
-                  onChanged: (val) {
-                    setState(() => password = val);
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required.';
+                    }
+                    if (input.trim().length < 8) {
+                      return 'Password must be at least 8 characters in length';
+                    }
+                    return null;
                   },
-                  onTap: () {
-                    setState(() {
-                      passwordController.text.isEmpty ? _validate = true : _validate = false;
-                    });
-                  },
+                  onChanged: (val) => password = val,
                 ),
                 const SizedBox(height: 20.0,),
                 Row(
@@ -223,8 +170,10 @@ class _RegisterState extends State<RegisterWidget>{
                   ],
                 ),
                 const SizedBox(height: 5.0,),
-                TextField(
-                  controller: confirmPasswordController,
+                TextFormField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp('[ ]')),
+                  ],
                   obscureText: isPasswordVisible2,
                   style: const TextStyle(
                     fontSize: 14.0,
@@ -232,7 +181,6 @@ class _RegisterState extends State<RegisterWidget>{
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     hintText: 'Confirm your password',
-                    errorText: _validate ? 'This field is required' : null,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
@@ -240,7 +188,7 @@ class _RegisterState extends State<RegisterWidget>{
                     contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
                       icon: Icon(
-                          isPasswordVisible2 ? Icons.visibility : Icons.visibility_off),
+                          isPasswordVisible2 ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible2 = !isPasswordVisible2;
@@ -248,14 +196,16 @@ class _RegisterState extends State<RegisterWidget>{
                       },
                     ),
                   ),
-                  onChanged: (val) {
-                    setState(() => confirmPassword = val);
+                  validator: (input) {
+                    if (input == null || input.isEmpty) {
+                      return 'This field is required';
+                    }
+                    if (input != password) {
+                      return 'Passwords do not match. Please try again.';
+                    }
+                    return null;
                   },
-                  onTap: () {
-                    setState(() {
-                      confirmPasswordController.text.isEmpty ? _validate = true : _validate = false;
-                    });
-                  },
+                  onChanged: (val) => confirmPassword = val,
                 ),
                 const SizedBox(height: 15.0,),
                 Padding(
@@ -277,13 +227,13 @@ class _RegisterState extends State<RegisterWidget>{
                               ),
                             ),
                           ),
-                          Switch(
+                          Switch.adaptive(
                             value: isSwitched,
-                              onChanged: (value){
+                            onChanged: (value) {
                               setState(() {
                                 isSwitched = value;
                               });
-                              },
+                            },
                             activeColor: Colors.white,
                             activeTrackColor: Colors.green,
                           ),
@@ -305,17 +255,19 @@ class _RegisterState extends State<RegisterWidget>{
                       primary: Colors.green,
                     ),
                     child: const Text(
-                      'Log in',
+                      'Continue',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: isButtonActive ? (){
+                    onPressed: isSwitched ? () {
+                      if (_form.currentState!.validate()) {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => const AboutSelfScreen()
+                        ));
+                      }
                       //navigate to next page
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const AboutSelfScreen()
-                      ));
                     }
                     :null,
                   ),
