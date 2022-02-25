@@ -87,7 +87,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
               // Keeps the StepProgressIndicator in the same spot
               Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 75, horizontal: 25),
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: StepProgressIndicator(
@@ -188,7 +188,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     fontSize: 18),
                               ),
                               style: ElevatedButton.styleFrom(
-                                elevation: 1.0,
+                                elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24),
                                 ),
@@ -220,7 +220,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     fontSize: 18),
                               ),
                               style: ElevatedButton.styleFrom(
-                                elevation: 1.0,
+                                elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24),
                                 ),

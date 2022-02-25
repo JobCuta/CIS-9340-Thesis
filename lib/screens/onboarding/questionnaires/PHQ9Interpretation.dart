@@ -24,28 +24,30 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                   ),
                   fit: BoxFit.cover))),
       Container(
-          padding: EdgeInsets.symmetric(vertical: 100, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 25),
           child: Wrap(
             alignment: WrapAlignment.center,
             spacing: 100,
             runSpacing: 20,
             children: [
-              Text('Here is your PHQ-9 score and proposed treatment action',
+              const Text(
+                  'Here is your PHQ-9 score and proposed treatment action',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 26, color: Colors.white)),
               Text.rich(TextSpan(children: <InlineSpan>[
                 TextSpan(
                     text: widget.sum.toString(),
-                    style: TextStyle(fontSize: 64, color: Colors.white)),
-                TextSpan(
+                    style: const TextStyle(fontSize: 64, color: Colors.white)),
+                const TextSpan(
                     text: '/27',
                     style: TextStyle(fontSize: 64, color: Color(0xffD89512)))
               ])),
               LinearPercentIndicator(
+                linearStrokeCap: LinearStrokeCap.butt,
                 lineHeight: 20,
                 percent: widget.sum / 27,
                 progressColor: Colors.white,
-                backgroundColor: Color(0xffFFE297),
+                backgroundColor: const Color(0xffFFE297),
               ),
               Text(
                   widget.sum >= 20
@@ -57,7 +59,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                               : widget.sum >= 5
                                   ? 'Mild'
                                   : 'None - Minimal',
-                  style: TextStyle(color: Colors.white, fontSize: 32)),
+                  style: const TextStyle(color: Colors.white, fontSize: 32)),
               Container(
                 // height: 100,
                 width: double.infinity,
