@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/constants/forms.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'RegisterScreen.dart';
 import 'AnonymousScreen.dart';
 import 'LoginScreen.dart';
-
 
 void main() {
   runApp(const AboutSelfScreen());
@@ -14,9 +16,7 @@ class AboutSelfScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: AboutSelfWidget()
-    );
+    return const GetMaterialApp(home: AboutSelfWidget());
   }
 }
 
@@ -27,17 +27,23 @@ class AboutSelfWidget extends StatefulWidget {
   State<AboutSelfWidget> createState() => _AboutSelfState();
 }
 
-class _AboutSelfState extends State<AboutSelfWidget>{
+class _AboutSelfState extends State<AboutSelfWidget> {
   String firstName = '';
   String lastName = '';
   String nickName = '';
-  String? gender;
+  String gender = '';
   String birthDate = '';
 
   DateTime selectedDate = DateTime.now();
   bool isButtonActive = false;
   final TextEditingController birthDateController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  handleUserInfo() async {
+    var response = await UserProvider()
+        .updateUser(UserForm(nickName, firstName, lastName, birthDate, gender));
+    return response;
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -67,9 +73,10 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   color: Colors.grey[850],
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const RegisterScreen()
-                  ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()));
                 },
               ),
               backgroundColor: Colors.transparent,
@@ -77,44 +84,52 @@ class _AboutSelfState extends State<AboutSelfWidget>{
             ),
             body: ListView(
               //scrollDirection: Axis.vertical,
-              children: <Widget> [
+              children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.all(24.0),
                   child: Center(
-                      child: Text('Tell us about yourself',
-                        style: TextStyle(fontWeight: FontWeight.w800,
-                            fontSize: 30,
-                            fontFamily: 'Header 5'),
-                      )
-                  ),
+                      child: Text(
+                    'Tell us about yourself',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
+                        fontFamily: 'Header 5'),
+                  )),
                 ),
                 const Center(
-                  child: Text('Please enter your credentials to continue',
-                    style: TextStyle(fontWeight: FontWeight.w400,
+                  child: Text(
+                    'Please enter your credentials to continue',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
                       fontSize: 14,
                       letterSpacing: 1,
                       fontFamily: 'Body 2',
                     ),
                   ),
                 ),
-                const SizedBox(height: 20.0,),
-                Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Form(
                     key: _form,
                     child: Column(
-                      children: <Widget> [
+                      children: <Widget>[
                         Row(
                           children: const [
-                            Text('First name',
+                            Text(
+                              'First name',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                                  color: Color.fromRGBO(94, 102, 104, 1)),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         TextFormField(
                           style: const TextStyle(
                             fontSize: 14.0,
@@ -126,7 +141,8 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                               fontWeight: FontWeight.w400,
                               color: Colors.grey[700],
                             ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 13.0, horizontal: 14.0),
                           ),
                           validator: (input) {
                             if (input == null || input.isEmpty) {
@@ -138,19 +154,23 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                             setState(() => firstName = val);
                           },
                         ),
-                        const SizedBox(height: 20.0,),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Row(
                           children: const [
-                            Text('Last name',
+                            Text(
+                              'Last name',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                                  color: Color.fromRGBO(94, 102, 104, 1)),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         TextFormField(
                           style: const TextStyle(
                             fontSize: 14.0,
@@ -162,7 +182,8 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                               fontWeight: FontWeight.w400,
                               color: Colors.grey[700],
                             ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 13.0, horizontal: 14.0),
                           ),
                           validator: (input) {
                             if (input == null || input.isEmpty) {
@@ -174,19 +195,23 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                             setState(() => lastName = val);
                           },
                         ),
-                        const SizedBox(height: 20.0,),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Row(
                           children: const [
-                            Text('Nickname [Optional]',
+                            Text(
+                              'Nickname [Optional]',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                                  color: Color.fromRGBO(94, 102, 104, 1)),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         TextFormField(
                           style: const TextStyle(
                             fontSize: 14.0,
@@ -198,37 +223,43 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                               fontWeight: FontWeight.w400,
                               color: Colors.grey[700],
                             ),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 13.0, horizontal: 14.0),
                           ),
                           onChanged: (val) {
                             setState(() => nickName = val);
                           },
                         ),
-                        const SizedBox(height: 20.0,),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Row(
                           children: const [
-                            Text('Gender',
+                            Text(
+                              'Gender',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                                  color: Color.fromRGBO(94, 102, 104, 1)),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         DropdownButtonFormField(
-                          decoration:  const InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Choose your Gender',
                             hintStyle: TextStyle(
                               fontWeight: FontWeight.w400,
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 13.0, horizontal: 14.0),
                           ),
                           value: gender,
                           icon: const Icon(Icons.keyboard_arrow_down),
-                          items:const [
+                          items: const [
                             DropdownMenuItem<String>(
                               child: Text('Male'),
                               value: 'Male',
@@ -242,9 +273,9 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                               value: 'Rather not to say...',
                             ),
                           ],
-                          onChanged: (String? value){
+                          onChanged: (String? value) {
                             setState(() {
-                              gender = value;
+                              gender = value!;
                             });
                           },
                           validator: (input) {
@@ -254,27 +285,32 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                             return null;
                           },
                         ),
-                        const SizedBox(height: 20.0,),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Row(
                           children: const [
-                            Text('Birthday',
+                            Text(
+                              'Birthday',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                                  color: Color.fromRGBO(94, 102, 104, 1)),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         TextFormField(
                           controller: birthDateController,
-                          onTap: (){
+                          onTap: () {
                             // Below line stops keyboard from appearing
                             FocusScope.of(context).requestFocus(FocusNode());
                             // Show Date Picker Here
                             _selectDate(context);
-                            birthDateController.text = DateFormat('yyyy/MM/dd').format(selectedDate);
+                            birthDateController.text =
+                                DateFormat('yyyy-MM-d').format(selectedDate);
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -282,11 +318,16 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                             hintStyle: TextStyle(
                               fontWeight: FontWeight.w400,
                             ),
-                            suffixIcon: Icon(Icons.calendar_today_rounded,color: Colors.green,),
-                            contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                            suffixIcon: Icon(
+                              Icons.calendar_today_rounded,
+                              color: Colors.green,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 13.0, horizontal: 14.0),
                           ),
                           onChanged: (val) {
-                            setState(() => birthDate = birthDateController.text);
+                            setState(
+                                () => birthDate = birthDateController.text);
                           },
                           validator: (input) {
                             if (input == null || input.isEmpty) {
@@ -295,7 +336,9 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                             return null;
                           },
                         ),
-                        const SizedBox(height: 200.0,),
+                        const SizedBox(
+                          height: 200.0,
+                        ),
                       ],
                     ),
                   ),
@@ -322,11 +365,22 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   padding: const EdgeInsets.all(10),
                   primary: Colors.green,
                 ),
-                onPressed: (){
+                onPressed: () async {
                   if (_form.currentState!.validate()) {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => _buildPopupDialog(context)
-                  ));
+                    if (await handleUserInfo()) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  _buildPopupDialog(context)));
+                    } else {
+                      Get.snackbar(
+                        "Registration Error",
+                        "Something went wrong. Please try again",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                      );
+                    }
                   }
                 },
                 child: const Text(
@@ -338,7 +392,9 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                 ),
               ),
             ),
-            const SizedBox(height: 10.0,),
+            const SizedBox(
+              height: 10.0,
+            ),
             SizedBox(
               width: 328,
               height: 50,
@@ -350,11 +406,12 @@ class _AboutSelfState extends State<AboutSelfWidget>{
                   padding: const EdgeInsets.all(10),
                   primary: Colors.white,
                 ),
-                onPressed: (){
+                onPressed: () {
                   //navigate to next page
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const AnonymousScreen()
-                  ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AnonymousScreen()));
                 },
                 child: const Text(
                   'Stay Anonymous',
@@ -373,11 +430,14 @@ class _AboutSelfState extends State<AboutSelfWidget>{
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Account successfully registered!', textAlign: TextAlign.center,),
+      title: const Text(
+        'Account successfully registered!',
+        textAlign: TextAlign.center,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children:  <Widget>[
+        children: <Widget>[
           const Divider(
             height: 1.0,
             thickness: 1.0,
@@ -387,7 +447,10 @@ class _AboutSelfState extends State<AboutSelfWidget>{
             padding: const EdgeInsets.all(5),
             child: Image.asset('assets/images/yellow_person.png'),
           ),
-          const Text('Check your email to confirm your account in order to log in', textAlign: TextAlign.center,),
+          const Text(
+            'Check your email to confirm your account in order to log in',
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
       actions: <Widget>[
@@ -402,11 +465,10 @@ class _AboutSelfState extends State<AboutSelfWidget>{
               primary: Colors.green,
               fixedSize: const Size(245, 50),
             ),
-            onPressed: (){
+            onPressed: () {
               //navigate to next page
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => const LoginScreen()
-              ));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
             },
             child: const Text(
               'Okay!',

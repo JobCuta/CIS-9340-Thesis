@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/constants/forms.dart';
+import 'package:get/get.dart';
 import 'AboutSelfScreen.dart';
 
 void main() {
@@ -12,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: Scaffold(
         body: SafeArea(
           child: RegisterWidget(),
@@ -21,6 +26,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
+
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({Key? key}) : super(key: key);
 
@@ -28,7 +34,7 @@ class RegisterWidget extends StatefulWidget {
   State<RegisterWidget> createState() => _RegisterState();
 }
 
-class _RegisterState extends State<RegisterWidget>{
+class _RegisterState extends State<RegisterWidget> {
   bool isSwitched = false;
   bool isPasswordVisible = true;
   bool isPasswordVisible2 = true;
@@ -36,49 +42,65 @@ class _RegisterState extends State<RegisterWidget>{
   String email = '';
   String password = '';
   String confirmPassword = '';
+  String error = '';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+  handleRegistration() async {
+    var response = await UserProvider()
+        .register(RegisterForm(email, password, confirmPassword));
+    log('response $response');
+    return (response["status"]);
+  }
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return ListView(
-      children: <Widget> [
+      children: <Widget>[
         const Padding(
           padding: EdgeInsets.all(24.0),
           child: Center(
-              child: Text('Register',
-                style: TextStyle(fontWeight: FontWeight.w800,
-                    fontSize: 30,
-                    fontFamily: 'Header 5'),
-              )
-          ),
+              child: Text(
+            'Register',
+            style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 30,
+                fontFamily: 'Header 5'),
+          )),
         ),
         const Center(
-          child: Text('Please enter your credentials to continue',
-            style: TextStyle(fontWeight: FontWeight.w400,
+          child: Text(
+            'Please enter your credentials to continue',
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
               fontSize: 14,
               letterSpacing: 1,
               fontFamily: 'Body 2',
             ),
           ),
         ),
-        const SizedBox(height: 20.0,),
-        Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20),
           child: Form(
             key: _form,
             child: Column(
-              children: <Widget> [
+              children: <Widget>[
                 Row(
                   children: const [
-                    Text('Email',
+                    Text(
+                      'Email',
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: Color.fromRGBO(94, 102, 104, 1)
-                      ),
+                          color: Color.fromRGBO(94, 102, 104, 1)),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0,),
+                const SizedBox(
+                  height: 5.0,
+                ),
                 TextFormField(
                   style: const TextStyle(
                     fontSize: 14.0,
@@ -90,7 +112,8 @@ class _RegisterState extends State<RegisterWidget>{
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
                     ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 13.0, horizontal: 14.0),
                   ),
                   validator: (input) {
                     if (input == null || input.isEmpty) {
@@ -107,19 +130,23 @@ class _RegisterState extends State<RegisterWidget>{
                     setState(() => email = val);
                   },
                 ),
-                const SizedBox(height: 20.0,),
+                const SizedBox(
+                  height: 20.0,
+                ),
                 Row(
                   children: const [
-                    Text('Password',
+                    Text(
+                      'Password',
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: Color.fromRGBO(94, 102, 104, 1)
-                      ),
+                          color: Color.fromRGBO(94, 102, 104, 1)),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0,),
+                const SizedBox(
+                  height: 5.0,
+                ),
                 TextFormField(
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp('[ ]')),
@@ -135,10 +162,12 @@ class _RegisterState extends State<RegisterWidget>{
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
                     ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
-                      icon: Icon(
-                          isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
@@ -157,19 +186,23 @@ class _RegisterState extends State<RegisterWidget>{
                   },
                   onChanged: (val) => password = val,
                 ),
-                const SizedBox(height: 20.0,),
+                const SizedBox(
+                  height: 20.0,
+                ),
                 Row(
                   children: const [
-                    Text('Confirm Password',
+                    Text(
+                      'Confirm Password',
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: Color.fromRGBO(94, 102, 104, 1)
-                      ),
+                          color: Color.fromRGBO(94, 102, 104, 1)),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0,),
+                const SizedBox(
+                  height: 5.0,
+                ),
                 TextFormField(
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp('[ ]')),
@@ -185,10 +218,12 @@ class _RegisterState extends State<RegisterWidget>{
                       fontWeight: FontWeight.w400,
                       color: Colors.grey[700],
                     ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 13.0, horizontal: 14.0),
                     suffixIcon: IconButton(
-                      icon: Icon(
-                          isPasswordVisible2 ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible2
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible2 = !isPasswordVisible2;
@@ -207,7 +242,9 @@ class _RegisterState extends State<RegisterWidget>{
                   },
                   onChanged: (val) => confirmPassword = val,
                 ),
-                const SizedBox(height: 15.0,),
+                const SizedBox(
+                  height: 15.0,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Column(
@@ -220,9 +257,17 @@ class _RegisterState extends State<RegisterWidget>{
                                 text: 'I have read and understood the ',
                                 style: DefaultTextStyle.of(context).style,
                                 children: const <TextSpan>[
-                                  TextSpan(text: 'terms of use', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                                  TextSpan(
+                                      text: 'terms of use',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue)),
                                   TextSpan(text: ' and '),
-                                  TextSpan(text: 'privacy policy', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                                  TextSpan(
+                                      text: 'privacy policy',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue)),
                                 ],
                               ),
                             ),
@@ -242,7 +287,9 @@ class _RegisterState extends State<RegisterWidget>{
                     ],
                   ),
                 ),
-                const SizedBox(height: 50.0,),
+                const SizedBox(
+                  height: 50.0,
+                ),
                 SizedBox(
                   width: 328,
                   height: 50,
@@ -261,15 +308,28 @@ class _RegisterState extends State<RegisterWidget>{
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: isSwitched ? () {
-                      if (_form.currentState!.validate()) {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => const AboutSelfScreen()
-                        ));
-                      }
-                      //navigate to next page
-                    }
-                    :null,
+                    onPressed: isSwitched
+                        ? () async {
+                            if (_form.currentState!.validate()) {
+                              bool result = await handleRegistration();
+                              if (result) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AboutSelfScreen()));
+                              } else {
+                                Get.snackbar(
+                                  "Log in failed",
+                                  error,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                );
+                              }
+                            }
+                            //navigate to next page
+                          }
+                        : null,
                   ),
                 ),
               ],
