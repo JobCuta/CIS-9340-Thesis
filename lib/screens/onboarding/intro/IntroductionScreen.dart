@@ -16,9 +16,11 @@ class Intro extends StatelessWidget {
         body: Container(
           constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/Background.png"),
-                  fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: AssetImage("assets/images/Background.png"),
+                fit: BoxFit.cover
+            )
+          ),
           child: const CreateAccountWidget(),
         ),
       ),

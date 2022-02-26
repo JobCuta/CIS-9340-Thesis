@@ -11,7 +11,7 @@ class UserProvider extends GetConnect {
     "login": "api/v1/auth/login/",
     "logout": "api/v1/auth/logout/",
     "register": "api/v1/auth/registration/",
-    "forgot": "",
+    "forgot": "api/v1/auth/forgot/",
     "getUser": "api/v1/auth/user/",
   };
 
@@ -62,8 +62,13 @@ class UserProvider extends GetConnect {
     return {"message": message, "status": status};
   }
 
-  Future<Response> forgotPassword(String email) async =>
-      await post(domain + paths["forgot"], email);
+  Future<bool> forgotPassword(String email) async {
+    final response = await post(domain + paths["forgot"], email);
+    if (response.hasError) {
+      return false;
+    }
+    return true;
+  }
 
   //GET
   Future<Response> logout() async => await get(domain + paths["logout"]);
@@ -75,8 +80,7 @@ class UserProvider extends GetConnect {
         headers: {"Authorization": "Token " + authKey!});
     if (response.hasError) {
       return false;
-    } else {
-      return true;
     }
+      return true;
   }
 }
