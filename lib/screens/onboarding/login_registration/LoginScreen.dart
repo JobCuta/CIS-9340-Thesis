@@ -87,9 +87,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
+    return ListView(
           children: <Widget>[
             const Padding(
               padding: EdgeInsets.all(24.0),
@@ -215,63 +213,58 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 100.0,
+                    Container(
+                    width: double.infinity,
+                    height: 60,
+                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onSurface: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: const Text(
+                        'Continue',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Proxima Nova',
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: isButtonActive
+                          ? () async {
+                              //Navigation and account validation
+                              bool result = await handleLogin() ;
+                              if (result) {
+                                Get.snackbar(
+                                  "Logged In",
+                                  "It Worked!",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.green,
+                                );
+                              } else {
+                                Get.snackbar(
+                                  "Log in failed",
+                                  error,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                );
+                              }
+                            }
+                          : null,
                     ),
-                  ],
-                ),
+                  ),
+                ],  
               ),
             ),
-          ],
-        ),
-      ),
-      bottomSheet: Container(
-        width: double.infinity,
-        height: 60,
-        margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green,
-            onSurface: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
           ),
-          child: const Text(
-            'Continue',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Proxima Nova',
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          onPressed: isButtonActive
-              ? () async {
-                  //Navigation and account validation
-                  bool result = await handleLogin() ;
-                  if (result) {
-                    Get.snackbar(
-                      "Logged In",
-                      "It Worked!",
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.green,
-                    );
-                  } else {
-                    Get.snackbar(
-                      "Log in failed",
-                      error,
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.red,
-                    );
-                  }
-                }
-              : null,
-        ),
-      ),
-    );
+        ],
+      );
   }
 
   InputDecoration textFieldStyle() {

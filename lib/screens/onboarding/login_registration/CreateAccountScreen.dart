@@ -94,9 +94,11 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
             onPressed: () {
               showModalBottomSheet(
                   context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: Colors.red)
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(4),
+                      topRight: Radius.circular(4)
+                    ),
                   ),
                   useRootNavigator: true,
                   isScrollControlled: true,
@@ -138,18 +140,16 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
             onPressed: () {
               showModalBottomSheet(
                 context: context, 
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: Colors.red)
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    topRight: Radius.circular(4)
+                  ),
                 ),
                 useRootNavigator: true,
                 isScrollControlled: true,
                 builder: (context) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: Colors.orange,
-                    ),
+                  return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.75,
                     child: const LoginWidgets()
                   );
