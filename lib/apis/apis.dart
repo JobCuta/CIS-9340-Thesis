@@ -1,8 +1,10 @@
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class UserProvider extends GetConnect {
+  final storage = const FlutterSecureStorage();
   static const domain = "https://kasiyanna-efd6n.ondigitalocean.app/";
 
   final Map paths = {
@@ -24,20 +26,19 @@ class UserProvider extends GetConnect {
     } else {
       if (map.containsKey("key")) {
         status = true;
-        // message = map["key"];
         message = "Successfully logged in.";
+        await UserSecureStorage.setKeyLogin(map["key"]);
       } else {
         message =
             "Unknown error occurred checking if response contains login key";
       }
     }
 
-    await UserSecureStorage.setKeyLogin(map["key"]);
     return {"message": message, "status": status};
   }
 
-  Future register(Map userData) async {
-    final response = await post(domain + paths["register"], userData);
+  Future register(RegisterForm userData) async {
+    final response = await post(domain + paths["register"], userData.form());
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
     bool status = false;
@@ -68,6 +69,14 @@ class UserProvider extends GetConnect {
   Future<Response> logout() async => await get(domain + paths["logout"]);
 
   //PUT
-  Future<Response> updateUser(UserForm userData) async =>
-      await put(domain + paths["getUser"], userData);
+  Future<bool> updateUser(UserForm userData) async {
+    String? authKey = await UserSecureStorage.getLoginKey();
+    final response = await put(domain + paths["getUser"], userData.form(),
+        headers: {"Authorization": "Token " + authKey!});
+    if (response.hasError) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

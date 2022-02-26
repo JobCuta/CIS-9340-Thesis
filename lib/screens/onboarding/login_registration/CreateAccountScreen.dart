@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'LoginScreen.dart';
 import 'RegisterScreen.dart';
 
@@ -11,7 +12,7 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: Scaffold(
         backgroundColor: Color.fromRGBO(199, 237, 234, 1.0),
         body: SafeArea(

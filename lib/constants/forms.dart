@@ -22,18 +22,16 @@ class RegisterForm {
 }
 
 class UserForm {
-  late int id;
   late String email;
   late String fname;
   late String lname;
   late String bday;
   late String gender;
 
-  UserForm(this.id, this.email, this.fname, this.lname, this.bday, this.gender);
+  UserForm(this.email, this.fname, this.lname, this.bday, this.gender);
 
   Map<String, dynamic> form() {
     return {
-      "id": id,
       "email": email,
       "first_name": fname,
       "last_name": lname,

@@ -30,11 +30,12 @@ class LoginWidgets extends StatefulWidget {
 class _LoginWidgetsState extends State<LoginWidgets> {
   String email = '';
   String password = '';
-  bool _isObscure = true;
+  final bool _isObscure = true;
   late bool _validate = false;
   bool isButtonActive = false;
   late TextEditingController emailController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
+  String error = '';
 
   @override
   void initState() {
@@ -77,15 +78,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
     var response = await UserProvider()
         .login(LoginForm(emailController.text, passwordController.text));
     if (response["status"]) {
-      //proceed to login
-      Get.snackbar("Logged In", "It Worked!",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,);
+      return true;
     } else {
-      Get.snackbar("Logged Failed", "Oh no!");
-      //error message
+      error = response["message"];
+      return false;
     }
-    log("a response $response");
   }
 
   @override
@@ -144,17 +141,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         fontSize: 14.0,
                       ),
                       controller: emailController,
-                      decoration: InputDecoration(
-                        errorText: _validate ? 'This field is required' : null,
-                        border: const OutlineInputBorder(),
-                        hintText: 'Enter your email',
-                        hintStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey[700],
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 13.0, horizontal: 14.0),
-                      ),
+                      decoration: textFieldStyle(),
                       onChanged: (val) {
                         setState(() => email = val);
                       },
@@ -189,26 +176,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                       style: const TextStyle(
                         fontSize: 14.0,
                       ),
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: 'Enter your password',
-                        hintStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey[700],
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 13.0, horizontal: 14.0),
-                        suffixIcon: IconButton(
-                          icon: Icon(_isObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                        ),
-                      ),
+                      decoration: textFieldStyle(),
                       onChanged: (val) {
                         setState(() => password = val);
                       },
@@ -281,13 +249,42 @@ class _LoginWidgetsState extends State<LoginWidgets> {
             ),
           ),
           onPressed: isButtonActive
-              ? () {
+              ? () async {
                   //Navigation and account validation
-                  handleLogin();
+                  bool result = await handleLogin() ;
+                  if (result) {
+                    Get.snackbar(
+                      "Logged In",
+                      "It Worked!",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.green,
+                    );
+                  } else {
+                    Get.snackbar(
+                      "Log in failed",
+                      error,
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red,
+                    );
+                  }
                 }
               : null,
         ),
       ),
+    );
+  }
+
+  InputDecoration textFieldStyle() {
+    return InputDecoration(
+      errorText: _validate ? 'This field is required' : null,
+      border: const OutlineInputBorder(),
+      hintText: 'Enter your email',
+      hintStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.grey[700],
+      ),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
     );
   }
 }
