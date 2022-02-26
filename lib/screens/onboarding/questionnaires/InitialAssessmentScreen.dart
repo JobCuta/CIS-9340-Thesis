@@ -74,7 +74,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                       primary: const Color(0xffFFBE18),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MaterialApp(

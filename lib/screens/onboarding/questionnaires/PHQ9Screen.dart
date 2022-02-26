@@ -197,7 +197,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               ),
                               onPressed: () {
                                 (position == 0)
-                                    ? Navigator.pushReplacement(
+                                    ? Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => const MaterialApp(
