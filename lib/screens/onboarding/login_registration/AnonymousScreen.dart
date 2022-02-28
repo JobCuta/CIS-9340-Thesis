@@ -42,7 +42,7 @@ class _AnonymousState extends State<AnonymousWidget>{
           ),
           Padding(
             padding: const EdgeInsets.all(5),
-            child: Image.asset('assets/images/yellow_person.png'),
+            child: Image.asset('assets/images/yellow_icon.png'),
           ),
           const Text('Check your email to confirm your account in order to log in', textAlign: TextAlign.center,),
         ],

@@ -41,7 +41,11 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
           child: Text(
             'Before we continue...',
             softWrap: true,
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Proxima Nova',
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         const SizedBox(
@@ -59,7 +63,7 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
           style: TextStyle(
               fontWeight: FontWeight.w800,
               fontSize: 30,
-              fontFamily: 'Header 5'),
+              fontFamily: 'Proxima Nova'),
         ),
         const SizedBox(
           height: 10.0,
@@ -70,10 +74,10 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
             'All interactions and data are fully encrypted and secure. Your data is safe with us!',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
+                fontWeight: FontWeight.w200,
+                fontSize: 15,
                 letterSpacing: 1,
-                fontFamily: 'Body 2',
+                fontFamily: 'Proxima Nova',
                 color: Color.fromRGBO(37, 47, 72, 1.0)),
           ),
         ),
@@ -114,6 +118,8 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
+                fontFamily: 'Proxima Nova',
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -122,7 +128,9 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
         const Text(
           'Already have an account?',
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
+            fontFamily: 'Proxima Nova',
+            fontWeight: FontWeight.w200,
           ),
         ),
         const SizedBox(height: 15),
@@ -161,6 +169,8 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.green,
+                fontFamily: 'Proxima Nova',
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

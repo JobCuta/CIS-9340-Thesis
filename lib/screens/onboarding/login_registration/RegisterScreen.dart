@@ -74,7 +74,7 @@ class _RegisterState extends State<RegisterWidget> {
               fontWeight: FontWeight.w400,
               fontSize: 14,
               letterSpacing: 1,
-              fontFamily: 'Body 2',
+              fontFamily: 'Proxima Nova',
             ),
           ),
         ),

@@ -31,8 +31,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   String firstName = '';
   String lastName = '';
   String nickName = '';
-  String gender = '';
+  String? gender;
   String birthDate = '';
+
 
   DateTime selectedDate = DateTime.now();
   bool isButtonActive = false;
@@ -41,7 +42,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
 
   handleUserInfo() async {
     var response = await UserProvider()
-        .updateUser(UserForm(nickName, firstName, lastName, birthDate, gender));
+        .updateUser(UserForm(nickName, firstName, lastName, birthDate, gender!));
     return response;
   }
 
