@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+import 'SetNotificationScreen.dart';
+
 class Emotion {
   final int id;
   final String name;
@@ -16,11 +18,7 @@ class Emotion {
   toString() => '$name';
 }
 
-class Emotions extends ChangeNotifier {
-  List<Emotion?> _selectedPositiveEmotions = [];
-  List<Emotion?> _selectedNegativeEmotions = [];
-}
-
+// I need help with listeners to rebuild the app when the user can proceed (changing the color based on the content of the list/s)
 class EmotionalEvaluationPositiveNegativeScreen extends StatefulWidget {
   const EmotionalEvaluationPositiveNegativeScreen({key}) : super(key: key);
 
@@ -264,7 +262,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                     borderRadius: BorderRadius.circular(24),
                   ),
                   padding: const EdgeInsets.all(10),
-                  primary: (_selectedPositiveEmotions.isNotEmpty &&
+                  primary: (_selectedPositiveEmotions.isNotEmpty ||
                           _selectedNegativeEmotions.isNotEmpty)
                       ? const Color(0xffFFBE18)
                       : const Color(0xffE2E4E4),
@@ -272,10 +270,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                 onPressed: () {
                   print(_selectedPositiveFlag);
                   print(_selectedNegativeFlag);
-                  (_selectedPositiveEmotions.isNotEmpty &&
+                  (_selectedPositiveEmotions.isNotEmpty ||
                           _selectedNegativeEmotions.isNotEmpty)
 
-                      // Contains the alert dialog for user verification son setting notifications
+                      // Contains the alert dialog for user verification for setting notifications
                       ? showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
@@ -341,7 +339,13 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                           ),
                                           onPressed: () {
                                             Navigator.pop(context);
-                                            // Navigator
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const GetMaterialApp(
+                                                            home:
+                                                                SetNotificationScreen())));
                                           }),
                                     ),
                                     Container(

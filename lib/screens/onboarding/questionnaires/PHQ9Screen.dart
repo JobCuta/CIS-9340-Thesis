@@ -197,9 +197,10 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     ? Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const MaterialApp(
-                                                home:
-                                                    InitialAssessmentScreen())))
+                                            builder: (context) =>
+                                                const GetMaterialApp(
+                                                    home:
+                                                        InitialAssessmentScreen())))
                                     : _pageController.jumpToPage(position - 1);
                               }),
                         ),
@@ -231,7 +232,8 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     ? Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => MaterialApp(
+                                            builder: (context) =>
+                                                GetMaterialApp(
                                                     home:
                                                         PHQ9InterpretationScreen(
                                                   sum: answerValues.fold(
@@ -245,7 +247,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     //     context,
                                     //     MaterialPageRoute(
                                     //         builder: (context) =>
-                                    //             const MaterialApp(
+                                    //             const GetMaterialApp(
                                     //                 home:
                                     //                     EmotionalEvaluationScreen(
                                     //               initialAssessment: true,

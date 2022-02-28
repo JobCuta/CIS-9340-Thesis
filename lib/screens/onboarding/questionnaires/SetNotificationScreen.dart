@@ -34,9 +34,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
         padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
         child: Container(
           height: 120,
-          // width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
-          // vertical: 10.0, horizontal: 18.0),
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -62,7 +60,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   style: TextStyle(color: Colors.white, fontSize: 18)),
               const Expanded(
                 flex: 1,
-                child: const Text(''),
+                child: Text(''),
               ),
               Obx(() => TextButton(
                   onPressed: () {
@@ -111,7 +109,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   style: TextStyle(color: Colors.white, fontSize: 18)),
               const Expanded(
                 flex: 1,
-                child: const Text(''),
+                child: Text(''),
               ),
               Obx(() => TextButton(
                   onPressed: () {
@@ -125,7 +123,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           style: const TextStyle(
                               color: Colors.white, fontSize: 18)),
                       const WidgetSpan(
-                          child: const Icon(Icons.keyboard_arrow_right_sharp,
+                          child: Icon(Icons.keyboard_arrow_right_sharp,
                               color: Colors.white))
                     ]),
                   )))

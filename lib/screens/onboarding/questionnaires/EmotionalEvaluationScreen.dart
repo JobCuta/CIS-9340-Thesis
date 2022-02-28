@@ -290,7 +290,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MaterialApp(
+                                builder: (context) => const GetMaterialApp(
                                     home:
                                         EmotionalEvaluationPositiveNegativeScreen())));
                     //
