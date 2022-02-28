@@ -101,9 +101,9 @@ flutter:
   fonts:
     - family: Proxima Nova
       fonts:
-        - asset: fonts/ProximaNova-Regular.otf
-        - asset: fonts/proxima-nova-semibold.otf
-        - asset: fonts/Proxima Nova Bold.otf
+        - asset: assets/fonts/ProximaNova-Regular.otf
+        - asset: assets/fonts/proxima-nova-semibold.otf
+        - asset: assets/fonts/Proxima Nova Bold.otf
           weight: 100
 
   # To add custom fonts to your application, add a fonts section here,
