@@ -96,7 +96,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 onPressed: () {
                   Get.back();
@@ -138,14 +138,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           child: Column(
                             children: <Widget>[
                               Row(
-                                children: const [
+                                children: [
                                   Text(
                                     'Email',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color.fromRGBO(94, 102, 104, 1)),
-                                  ),
+                                    style: captionTextStyle())
                                 ],
                               ),
                               const SizedBox(
@@ -162,10 +158,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                     errorText: _validate ? 'This field is required' : null,
                                     border: const OutlineInputBorder(),
                                     hintText: 'Enter your email',
-                                    hintStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[500],
-                                    ),
+                                    hintStyle: hintTextStyle(),
                                     contentPadding:
                                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                     enabledBorder: OutlineInputBorder(
@@ -190,14 +183,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                 height: 25.0,
                               ),
                               Row(
-                                children: const [
+                                children: [
                                   Text(
                                     'Password',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color.fromRGBO(94, 102, 104, 1)),
-                                  ),
+                                    style: captionTextStyle()),
                                 ],
                               ),
                               const SizedBox(
@@ -214,10 +203,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                   decoration: InputDecoration(
                                     border: const OutlineInputBorder(),
                                     hintText: 'Enter your password',
-                                    hintStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[500],
-                                    ),
+                                    hintStyle: hintTextStyle(),
                                     contentPadding:
                                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                     enabledBorder: OutlineInputBorder(
@@ -227,8 +213,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                     ),
                                     suffixIcon: IconButton(
                                       icon: Icon(_isObscure
-                                          ? Icons.visibility_off
-                                          : Icons.visibility),
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined),
                                       onPressed: () {
                                         setState(() {
                                           _isObscure = !_isObscure;
@@ -278,7 +264,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               const SizedBox(height: 120.0,),
                               SizedBox(
                               height: 50,
-                              width: 328,
+                              width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.green[400],
@@ -328,6 +314,21 @@ class _LoginWidgetsState extends State<LoginWidgets> {
           ),
         ],
       ),
+    );
+  }
+
+  TextStyle captionTextStyle() {
+    return const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: Color.fromRGBO(94, 102, 104, 1)
+    );
+  }
+
+  TextStyle hintTextStyle() {
+    return TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.grey[500],
     );
   }
 }

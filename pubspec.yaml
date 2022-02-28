@@ -35,6 +35,9 @@ dependencies:
 
   # countdown timer dependency
   circular_countdown_timer: ^0.2.0
+
+  # Splash Screen Animation dependency
+  splashscreen: ^1.2.0
   
   # dependency for the fading text (Random Exercises)
   animated_text_kit: ^4.2.1
@@ -104,7 +107,7 @@ flutter:
         - asset: assets/fonts/ProximaNova-Regular.otf
         - asset: assets/fonts/proxima-nova-semibold.otf
         - asset: assets/fonts/Proxima Nova Bold.otf
-          weight: 100
+          weight: 700
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
