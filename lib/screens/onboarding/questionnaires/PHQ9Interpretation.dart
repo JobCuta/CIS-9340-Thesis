@@ -20,7 +20,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    'assets/images/orange_gradient_background.png',
+                    'assets/background_images/orange_gradient_background.png',
                   ),
                   fit: BoxFit.cover))),
       Container(

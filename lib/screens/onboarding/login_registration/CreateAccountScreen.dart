@@ -14,7 +14,7 @@ class CreateAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(199, 237, 234, 1.0),
+        backgroundColor: Color.fromRGBO(242, 255, 245, 1.0),
         body: SafeArea(
           child: CreateAccountWidget(),
         ),

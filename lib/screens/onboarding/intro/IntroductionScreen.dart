@@ -17,7 +17,7 @@ class Intro extends StatelessWidget {
           constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/Background.png"),
+                image: AssetImage("assets/background_images/orange_circles_background.png"),
                 fit: BoxFit.cover
             )
           ),

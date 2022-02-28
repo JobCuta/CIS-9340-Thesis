@@ -48,7 +48,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
-                      'assets/images/blue_background.png',
+                      'assets/background_images/blue_background.png',
                     ),
                     fit: BoxFit.cover))),
         // Keeps the StepProgressIndicator in the same spot

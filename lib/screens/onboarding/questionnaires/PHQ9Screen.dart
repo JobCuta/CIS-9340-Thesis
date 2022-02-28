@@ -81,7 +81,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                            'assets/images/blue_background.png',
+                            'assets/background_images/blue_background.png',
                           ),
                           fit: BoxFit.cover))),
               // Keeps the StepProgressIndicator in the same spot
