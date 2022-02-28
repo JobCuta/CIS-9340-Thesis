@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class PHQ9InterpretationScreen extends StatefulWidget {
   int sum = 0;

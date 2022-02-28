@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:get/get.dart';
+
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class Emotion {
   final int id;
@@ -17,17 +16,13 @@ class Emotion {
   toString() => '$name';
 }
 
-class Controller extends GetxController {
-  var count = 0.obs;
-  increment() => count++;
+class Emotions extends ChangeNotifier {
+  List<Emotion?> _selectedPositiveEmotions = [];
+  List<Emotion?> _selectedNegativeEmotions = [];
 }
 
 class EmotionalEvaluationPositiveNegativeScreen extends StatefulWidget {
-  final bool initialAssessment;
-
-  const EmotionalEvaluationPositiveNegativeScreen(
-      {key, required this.initialAssessment})
-      : super(key: key);
+  const EmotionalEvaluationPositiveNegativeScreen({key}) : super(key: key);
 
   @override
   _EmotionalEvaluationPositiveNegativeScreenState createState() =>
@@ -36,8 +31,6 @@ class EmotionalEvaluationPositiveNegativeScreen extends StatefulWidget {
 
 class _EmotionalEvaluationPositiveNegativeScreenState
     extends State<EmotionalEvaluationPositiveNegativeScreen> {
-  // int position = 11;
-
   @override
   Widget build(BuildContext context) {
     final List<Emotion> positiveEmotionsList = [
@@ -86,22 +79,6 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                     'assets/background_images/blue_background.png',
                   ),
                   fit: BoxFit.cover))),
-      // Keeps the StepProgressIndicator in the same spot
-      // Visibility(
-      //   visible: widget.initialAssessment,
-      //   child: Container(
-      //     padding: const EdgeInsets.symmetric(vertical: 75, horizontal: 25),
-      //     child: Align(
-      //       alignment: Alignment.topCenter,
-      //       child: StepProgressIndicator(
-      //         totalSteps: 11,
-      //         currentStep: position,
-      //         selectedColor: Colors.white,
-      //         unselectedColor: const Color(0xff004479),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       Padding(
         padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
         child: Container(
@@ -129,8 +106,8 @@ class _EmotionalEvaluationPositiveNegativeScreenState
               padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 0),
               width: double.infinity,
               child: Wrap(runSpacing: 10, children: [
-                const Text('Positive',
-                    style: TextStyle(color: Colors.white, fontSize: 20)),
+                // const Text('Positive',
+                // style: TextStyle(color: Colors.white, fontSize: 20)),
 
                 // Chips
                 Container(
@@ -202,65 +179,65 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                 ),
 
                 // DROPDOWNS
-                // Container(
-                //   padding: const EdgeInsets.all(15.0),
-                //   decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: const BorderRadius.all(Radius.circular(8))),
-                //   child: MultiSelectBottomSheetField<Emotion?>(
-                //     initialChildSize: 0.3,
-                //     listType: MultiSelectListType.CHIP,
-                //     searchable: true,
-                //     buttonText: Text("Positive Emotions",
-                //         style: TextStyle(fontSize: 18)),
-                //     title: Text("Search for your emotion",
-                //         style: TextStyle(fontSize: 16)),
-                //     items: _positiveEmotionsItems,
-                //     onConfirm: (values) {
-                //       _selectedPositiveEmotions = values;
-                //       print(_selectedPositiveEmotions);
-                //     },
-                //     chipDisplay: MultiSelectChipDisplay(
-                //       chipColor: Color(0xff4CA7FC),
-                //       textStyle: TextStyle(color: Colors.white),
-                //       onTap: (item) {
-                //         setState(() {
-                //           _selectedPositiveEmotions.remove(item);
-                //         });
-                //       },
-                //     ),
-                //   ),
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.all(15.0),
-                //   decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: const BorderRadius.all(Radius.circular(8))),
-                //   child: MultiSelectBottomSheetField<Emotion?>(
-                //     initialChildSize: 0.3,
-                //     listType: MultiSelectListType.CHIP,
-                //     searchable: true,
-                //     buttonText: Text("Negative Emotions",
-                //         style: TextStyle(fontSize: 18)),
-                //     title: Text("Search for your emotion",
-                //         style: TextStyle(fontSize: 16)),
-                //     items: _negativeEmotionsItems,
-                //     onConfirm: (values) {
-                //       _selectedNegativeEmotions = values;
-                //       print(_selectedNegativeEmotions);
-                //     },
-                //     chipDisplay: MultiSelectChipDisplay(
-                //       chipColor: Color(0xff4CA7FC),
-                //       textStyle: TextStyle(color: Colors.white),
-                //       onTap: (item) {
-                //         print(item);
-                //         setState(() {
-                //           _selectedNegativeEmotions.remove(item);
-                //         });
-                //       },
-                //     ),
-                //   ),
-                // ),
+                //         Container(
+                //           padding: const EdgeInsets.all(15.0),
+                //           decoration: BoxDecoration(
+                //               color: Colors.white,
+                //               borderRadius: const BorderRadius.all(Radius.circular(8))),
+                //           child: MultiSelectBottomSheetField<Emotion?>(
+                //             initialChildSize: 0.3,
+                //             listType: MultiSelectListType.CHIP,
+                //             searchable: true,
+                //             buttonText: Text("Positive Emotions",
+                //                 style: TextStyle(fontSize: 18)),
+                //             title: Text("Search for your emotion",
+                //                 style: TextStyle(fontSize: 16)),
+                //             items: _positiveEmotionsItems,
+                //             onConfirm: (values) {
+                //               _selectedPositiveEmotions = values;
+                //               print(_selectedPositiveEmotions);
+                //             },
+                //             chipDisplay: MultiSelectChipDisplay(
+                //               chipColor: Color(0xff4CA7FC),
+                //               textStyle: TextStyle(color: Colors.white),
+                //               onTap: (item) {
+                //                 setState(() {
+                //                   _selectedPositiveEmotions.remove(item);
+                //                 });
+                //               },
+                //             ),
+                //           ),
+                //         ),
+                //         Container(
+                //           padding: const EdgeInsets.all(15.0),
+                //           decoration: BoxDecoration(
+                //               color: Colors.white,
+                //               borderRadius: const BorderRadius.all(Radius.circular(8))),
+                //           child: MultiSelectBottomSheetField<Emotion?>(
+                //             initialChildSize: 0.3,
+                //             listType: MultiSelectListType.CHIP,
+                //             searchable: true,
+                //             buttonText: Text("Negative Emotions",
+                //                 style: TextStyle(fontSize: 18)),
+                //             title: Text("Search for your emotion",
+                //                 style: TextStyle(fontSize: 16)),
+                //             items: _negativeEmotionsItems,
+                //             onConfirm: (values) {
+                //               _selectedNegativeEmotions = values;
+                //               print(_selectedNegativeEmotions);
+                //             },
+                //             chipDisplay: MultiSelectChipDisplay(
+                //               chipColor: Color(0xff4CA7FC),
+                //               textStyle: TextStyle(color: Colors.white),
+                //               onTap: (item) {
+                //                 print(item);
+                //                 setState(() {
+                //                   _selectedNegativeEmotions.remove(item);
+                //                 });
+                //               },
+                //             ),
+                //           ),
+                //         ),
               ]),
             )
           ]),
@@ -295,11 +272,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                 onPressed: () {
                   print(_selectedPositiveFlag);
                   print(_selectedNegativeFlag);
-
-                  // print(_selectedPositiveEmotions.isNotEmpty &&
-                  //     _selectedNegativeEmotions.isNotEmpty);
                   (_selectedPositiveEmotions.isNotEmpty &&
                           _selectedNegativeEmotions.isNotEmpty)
+
+                      // Contains the alert dialog for user verification son setting notifications
                       ? showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
@@ -363,7 +339,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                               color: Colors.white,
                                             ),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            // Navigator
+                                          }),
                                     ),
                                     Container(
                                       width: double.infinity,
@@ -394,22 +373,14 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                               color: Color(0xffFFC122),
                                             ),
                                           ),
-                                          onPressed: () {}),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
                                     )
                                   ],
                                 ),
                               ))
                       : null;
-                  // : Navigator.push(
-                  // context,
-                  // MaterialPageRoute(
-                  // builder: (context) => const MaterialApp(
-                  // home:
-                  // EmotionalEvaluationPositiveNegativeScreen(
-                  // initialAssessment: true,
-                  // )
-                  // )));
-                  //
                 }),
           ),
         ),

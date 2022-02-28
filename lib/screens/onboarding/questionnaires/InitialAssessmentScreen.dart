@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'PHQ9Screen.dart';
 
 void main() {
-  runApp(const MaterialApp(home: InitialAssessmentScreen()));
+  runApp(const GetMaterialApp(home: InitialAssessmentScreen()));
 }
 
 class InitialAssessmentScreen extends StatefulWidget {
@@ -53,7 +54,6 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                       fontSize: 14,
                     )),
               ]))),
-      // Bottombar
       Container(
           padding: const EdgeInsets.all(20),
           child: Align(
@@ -77,10 +77,8 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MaterialApp(
-                                      home: PHQ9Screen(
-                                    initialAssessment: true,
-                                  )))); // _pageController.jumpToPage(position + 1);
+                              builder: (context) =>
+                                  GetMaterialApp(home: PHQ9Screen())));
                     }),
               )))
     ]));

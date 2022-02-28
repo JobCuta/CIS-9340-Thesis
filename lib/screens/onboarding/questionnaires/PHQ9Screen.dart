@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -7,9 +8,7 @@ import 'EmotionalEvaluationScreen.dart';
 import 'InitialAssessmentScreen.dart';
 
 class PHQ9Screen extends StatefulWidget {
-  bool initialAssessment = false;
-
-  PHQ9Screen({Key? key, required this.initialAssessment}) : super(key: key);
+  PHQ9Screen({Key? key}) : super(key: key);
 
   @override
   _PHQ9ScreenState createState() => _PHQ9ScreenState();
@@ -91,9 +90,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: StepProgressIndicator(
-                    totalSteps: (widget.initialAssessment)
-                        ? questions.length + 2
-                        : questions.length,
+                    totalSteps: questions.length,
                     currentStep: position + 1,
                     selectedColor: Colors.white,
                     unselectedColor: const Color(0xff004479),
@@ -253,9 +250,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     //                     EmotionalEvaluationScreen(
                                     //               initialAssessment: true,
                                     //             ))))
-                                    :
+
                                     // Checks if the user selected a valid value
-                                    (answers[position] == 'Pick an option')
+                                    : (answers[position] == 'Pick an option')
                                         ? null
                                         : _pageController
                                             .jumpToPage(position + 1);

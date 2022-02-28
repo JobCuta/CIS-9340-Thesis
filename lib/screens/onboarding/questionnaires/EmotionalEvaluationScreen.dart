@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:get/get.dart';
 
 import 'EmotionalEvaluationPositiveNegativeScreen.dart';
 
 void main() {
-  runApp(MaterialApp(home: EmotionalEvaluationScreen(initialAssessment: true)));
+  runApp(const GetMaterialApp(home: EmotionalEvaluationScreen()));
 }
 
 class Emotion {
@@ -22,10 +21,7 @@ class Emotion {
 }
 
 class EmotionalEvaluationScreen extends StatefulWidget {
-  bool initialAssessment = true;
-
-  EmotionalEvaluationScreen({key, required this.initialAssessment})
-      : super(key: key);
+  const EmotionalEvaluationScreen({key}) : super(key: key);
 
   @override
   _EmotionalEvaluationScreenState createState() =>
@@ -33,7 +29,6 @@ class EmotionalEvaluationScreen extends StatefulWidget {
 }
 
 class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
-  // int position = 10;
   bool isVeryHappy = true;
   bool isHappy = true;
   bool isNeutral = true;
@@ -51,30 +46,12 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       'assets/background_images/blue_background.png',
                     ),
                     fit: BoxFit.cover))),
-        // Keeps the StepProgressIndicator in the same spot
-        // Visibility(
-        //   visible: widget.initialAssessment,
-        //   child: Container(
-        //     padding: const EdgeInsets.symmetric(vertical: 75, horizontal: 25),
-        //     child: Align(
-        //       alignment: Alignment.topCenter,
-        //       child: StepProgressIndicator(
-        //         totalSteps: 11,
-        //         currentStep: position,
-        //         selectedColor: Colors.white,
-        //         unselectedColor: const Color(0xff004479),
-        //       ),
-        //     ),
-        //   ),
-        // ),
         Padding(
           padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
           child: Container(
             height: 50,
-            // width: double.infinity,
             padding:
                 const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
-            // vertical: 10.0, horizontal: 18.0),
             decoration: BoxDecoration(
                 color: const Color(0xff3290FF).withOpacity(0.60),
                 borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -87,30 +64,6 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
           ),
         ),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          // Container(
-          //   padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
-          //   child: Wrap(
-          //       alignment: WrapAlignment.center,
-          //       runSpacing: 20,
-          //       children: [
-          //         Container(
-          //           width: double.infinity,
-          //           padding: const EdgeInsets.symmetric(
-          //               vertical: 14.0, horizontal: 18.0),
-          //           decoration: BoxDecoration(
-          //               color: const Color(0xff3290FF).withOpacity(0.60),
-          //               borderRadius:
-          //                   const BorderRadius.all(Radius.circular(8))),
-          //           child: const Align(
-          //             alignment: Alignment.topCenter,
-          //             child: Text('How do you feel in this moment?',
-          //                 textAlign: TextAlign.center,
-          //                 style: TextStyle(color: Colors.white, fontSize: 20)),
-          //             // ),
-          //           ),
-          //         ),
-          // Text(,
-          //     style: TextStyle(fontSize: 16)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Center(
               child: Wrap(
@@ -122,16 +75,13 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        (widget.initialAssessment)
-                            ? setState(() {
-                                isVeryHappy = true;
-                                isHappy = false;
-                                isNeutral = false;
-                                isBad = false;
-                                isVeryBad = false;
-                              })
-                            : toEmotionalEvaluationPositiveNegative(
-                                context, widget.initialAssessment);
+                        setState(() {
+                          isVeryHappy = true;
+                          isHappy = false;
+                          isNeutral = false;
+                          isBad = false;
+                          isVeryBad = false;
+                        });
                       }, // Image tapped
                       splashColor: Colors.white12, // Splash color over image
                       child: Ink.image(
@@ -164,17 +114,13 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        (widget.initialAssessment)
-                            ? setState(() {
-                                isVeryHappy = false;
-                                isHappy = true;
-                                isNeutral = false;
-                                isBad = false;
-                                isVeryBad = false;
-                              })
-                            : toEmotionalEvaluationPositiveNegative(
-                                context, widget.initialAssessment);
-                        print('happy');
+                        setState(() {
+                          isVeryHappy = false;
+                          isHappy = true;
+                          isNeutral = false;
+                          isBad = false;
+                          isVeryBad = false;
+                        });
                       }, // Image tapped
                       splashColor: Colors.white12, // Splash color over image
                       child: Ink.image(
@@ -204,17 +150,13 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      (widget.initialAssessment)
-                          ? setState(() {
-                              isVeryHappy = false;
-                              isHappy = false;
-                              isNeutral = true;
-                              isBad = false;
-                              isVeryBad = false;
-                            })
-                          : toEmotionalEvaluationPositiveNegative(
-                              context, widget.initialAssessment);
-                      print('neutral');
+                      setState(() {
+                        isVeryHappy = false;
+                        isHappy = false;
+                        isNeutral = true;
+                        isBad = false;
+                        isVeryBad = false;
+                      });
                     }, // Image tapped
                     splashColor: Colors.white12, // Splash color over image
                     child: Ink.image(
@@ -244,17 +186,13 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        (widget.initialAssessment)
-                            ? setState(() {
-                                isVeryHappy = false;
-                                isHappy = false;
-                                isNeutral = false;
-                                isBad = false;
-                                isVeryBad = true;
-                              })
-                            : toEmotionalEvaluationPositiveNegative(
-                                context, widget.initialAssessment);
-                        print('very bad');
+                        setState(() {
+                          isVeryHappy = false;
+                          isHappy = false;
+                          isNeutral = false;
+                          isBad = false;
+                          isVeryBad = true;
+                        });
                       }, // Image tapped
                       splashColor: Colors.white12, // Splash color over image
                       child: Ink.image(
@@ -287,19 +225,15 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        (widget.initialAssessment)
-                            ? setState(() {
-                                isVeryHappy = false;
-                                isHappy = false;
-                                isNeutral = false;
-                                isBad = true;
-                                isVeryBad = false;
-                              })
-                            : toEmotionalEvaluationPositiveNegative(
-                                context, widget.initialAssessment);
-                        print('bad');
-                      }, // Image tapped
-                      splashColor: Colors.white12, // Splash color over image
+                        setState(() {
+                          isVeryHappy = false;
+                          isHappy = false;
+                          isNeutral = false;
+                          isBad = true;
+                          isVeryBad = false;
+                        });
+                      },
+                      splashColor: Colors.white12,
                       child: Ink.image(
                         image: (isBad)
                             ? const AssetImage(
@@ -357,10 +291,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MaterialApp(
-                                        home:
-                                            EmotionalEvaluationPositiveNegativeScreen(
-                                      initialAssessment: true,
-                                    ))));
+                                    home:
+                                        EmotionalEvaluationPositiveNegativeScreen())));
                     //
                   }),
             ),
@@ -375,8 +307,6 @@ void toEmotionalEvaluationPositiveNegative(context, initialAssessment) {
   Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => MaterialApp(
-                  home: EmotionalEvaluationPositiveNegativeScreen(
-                initialAssessment: initialAssessment,
-              ))));
+          builder: (context) => const GetMaterialApp(
+              home: EmotionalEvaluationPositiveNegativeScreen())));
 }
