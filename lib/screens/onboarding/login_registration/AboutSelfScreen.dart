@@ -456,7 +456,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         fontSize: 12,
         fontWeight: FontWeight.w600,
         color: Color.fromRGBO(94, 102, 104, 1),
-      fontFamily: 'Proxima Nova',
+        fontFamily: 'Proxima Nova',
     );
   }
 
