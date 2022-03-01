@@ -41,40 +41,36 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
           child: Text(
             'Before we continue...',
             softWrap: true,
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(
+              fontFamily: 'Proxima Nova',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 15.0,
         ),
         Padding(
           padding: const EdgeInsets.all(5),
           child: Image.asset('assets/images/create.png'),
         ),
-        const SizedBox(
-          height: 20.0,
-        ),
+        const SizedBox(height: 15.0,),
         const Text(
           'Create an account!',
           style: TextStyle(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               fontSize: 30,
-              fontFamily: 'Header 5'),
+              fontFamily: 'Proxima Nova'),
         ),
-        const SizedBox(
-          height: 10.0,
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
+        const SizedBox(height: 10.0),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             'All interactions and data are fully encrypted and secure. Your data is safe with us!',
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
-                letterSpacing: 1,
-                fontFamily: 'Body 2',
-                color: Color.fromRGBO(37, 47, 72, 1.0)),
+                fontFamily: 'Proxima Nova',
+                color: Colors.teal[900]),
           ),
         ),
         const SizedBox(
@@ -127,9 +123,10 @@ class _CreateAccountScreenState extends State<CreateAccountWidget> {
         const Text(
           'Already have an account?',
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             fontFamily: 'Proxima Nova',
             fontWeight: FontWeight.w600,
+            color: Color.fromRGBO(78, 78, 78, 1),
           ),
         ),
         const SizedBox(height: 15),
