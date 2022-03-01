@@ -23,8 +23,9 @@ class ForgotPasswordWidgets extends StatefulWidget {
 
 class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
   final TextEditingController _pinPutController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
-  bool isButtonActive = true;
+  bool isButtonActive = false;
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
@@ -36,8 +37,8 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
   @override
   void initState() {
     super.initState();
-    _pinPutController.addListener(() {
-      final isButtonActive = _pinPutController.text.isNotEmpty;
+    _emailController.addListener(() {
+      final isButtonActive = _emailController.text.isNotEmpty;
       setState(() => this.isButtonActive = isButtonActive);
     });
   }
@@ -82,25 +83,27 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
             body: ListView(
               children: [Column(
                 children: <Widget>[
-                  const SizedBox(height: 5.0,),
-                  const Image(image: AssetImage('assets/images/forgot-password.png')),
                   const SizedBox(height: 15.0,),
+                  const Image(image: AssetImage('assets/images/forgot_password.png')),
+                  const SizedBox(height: 20.0,),
                   const Text('Forgot your password?',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova'
                     ),
                   ),
                   const SizedBox(height: 15.0,),
                   const Text('Enter your email to change your password',
                     style: TextStyle(
                       fontSize: 14.0,
-                      color: Colors.black54,
+                      color: Colors.black,
+                      fontFamily: 'Proxima Nova'
                     ),
                   ),
-                  const SizedBox(height: 20.0,),
+                  const SizedBox(height: 5.0,),
                   Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20.0),
                     child: Form(
                         child: Column(
                           children: <Widget>[
@@ -110,42 +113,52 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      color: Color.fromRGBO(94, 102, 104, 1)
+                                      color: Color.fromRGBO(94, 102, 104, 1),
+                                      fontFamily: 'Proxima Nova'
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10.0,),
-                            TextField(
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText: 'Email',
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey[700],
+                            const SizedBox(height: 5.0,),
+                            SizedBox(
+                              height: 40.0,
+                              child: TextField(
+                                controller: _emailController,
+                                style: const TextStyle(
+                                  fontSize: 14.0,
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  hintText: 'Email',
+                                  hintStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[700],
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade300,
+                                      )
+                                  )
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 20.0,),
+                            const SizedBox(height: 30.0,),
                             Container(
                               width: double.infinity,
                               height: 50,
                               decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20))
+                                  borderRadius: BorderRadius.all(Radius.circular(24))
                               ),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.green,
-                                  onSurface: Colors.green,
+                                  primary: Colors.green[400],
+                                  onSurface: Colors.grey[700],
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderRadius: BorderRadius.circular(24.0),
                                   ),
                                 ),
-                                child: const Text('Send Email',
+                                child: const Text('Confirm',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Proxima Nova',
@@ -153,7 +166,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
                                     color: Colors.white,
                                   ),
                                 ),
-                                onPressed: () => showDialog<String>(
+                                onPressed: isButtonActive ? () => showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>  AlertDialog(
                                     insetPadding: const EdgeInsets.all(50.0),
@@ -232,7 +245,8 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets>{
                                       ],
                                     ),
                                   ),
-                                ),
+                                )
+                                : null,
                               ),
                             ),
                           ],
