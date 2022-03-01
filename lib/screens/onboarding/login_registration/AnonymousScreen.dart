@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'AboutSelfScreen.dart';
@@ -92,7 +94,7 @@ class _AnonymousState extends State<AnonymousWidget>{
             ),
           ),
         ),
-        SizedBox(height: 20.0,)
+        const SizedBox(height: 20.0,)
       ],
     );
   }
@@ -172,6 +174,8 @@ class _AnonymousState extends State<AnonymousWidget>{
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your name',
+                              fillColor: Colors.white,
+                              filled: true,
                               hintStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade600,

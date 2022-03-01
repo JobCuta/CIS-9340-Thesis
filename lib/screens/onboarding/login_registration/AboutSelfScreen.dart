@@ -274,6 +274,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your birthday',
+                              fillColor: Colors.white,
+                              filled: true,
                               hintStyle: TextStyle(
                                 fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade600,
@@ -464,6 +466,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return InputDecoration(
       border: const OutlineInputBorder(),
       hintText: hintText,
+      fillColor: Colors.white,
+      filled: true,
       hintStyle: TextStyle(
         fontWeight: FontWeight.w400,
         color: Colors.grey.shade600,

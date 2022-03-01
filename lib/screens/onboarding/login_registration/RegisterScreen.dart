@@ -124,6 +124,8 @@ class _RegisterState extends State<RegisterWidget> {
                             border: const OutlineInputBorder(),
                             hintText: 'Enter your email',
                             hintStyle: hintTextStyle(),
+                            fillColor: Colors.white,
+                            filled: true,
                             contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -229,6 +231,8 @@ class _RegisterState extends State<RegisterWidget> {
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: 'Enter your password',
+                            fillColor: Colors.white,
+                            filled: true,
                             hintStyle: hintTextStyle(),
                             contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                             enabledBorder: OutlineInputBorder(
