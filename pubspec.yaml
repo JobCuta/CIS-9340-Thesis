@@ -38,6 +38,9 @@ dependencies:
 
   # Splash Screen Animation dependency
   splashscreen: ^1.2.0
+
+  # Custom calendar dependency
+  table_calendar: ^3.0.4
   
   # dependency for the fading text (Random Exercises)
   animated_text_kit: ^4.2.1
