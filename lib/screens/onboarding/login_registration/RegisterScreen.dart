@@ -370,8 +370,9 @@ class _RegisterState extends State<RegisterWidget> {
   TextStyle captionTextStyle() {
     return const TextStyle(
         fontSize: 12,
-        fontWeight: FontWeight.w700,
-        color: Color.fromRGBO(94, 102, 104, 1)
+        fontWeight: FontWeight.w600,
+        color: Color.fromRGBO(94, 102, 104, 1),
+        fontFamily: 'Proxima Nova'
     );
   }
 
@@ -379,6 +380,7 @@ class _RegisterState extends State<RegisterWidget> {
     return TextStyle(
       fontWeight: FontWeight.w400,
       color: Colors.grey[500],
+        fontFamily: 'Proxima Nova'
     );
   }
 }

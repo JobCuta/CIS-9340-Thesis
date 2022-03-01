@@ -62,6 +62,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(242, 255, 245, 1.0),
       body: Stack(
         children: <Widget>[
           Scaffold(
@@ -71,13 +72,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.grey[850],
+                  color: Colors.grey[700],
+                  size: 24.0,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterScreen()));
+                  Get.back();
                 },
               ),
               backgroundColor: Colors.transparent,
@@ -87,14 +86,14 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               //scrollDirection: Axis.vertical,
               children: <Widget>[
                 const Padding(
-                  padding: EdgeInsets.all(24.0),
+                  padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                   child: Center(
                       child: Text(
                     'Tell us about yourself',
                     style: TextStyle(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         fontSize: 30,
-                        fontFamily: 'Header 5'),
+                        fontFamily: 'Proxima Nova'),
                   )),
                 ),
                 const Center(
@@ -103,13 +102,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
-                      letterSpacing: 1,
-                      fontFamily: 'Body 2',
+                      fontFamily: 'Proxima Nova',
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 30.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
@@ -118,228 +116,193 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Column(
                       children: <Widget>[
                         Row(
-                          children: const [
+                          children: [
                             Text(
                               'First name',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)),
-                            ),
+                              style: captionTextStyle(),
+                            )
                           ],
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        TextFormField(
-                          style: const TextStyle(
-                            fontSize: 14.0,
+                        SizedBox(
+                          height: 40.0,
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 14.0,),
+                            decoration: textFormFieldDecoration('Enter your first name'),
+                            validator: (input) {
+                              if (input == null || input.isEmpty) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
+                            onChanged: (val) {
+                              setState(() => firstName = val);
+                            },
                           ),
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'Enter your first name',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[700],
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 13.0, horizontal: 14.0),
-                          ),
-                          validator: (input) {
-                            if (input == null || input.isEmpty) {
-                              return 'This field is required.';
-                            }
-                            return null;
-                          },
-                          onChanged: (val) {
-                            setState(() => firstName = val);
-                          },
                         ),
                         const SizedBox(
                           height: 20.0,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
                               'Last name',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)),
+                              style: captionTextStyle(),
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        TextFormField(
-                          style: const TextStyle(
-                            fontSize: 14.0,
+                        SizedBox(
+                          height: 40.0,
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 14.0,),
+                            decoration: textFormFieldDecoration('Enter your last name'),
+                            validator: (input) {
+                              if (input == null || input.isEmpty) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
+                            onChanged: (val) {
+                              setState(() => lastName = val);
+                            },
                           ),
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'Enter your last name',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[700],
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 13.0, horizontal: 14.0),
-                          ),
-                          validator: (input) {
-                            if (input == null || input.isEmpty) {
-                              return 'This field is required.';
-                            }
-                            return null;
-                          },
-                          onChanged: (val) {
-                            setState(() => lastName = val);
-                          },
                         ),
                         const SizedBox(
                           height: 20.0,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
-                              'Nickname [Optional]',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)),
+                              'Nickname (optional)',
+                              style: captionTextStyle()
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        TextFormField(
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                          ),
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: 'Enter your Nickname',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[700],
+                        SizedBox(
+                          height: 40.0,
+                          child: TextFormField(
+                            style: const TextStyle(
+                              fontSize: 14.0,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 13.0, horizontal: 14.0),
+                            decoration: textFormFieldDecoration('Enter your Nickname'),
+                            onChanged: (val) {
+                              setState(() => nickName = val);
+                            },
                           ),
-                          onChanged: (val) {
-                            setState(() => nickName = val);
-                          },
                         ),
                         const SizedBox(
                           height: 20.0,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
                               'Gender',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)),
+                              style: captionTextStyle(),
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Choose your Gender',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 13.0, horizontal: 14.0),
+                        SizedBox(
+                          height: 40.0,
+                          child: DropdownButtonFormField(
+                            decoration: textFormFieldDecoration('Enter your gender'),
+                            value: gender,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items: const [
+                              DropdownMenuItem<String>(
+                                child: Text('Male'),
+                                value: 'Male',
+                              ),
+                              DropdownMenuItem<String>(
+                                child: Text('Female'),
+                                value: 'Female',
+                              ),
+                              DropdownMenuItem<String>(
+                                child: Text('Rather not to say...'),
+                                value: 'Rather not to say...',
+                              ),
+                            ],
+                            onChanged: (String? value) {
+                              setState(() {
+                                gender = value!;
+                              });
+                            },
+                            validator: (input) {
+                              if (input == null) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
                           ),
-                          value: gender,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: const [
-                            DropdownMenuItem<String>(
-                              child: Text('Male'),
-                              value: 'Male',
-                            ),
-                            DropdownMenuItem<String>(
-                              child: Text('Female'),
-                              value: 'Female',
-                            ),
-                            DropdownMenuItem<String>(
-                              child: Text('Rather not to say...'),
-                              value: 'Rather not to say...',
-                            ),
-                          ],
-                          onChanged: (String? value) {
-                            setState(() {
-                              gender = value!;
-                            });
-                          },
-                          validator: (input) {
-                            if (input == null) {
-                              return 'This field is required.';
-                            }
-                            return null;
-                          },
                         ),
                         const SizedBox(
                           height: 20.0,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
                               'Birthday',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(94, 102, 104, 1)),
+                              style: captionTextStyle(),
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        TextFormField(
-                          controller: birthDateController,
-                          onTap: () {
-                            // Below line stops keyboard from appearing
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            // Show Date Picker Here
-                            _selectDate(context);
-                            birthDateController.text =
-                                DateFormat('yyyy-MM-d').format(selectedDate);
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter your birthday',
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
+                        SizedBox(
+                          height: 40.0,
+                          child: TextFormField(
+                            controller: birthDateController,
+                            onTap: () {
+                              // Below line stops keyboard from appearing
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              // Show Date Picker Here
+                              _selectDate(context);
+                              birthDateController.text =
+                                  DateFormat('yyyy-MM-d').format(selectedDate);
+                            },
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText: 'Enter your birthday',
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                  color: Colors.grey.shade600,
+                                  fontFamily: 'Proxima Nova'
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade300,
+                                  )
+                              ),
+                              suffixIcon: const Icon(
+                                Icons.calendar_today_outlined,
+                                color: Color.fromRGBO(94, 102, 104, 1),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                             ),
-                            suffixIcon: Icon(
-                              Icons.calendar_today_rounded,
-                              color: Colors.green,
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 13.0, horizontal: 14.0),
+                            onChanged: (val) {
+                              setState(
+                                  () => birthDate = birthDateController.text);
+                            },
+                            validator: (input) {
+                              if (input == null || input.isEmpty) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
                           ),
-                          onChanged: (val) {
-                            setState(
-                                () => birthDate = birthDateController.text);
-                          },
-                          validator: (input) {
-                            if (input == null || input.isEmpty) {
-                              return 'This field is required.';
-                            }
-                            return null;
-                          },
                         ),
-                        const SizedBox(
-                          height: 200.0,
-                        ),
+                        const SizedBox(height: 200.0,),
                       ],
                     ),
                   ),
@@ -364,7 +327,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   padding: const EdgeInsets.all(10),
-                  primary: Colors.green,
+                  primary: Colors.green[400],
                 ),
                 onPressed: () async {
                   if (_form.currentState!.validate()) {
@@ -389,6 +352,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -414,11 +379,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       MaterialPageRoute(
                           builder: (context) => const AnonymousScreen()));
                 },
-                child: const Text(
+                child: Text(
                   'Stay Anonymous',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.green,
+                    color: Colors.green[300],
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -463,7 +430,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                 borderRadius: BorderRadius.circular(24),
               ),
               padding: const EdgeInsets.all(10),
-              primary: Colors.green,
+              primary: Colors.green[400],
               fixedSize: const Size(245, 50),
             ),
             onPressed: () {
@@ -481,6 +448,33 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  TextStyle captionTextStyle() {
+    return const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: Color.fromRGBO(94, 102, 104, 1),
+      fontFamily: 'Proxima Nova',
+    );
+  }
+
+  InputDecoration textFormFieldDecoration(String hintText) {
+    return InputDecoration(
+      border: const OutlineInputBorder(),
+      hintText: hintText,
+      hintStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.grey.shade600,
+          fontFamily: 'Proxima Nova'
+      ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.grey.shade300,
+          )
+      ),
     );
   }
 }

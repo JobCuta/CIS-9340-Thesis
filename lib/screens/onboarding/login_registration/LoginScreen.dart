@@ -321,7 +321,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
     return const TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w700,
-        color: Color.fromRGBO(94, 102, 104, 1)
+        color: Color.fromRGBO(94, 102, 104, 1),
+        fontFamily: 'Proxima Nova'
     );
   }
 
@@ -329,6 +330,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
     return TextStyle(
       fontWeight: FontWeight.w400,
       color: Colors.grey[500],
+      fontFamily: 'Proxima Nova'
     );
   }
 }
