@@ -96,7 +96,7 @@ class _RegisterState extends State<RegisterWidget> {
                             fontFamily: 'Proxima Nova'),
                       )),
                 ),
-                const SizedBox(height: 15.0,),
+                const SizedBox(height: 15.0),
                 const Center(
                   child: Text(
                     'Please enter your credentials to continue',

@@ -17,7 +17,18 @@ class AboutSelfScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(home: AboutSelfWidget());
+    return GetMaterialApp(
+        home: const Scaffold(
+          body: SafeArea(
+            child: AboutSelfWidget(),
+          ),
+        ),
+      theme: ThemeData(
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Color.fromRGBO(242, 255, 245, 1.0),
+        )
+      ),
+    );
   }
 }
 
@@ -62,40 +73,47 @@ class _AboutSelfState extends State<AboutSelfWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 255, 245, 1.0),
-      body: Stack(
-        children: <Widget>[
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.grey[700],
-                  size: 24.0,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background_images/bahag_background.png'),
+            fit: BoxFit.cover,
+          )
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.grey[700],
             ),
-            body: ListView(
-              //scrollDirection: Axis.vertical,
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
               children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                   child: Center(
                       child: Text(
-                    'Tell us about yourself',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        fontFamily: 'Proxima Nova'),
-                  )),
+                        'Tell us about yourself',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 30,
+                            fontFamily: 'Proxima Nova'),
+                      )),
                 ),
                 const Center(
                   child: Text(
@@ -107,9 +125,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 30.0,
-                ),
+                const SizedBox(height: 30.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Form(
@@ -128,9 +144,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           height: 5.0,
                         ),
                         SizedBox(
-                          height: 40.0,
                           child: TextFormField(
-                            style: const TextStyle(fontSize: 14.0,),
+                            style: const TextStyle(fontSize: 14.0),
                             decoration: textFormFieldDecoration('Enter your first name'),
                             validator: (input) {
                               if (input == null || input.isEmpty) {
@@ -158,7 +173,6 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           height: 5.0,
                         ),
                         SizedBox(
-                          height: 40.0,
                           child: TextFormField(
                             style: const TextStyle(fontSize: 14.0,),
                             decoration: textFormFieldDecoration('Enter your last name'),
@@ -173,22 +187,17 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             },
                           ),
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
+                        const SizedBox(height: 20.0),
                         Row(
                           children: [
                             Text(
-                              'Nickname (optional)',
-                              style: captionTextStyle()
+                                'Nickname (optional)',
+                                style: captionTextStyle()
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
+                        const SizedBox(height: 5.0),
                         SizedBox(
-                          height: 40.0,
                           child: TextFormField(
                             style: const TextStyle(
                               fontSize: 14.0,
@@ -199,9 +208,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             },
                           ),
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
+                        const SizedBox(height: 20.0),
                         Row(
                           children: [
                             Text(
@@ -210,11 +217,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
+                        const SizedBox(height: 5.0),
                         SizedBox(
-                          height: 40.0,
                           child: DropdownButtonFormField(
                             decoration: textFormFieldDecoration('Enter your gender'),
                             value: gender,
@@ -246,9 +250,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             },
                           ),
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
+                        const SizedBox(height: 20.0),
                         Row(
                           children: [
                             Text(
@@ -257,11 +259,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
+                        const SizedBox(height: 5.0),
                         SizedBox(
-                          height: 40.0,
                           child: TextFormField(
                             controller: birthDateController,
                             onTap: () {
@@ -278,7 +277,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               fillColor: Colors.white,
                               filled: true,
                               hintStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade600,
                                   fontFamily: 'Proxima Nova'
                               ),
@@ -295,7 +294,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                             onChanged: (val) {
                               setState(
-                                  () => birthDate = birthDateController.text);
+                                      () => birthDate = birthDateController.text);
                             },
                             validator: (input) {
                               if (input == null || input.isEmpty) {
@@ -313,87 +312,87 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               ],
             ),
           ),
-        ],
-      ),
-      bottomSheet: Container(
-        width: double.infinity,
-        height: 120,
-        margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-        child: ListView(
-          children: [
-            SizedBox(
-              width: 328,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+        ),
+        bottomSheet: Container(
+          width: double.infinity,
+          height: 120,
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+          child: ListView(
+            children: [
+              SizedBox(
+                width: 328,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    primary: Colors.green[400],
                   ),
-                  padding: const EdgeInsets.all(10),
-                  primary: Colors.green[400],
-                ),
-                onPressed: () async {
-                  if (_form.currentState!.validate()) {
-                    if (await handleUserInfo()) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  _buildPopupDialog(context)));
-                    } else {
-                      Get.snackbar(
-                        "Registration Error",
-                        "Something went wrong. Please try again",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                      );
+                  onPressed: () async {
+                    if (_form.currentState!.validate()) {
+                      if (await handleUserInfo()) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    _buildPopupDialog(context)));
+                      } else {
+                        Get.snackbar(
+                          "Registration Error",
+                          "Something went wrong. Please try again",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                        );
+                      }
                     }
-                  }
-                },
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600,
+                  },
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            SizedBox(
-              width: 328,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+              const SizedBox(
+                height: 10.0,
+              ),
+              SizedBox(
+                width: 328,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    primary: Colors.white,
                   ),
-                  padding: const EdgeInsets.all(10),
-                  primary: Colors.white,
-                ),
-                onPressed: () {
-                  //navigate to next page
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AnonymousScreen()));
-                },
-                child: Text(
-                  'Stay Anonymous',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.green[300],
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600,
+                  onPressed: () {
+                    //navigate to next page
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AnonymousScreen()));
+                  },
+                  child: Text(
+                    'Stay Anonymous',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.green[300],
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
