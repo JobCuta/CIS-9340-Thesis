@@ -73,6 +73,7 @@ class _RegisterState extends State<RegisterWidget> {
           ),
           extendBodyBehindAppBar: true,
           body: Container(
+            constraints: const BoxConstraints.expand(),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/background_images/sunflower_background.png'),
