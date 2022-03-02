@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'RegisterScreen.dart';
 import 'AnonymousScreen.dart';
 import 'LoginScreen.dart';
@@ -42,11 +45,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   String? gender;
   String birthDate = '';
 
-
   DateTime selectedDate = DateTime.now();
   bool isButtonActive = false;
   final TextEditingController birthDateController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  late DateTime _focusedDay = DateTime.now();
+  late DateTime _selectedDay = DateTime.now();
+  CalendarFormat format = CalendarFormat.month;
 
   handleUserInfo() async {
     var response = await UserProvider()
@@ -54,18 +59,54 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return response;
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+/*Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1950),
-        lastDate: DateTime.now());
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+    );
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
     }
+  }*/
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget ? child) {
+        return Theme(
+          data: ThemeData(
+            textTheme: TextTheme(
+              subtitle1: const TextStyle(color: Colors.black),
+              button: TextStyle(color: Colors.green[500]),
+            ),
+            colorScheme: const ColorScheme.light(
+              primary: Colors.green,
+              onSecondary: Colors.black,
+              onPrimary: Colors.white,
+              surface: Colors.black,
+              onSurface: Colors.black,
+              secondary: Colors.black,),
+              dialogBackgroundColor: Colors.white,
+            ),
+          child: child ?? const Text(''),
+          );
+      },
+      initialDate: selectedDate,
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+    birthDateController.text = DateFormat('yyyy-MM-d').format(selectedDate);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -264,8 +305,6 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               FocusScope.of(context).requestFocus(FocusNode());
                               // Show Date Picker Here
                               _selectDate(context);
-                              birthDateController.text =
-                                  DateFormat('yyyy-MM-d').format(selectedDate);
                             },
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -449,6 +488,61 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     );
   }
 
+  Widget _tableCalendar(BuildContext context) {
+    return AlertDialog(
+      content: Center(
+        child: SizedBox(
+          width: 328,
+          height: 400,
+          child: TableCalendar(
+            firstDay: DateTime(1950),
+            lastDay: DateTime.now(),
+            focusedDay: _focusedDay,
+            calendarFormat: CalendarFormat.month,
+            headerStyle: HeaderStyle(
+                titleTextFormatter: (date, locale) => DateFormat.yMMM(locale).format(date),
+                titleCentered: true,
+                titleTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  fontFamily: 'IBM Plex Sans',
+                ),
+                formatButtonVisible: false,
+                leftChevronIcon: Icon(
+                    Icons.chevron_left,
+                    color: Colors.green[400]),
+                rightChevronIcon: Icon(
+                    Icons.chevron_right,
+                    color: Colors.green[400]
+                )
+            ),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              dowTextFormatter: (date, locale) => DateFormat('E').format(date).toUpperCase(),
+              weekdayStyle: daysTextStyle(),
+              weekendStyle: daysTextStyle(),
+            ),
+            calendarStyle: CalendarStyle(
+              isTodayHighlighted: false,
+              selectedDecoration: BoxDecoration(
+                color: Colors.green[500],
+                shape: BoxShape.circle,
+              ),
+            ),
+            selectedDayPredicate: (DateTime date) {
+              return isSameDay(_selectedDay, date);
+            },
+            onDaySelected: (DateTime selectDay, DateTime focusDay) {
+              setState(() {
+                _selectedDay = selectDay;
+                _focusedDay = focusDay;
+              });
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
   TextStyle captionTextStyle() {
     return const TextStyle(
         fontSize: 12,
@@ -475,6 +569,16 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             color: Colors.grey.shade300,
           )
       ),
+    );
+  }
+
+  TextStyle daysTextStyle() {
+    return TextStyle(
+      fontFamily: 'IBM Plex Sans',
+      fontSize: 10.0,
+      fontWeight: FontWeight.bold,
+      color: Colors.grey[400],
+      letterSpacing: 1.5,
     );
   }
 }
