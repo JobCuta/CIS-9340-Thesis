@@ -27,8 +27,8 @@ class Main extends StatelessWidget {
       getPages: [
         //intro
         GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
-        GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
-        GetPage(name: '/exerciseScreen', page: () => const ExerciseScreen()),
+        GetPage(name: '/shakeScreen', page: () => const ShakeScreen()),
+        GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
         //login_registration
         GetPage(name: '/accountScreen', page: () => const CreateAccountScreen()),
         GetPage(name: '/aboutselfScreen', page: () => const AboutSelfScreen()),

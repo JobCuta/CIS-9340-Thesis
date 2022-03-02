@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/controllers/ShakeController.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -7,32 +6,42 @@ import 'package:shake/shake.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+import '../login_registration/CreateAccountScreen.dart';
+
 void main() {
-  runApp(GetMaterialApp(home: ShakeScreen()));
+  runApp(const MaterialApp(home: ShakeScreen()));
 }
 
-class ShakeScreen extends StatelessWidget {
-  ShakeScreen({Key? key}) : super(key: key);
+class ShakeScreen extends StatefulWidget {
+  const ShakeScreen({Key? key}) : super(key: key);
 
-  final List<String> screenTitle = [
+  @override
+  _ShakeScreenState createState() => _ShakeScreenState();
+}
+
+class _ShakeScreenState extends State<ShakeScreen> {
+  // variables for the PageView.builder
+  final PageController _pageController = PageController();
+
+  List<String> screenTitle = [
     'Shake your phone!',
     'Randomising...',
   ];
 
-  final List<String> screenDescription = [
+  List<String> screenDescription = [
     'Randomize the first exercise you will do!',
-    "Let’s see what you’ll get!",
+    "Let's see what you'll get!",
   ];
 
-  late final ShakeDetector detector;
+  late ShakeDetector detector;
 
+  @override
   void initState() {
-    // function for the detector (only starts after initialization)
-    print('detected');
-    final shakeController = Get.put(ShakeController());
+    super.initState();
 
+    // function for the detector (only starts after initialization)
     detector = ShakeDetector.waitForStart(onPhoneShake: () {
-      shakeController.onPageChange(screenTitle[1], screenDescription[1]);
+      _pageController.jumpToPage(1);
       detector.stopListening();
       startTime();
     });
@@ -67,19 +76,13 @@ class ShakeScreen extends StatelessWidget {
         "assetImage": randomExercise[0],
         "prompt": randomExercise[1],
         "reason": randomExercise[2],
-        "type": randomExercise[3],
+        "type": randomExercise[3]
       });
     });
   }
 
-  changeRandomizeText(String title, String desc, ShakeController controller) {
-    controller.animateTo();
-    controller.onPageChange(title, desc);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final shakeController = Get.put(ShakeController());
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -92,6 +95,7 @@ class ShakeScreen extends StatelessWidget {
         PageView.builder(
           // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
           physics: const NeverScrollableScrollPhysics(),
+          controller: _pageController,
           itemBuilder: (context, position) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,14 +141,12 @@ class ShakeScreen extends StatelessWidget {
                 TextButton(
                     child: const Text('SHAKE (Emulator)'),
                     onPressed: () {
-                      shakeController.onPageChange(
-                          screenTitle[1], screenDescription[1]);
                       detector.stopListening();
                       startTime();
                     }),
                 TextButton(
                   onPressed: () {
-                    Get.toNamed('/accountScreen');
+                    Get.to('/accountScreen');
                   },
                   child: Text(
                     'Skip',
@@ -162,20 +164,13 @@ class ShakeScreen extends StatelessWidget {
 
 // Widget for the random exercises
 class ExerciseScreen extends StatefulWidget {
-  const ExerciseScreen({Key? key}) : super(key: key);
+  ExerciseScreen({Key? key}) : super(key: key);
 
-  // final String assetImage;
-  // final String prompt;
-  // final String reason;
-  // final String type;
+  final String assetImage = Get.arguments["assetImage"]!;
+  final String prompt = Get.arguments["prompt"]!;
+  final String reason = Get.arguments["reason"]!;
+  final String type = Get.arguments["type"]!;
 
-  // const ExerciseScreen(
-  //     {key,
-  //     required this.assetImage,
-  //     required this.prompt,
-  //     required this.reason,
-  //     required this.type})
-  //     : super(key: key);
 
   @override
   _ExerciseScreenState createState() => _ExerciseScreenState();
@@ -206,9 +201,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var otherExercises = (Get.parameters["type"] == 'Breathing')
+    var otherExercises = (widget.type == 'Breathing')
         ? [walking, meditation]
-        : (Get.parameters["type"] == 'Meditating')
+        : (widget.type == 'Meditating')
             ? [walking, breathing]
             : [meditation, breathing];
 
@@ -254,7 +249,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   // Middle Image
                   Image(
                       image: AssetImage(
-                        Get.parameters["assetImage"]!,
+                        widget.assetImage,
                       ),
                       width: 150,
                       height: 150),
@@ -278,10 +273,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     color: Colors.white))
                             : (position == 1)
                                 ? SizedBox(
-                                    child: (Get.parameters["type"] ==
-                                            'Breathing')
+                                    child: (widget.type == 'Breathing')
                                         ? const BreathingCycleWidget()
-                                        : (Get.parameters["type"] == 'Walking')
+                                        : (widget.type == 'Walking')
                                             ? const WalkingCycleWidget()
                                             : const MeditationCycleWidget(),
                                     height: 30)
@@ -298,10 +292,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           indent: 5,
                           endIndent: 5,
                         ),
-                        Text(
-                            (position == 2)
-                                ? Get.parameters["reason"]!
-                                : Get.parameters["prompt"]!,
+                        Text((position == 2) ? widget.reason : widget.prompt,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 19, color: Colors.white)),
