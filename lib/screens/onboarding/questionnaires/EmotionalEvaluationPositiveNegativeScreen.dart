@@ -304,14 +304,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const GetMaterialApp(
-                                                                home:
-                                                                    SetNotificationScreen())));
+                                                Get.offAndToNamed('/notifScreen');
                                               }),
                                         ),
                                         Container(

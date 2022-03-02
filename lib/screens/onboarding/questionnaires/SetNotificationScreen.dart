@@ -202,7 +202,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Get.back();
                   // Navigator
                 }),
           ),
@@ -237,7 +237,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Get.back();
                 }),
           ),
         ),

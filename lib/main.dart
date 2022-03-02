@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/onboarding/questionnaires/SetNotificationScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -37,6 +38,8 @@ class Main extends StatelessWidget {
         GetPage(name: '/emotionScreen', page: () => const EmotionalEvaluationScreen()),
         GetPage(name: '/assessScreen', page: () => const InitialAssessmentScreen()),
         GetPage(name: '/emotionPNScreen', page: () => const EmotionalEvaluationPositiveNegativeScreen()),
+        //notification
+        GetPage(name: '/notifScreen', page: () => const SetNotificationScreen()),
       ],
       home: const IntroductionScreen(), //change to screen checking log-in persisence
     );

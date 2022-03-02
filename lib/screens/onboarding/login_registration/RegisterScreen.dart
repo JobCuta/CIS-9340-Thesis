@@ -329,7 +329,7 @@ class _RegisterState extends State<RegisterWidget> {
                                     if (_form.currentState!.validate()) {
                                       bool result = await handleRegistration();
                                       if (result) {
-                                        Get.toNamed('aboutScreen');
+                                        Get.toNamed('aboutSelfScreen');
                                       } else {
                                         Get.snackbar(
                                           "Log in failed",

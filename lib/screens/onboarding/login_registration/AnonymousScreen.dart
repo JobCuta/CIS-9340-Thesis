@@ -31,7 +31,8 @@ class _AnonymousState extends State<AnonymousWidget> {
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Account successfully registered!',
+      title: const Text(
+        'Account successfully registered!',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: 'Proxima Nova',
@@ -53,7 +54,8 @@ class _AnonymousState extends State<AnonymousWidget> {
             child: Image.asset('assets/images/yellow_icon.png'),
           ),
           const SizedBox(height: 10.0),
-          const Text('Check your email to confirm your account in order to log in',
+          const Text(
+            'Check your email to confirm your account in order to log in',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Proxima Nova',
@@ -89,7 +91,9 @@ class _AnonymousState extends State<AnonymousWidget> {
             ),
           ),
         ),
-        const SizedBox(height: 20.0,)
+        const SizedBox(
+          height: 20.0,
+        )
       ],
     );
   }
@@ -101,10 +105,9 @@ class _AnonymousState extends State<AnonymousWidget> {
       height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background_images/bahag_background.png'),
-            fit: BoxFit.fill,
-          )
-      ),
+        image: AssetImage('assets/background_images/bahag_background.png'),
+        fit: BoxFit.fill,
+      )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -128,16 +131,17 @@ class _AnonymousState extends State<AnonymousWidget> {
                 const Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Center(
-                      child: Text('Staying Anonymous',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                            fontFamily: 'Proxima Nova'),
-                      )
-                  ),
+                      child: Text(
+                    'Staying Anonymous',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        fontFamily: 'Proxima Nova'),
+                  )),
                 ),
                 const Center(
-                  child: Text('What do you want us to call you?',
+                  child: Text(
+                    'What do you want us to call you?',
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -146,7 +150,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 35.0,),
+                const SizedBox(
+                  height: 35.0,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Form(
@@ -155,7 +161,8 @@ class _AnonymousState extends State<AnonymousWidget> {
                       children: <Widget>[
                         Row(
                           children: const [
-                            Text('Nickname',
+                            Text(
+                              'Nickname',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -165,7 +172,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         SizedBox(
                           child: TextFormField(
                             style: const TextStyle(
@@ -180,14 +189,13 @@ class _AnonymousState extends State<AnonymousWidget> {
                               hintStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade600,
-                                  fontFamily: 'Proxima Nova'
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
+                                  fontFamily: 'Proxima Nova'),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                             ),
                             onChanged: (val) {
                               setState(() => nickName = val);
@@ -200,7 +208,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 400.0,),
+                        const SizedBox(
+                          height: 400.0,
+                        ),
                       ],
                     ),
                   ),
@@ -226,11 +236,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                     padding: const EdgeInsets.all(10),
                     primary: Colors.green[400],
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     if (_form.currentState!.validate()) {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => _buildPopupDialog(context)
-                      ));
+                      Get.to(_buildPopupDialog(context));
                     }
                   },
                   child: const Text(
@@ -244,7 +252,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10.0,),
+              const SizedBox(
+                height: 10.0,
+              ),
               SizedBox(
                 width: 328,
                 height: 50,
@@ -256,7 +266,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                     padding: const EdgeInsets.all(10),
                     primary: Colors.white,
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     //navigate to next page
                     Get.toNamed('/aboutselfScreen');
                   },
