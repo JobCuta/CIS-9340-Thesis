@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'LoginScreen.dart';
 import 'RegisterScreen.dart';
 
@@ -10,27 +9,6 @@ void main() {
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: Scaffold(
-        backgroundColor: Color.fromRGBO(242, 255, 245, 1.0),
-        body: SafeArea(
-          child: CreateAccountWidget(),
-        ),
-      ),
-    );
-  }
-}
-
-class CreateAccountWidget extends StatefulWidget {
-  const CreateAccountWidget({Key? key}) : super(key: key);
-
-  @override
-  State<CreateAccountWidget> createState() => _CreateAccountScreenState();
-}
-
-class _CreateAccountScreenState extends State<CreateAccountWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/ShakeController.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 
 import 'package:shake/shake.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-import '../login_registration/CreateAccountScreen.dart';
-
 void main() {
-  runApp(const MaterialApp(home: ShakeScreen()));
+  runApp(GetMaterialApp(home: ShakeScreen()));
 }
 
-class ShakeScreen extends StatefulWidget {
-  const ShakeScreen({Key? key}) : super(key: key);
+class ShakeScreen extends StatelessWidget {
+  ShakeScreen({Key? key}) : super(key: key);
 
-  @override
-  _ShakeScreenState createState() => _ShakeScreenState();
-}
-
-class _ShakeScreenState extends State<ShakeScreen> {
-  // variables for the PageView.builder
-  final PageController _pageController = PageController();
-
-  List<String> screenTitle = [
+  final List<String> screenTitle = [
     'Shake your phone!',
     'Randomising...',
   ];
 
-  List<String> screenDescription = [
+  final List<String> screenDescription = [
     'Randomize the first exercise you will do!',
     "Let’s see what you’ll get!",
   ];
 
-  late ShakeDetector detector;
+  late final ShakeDetector detector;
 
-  @override
   void initState() {
-    super.initState();
-
     // function for the detector (only starts after initialization)
+    print('detected');
+    final shakeController = Get.put(ShakeController());
+
     detector = ShakeDetector.waitForStart(onPhoneShake: () {
-      _pageController.jumpToPage(1);
+      shakeController.onPageChange(screenTitle[1], screenDescription[1]);
       detector.stopListening();
       startTime();
     });
@@ -71,21 +63,23 @@ class _ShakeScreenState extends State<ShakeScreen> {
     var randomExercise = (exercises..shuffle()).first;
     var duration = const Duration(seconds: 5);
     return Timer(duration, () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MaterialApp(
-                home: ExerciseScreen(
-                    assetImage: randomExercise[0],
-                    prompt: randomExercise[1],
-                    reason: randomExercise[2],
-                    type: randomExercise[3]))),
-      );
+      Get.toNamed('/exerciseScreen', arguments: {
+        "assetImage": randomExercise[0],
+        "prompt": randomExercise[1],
+        "reason": randomExercise[2],
+        "type": randomExercise[3],
+      });
     });
+  }
+
+  changeRandomizeText(String title, String desc, ShakeController controller) {
+    controller.animateTo();
+    controller.onPageChange(title, desc);
   }
 
   @override
   Widget build(BuildContext context) {
+    final shakeController = Get.put(ShakeController());
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -98,7 +92,6 @@ class _ShakeScreenState extends State<ShakeScreen> {
         PageView.builder(
           // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
           physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
           itemBuilder: (context, position) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -144,17 +137,14 @@ class _ShakeScreenState extends State<ShakeScreen> {
                 TextButton(
                     child: const Text('SHAKE (Emulator)'),
                     onPressed: () {
-                      _pageController.jumpToPage(1);
+                      shakeController.onPageChange(
+                          screenTitle[1], screenDescription[1]);
                       detector.stopListening();
                       startTime();
                     }),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MaterialApp(
-                                home: CreateAccountScreen())));
+                    Get.toNamed('/accountScreen');
                   },
                   child: Text(
                     'Skip',
@@ -172,18 +162,20 @@ class _ShakeScreenState extends State<ShakeScreen> {
 
 // Widget for the random exercises
 class ExerciseScreen extends StatefulWidget {
-  final String assetImage;
-  final String prompt;
-  final String reason;
-  final String type;
+  const ExerciseScreen({Key? key}) : super(key: key);
 
-  const ExerciseScreen(
-      {key,
-      required this.assetImage,
-      required this.prompt,
-      required this.reason,
-      required this.type})
-      : super(key: key);
+  // final String assetImage;
+  // final String prompt;
+  // final String reason;
+  // final String type;
+
+  // const ExerciseScreen(
+  //     {key,
+  //     required this.assetImage,
+  //     required this.prompt,
+  //     required this.reason,
+  //     required this.type})
+  //     : super(key: key);
 
   @override
   _ExerciseScreenState createState() => _ExerciseScreenState();
@@ -214,9 +206,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var otherExercises = (widget.type == 'Breathing')
+    var otherExercises = (Get.parameters["type"] == 'Breathing')
         ? [walking, meditation]
-        : (widget.type == 'Meditating')
+        : (Get.parameters["type"] == 'Meditating')
             ? [walking, breathing]
             : [meditation, breathing];
 
@@ -262,7 +254,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   // Middle Image
                   Image(
                       image: AssetImage(
-                        widget.assetImage,
+                        Get.parameters["assetImage"]!,
                       ),
                       width: 150,
                       height: 150),
@@ -286,9 +278,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     color: Colors.white))
                             : (position == 1)
                                 ? SizedBox(
-                                    child: (widget.type == 'Breathing')
+                                    child: (Get.parameters["type"] ==
+                                            'Breathing')
                                         ? const BreathingCycleWidget()
-                                        : (widget.type == 'Walking')
+                                        : (Get.parameters["type"] == 'Walking')
                                             ? const WalkingCycleWidget()
                                             : const MeditationCycleWidget(),
                                     height: 30)
@@ -305,7 +298,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           indent: 5,
                           endIndent: 5,
                         ),
-                        Text((position == 2) ? widget.reason : widget.prompt,
+                        Text(
+                            (position == 2)
+                                ? Get.parameters["reason"]!
+                                : Get.parameters["prompt"]!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 19, color: Colors.white)),
@@ -326,16 +322,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                             onPressed: () {
                               var randomExercise =
                                   (otherExercises..shuffle()).first;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MaterialApp(
-                                        home: ExerciseScreen(
-                                            assetImage: randomExercise[0],
-                                            prompt: randomExercise[1],
-                                            reason: randomExercise[2],
-                                            type: randomExercise[3]))),
-                              );
+                              Get.toNamed('/exerciseScreen', arguments: {
+                                "assetImage": randomExercise[0],
+                                "prompt": randomExercise[1],
+                                "reason": randomExercise[2],
+                                "type": randomExercise[3]
+                              });
                             },
                             child: const Text(
                               'I want another exercise',
@@ -359,12 +351,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   primary: Colors.blue[400],
                                 ),
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const MaterialApp(
-                                            home: CreateAccountScreen())),
-                                  );
+                                  Get.toNamed('/accountScreen');
                                 },
                                 child: const Text(
                                   'Continue',
@@ -382,11 +369,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     child: TextButton(
                       // style: TextButton.styleFrom(primary: Colors.transparent),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MaterialApp(
-                                    home: CreateAccountScreen())));
+                        Get.toNamed('/accountScreen');
                       },
                       child: Text(
                         'Skip',

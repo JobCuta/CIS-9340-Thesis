@@ -74,11 +74,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                       primary: const Color(0xffFFBE18),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const GetMaterialApp(home: PHQ9Screen())));
+                      Get.toNamed('/phqScreen');
                     }),
               )))
     ]));

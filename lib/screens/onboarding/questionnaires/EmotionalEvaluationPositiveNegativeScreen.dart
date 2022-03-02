@@ -201,78 +201,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                     // icon: Icon(Icons.check),
                     onTap: (values) {
                       _emotionController.updateNegativeEmotion(values);
-
-                      // _selectedNegativeEmotions = values;
-                      // setState() {
-                      //   _selectedNegativeFlag =
-                      //       _selectedNegativeEmotions.isNotEmpty;
-                      // }
-
-                      // print(_selectedNegativeEmotions);
                     },
                   ),
                 ),
-
-                // DROPDOWNS
-                //         Container(
-                //           padding: const EdgeInsets.all(15.0),
-                //           decoration: BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: const BorderRadius.all(Radius.circular(8))),
-                //           child: MultiSelectBottomSheetField<Emotion?>(
-                //             initialChildSize: 0.3,
-                //             listType: MultiSelectListType.CHIP,
-                //             searchable: true,
-                //             buttonText: Text("Positive Emotions",
-                //                 style: TextStyle(fontSize: 18)),
-                //             title: Text("Search for your emotion",
-                //                 style: TextStyle(fontSize: 16)),
-                //             items: _positiveEmotionsItems,
-                //             onConfirm: (values) {
-                //               _selectedPositiveEmotions = values;
-                //               print(_selectedPositiveEmotions);
-                //             },
-                //             chipDisplay: MultiSelectChipDisplay(
-                //               chipColor: Color(0xff4CA7FC),
-                //               textStyle: TextStyle(color: Colors.white),
-                //               onTap: (item) {
-                //                 setState(() {
-                //                   _selectedPositiveEmotions.remove(item);
-                //                 });
-                //               },
-                //             ),
-                //           ),
-                //         ),
-                //         Container(
-                //           padding: const EdgeInsets.all(15.0),
-                //           decoration: BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: const BorderRadius.all(Radius.circular(8))),
-                //           child: MultiSelectBottomSheetField<Emotion?>(
-                //             initialChildSize: 0.3,
-                //             listType: MultiSelectListType.CHIP,
-                //             searchable: true,
-                //             buttonText: Text("Negative Emotions",
-                //                 style: TextStyle(fontSize: 18)),
-                //             title: Text("Search for your emotion",
-                //                 style: TextStyle(fontSize: 16)),
-                //             items: _negativeEmotionsItems,
-                //             onConfirm: (values) {
-                //               _selectedNegativeEmotions = values;
-                //               print(_selectedNegativeEmotions);
-                //             },
-                //             chipDisplay: MultiSelectChipDisplay(
-                //               chipColor: Color(0xff4CA7FC),
-                //               textStyle: TextStyle(color: Colors.white),
-                //               onTap: (item) {
-                //                 print(item);
-                //                 setState(() {
-                //                   _selectedNegativeEmotions.remove(item);
-                //                 });
-                //               },
-                //             ),
-                //           ),
-                //         ),
               ]),
             )
           ]),

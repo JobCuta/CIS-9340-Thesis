@@ -9,14 +9,12 @@ void main() {
   runApp(const AnonymousScreen());
 }
 
-class AnonymousScreen extends StatelessWidget{
+class AnonymousScreen extends StatelessWidget {
   const AnonymousScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: AnonymousWidget()
-    );
+    return const GetMaterialApp(home: AnonymousWidget());
   }
 }
 
@@ -27,7 +25,7 @@ class AnonymousWidget extends StatefulWidget {
   State<AnonymousWidget> createState() => _AnonymousState();
 }
 
-class _AnonymousState extends State<AnonymousWidget>{
+class _AnonymousState extends State<AnonymousWidget> {
   String nickName = '';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
@@ -44,7 +42,7 @@ class _AnonymousState extends State<AnonymousWidget>{
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children:  <Widget>[
+        children: <Widget>[
           const Divider(
             height: 1.0,
             thickness: 1.0,
@@ -77,11 +75,8 @@ class _AnonymousState extends State<AnonymousWidget>{
               primary: Colors.green[400],
               fixedSize: const Size(245, 50),
             ),
-            onPressed: (){
-              //navigate to next page
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => const LoginScreen()
-              ));
+            onPressed: () {
+              Get.toNamed('/loginScreen');
             },
             child: const Text(
               'Okay!',
@@ -152,7 +147,8 @@ class _AnonymousState extends State<AnonymousWidget>{
                   ),
                 ),
                 const SizedBox(height: 35.0,),
-                Padding(padding: const EdgeInsets.only(left: 20.0, right: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Form(
                     key: _form,
                     child: Column(
@@ -262,9 +258,7 @@ class _AnonymousState extends State<AnonymousWidget>{
                   ),
                   onPressed: (){
                     //navigate to next page
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => const AboutSelfScreen()
-                    ));
+                    Get.toNamed('/aboutselfScreen');
                   },
                   child: Text(
                     'I changed my mind...',

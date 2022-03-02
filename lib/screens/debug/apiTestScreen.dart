@@ -1,22 +1,19 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
+import '../onboarding/intro/IntroductionScreen.dart';
+
 void main() {
-  runApp(const GetMaterialApp(home: DebugScreen()));
+  runApp(DebugScreen());
 }
 
-class DebugScreen extends StatefulWidget {
-  const DebugScreen({Key? key}) : super(key: key);
+class DebugScreen extends StatelessWidget {
 
-  @override
-  State<StatefulWidget> createState() => DebugState();
-}
+  DebugScreen({Key? key}) : super(key: key);
 
-class DebugState extends State {
   final PageController _pageController = PageController();
   final lc = [TextEditingController(), TextEditingController()];
 
@@ -27,7 +24,12 @@ class DebugState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      title: 'Kasiyanna App',
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
+      ],
       home: Scaffold(
         body: PageView.builder(
             controller: _pageController,

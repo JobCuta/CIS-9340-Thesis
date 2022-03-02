@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'RegisterScreen.dart';
 import 'AnonymousScreen.dart';
 import 'LoginScreen.dart';
 //import 'package:table_calendar/table_calendar.dart';
@@ -368,11 +366,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   onPressed: () async {
                     if (_form.currentState!.validate()) {
                       if (await handleUserInfo()) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    _buildPopupDialog(context)));
+                        Get.to(_buildPopupDialog(context));
                       } else {
                         Get.snackbar(
                           "Registration Error",
@@ -410,10 +404,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   ),
                   onPressed: () {
                     //navigate to next page
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AnonymousScreen()));
+                    Get.to(const AnonymousWidget());
                   },
                   child: Text(
                     'Stay Anonymous',
@@ -423,7 +414,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
                     ),
-                  ),
+                  )
                 ),
               ),
             ],
@@ -471,9 +462,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               fixedSize: const Size(245, 50),
             ),
             onPressed: () {
-              //navigate to next page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+              Get.to(const LoginWidgets());
             },
             child: const Text(
               'Okay!',

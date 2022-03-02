@@ -3,12 +3,9 @@ import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import 'PHQ9Interpretation.dart';
-import 'EmotionalEvaluationScreen.dart';
-import 'InitialAssessmentScreen.dart';
 
 class PHQ9Screen extends StatefulWidget {
-  const PHQ9Screen({Key? key}) : super(key: key);
+  const PHQ9Screen({Key? key, bool? initialAssessment}) : super(key: key);
 
   @override
   _PHQ9ScreenState createState() => _PHQ9ScreenState();
@@ -190,14 +187,8 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               ),
                               onPressed: () {
                                 (position == 0)
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const GetMaterialApp(
-                                                    home:
-                                                        InitialAssessmentScreen())))
-                                    : _pageController.jumpToPage(position - 1);
+                                    ? Get.toNamed('/assessScreen')
+                                    : Get.back();
                               }),
                         ),
                       ),
@@ -225,30 +216,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                GetMaterialApp(
-                                                    home:
-                                                        PHQ9InterpretationScreen(
-                                                  sum: answerValues.fold(
-                                                      0,
-                                                      (prev, current) =>
-                                                          prev + current),
-                                                ))))
-
-                                    // Leads to EmotionalEvaluationScreen
-                                    // ? Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             const GetMaterialApp(
-                                    //                 home:
-                                    //                     EmotionalEvaluationScreen(
-                                    //               initialAssessment: true,
-                                    //             ))))
-
+                                    ? Get.to('/phqScreen')
                                     // Checks if the user selected a valid value
                                     : (answers[position] == 'Pick an option')
                                         ? null

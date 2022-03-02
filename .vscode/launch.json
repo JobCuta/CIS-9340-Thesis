@@ -8,7 +8,7 @@
             "name": "Flutter",
             "type": "dart",
             "request": "launch",
-            "program": "lib/screens/onboarding/intro/IntroductionScreen.dart"
+            "program": "lib/main.dart"
         },
         
         {

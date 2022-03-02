@@ -59,10 +59,9 @@ class _RegisterState extends State<RegisterWidget> {
       height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background_images/sunflower_background.png'),
-            fit: BoxFit.fill,
-          )
-      ),
+        image: AssetImage('assets/background_images/sunflower_background.png'),
+        fit: BoxFit.fill,
+      )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -89,12 +88,12 @@ class _RegisterState extends State<RegisterWidget> {
                   padding: EdgeInsets.only(top: 15.0),
                   child: Center(
                       child: Text(
-                        'Register',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                            fontFamily: 'Proxima Nova'),
-                      )),
+                    'Register',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        fontFamily: 'Proxima Nova'),
+                  )),
                 ),
                 const SizedBox(height: 15.0),
                 const Center(
@@ -116,9 +115,7 @@ class _RegisterState extends State<RegisterWidget> {
                       children: <Widget>[
                         Row(
                           children: [
-                            Text(
-                                'Email',
-                                style: captionTextStyle()),
+                            Text('Email', style: captionTextStyle()),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -132,12 +129,12 @@ class _RegisterState extends State<RegisterWidget> {
                               hintStyle: hintTextStyle(),
                               fillColor: Colors.white,
                               filled: true,
-                              contentPadding: const EdgeInsets.symmetric(vertical: 17.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 17.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                             ),
                             validator: (input) {
                               if (input == null || input.isEmpty) {
@@ -158,9 +155,7 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text(
-                                'Password',
-                                style: captionTextStyle()),
+                            Text('Password', style: captionTextStyle()),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -176,12 +171,12 @@ class _RegisterState extends State<RegisterWidget> {
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
                               hintStyle: hintTextStyle(),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                               suffixIcon: IconButton(
                                 iconSize: 25,
                                 icon: Icon(isPasswordVisible
@@ -209,9 +204,7 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text(
-                                'Confirm Password',
-                                style: captionTextStyle())
+                            Text('Confirm Password', style: captionTextStyle())
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -231,12 +224,12 @@ class _RegisterState extends State<RegisterWidget> {
                               fillColor: Colors.white,
                               filled: true,
                               hintStyle: hintTextStyle(),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                               suffixIcon: IconButton(
                                 iconSize: 25,
                                 icon: Icon(isPasswordVisible2
@@ -333,29 +326,27 @@ class _RegisterState extends State<RegisterWidget> {
                             ),
                             onPressed: isSwitched
                                 ? () async {
-                              if (_form.currentState!.validate()) {
-                                bool result = await handleRegistration();
-                                if (result) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const AboutSelfScreen()));
-                                } else {
-                                  Get.snackbar(
-                                    "Log in failed",
-                                    error,
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: Colors.red,
-                                  );
-                                }
-                              }
-                              //navigate to next page
-                            }
+                                    if (_form.currentState!.validate()) {
+                                      bool result = await handleRegistration();
+                                      if (result) {
+                                        Get.toNamed('aboutScreen');
+                                      } else {
+                                        Get.snackbar(
+                                          "Log in failed",
+                                          error,
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.red,
+                                        );
+                                      }
+                                    }
+                                    //navigate to next page
+                                  }
                                 : null,
                           ),
                         ),
-                        const SizedBox(height: 25,)
+                        const SizedBox(
+                          height: 25,
+                        )
                       ],
                     ),
                   ),
@@ -373,15 +364,13 @@ class _RegisterState extends State<RegisterWidget> {
         fontSize: 12,
         fontWeight: FontWeight.w600,
         color: Color.fromRGBO(94, 102, 104, 1),
-        fontFamily: 'Proxima Nova'
-    );
+        fontFamily: 'Proxima Nova');
   }
 
   TextStyle hintTextStyle() {
     return TextStyle(
-      fontWeight: FontWeight.w600,
-      color: Colors.grey[500],
-        fontFamily: 'Proxima Nova'
-    );
+        fontWeight: FontWeight.w600,
+        color: Colors.grey[500],
+        fontFamily: 'Proxima Nova');
   }
 }

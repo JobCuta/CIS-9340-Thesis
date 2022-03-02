@@ -287,13 +287,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                   onPressed: () {
                     (isVeryHappy && isHappy && isNeutral && isBad && isVeryBad)
                         ? null
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const GetMaterialApp(
-                                    home:
-                                        EmotionalEvaluationPositiveNegativeScreen())));
-                    //
+                        : Get.toNamed('/emotionPNScreen');
                   }),
             ),
           ),
@@ -304,9 +298,5 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
 }
 
 void toEmotionalEvaluationPositiveNegative(context, initialAssessment) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const GetMaterialApp(
-              home: EmotionalEvaluationPositiveNegativeScreen())));
+  Get.toNamed('/emotionPNScreen');
 }

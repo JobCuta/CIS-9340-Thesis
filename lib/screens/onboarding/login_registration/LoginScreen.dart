@@ -92,10 +92,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
       height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background_images/sunflower_background.png'),
-            fit: BoxFit.fill,
-          )
-      ),
+        image: AssetImage('assets/background_images/sunflower_background.png'),
+        fit: BoxFit.fill,
+      )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -122,13 +121,13 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   padding: EdgeInsets.only(top: 15.0),
                   child: Center(
                       child: Text(
-                        'Log in',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )),
+                    'Log in',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )),
                 ),
                 const SizedBox(
                   height: 15.0,
@@ -144,16 +143,13 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 25, left: 20.0, right: 20),
+                  padding:
+                      const EdgeInsets.only(top: 25, left: 20.0, right: 20),
                   child: Form(
                     child: Column(
                       children: <Widget>[
                         Row(
-                          children: [
-                            Text(
-                                'Email',
-                                style: captionTextStyle())
-                          ],
+                          children: [Text('Email', style: captionTextStyle())],
                         ),
                         const SizedBox(
                           height: 5.0,
@@ -165,17 +161,17 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             controller: emailController,
                             decoration: InputDecoration(
-                              errorText: _validate ? 'This field is required' : null,
+                              errorText:
+                                  _validate ? 'This field is required' : null,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your email',
                               hintStyle: hintTextStyle(),
-                              contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                             ),
                             onChanged: (val) {
                               setState(() => email = val);
@@ -194,9 +190,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ),
                         Row(
                           children: [
-                            Text(
-                                'Password',
-                                style: captionTextStyle()),
+                            Text('Password', style: captionTextStyle()),
                           ],
                         ),
                         const SizedBox(
@@ -213,13 +207,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
                               hintStyle: hintTextStyle(),
-                              contentPadding:
-                              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                  )
-                              ),
+                                color: Colors.grey.shade300,
+                              )),
                               suffixIcon: IconButton(
                                 icon: Icon(_isObscure
                                     ? Icons.visibility_off_outlined
@@ -252,11 +245,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const ForgotPasswordScreen()));
+                                  Get.toNamed('forgotScreen');
                                   //Go to Forgot Your Password Screen
                                 },
                                 child: Text(
@@ -293,24 +282,25 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             onPressed: isButtonActive
                                 ? () async {
-                              //Navigation and account validation
-                              bool result = await handleLogin() ;
-                              if (result) {
-                                Get.snackbar(
-                                  "Logged In",
-                                  "It Worked!",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.green,
-                                );
-                              } else {
-                                Get.snackbar(
-                                  "Log in failed",
-                                  error,
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.red,
-                                );
-                              }
-                            }
+                                    //Navigation and account validation
+                                    bool result = await handleLogin();
+                                    if (result) {
+                                      Get.snackbar(
+                                        "Logged In",
+                                        "It Worked!",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.green,
+                                      );
+                                      //Navigate to main page
+                                    } else {
+                                      Get.snackbar(
+                                        "Log in failed",
+                                        error,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                      );
+                                    }
+                                  }
                                 : null,
                           ),
                         ),
@@ -332,15 +322,13 @@ class _LoginWidgetsState extends State<LoginWidgets> {
         fontSize: 12,
         fontWeight: FontWeight.w700,
         color: Color.fromRGBO(94, 102, 104, 1),
-        fontFamily: 'Proxima Nova'
-    );
+        fontFamily: 'Proxima Nova');
   }
 
   TextStyle hintTextStyle() {
     return TextStyle(
-      fontWeight: FontWeight.w600,
-      color: Colors.grey[500],
-      fontFamily: 'Proxima Nova'
-    );
+        fontWeight: FontWeight.w600,
+        color: Colors.grey[500],
+        fontFamily: 'Proxima Nova');
   }
 }
