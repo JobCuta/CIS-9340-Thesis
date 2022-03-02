@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'dart:async';
 
 void main() {
   runApp(const LoadingResultsScreen());
@@ -11,7 +11,13 @@ class LoadingResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(home: LoadingResultsScreenWidget());
+    return const GetMaterialApp(
+        home: Scaffold(
+          body: SafeArea(
+            child: LoadingResultsScreenWidget(),
+          ),
+        ),
+    );
   }
 }
 
@@ -25,24 +31,51 @@ class LoadingResultsScreenWidget extends StatefulWidget {
 
 class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
   @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
+  startTime() async {
+    var duration = const Duration(seconds: 2);
+    return Timer(duration, route);
+  }
+
+  route() {
+    Get.to(nextScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1),);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SplashScreen(
-      seconds: 20,
-      title: const Text(
-        'Evaluating your answers, your \n results are now being prepared...',
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: 'Proxima Nova',
-          fontWeight: FontWeight.w600,
-          color: Color(0xff737879),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 145.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: Image.asset(
+                'assets/images/flower_fill.gif',
+              ),
+            ),
+            const SizedBox(
+              height: 30.0,
+            ),
+            const Text(
+              'Evaluating your answers, your results are now being prepared...',
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Proxima Nova',
+                fontWeight: FontWeight.w600,
+                color: Color(0xff737879),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
-        textAlign: TextAlign.center,
       ),
-      backgroundColor: Colors.white,
-      image: Image.asset('assets/images/flower_fill.gif'),
-      loaderColor: Colors.white,
-      photoSize: 100,
-      navigateAfterSeconds: nextScreen(),
     );
   }
 }
