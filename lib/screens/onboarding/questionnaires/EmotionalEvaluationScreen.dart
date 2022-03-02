@@ -17,7 +17,7 @@ class Emotion {
   });
 
   @override
-  toString() => '$name';
+  toString() => name;
 }
 
 class EmotionalEvaluationScreen extends StatefulWidget {

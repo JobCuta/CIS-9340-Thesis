@@ -8,7 +8,7 @@ import 'EmotionalEvaluationScreen.dart';
 import 'InitialAssessmentScreen.dart';
 
 class PHQ9Screen extends StatefulWidget {
-  PHQ9Screen({Key? key}) : super(key: key);
+  const PHQ9Screen({Key? key}) : super(key: key);
 
   @override
   _PHQ9ScreenState createState() => _PHQ9ScreenState();
@@ -140,7 +140,6 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             value: answers[position],
                             icon: const Icon(Icons.keyboard_arrow_down),
                             onChanged: (String? newValue) {
-                              print(position);
                               setState(() {
                                 //  stores the value selected by the user so they can view their previous choices when they go back
                                 answers[position] = newValue ?? "";
@@ -153,9 +152,6 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                         : (newValue == 'Several days')
                                             ? 1
                                             : 0;
-                                // for verification that this is working correctly
-                                print(answers);
-                                print(answerValues);
                               });
                             },
                             items: options.map((String items) {

@@ -5,6 +5,51 @@ void main() {
   runApp(const GetMaterialApp(home: SetNotificationScreen()));
 }
 
+class TimeController extends GetxController {
+  var morningTime = const TimeOfDay(hour: 9, minute: 30).obs;
+  var afternoonTime = const TimeOfDay(hour: 12, minute: 30).obs;
+  var eveningTime = const TimeOfDay(hour: 18, minute: 30).obs;
+
+  Future _selectMorningTime(BuildContext context) async {
+    TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: morningTime.value,
+      initialEntryMode: TimePickerEntryMode.dial,
+      confirmText: "CONFIRM",
+      cancelText: "CANCEL",
+      helpText: 'MORNING REMINDER',
+    );
+    morningTime.value = timeOfDay!;
+    update();
+  }
+
+  Future _selectAfternoonTime(BuildContext context) async {
+    TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: afternoonTime.value,
+      initialEntryMode: TimePickerEntryMode.dial,
+      confirmText: "CONFIRM",
+      cancelText: "CANCEL",
+      helpText: 'AFTERNOON REMINDER',
+    );
+    afternoonTime.value = timeOfDay!;
+    update();
+  }
+
+  Future _selectEveningTime(BuildContext context) async {
+    TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: eveningTime.value,
+      initialEntryMode: TimePickerEntryMode.dial,
+      confirmText: "CONFIRM",
+      cancelText: "CANCEL",
+      helpText: 'EVENING REMINDER',
+    );
+    eveningTime.value = timeOfDay!;
+    update();
+  }
+}
+
 class SetNotificationScreen extends StatefulWidget {
   const SetNotificationScreen({Key? key}) : super(key: key);
 
@@ -13,11 +58,7 @@ class SetNotificationScreen extends StatefulWidget {
 }
 
 class SetNotificationScreenState extends State<SetNotificationScreen> {
-  // Need help on this: update the variable based on Future<dynamic> function [TestTimePicker]
-  // Need to format the text to only show the value in the screen (not TimeOfDate(...))
-  var _morningTime = const TimeOfDay(hour: 9, minute: 30).obs;
-  var _afternoonTime = const TimeOfDay(hour: 12, minute: 30).obs;
-  var _eveningTime = const TimeOfDay(hour: 18, minute: 30).obs;
+  final TimeController _timeController = Get.put(TimeController());
 
   @override
   Widget build(BuildContext context) {
@@ -62,23 +103,23 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 flex: 1,
                 child: Text(''),
               ),
-              Obx(() => TextButton(
+              TextButton(
                   onPressed: () {
-                    _morningTime.value = TestTimePicker(
-                            context, _morningTime.value, 'MORNING REMINDER')
-                        as TimeOfDay;
+                    _timeController._selectMorningTime(context);
                   },
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: '${_morningTime.value}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 18)),
-                      const WidgetSpan(
-                          child: Icon(Icons.keyboard_arrow_right_sharp,
-                              color: Colors.white))
-                    ]),
-                  )))
+                  child: GetBuilder<TimeController>(
+                      builder: (value) => RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: _timeController.morningTime.value
+                                      .format(context),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 18)),
+                              const WidgetSpan(
+                                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                                      color: Colors.white))
+                            ]),
+                          )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text('Afternoon',
@@ -87,22 +128,23 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 flex: 1,
                 child: Text(''),
               ),
-              Obx(() => TextButton(
+              TextButton(
                   onPressed: () {
-                    _afternoonTime = TestTimePicker(
-                        context, _afternoonTime.value, 'AFTERNOON REMINDER');
+                    _timeController._selectAfternoonTime(context);
                   },
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: '${_afternoonTime.value}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 18)),
-                      const WidgetSpan(
-                          child: Icon(Icons.keyboard_arrow_right_sharp,
-                              color: Colors.white))
-                    ]),
-                  )))
+                  child: GetBuilder<TimeController>(
+                      builder: (value) => RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: _timeController.afternoonTime.value
+                                      .format(context),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 18)),
+                              const WidgetSpan(
+                                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                                      color: Colors.white))
+                            ]),
+                          )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text('Evening',
@@ -111,22 +153,23 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 flex: 1,
                 child: Text(''),
               ),
-              Obx(() => TextButton(
+              TextButton(
                   onPressed: () {
-                    _eveningTime = TestTimePicker(
-                        context, _eveningTime.value, 'EVENING REMINDER');
+                    _timeController._selectEveningTime(context);
                   },
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: '${_eveningTime.value}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 18)),
-                      const WidgetSpan(
-                          child: Icon(Icons.keyboard_arrow_right_sharp,
-                              color: Colors.white))
-                    ]),
-                  )))
+                  child: GetBuilder<TimeController>(
+                      builder: (value) => RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: _timeController.eveningTime.value
+                                      .format(context),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 18)),
+                              const WidgetSpan(
+                                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                                      color: Colors.white))
+                            ]),
+                          ))),
             ]),
           ]),
         )
@@ -201,15 +244,4 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
       )
     ]));
   }
-}
-
-TestTimePicker(context, defaultTime, helpText) async {
-  await showTimePicker(
-    context: context,
-    initialTime: defaultTime as TimeOfDay,
-    initialEntryMode: TimePickerEntryMode.dial,
-    confirmText: "CONFIRM",
-    cancelText: "CANCEL",
-    helpText: helpText,
-  );
 }

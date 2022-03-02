@@ -78,7 +78,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  GetMaterialApp(home: PHQ9Screen())));
+                                  const GetMaterialApp(home: PHQ9Screen())));
                     }),
               )))
     ]));

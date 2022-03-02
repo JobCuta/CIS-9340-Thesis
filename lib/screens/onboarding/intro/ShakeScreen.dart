@@ -142,7 +142,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
                       ],
                     )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
                 TextButton(
-                    child: Text('SHAKE (Emulator)'),
+                    child: const Text('SHAKE (Emulator)'),
                     onPressed: () {
                       _pageController.jumpToPage(1);
                       detector.stopListening();
