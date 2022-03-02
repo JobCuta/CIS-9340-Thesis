@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 void main() => runApp(const ForgotPasswordScreen());
@@ -8,7 +9,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: ForgotPasswordWidgets(),
     );
   }
@@ -62,14 +63,8 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/background_images/bahag_background.png'),
@@ -93,14 +88,8 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
           elevation: 0.0,
         ),
         body: SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

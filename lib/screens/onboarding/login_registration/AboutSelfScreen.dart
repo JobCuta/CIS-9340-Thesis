@@ -18,11 +18,7 @@ class AboutSelfScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: const Scaffold(
-          body: SafeArea(
-            child: AboutSelfWidget(),
-          ),
-        ),
+      home: const AboutSelfWidget(),
       theme: ThemeData(
         bottomSheetTheme: const BottomSheetThemeData(
           backgroundColor: Color.fromRGBO(242, 255, 245, 1.0),
@@ -79,7 +75,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/background_images/bahag_background.png'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           )
       ),
       child: Scaffold(

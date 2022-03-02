@@ -14,7 +14,7 @@ class AnonymousScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: AnonymousWidget()
     );
   }
@@ -101,30 +101,35 @@ class _AnonymousState extends State<AnonymousWidget>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 255, 245, 1.0),
-      body: Stack(
-        children: <Widget>[
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.grey[700],
-                  size: 24.0,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background_images/bahag_background.png'),
+            fit: BoxFit.fill,
+          )
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.grey[850],
             ),
-            body: ListView(
-              scrollDirection: Axis.vertical,
-              children: <Widget> [
+            onPressed: () {
+              //Navigation
+            },
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: SizedBox(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Center(
@@ -166,12 +171,12 @@ class _AnonymousState extends State<AnonymousWidget>{
                         ),
                         const SizedBox(height: 5.0,),
                         SizedBox(
-                          height: 40.0,
                           child: TextFormField(
                             style: const TextStyle(
                               fontSize: 14.0,
                             ),
                             decoration: InputDecoration(
+                              isDense: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your name',
                               fillColor: Colors.white,
@@ -181,7 +186,7 @@ class _AnonymousState extends State<AnonymousWidget>{
                                   color: Colors.grey.shade600,
                                   fontFamily: 'Proxima Nova'
                               ),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Colors.grey.shade300,
@@ -207,76 +212,75 @@ class _AnonymousState extends State<AnonymousWidget>{
               ],
             ),
           ),
-        ]
-      ),
-      bottomSheet: Container(
-        width: double.infinity,
-        height: 120,
-        margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-        child: ListView(
-          children: [
-            SizedBox(
-              width: 328,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+        ),
+        bottomSheet: Container(
+          width: double.infinity,
+          height: 120,
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+          child: ListView(
+            children: [
+              SizedBox(
+                width: 328,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    primary: Colors.green[400],
                   ),
-                  padding: const EdgeInsets.all(10),
-                  primary: Colors.green[400],
+                  onPressed: (){
+                    if (_form.currentState!.validate()) {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => _buildPopupDialog(context)
+                      ));
+                    }
+                  },
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova',
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                onPressed: (){
-                  if (_form.currentState!.validate()) {
+              ),
+              const SizedBox(height: 10.0,),
+              SizedBox(
+                width: 328,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    primary: Colors.white,
+                  ),
+                  onPressed: (){
+                    //navigate to next page
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => _buildPopupDialog(context)
+                        builder: (context) => const AboutSelfScreen()
                     ));
-                  }
-                },
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Proxima Nova',
-                    color: Colors.white,
+                  },
+                  child: Text(
+                    'I changed my mind...',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova',
+                      color: Colors.green[400],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10.0,),
-            SizedBox(
-              width: 328,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  primary: Colors.white,
-                ),
-                onPressed: (){
-                  //navigate to next page
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const AboutSelfScreen()
-                  ));
-                },
-                child: Text(
-                  'I changed my mind...',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Proxima Nova',
-                    color: Colors.green[400],
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-
 }
