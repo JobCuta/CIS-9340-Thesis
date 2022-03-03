@@ -11,8 +11,7 @@ class IntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Scaffold(
+    return Scaffold(
           body: Container(
             constraints: const BoxConstraints.expand(),
             decoration: const BoxDecoration(
@@ -108,7 +107,6 @@ class IntroductionScreen extends StatelessWidget {
               ),
             ),
           ),
-      ),
     );
   }
 }
