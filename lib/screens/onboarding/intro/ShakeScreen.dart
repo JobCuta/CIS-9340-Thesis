@@ -6,10 +6,8 @@ import 'package:shake/shake.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-import '../login_registration/CreateAccountScreen.dart';
-
 void main() {
-  runApp(const MaterialApp(home: ShakeScreen()));
+  runApp(const GetMaterialApp(home: ShakeScreen()));
 }
 
 class ShakeScreen extends StatefulWidget {
@@ -92,70 +90,81 @@ class _ShakeScreenState extends State<ShakeScreen> {
                       'assets/background_images/orange_circles_background.png',
                     ),
                     fit: BoxFit.cover))),
-        PageView.builder(
-          // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          itemBuilder: (context, position) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Initial countdown beofre the exercise begins
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: Colors.orange[300]!,
-                  child: const Image(
-                      image: AssetImage('assets/images/phone.png'),
-                      width: 200,
-                      height: 200),
-                ),
-                Container(
-                    margin: const EdgeInsets.all(50),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: Colors.orange[300]!.withOpacity(0.50),
-                        // border: Border.all(color: Colors.black38, width: 2),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8))),
-                    child: Column(
-                      children: [
-                        Text(screenTitle[position],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        const Divider(
-                          color: Colors.white,
-                          height: 25,
-                          thickness: 2,
-                          indent: 5,
-                          endIndent: 5,
-                        ),
-                        Text(screenDescription[position],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.white)),
-                      ],
-                    )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
-                TextButton(
-                    child: const Text('SHAKE (Emulator)'),
-                    onPressed: () {
-                      detector.stopListening();
-                      startTime();
-                    }),
-                TextButton(
-                  onPressed: () {
-                    Get.to('/accountScreen');
-                  },
-                  child: Text(
-                    'Skip',
-                    style: TextStyle(color: Colors.blue[300], fontSize: 24),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+          child: PageView.builder(
+            // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            itemBuilder: (context, position) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Initial countdown beofre the exercise begins
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundColor: const Color(0xffFFA132).withOpacity(0.60),
+                    child: const Image(
+                        image: AssetImage('assets/images/phone.png'),
+                        width: 200,
+                        height: 200),
                   ),
-                ),
-              ],
-            );
-          },
+                  Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 0),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: const Color(0xffFFA132).withOpacity(0.60),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: Column(
+                        children: [
+                          Text(screenTitle[position],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  fontFamily: 'Proxima Nova')),
+                          const Divider(
+                            color: Colors.white,
+                            height: 25,
+                            thickness: 2,
+                            indent: 5,
+                            endIndent: 5,
+                          ),
+                          Text(screenDescription[position],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Proxima Nova')),
+                        ],
+                      )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
+                  TextButton(
+                      child: const Text('SHAKE (Emulator)'),
+                      onPressed: () {
+                        _pageController.jumpToPage(1);
+                        detector.stopListening();
+                        startTime();
+                      }),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed('/accountScreen');
+                    },
+                    child: const Text(
+                      'Skip',
+                      style: TextStyle(
+                          color: Color(0xff4CA7FC),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         )
       ]),
     );
@@ -170,7 +179,6 @@ class ExerciseScreen extends StatefulWidget {
   final String prompt = Get.arguments["prompt"]!;
   final String reason = Get.arguments["reason"]!;
   final String type = Get.arguments["type"]!;
-
 
   @override
   _ExerciseScreenState createState() => _ExerciseScreenState();
@@ -217,159 +225,185 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     'assets/background_images/orange_circles_background.png',
                   ),
                   fit: BoxFit.cover))),
-      PageView.builder(
-          // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          itemBuilder: (context, position) {
-            return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // For the CountDownTimer Widgets
-                  Container(
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Visibility(
-                            visible: position == 0,
-                            child: InitialCountdownWidget(
-                                pageController: _pageController,
-                                timerController: _timerController,
-                                position: position)),
-                        Visibility(
-                            visible: position == 1,
-                            child: MainCountdownWidget(
-                                pageController: _pageController,
-                                timerController: _timerController,
-                                position: position)),
-                      ],
-                    ),
-                  ),
-                  // Middle Image
-                  Image(
-                      image: AssetImage(
-                        widget.assetImage,
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: PageView.builder(
+            // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            itemBuilder: (context, position) {
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // For the CountDownTimer Widgets
+                    Container(
+                      margin: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Visibility(
+                              visible: position == 0,
+                              child: InitialCountdownWidget(
+                                  pageController: _pageController,
+                                  timerController: _timerController,
+                                  position: position)),
+                          Visibility(
+                              visible: position >= 1,
+                              child: MainCountdownWidget(
+                                  pageController: _pageController,
+                                  timerController: _timerController,
+                                  position: position)),
+                        ],
                       ),
-                      width: 150,
-                      height: 150),
-                  // Holds the text seen on screen
-                  Container(
-                      margin: const EdgeInsets.all(50),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: Colors.orange[300]!.withOpacity(0.50),
-                          // border: Border.all(color: Colors.black38, width: 2),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8))),
-                      child: Column(children: [
-                        // Determines which AnimatedTextKit widget should be shown
-                        (position == 0)
-                            ? const Text('Relax and get ready...',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white))
-                            : (position == 1)
-                                ? SizedBox(
-                                    child: (widget.type == 'Breathing')
-                                        ? const BreathingCycleWidget()
-                                        : (widget.type == 'Walking')
-                                            ? const WalkingCycleWidget()
-                                            : const MeditationCycleWidget(),
-                                    height: 30)
-                                : const Text('Good job!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                        const Divider(
-                          color: Colors.white,
-                          height: 25,
-                          thickness: 2,
-                          indent: 5,
-                          endIndent: 5,
+                    ),
+                    // Middle Image
+                    Expanded(
+                      flex: 2,
+                      child: Image(
+                        image: AssetImage(
+                          widget.assetImage,
                         ),
-                        Text((position == 2) ? widget.reason : widget.prompt,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 19, color: Colors.white)),
-                      ])),
-                  // Button for the user to randomly generate a new exercise
-                  (position == 1)
-                      ? SizedBox(
-                          width: 328,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              padding: const EdgeInsets.all(12),
-                              primary: Colors.blue[400],
-                            ),
-                            onPressed: () {
-                              var randomExercise =
-                                  (otherExercises..shuffle()).first;
-                              Get.toNamed('/exerciseScreen', arguments: {
-                                "assetImage": randomExercise[0],
-                                "prompt": randomExercise[1],
-                                "reason": randomExercise[2],
-                                "type": randomExercise[3]
-                              });
-                            },
-                            child: const Text(
-                              'I want another exercise',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ) // user to the createAccountScreen
-                      : (position == 2)
-                          ? SizedBox(
-                              width: 328,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24),
-                                  ),
-                                  padding: const EdgeInsets.all(12),
-                                  primary: Colors.blue[400],
-                                ),
-                                onPressed: () {
-                                  Get.toNamed('/accountScreen');
-                                },
-                                child: const Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ) // Empty Text widget because the ternary operator needs a widget to be returned
-                          : const Text(''),
-                  // Allows the user to skip the exercises -> proceeds to the createAccountScreen
-                  Visibility(
-                    visible: position <= 1,
-                    child: TextButton(
-                      // style: TextButton.styleFrom(primary: Colors.transparent),
-                      onPressed: () {
-                        Get.toNamed('/accountScreen');
-                      },
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(color: Colors.blue[300], fontSize: 24),
                       ),
                     ),
-                  )
-                ]);
-          })
+                    // Holds the text seen on screen
+                    Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 0),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: const Color(0xffFFA132).withOpacity(0.60),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4))),
+                        child: Column(children: [
+                          // Determines which AnimatedTextKit widget should be shown
+                          (position == 0)
+                              ? const Text('Relax and get ready...',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontFamily: 'Proxima Nova'))
+                              : (position == 1)
+                                  ? SizedBox(
+                                      child: (widget.type == 'Breathing')
+                                          ? const BreathingCycleWidget()
+                                          : (widget.type == 'Walking')
+                                              ? const WalkingCycleWidget()
+                                              : const MeditationCycleWidget(),
+                                      height: 26)
+                                  : const Text('Good job!',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontFamily: 'Proxima Nova')),
+                          const Divider(
+                            color: Colors.white,
+                            height: 25,
+                            thickness: 2,
+                            indent: 5,
+                            endIndent: 5,
+                          ),
+                          Text((position == 2) ? widget.reason : widget.prompt,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Proxima Nova')),
+                        ])),
+                    // Button for the user to randomly generate a new exercise
+                    (position == 1)
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                padding: const EdgeInsets.all(12),
+                                primary: const Color(0xff4CA7FC),
+                              ),
+                              onPressed: () {
+                                var randomExercise =
+                                    (otherExercises..shuffle()).first;
+                                Get.toNamed('/exerciseScreen', arguments: {
+                                  "assetImage": randomExercise[0],
+                                  "prompt": randomExercise[1],
+                                  "reason": randomExercise[2],
+                                  "type": randomExercise[3]
+                                });
+                              },
+                              child: const Text(
+                                'I want another exercise',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontFamily: 'Proxima Nova',
+                                ),
+                              ),
+                            ),
+                          ) // user to the createAccountScreen
+                        : (position == 2)
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 0),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      padding: const EdgeInsets.all(12),
+                                      primary: const Color(0xff4CA7FC),
+                                    ),
+                                    onPressed: () {
+                                      Get.toNamed('/accountScreen');
+                                    },
+                                    child: const Text(
+                                      'Continue',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontFamily: 'Proxima Nova',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ) // Empty Text widget because the ternary operator needs a widget to be returned
+                            : const Text(''),
+                    // Allows the user to skip the exercises -> proceeds to the createAccountScreen
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 0),
+                      child: Visibility(
+                        visible: position <= 1,
+                        child: TextButton(
+                          onPressed: () {
+                            Get.toNamed('/accountScreen');
+                          },
+                          child: const Text(
+                            'Skip',
+                            style: TextStyle(
+                                color: Color(0xff4CA7FC),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]);
+            }),
+      )
     ]));
   }
 }
@@ -389,13 +423,13 @@ class _MeditationCycleWidgetState extends State<MeditationCycleWidget> {
       animatedTexts: [
         FadeAnimatedText('Focus...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
             fadeInEnd: 0.2,
-            fadeOutBegin: 0.3,
+            fadeOutBegin: 0.9,
             duration: const Duration(seconds: 15)),
         FadeAnimatedText('Ground yourself...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
             duration: const Duration(seconds: 15)),
       ],
       totalRepeatCount: 2,
@@ -418,13 +452,13 @@ class _WalkingCycleWidgetState extends State<WalkingCycleWidget> {
       animatedTexts: [
         FadeAnimatedText('Clear your mind',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
             fadeInEnd: 0.2,
-            fadeOutBegin: 0.3,
+            fadeOutBegin: 0.9,
             duration: const Duration(seconds: 15)),
         FadeAnimatedText('Pace yourself carefully',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
             duration: const Duration(seconds: 15)),
       ],
       totalRepeatCount: 2,
@@ -447,21 +481,21 @@ class BreathingCycleWidgetState extends State<BreathingCycleWidget> {
       animatedTexts: [
         FadeAnimatedText('Inhale...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
             fadeInEnd: 0.2,
-            fadeOutBegin: 0.3,
+            fadeOutBegin: 0.7,
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Exhale...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
             textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
             duration: const Duration(seconds: 4)),
       ],
       totalRepeatCount: 4,
@@ -495,14 +529,17 @@ class _InitialCountdownWidgetState extends State<InitialCountdownWidget> {
         controller: widget.timerController,
         width: MediaQuery.of(context).size.width / 3,
         height: MediaQuery.of(context).size.height / 5,
-        ringColor: Colors.orange[300]!,
+        ringColor: const Color(0xffFFB35A),
         fillColor: Colors.orange[100]!,
-        backgroundColor: Colors.orange[500],
+        backgroundColor: const Color(0xffE1871D).withOpacity(0.40),
         backgroundGradient: null,
         strokeWidth: 20.0,
         strokeCap: StrokeCap.round,
         textStyle: const TextStyle(
-            fontSize: 50.0, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 50.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Proxima Nova'),
 
         // Format for the Countdown Text.
         textFormat: CountdownTextFormat.SS,
@@ -538,18 +575,21 @@ class _MainCountdownWidgetState extends State<MainCountdownWidget> {
   @override
   Widget build(BuildContext context) {
     return CircularCountDownTimer(
-        duration: 60,
+        duration: (widget.position == 1) ? 60 : 0,
         initialDuration: 0,
         controller: widget.timerController,
         width: MediaQuery.of(context).size.width / 3,
         height: MediaQuery.of(context).size.height / 5,
-        ringColor: Colors.orange[300]!,
+        ringColor: const Color(0xffFFB35A),
         fillColor: Colors.orange[100]!,
-        backgroundColor: Colors.orange[500],
+        backgroundColor: const Color(0xffE1871D).withOpacity(0.40),
         strokeWidth: 20.0,
         strokeCap: StrokeCap.round,
         textStyle: const TextStyle(
-            fontSize: 50.0, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 50.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Proxima Nova'),
 
         // Format for the Countdown Text.
         textFormat: CountdownTextFormat.SS,
