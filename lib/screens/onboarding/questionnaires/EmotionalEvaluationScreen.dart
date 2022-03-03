@@ -29,11 +29,11 @@ class EmotionalEvaluationScreen extends StatefulWidget {
 }
 
 class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
-  bool isVeryHappy = true;
-  bool isHappy = true;
-  bool isNeutral = true;
-  bool isBad = true;
-  bool isVeryBad = true;
+  bool isVeryHappy = false;
+  bool isHappy = false;
+  bool isNeutral = false;
+  bool isBad = false;
+  bool isVeryBad = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,16 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                 const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
             decoration: BoxDecoration(
                 color: const Color(0xff3290FF).withOpacity(0.60),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
+                borderRadius: const BorderRadius.all(Radius.circular(4))),
             child: const Align(
               alignment: Alignment.topCenter,
               child: Text('How do you feel in this moment?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w400)),
             ),
           ),
         ),
@@ -97,7 +101,11 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     ),
                   ),
                   const Text('Very Happy',
-                      style: TextStyle(fontSize: 18, color: Colors.white))
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white))
                 ],
               ),
             ),
@@ -135,7 +143,11 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     ),
                   ),
                   const Text('Happy',
-                      style: TextStyle(fontSize: 18, color: Colors.white))
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white))
                 ],
               ),
             ),
@@ -171,7 +183,11 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                   ),
                 ),
                 const Text('Neutral',
-                    style: TextStyle(fontSize: 18, color: Colors.white))
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white))
               ],
             ),
           ),
@@ -208,7 +224,11 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     ),
                   ),
                   const Text('Very Bad',
-                      style: TextStyle(fontSize: 18, color: Colors.white))
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white))
                 ],
               ),
             ),
@@ -247,9 +267,10 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                   ),
                   const Text('Bad',
                       style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ))
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white))
                 ],
               ),
             ),
@@ -276,18 +297,18 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     padding: const EdgeInsets.all(10),
-                    primary: (isVeryHappy &&
-                            isHappy &&
-                            isNeutral &&
-                            isBad &&
+                    primary: (isVeryHappy ||
+                            isHappy ||
+                            isNeutral ||
+                            isBad ||
                             isVeryBad)
-                        ? const Color(0xffE2E4E4)
-                        : const Color(0xffFFBE18),
+                        ? const Color(0xffFFBE18)
+                        : const Color(0xffE2E4E4),
                   ),
                   onPressed: () {
-                    (isVeryHappy && isHappy && isNeutral && isBad && isVeryBad)
-                        ? null
-                        : Get.toNamed('/emotionPNScreen');
+                    (isVeryHappy || isHappy || isNeutral || isBad || isVeryBad)
+                        ? Get.toNamed('/emotionPNScreen')
+                        : null;
                   }),
             ),
           ),
