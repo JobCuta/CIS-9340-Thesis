@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../controllers/phqController.dart';
+
 class PHQ9InterpretationScreen extends StatefulWidget {
-  int sum = 0;
-  PHQ9InterpretationScreen({Key? key, required this.sum}) : super(key: key);
+  PHQ9InterpretationScreen({Key? key}) : super(key: key);
 
   @override
   _PHQ9InterpretationScreenState createState() =>
@@ -13,6 +14,8 @@ class PHQ9InterpretationScreen extends StatefulWidget {
 }
 
 class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
+  final PHQController _phqController = Get.put(PHQController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,33 +37,47 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
               const Text(
                   'Here is your PHQ-9 score and proposed treatment action',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
               Text.rich(TextSpan(children: <InlineSpan>[
                 TextSpan(
-                    text: widget.sum.toString(),
-                    style: const TextStyle(fontSize: 64, color: Colors.white)),
+                    text: _phqController.sum.toString(),
+                    style: const TextStyle(
+                        fontSize: 64,
+                        fontFamily: 'Inconsolata',
+                        color: Colors.white)),
                 const TextSpan(
                     text: '/27',
-                    style: TextStyle(fontSize: 64, color: Color(0xffD89512)))
+                    style: TextStyle(
+                        fontSize: 64,
+                        fontFamily: 'Inconsolata',
+                        color: Color(0xffD89512)))
               ])),
               LinearPercentIndicator(
                 linearStrokeCap: LinearStrokeCap.butt,
                 lineHeight: 20,
-                percent: widget.sum / 27,
+                percent: _phqController.sum / 27,
                 progressColor: Colors.white,
                 backgroundColor: const Color(0xffFFE297),
               ),
               Text(
-                  widget.sum >= 20
-                      ? 'Severe'
-                      : widget.sum >= 15
-                          ? 'Moderately Severe'
-                          : widget.sum >= 10
-                              ? 'Moderate'
-                              : widget.sum >= 5
-                                  ? 'Mild'
-                                  : 'None - Minimal',
-                  style: const TextStyle(color: Colors.white, fontSize: 32)),
+                  _phqController.sum >= 20
+                      ? 'Severe Depression'
+                      : _phqController.sum >= 15
+                          ? 'Moderately Severe Depression'
+                          : _phqController.sum >= 10
+                              ? 'Moderate Depression'
+                              : _phqController.sum >= 5
+                                  ? 'Mild Depression'
+                                  : 'None - Minimal Depression',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova')),
               Container(
                 // height: 100,
                 width: double.infinity,
@@ -72,18 +89,21 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(8))),
                 child: Center(
                   child: Text(
-                      widget.sum >= 20
+                      _phqController.sum >= 20
                           ? 'Immediate initiation of pharmacotherapy and, if severe impairment or poor response to therapy, expedited referral to a mental health specialist for psychotherapy and/or collaborative management'
-                          : widget.sum >= 15
+                          : _phqController.sum >= 15
                               ? 'Active treatment with pharmacotherapy and/or psychotherapy'
-                              : widget.sum >= 10
+                              : _phqController.sum >= 10
                                   ? 'Treatment plan, considering counseling, follow-up and/or pharmacotherapy'
-                                  : widget.sum >= 5
+                                  : _phqController.sum >= 5
                                       ? 'Watchful waiting; repeat PHQ-9 at follow-up'
                                       : 'None',
                       textAlign: TextAlign.center,
-                      style:
-                          const TextStyle(color: Colors.white, fontSize: 16)),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w400)),
                 ),
               ),
             ],
@@ -93,11 +113,16 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
           child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                width: 328,
+                width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
                     child: const Text('Take me to Kasiyanna',
-                        style: TextStyle(fontSize: 20)),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        )),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(

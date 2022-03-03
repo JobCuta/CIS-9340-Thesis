@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-import 'SetNotificationScreen.dart';
+import '../../../controllers/emotionController.dart';
 
 void main() {
   runApp(
@@ -23,41 +23,6 @@ class Emotion {
   toString() => name;
 }
 
-class EmotionController extends GetxController {
-  final _selectedPositiveEmotions = [].obs;
-  final _selectedNegativeEmotions = [].obs;
-  var isValid = false.obs;
-
-  void addPositiveEmotion(emotion) {
-    _selectedPositiveEmotions.add(emotion);
-    isValid.value = _selectedPositiveEmotions.isNotEmpty ||
-        _selectedNegativeEmotions.isNotEmpty;
-    update();
-  }
-
-  void updatePositiveEmotion(emotion) {
-    _selectedPositiveEmotions.value = emotion;
-    isValid.value = _selectedPositiveEmotions.isNotEmpty ||
-        _selectedNegativeEmotions.isNotEmpty;
-    update();
-  }
-
-  void addNegativeEmotion(emotion) {
-    _selectedNegativeEmotions.add(emotion);
-    isValid.value = _selectedPositiveEmotions.isNotEmpty ||
-        _selectedNegativeEmotions.isNotEmpty;
-    update();
-  }
-
-  void updateNegativeEmotion(emotion) {
-    _selectedNegativeEmotions.value = emotion;
-    isValid.value = _selectedPositiveEmotions.isNotEmpty ||
-        _selectedNegativeEmotions.isNotEmpty;
-    update();
-  }
-}
-
-// I need help with listeners to rebuild the app when the user can proceed (changing the color based on the content of the list/s)
 class EmotionalEvaluationPositiveNegativeScreen extends StatefulWidget {
   const EmotionalEvaluationPositiveNegativeScreen({key}) : super(key: key);
 
@@ -113,20 +78,22 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                   ),
                   fit: BoxFit.cover))),
       Padding(
-        padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
+        padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Container(
-          height: 50,
-          // width: double.infinity,
+          height: 75,
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
-          // vertical: 10.0, horizontal: 18.0),
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
+              borderRadius: const BorderRadius.all(Radius.circular(4))),
           child: const Align(
             alignment: Alignment.topCenter,
             child: Text('Which emotion best apply to you now?',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 18)),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w400)),
           ),
         ),
       ),
@@ -140,69 +107,150 @@ class _EmotionalEvaluationPositiveNegativeScreenState
               width: double.infinity,
               child: Wrap(runSpacing: 10, children: [
                 // Chips
-                const Text('Positive',
-                    style: TextStyle(color: Colors.white, fontSize: 20)),
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(24)),
-                      // border: Border.all(color: Colors.white, width: 1),
-                    ),
-                    child: GetBuilder<EmotionController>(
-                      builder: (value) => MultiSelectChipField<Emotion?>(
-                        scroll: false,
-                        showHeader: false,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white)),
-                        headerColor: Colors.white,
-                        title: const Text('Positive Emotions'),
-                        textStyle: const TextStyle(color: Color(0xff4CA7FC)),
-                        selectedChipColor: const Color(0xff4CA7FC),
-                        selectedTextStyle: const TextStyle(
+                // const Text('Positive',
+                //     style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 16,
+                //         fontFamily: 'Proxima Nova',
+                //         fontWeight: FontWeight.w600)),
+                // Container(
+                //     padding: const EdgeInsets.all(8),
+                //     decoration: const BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.all(Radius.circular(24)),
+                //       // border: Border.all(color: Colors.white, width: 1),
+                //     ),
+                //     child: GetBuilder<EmotionController>(
+                //       builder: (value) => MultiSelectChipField<Emotion?>(
+                //         scroll: false,
+                //         showHeader: false,
+                //         decoration: BoxDecoration(
+                //             border: Border.all(color: Colors.white)),
+                //         textStyle: const TextStyle(
+                //             color: Color(0xff4CA7FC),
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w600,
+                //             fontFamily: 'Proxima Nova'),
+                //         selectedChipColor: const Color(0xff4CA7FC),
+                //         selectedTextStyle: const TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w600,
+                //             fontFamily: 'Proxima Nova'),
+                //         items: _positiveEmotionsItems,
+                //         onTap: (values) {
+                //           _emotionController.updatePositiveEmotion(values);
+                //         },
+                //       ),
+                //     )),
+
+                // const Text('Negative',
+                //     style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 16,
+                //         fontFamily: 'Proxima Nova',
+                //         fontWeight: FontWeight.w600)),
+
+                // Container(
+                //   padding: const EdgeInsets.all(8),
+                //   decoration: const BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.all(Radius.circular(24)),
+                //   ),
+                //   child: MultiSelectChipField<Emotion?>(
+                //     scroll: false,
+                //     showHeader: false,
+                //     decoration:
+                //         BoxDecoration(border: Border.all(color: Colors.white)),
+                //     textStyle: const TextStyle(
+                //         color: Color(0xff4CA7FC),
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.w600,
+                //         fontFamily: 'Proxima Nova'),
+                //     selectedChipColor: const Color(0xff4CA7FC),
+                //     selectedTextStyle: const TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.w600,
+                //         fontFamily: 'Proxima Nova'),
+                //     items: _negativeEmotionsItems,
+                //     // icon: Icon(Icons.check),
+                //     onTap: (values) {
+                //       _emotionController.updateNegativeEmotion(values);
+                //     },
+                //   ),
+                // ),
+
+                // DROPDOWNS
+                GetBuilder<EmotionController>(
+                  builder: (value) => Container(
+                      padding: const EdgeInsets.all(15.0),
+                      decoration: const BoxDecoration(
                           color: Colors.white,
-                        ),
+                          borderRadius: BorderRadius.all(Radius.circular(24))),
+                      child: MultiSelectBottomSheetField<Emotion?>(
+                        initialChildSize: 0.3,
+                        listType: MultiSelectListType.CHIP,
+                        searchable: true,
+                        buttonText: Text("Positive Emotions",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Proxima Nova',
+                                color: (_emotionController
+                                        .isPositiveNotEmpty.value)
+                                    ? const Color(0xff4CA7FC)
+                                    : const Color(0xff778083))),
+                        title: const Text("Search for your emotion",
+                            style: TextStyle(fontSize: 16)),
                         items: _positiveEmotionsItems,
-                        // icon: Icon(Icons.check),
-                        onTap: (values) {
+                        onConfirm: (values) {
                           _emotionController.updatePositiveEmotion(values);
-                          // setState() {
-                          // _selectedPositiveFlag =
-                          // _selectedPositiveEmotions.isNotEmpty;
-                          // }
-//
-                          // print(_selectedPositiveEmotions);
                         },
-                      ),
-                    )),
-
-                const Text('Negative',
-                    style: TextStyle(color: Colors.white, fontSize: 20)),
-
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(24)),
-                  ),
-                  child: MultiSelectChipField<Emotion?>(
-                    scroll: false,
-                    showHeader: false,
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.white)),
-                    headerColor: Colors.white,
-                    title: const Text('Negative Emotions'),
-                    textStyle: const TextStyle(color: Color(0xff4CA7FC)),
-                    selectedChipColor: const Color(0xff4CA7FC),
-                    selectedTextStyle: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    items: _negativeEmotionsItems,
-                    // icon: Icon(Icons.check),
-                    onTap: (values) {
-                      _emotionController.updateNegativeEmotion(values);
-                    },
-                  ),
+                        chipDisplay: MultiSelectChipDisplay(
+                          chipColor: const Color(0xff4CA7FC),
+                          textStyle: const TextStyle(color: Colors.white),
+                          onTap: (item) {
+                            setState(() {
+                              _emotionController.removePositive(item);
+                            });
+                          },
+                        ),
+                      )),
+                ),
+                GetBuilder<EmotionController>(
+                  builder: (value) => Container(
+                      padding: const EdgeInsets.all(15.0),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(24))),
+                      child: MultiSelectBottomSheetField<Emotion?>(
+                        initialChildSize: 0.3,
+                        listType: MultiSelectListType.CHIP,
+                        searchable: true,
+                        buttonText: Text("Negative Emotions",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Proxima Nova',
+                                color: (_emotionController
+                                        .isNegativeNotEmpty.value)
+                                    ? const Color(0xff4CA7FC)
+                                    : const Color(0xff778083))),
+                        title: const Text("Search for your emotion",
+                            style: TextStyle(fontSize: 16)),
+                        items: _negativeEmotionsItems,
+                        onConfirm: (values) {
+                          _emotionController.updateNegativeEmotion(values);
+                        },
+                        chipDisplay: MultiSelectChipDisplay(
+                          chipColor: const Color(0xff4CA7FC),
+                          textStyle: const TextStyle(color: Colors.white),
+                          onTap: (item) {
+                            _emotionController.removeNegative(item);
+                          },
+                        ),
+                      )),
                 ),
               ]),
             )
@@ -222,8 +270,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                       'Done!',
                       style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          fontFamily: 'Proxima Nova'),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -246,6 +295,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                       'One last thing...',
                                       style: TextStyle(
                                         color: Color(0xffFFC122),
+                                        fontFamily: 'Proxima Nova',
                                         fontSize: 30,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -258,8 +308,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                         const Text(
                                           'These questions will be asked to you 3 times a day. Would you like to be reminded when to answer them?',
                                           style: TextStyle(
-                                            fontSize: 18.0,
-                                          ),
+                                              fontSize: 18.0,
+                                              fontFamily: 'Proxima Nova',
+                                              fontWeight: FontWeight.w400),
                                           textAlign: TextAlign.center,
                                         ),
                                         const Padding(
@@ -276,13 +327,11 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                               'assets/images/notification_bell.png'),
                                         ),
                                         Container(
-                                          width: double.infinity,
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           height: 50,
-                                          margin: const EdgeInsets.fromLTRB(
-                                              15, 10, 15, 10),
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30))),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 0),
                                           child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 elevation: 0,
@@ -290,8 +339,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                     const Color(0xffFFC122),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                               child: const Text(
@@ -304,14 +352,16 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Get.offAndToNamed('/notifScreen');
+                                                Get.offAndToNamed(
+                                                    '/notifScreen');
                                               }),
                                         ),
                                         Container(
-                                          width: double.infinity,
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           height: 50,
-                                          margin: const EdgeInsets.fromLTRB(
-                                              15, 0, 15, 0),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 0),
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color:
@@ -326,8 +376,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                 primary: Colors.white,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
+                                                      BorderRadius.circular(24),
                                                 ),
                                               ),
                                               child: const Text(
@@ -340,7 +389,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Navigator.pop(context);
+                                                Get.back();
+                                                Get.toNamed(
+                                                    '/phqloadingScreen');
                                               }),
                                         )
                                       ],

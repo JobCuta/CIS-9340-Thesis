@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/emotionController.dart';
 import 'EmotionalEvaluationPositiveNegativeScreen.dart';
 
 void main() {
@@ -37,6 +38,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final EmotionController _emotionController = Get.put(EmotionController());
+
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -79,6 +82,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
+                        _emotionController.updateMainEmotion('Very Happy');
                         setState(() {
                           isVeryHappy = true;
                           isHappy = false;
@@ -122,6 +126,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
+                        _emotionController.updateMainEmotion('Happy');
+
                         setState(() {
                           isVeryHappy = false;
                           isHappy = true;
@@ -162,6 +168,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
+                      _emotionController.updateMainEmotion('Neutral');
                       setState(() {
                         isVeryHappy = false;
                         isHappy = false;
@@ -202,6 +209,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
+                        _emotionController.updateMainEmotion('Very Bad');
                         setState(() {
                           isVeryHappy = false;
                           isHappy = false;
@@ -245,6 +253,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
+                        _emotionController.updateMainEmotion('Bad');
                         setState(() {
                           isVeryHappy = false;
                           isHappy = false;

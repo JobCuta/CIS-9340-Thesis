@@ -111,6 +111,9 @@ flutter:
         - asset: assets/fonts/proxima-nova-semibold.otf
         - asset: assets/fonts/Proxima Nova Bold.otf
           weight: 700
+    - family: Inconsolata
+      fonts:
+        - asset: assets/fonts/Inconsolata-Regular.ttf
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

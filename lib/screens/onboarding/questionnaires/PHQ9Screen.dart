@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import '../../../controllers/phqController.dart';
+
 class PHQ9Screen extends StatefulWidget {
   const PHQ9Screen({Key? key, bool? initialAssessment}) : super(key: key);
 
@@ -60,7 +62,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
   ];
 
   // corresponding values for the user's answers
-  final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  final PHQController _phqController = Get.put(PHQController());
 
   @override
   Widget build(BuildContext context) {
@@ -144,14 +148,16 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                 //  stores the value selected by the user so they can view their previous choices when they go back
                                 answers[position] = newValue ?? "";
                                 // stores the equivalent value based on the user's answer to the question
-                                answerValues[position] = (newValue ==
-                                        'Nearly every day')
-                                    ? 3
-                                    : (newValue == 'More than half the days')
-                                        ? 2
-                                        : (newValue == 'Several days')
-                                            ? 1
-                                            : 0;
+                                _phqController.updateValues(
+                                    position,
+                                    (newValue == 'Nearly every day')
+                                        ? 3
+                                        : (newValue ==
+                                                'More than half the days')
+                                            ? 2
+                                            : (newValue == 'Several days')
+                                                ? 1
+                                                : 0);
                               });
                             },
                             items: options.map((String items) {
@@ -200,7 +206,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               onPressed: () {
                                 (position == 0)
                                     ? Get.toNamed('/assessScreen')
-                                    : Get.back();
+                                    : _pageController.jumpToPage(position - 1);
                               }),
                         ),
                       ),
@@ -229,7 +235,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Get.to('/phqScreen')
+                                    ? Get.toNamed('/phqInterpretationScreen')
                                     // Checks if the user selected a valid value
                                     : (answers[position] == 'Pick an option')
                                         ? null
