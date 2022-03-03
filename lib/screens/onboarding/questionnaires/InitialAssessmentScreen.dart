@@ -31,7 +31,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                   ),
                   fit: BoxFit.cover))),
       Container(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 50),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
           child: Center(
               child: Wrap(
                   runSpacing: 30,
@@ -41,17 +41,23 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                        fontSize: 20,
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w600)),
                 Text(
                     'The questions will be about yourself, how you go through with and your physical well-being...',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 14)),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: 'Proxima Nova',
+                    )),
                 Text('Feedback will be given right after.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontFamily: 'Proxima Nova',
+                      fontSize: 16,
                     )),
               ]))),
       Container(
@@ -59,12 +65,14 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
           child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                width: 328,
+                width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
                     child: const Text('Next',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Proxima Nova',
+                            fontSize: 20)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
