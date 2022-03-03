@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-
 class PHQ9Screen extends StatefulWidget {
   const PHQ9Screen({Key? key, bool? initialAssessment}) : super(key: key);
 
@@ -83,14 +82,17 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
               // Keeps the StepProgressIndicator in the same spot
               Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                    const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: StepProgressIndicator(
+                    selectedSize: 8.0,
+                    unselectedSize: 8.0,
+                    roundedEdges: const Radius.circular(4),
                     totalSteps: questions.length,
                     currentStep: position + 1,
                     selectedColor: Colors.white,
-                    unselectedColor: const Color(0xff004479),
+                    unselectedColor: const Color(0xffA1D6FF),
                   ),
                 ),
               ),
@@ -107,20 +109,21 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                           height: 200,
                           image: AssetImage(assetImages[position])),
                       Container(
-                        // height: 100,
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(
                             vertical: 13.0, horizontal: 14.0),
                         decoration: BoxDecoration(
                             color: const Color(0xff3290FF).withOpacity(0.60),
-                            // border: Border.all(color: Colors.black38, width: 2),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8))),
                         child: Center(
                           child: Text(questions[position],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 20)),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Proxima Nova',
+                                  color: Colors.white)),
                         ),
                       ),
                       DecoratedBox(
@@ -153,7 +156,15 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             },
                             items: options.map((String items) {
                               return DropdownMenuItem(
-                                  value: items, child: Text(items));
+                                  value: items,
+                                  child: Text(
+                                    items,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Proxima Nova',
+                                        color: Color(0xff5E6668)),
+                                  ));
                             }).toList(),
                           ),
                         ),
@@ -174,8 +185,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                 'Previous',
                                 style: TextStyle(
                                     color: Color(0xffFFBE18),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Proxima Nova',
+                                    fontSize: 20),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -201,8 +213,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                 'Next',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Proxima Nova',
+                                    fontSize: 20),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
