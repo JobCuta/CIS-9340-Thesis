@@ -108,180 +108,184 @@ class _AnonymousState extends State<AnonymousWidget> {
         image: AssetImage('assets/background_images/bahag_background.png'),
         fit: BoxFit.fill,
       )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.grey[850],
-            ),
-            onPressed: () {
-              //Navigation
-            },
-          ),
+      child: Center(
+        child: Scaffold(
           backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: SizedBox(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Center(
-                      child: Text(
-                    'Staying Anonymous',
-                    style: TextStyle(
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.grey[850],
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
+          body: SizedBox(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Center(
+                        child: Text(
+                      'Staying anonymous',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30,
+                          fontFamily: 'Proxima Nova'),
+                    )),
+                  ),
+                  const Center(
+                    child: Text(
+                      'What do you want us to call you?',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        fontFamily: 'Proxima Nova',
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 35.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Form(
+                      key: _form,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: const [
+                              Text(
+                                'Nickname',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromRGBO(94, 102, 104, 1),
+                                  fontFamily: 'Proxima Nova',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            child: TextFormField(
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              decoration: InputDecoration(
+                                isDense: true,
+                                border: const OutlineInputBorder(),
+                                hintText: 'Enter your name',
+                                fillColor: Colors.white,
+                                filled: true,
+                                hintStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey.shade600,
+                                    fontFamily: 'Proxima Nova'),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12.0, horizontal: 15.0),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                )),
+                              ),
+                              onChanged: (val) {
+                                setState(() => nickName = val);
+                              },
+                              validator: (input) {
+                                if (input == null || input.isEmpty) {
+                                  return 'This field is required.';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 400.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          bottomSheet: Container(
+            width: double.infinity,
+            height: 120,
+            margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+            child: ListView(
+              children: [
+                SizedBox(
+                  width: 328,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      primary: Colors.green[400],
+                    ),
+                    onPressed: () {
+                      if (_form.currentState!.validate()) {
+                        Get.to(_buildPopupDialog(context));
+                      }
+                    },
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        fontFamily: 'Proxima Nova'),
-                  )),
-                ),
-                const Center(
-                  child: Text(
-                    'What do you want us to call you?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      fontFamily: 'Proxima Nova',
-                      color: Colors.black,
+                        fontFamily: 'Proxima Nova',
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 35.0,
+                  height: 10.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Form(
-                    key: _form,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: const [
-                            Text(
-                              'Nickname',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromRGBO(94, 102, 104, 1),
-                                fontFamily: 'Proxima Nova',
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        SizedBox(
-                          child: TextFormField(
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                            ),
-                            decoration: InputDecoration(
-                              isDense: true,
-                              border: const OutlineInputBorder(),
-                              hintText: 'Enter your name',
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey.shade600,
-                                  fontFamily: 'Proxima Nova'),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 12.0, horizontal: 15.0),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                color: Colors.grey.shade300,
-                              )),
-                            ),
-                            onChanged: (val) {
-                              setState(() => nickName = val);
-                            },
-                            validator: (input) {
-                              if (input == null || input.isEmpty) {
-                                return 'This field is required.';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 400.0,
-                        ),
-                      ],
+                SizedBox(
+                  width: 328,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: Colors.grey.shade300)
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      primary: Colors.white,
+                    ),
+                    onPressed: () {
+                      //navigate to next page
+                      Get.back();
+                    },
+                    child: Text(
+                      'I changed my mind...',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Proxima Nova',
+                        color: Colors.green[400],
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        bottomSheet: Container(
-          width: double.infinity,
-          height: 120,
-          margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-          child: ListView(
-            children: [
-              SizedBox(
-                width: 328,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    primary: Colors.green[400],
-                  ),
-                  onPressed: () {
-                    if (_form.currentState!.validate()) {
-                      Get.to(_buildPopupDialog(context));
-                    }
-                  },
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Proxima Nova',
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              SizedBox(
-                width: 328,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    primary: Colors.white,
-                  ),
-                  onPressed: () {
-                    //navigate to next page
-                    Get.toNamed('/aboutselfScreen');
-                  },
-                  child: Text(
-                    'I changed my mind...',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Proxima Nova',
-                      color: Colors.green[400],
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),
