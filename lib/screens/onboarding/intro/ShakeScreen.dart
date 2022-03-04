@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
-import 'package:shake/shake.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
@@ -24,28 +23,18 @@ class _ShakeScreenState extends State<ShakeScreen> {
   final PageController _pageController = PageController();
 
   List<String> screenTitle = [
-    'Shake your phone!',
-    'Randomising...',
+    'Randomizing...',
   ];
 
   List<String> screenDescription = [
-    'Randomize the first exercise you will do!',
     "Let's see what you'll get!",
   ];
-
-  late ShakeDetector detector;
 
   @override
   void initState() {
     super.initState();
-
     // function for the detector (only starts after initialization)
-    detector = ShakeDetector.waitForStart(onPhoneShake: () {
-      _pageController.jumpToPage(1);
-      detector.stopListening();
-      startTime();
-    });
-    detector.startListening();
+    startTime();
   }
 
   startTime() async {
@@ -142,25 +131,6 @@ class _ShakeScreenState extends State<ShakeScreen> {
                                   fontFamily: 'Proxima Nova')),
                         ],
                       )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
-                  TextButton(
-                      child: const Text('SHAKE (Emulator)'),
-                      onPressed: () {
-                        _pageController.jumpToPage(1);
-                        detector.stopListening();
-                        startTime();
-                      }),
-                  TextButton(
-                    onPressed: () {
-                      Get.toNamed('/accountScreen');
-                    },
-                    child: const Text(
-                      'Skip',
-                      style: TextStyle(
-                          color: Color(0xff4CA7FC),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
                 ],
               );
             },

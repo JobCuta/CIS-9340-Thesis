@@ -30,7 +30,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/assessScreen',
+        initialRoute: '/shakeScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
