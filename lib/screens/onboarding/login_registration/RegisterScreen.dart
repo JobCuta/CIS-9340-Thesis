@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
-import 'AboutSelfScreen.dart';
 
 void main() {
   runApp(const RegisterScreen());
@@ -42,14 +41,13 @@ class _RegisterState extends State<RegisterWidget> {
   String email = '';
   String password = '';
   String confirmPassword = '';
-  String error = '';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   handleRegistration() async {
     var response = await UserProvider()
         .register(RegisterForm(email, password, confirmPassword));
     log('response $response');
-    return (response["status"]);
+    return (response);
   }
 
   @override
@@ -327,15 +325,17 @@ class _RegisterState extends State<RegisterWidget> {
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      bool result = await handleRegistration();
-                                      if (result) {
+                                      print('registering..');
+                                      var result = await handleRegistration();
+                                      print('result $result');
+                                      if (result["status"]) {
                                         Get.toNamed('aboutSelfScreen');
                                       } else {
                                         Get.snackbar(
-                                          "Log in failed",
-                                          error,
+                                          "Server Error Occurred during Registration",
+                                          result["message"],
                                           snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.red,
+                                          backgroundColor: Colors.white,
                                         );
                                       }
                                     }

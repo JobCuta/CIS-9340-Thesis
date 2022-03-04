@@ -328,27 +328,25 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                 padding: const EdgeInsets.all(12),
                                 primary: const Color(0xff4CA7FC),
                               ),
-                              onPressed: () {
-                                var randomExercise =
-                                    (otherExercises..shuffle()).first;
-                                Get.toNamed('/exerciseScreen', arguments: {
-                                  "assetImage": randomExercise[0],
-                                  "prompt": randomExercise[1],
-                                  "reason": randomExercise[2],
-                                  "type": randomExercise[3]
-                                });
-                              },
-                              child: const Text(
-                                'I want another exercise',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  fontFamily: 'Proxima Nova',
-                                ),
+                            onPressed: () {
+                              var randomExercise =
+                                  (otherExercises..shuffle()).first;
+                              Get.offAndToNamed('/exerciseScreen', arguments: {
+                                "assetImage": randomExercise[0],
+                                "prompt": randomExercise[1],
+                                "reason": randomExercise[2],
+                                "type": randomExercise[3]
+                              });
+                            },
+                            child: const Text(
+                              'I want another exercise',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
                               ),
                             ),
                           ) // user to the createAccountScreen
+                        )
                         : (position == 2)
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
