@@ -46,7 +46,7 @@ class _RegisterState extends State<RegisterWidget> {
   handleRegistration() async {
     var response = await UserProvider()
         .register(RegisterForm(email, password, confirmPassword));
-    log('response $response');
+    print('asdf ${response}');
     return (response);
   }
 
@@ -325,11 +325,11 @@ class _RegisterState extends State<RegisterWidget> {
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      print('registering..');
                                       var result = await handleRegistration();
-                                      print('result $result');
                                       if (result["status"]) {
-                                        Get.toNamed('aboutSelfScreen');
+                                        Get.toNamed('/aboutSelfScreen',
+                                            arguments: {"email": email},
+                                            preventDuplicates: false);
                                       } else {
                                         Get.snackbar(
                                           "Server Error Occurred during Registration",
@@ -338,6 +338,8 @@ class _RegisterState extends State<RegisterWidget> {
                                           backgroundColor: Colors.white,
                                         );
                                       }
+                                      // Get.toNamed('/aboutSelfScreen',
+                                      //     arguments: {"email" : email});
                                     }
                                     //navigate to next page
                                   }

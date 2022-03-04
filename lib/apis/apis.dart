@@ -11,7 +11,7 @@ class UserProvider extends GetConnect {
     "login": "api/v1/auth/login/",
     "logout": "api/v1/auth/logout/",
     "register": "api/v1/auth/registration/",
-    "forgot": "api/v1/auth/forgot/",
+    "forgot": "api/v1/auth/reset/",
     "getUser": "api/v1/auth/user/",
   };
 
@@ -39,6 +39,7 @@ class UserProvider extends GetConnect {
 
   Future register(RegisterForm userData) async {
     final response = await post(domain + paths["register"], userData.form());
+    print('register response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
     bool status = false;
@@ -51,9 +52,9 @@ class UserProvider extends GetConnect {
         message = map["non_field_errors"].join(",");
       }
     } else {
-      if (map.containsKey("details")) {
+      if (map.containsKey("detail")) {
         status = true;
-        message = map["details"];
+        message = map["detail"];
       } else {
         message =
             "Unknown error occured verifying user details during registration";
@@ -62,12 +63,20 @@ class UserProvider extends GetConnect {
     return {"message": message, "status": status};
   }
 
-  Future<bool> forgotPassword(String email) async {
-    final response = await post(domain + paths["forgot"], email);
+  Future forgotPassword(String email) async {
+    final response = await post(domain + paths["forgot"], {"email": email});
+    print('response ${response.body}');
+    var map = Map<String, dynamic>.from(response.body);
     if (response.hasError) {
-      return false;
+      if (map.containsKey("detail")) {
+        return {"status": false, "detail": map["detail"]};
+      } else if (map.containsKey("email")) {
+        return {"status": false, "email": map["email"][0]};
+      } else {
+        return {"status": false, "detail": "Uncaught Server Error"};
+      }
     }
-    return true;
+    return {"status": true, "detail": map["detail"]};
   }
 
   //GET
@@ -78,9 +87,10 @@ class UserProvider extends GetConnect {
     String? authKey = await UserSecureStorage.getLoginKey();
     final response = await put(domain + paths["getUser"], userData.form(),
         headers: {"Authorization": "Token " + authKey!});
+    print('update user response ${response.body} ${authKey}');
     if (response.hasError) {
       return false;
     }
-      return true;
+    return true;
   }
 }

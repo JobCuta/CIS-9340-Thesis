@@ -10,15 +10,7 @@ class LoadingResultsScreen extends StatelessWidget {
   const LoadingResultsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const GetMaterialApp(
-        home: Scaffold(
-          body: SafeArea(
-            child: LoadingResultsScreenWidget(),
-          ),
-        ),
-    );
-  }
+  Widget build(BuildContext context) => const LoadingResultsScreenWidget();
 }
 
 class LoadingResultsScreenWidget extends StatefulWidget {
@@ -42,7 +34,11 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
   }
 
   route() {
-    Get.to(nextScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1),);
+    Get.to(
+      nextScreen(),
+      transition: Transition.fadeIn,
+      duration: const Duration(seconds: 1),
+    );
   }
 
   @override

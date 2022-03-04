@@ -5,8 +5,6 @@ import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
-import 'ForgotPasswordScreen.dart';
-
 void main() => runApp(const LoginScreen());
 
 class LoginScreen extends StatelessWidget {
@@ -245,7 +243,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Get.toNamed('forgotScreen');
+                                  Get.toNamed('/forgotScreen');
                                   //Go to Forgot Your Password Screen
                                 },
                                 child: Text(

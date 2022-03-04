@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -34,7 +35,8 @@ class Main extends StatelessWidget {
         //login_registration
         GetPage(
             name: '/accountScreen', page: () => const CreateAccountScreen()),
-        GetPage(name: '/aboutselfScreen', page: () => const AboutSelfScreen()),
+        GetPage(name: '/aboutSelfScreen', page: () => const AboutSelfScreen()),
+        GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
         GetPage(
             name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
         //questionnaires

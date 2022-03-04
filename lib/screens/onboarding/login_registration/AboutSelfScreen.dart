@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'AnonymousScreen.dart';
 import 'LoginScreen.dart';
 //import 'package:table_calendar/table_calendar.dart';
 
@@ -17,16 +15,7 @@ class AboutSelfScreen extends StatelessWidget {
   const AboutSelfScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: const AboutSelfWidget(),
-      theme: ThemeData(
-        bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: Color.fromRGBO(242, 255, 245, 1.0),
-        )
-      ),
-    );
-  }
+  Widget build(BuildContext context) => const AboutSelfWidget();
 }
 
 class AboutSelfWidget extends StatefulWidget {
@@ -37,6 +26,7 @@ class AboutSelfWidget extends StatefulWidget {
 }
 
 class _AboutSelfState extends State<AboutSelfWidget> {
+  String email = '';
   String firstName = '';
   String lastName = '';
   String nickName = '';
@@ -52,8 +42,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   CalendarFormat format = CalendarFormat.month;
 
   handleUserInfo() async {
-    var response = await UserProvider()
-        .updateUser(UserForm(nickName, firstName, lastName, birthDate, gender!));
+    email = Get.arguments["email"];
+    print('email ${birthDateController.text} ${Get.arguments["email"]}');
+    var response = await UserProvider().updateUser(
+        UserForm(email, firstName, lastName, nickName, birthDateController.text, gender!));
     return response;
   }
 
@@ -74,7 +66,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      builder: (BuildContext context, Widget ? child) {
+      builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData(
             textTheme: TextTheme(
@@ -87,11 +79,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               onPrimary: Colors.white,
               surface: Colors.black,
               onSurface: Colors.black,
-              secondary: Colors.black,),
-              dialogBackgroundColor: Colors.white,
+              secondary: Colors.black,
             ),
+            dialogBackgroundColor: Colors.white,
+          ),
           child: child ?? const Text(''),
-          );
+        );
       },
       initialDate: selectedDate,
       firstDate: DateTime(1950),
@@ -104,7 +97,6 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     }
     birthDateController.text = DateFormat('yyyy-MM-d').format(selectedDate);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +399,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     ),
                     onPressed: () {
                       //navigate to next page
-                      Get.to(const AnonymousWidget());
+                      Get.toNamed('/anonScreen',
+                          arguments: {"email": Get.parameters["email"]});
                     },
                     child: Text(
                       'Stay Anonymous',
@@ -493,7 +486,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             focusedDay: _focusedDay,
             calendarFormat: CalendarFormat.month,
             headerStyle: HeaderStyle(
-                titleTextFormatter: (date, locale) => DateFormat.yMMM(locale).format(date),
+                titleTextFormatter: (date, locale) =>
+                    DateFormat.yMMM(locale).format(date),
                 titleCentered: true,
                 titleTextStyle: const TextStyle(
                   color: Colors.black,
@@ -501,16 +495,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   fontFamily: 'IBM Plex Sans',
                 ),
                 formatButtonVisible: false,
-                leftChevronIcon: Icon(
-                    Icons.chevron_left,
-                    color: Colors.green[400]),
-                rightChevronIcon: Icon(
-                    Icons.chevron_right,
-                    color: Colors.green[400]
-                )
-            ),
+                leftChevronIcon:
+                    Icon(Icons.chevron_left, color: Colors.green[400]),
+                rightChevronIcon:
+                    Icon(Icons.chevron_right, color: Colors.green[400])),
             daysOfWeekStyle: DaysOfWeekStyle(
-              dowTextFormatter: (date, locale) => DateFormat('E').format(date).toUpperCase(),
+              dowTextFormatter: (date, locale) =>
+                  DateFormat('E').format(date).toUpperCase(),
               weekdayStyle: daysTextStyle(),
               weekendStyle: daysTextStyle(),
             ),
@@ -538,10 +529,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
 
   TextStyle captionTextStyle() {
     return const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-        color: Color.fromRGBO(94, 102, 104, 1),
-        fontFamily: 'Proxima Nova',
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: Color.fromRGBO(94, 102, 104, 1),
+      fontFamily: 'Proxima Nova',
     );
   }
 
@@ -552,16 +543,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       fillColor: Colors.white,
       filled: true,
       hintStyle: TextStyle(
-        fontWeight: FontWeight.w400,
-        color: Colors.grey.shade600,
-          fontFamily: 'Proxima Nova'
-      ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          fontWeight: FontWeight.w400,
+          color: Colors.grey.shade600,
+          fontFamily: 'Proxima Nova'),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.grey.shade300,
-          )
-      ),
+        color: Colors.grey.shade300,
+      )),
     );
   }
 

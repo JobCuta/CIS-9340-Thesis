@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'AboutSelfScreen.dart';
-import 'LoginScreen.dart';
 
 void main() {
   runApp(const AnonymousScreen());
@@ -14,7 +12,7 @@ class AnonymousScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(home: AnonymousWidget());
+    return const AnonymousWidget();
   }
 }
 
@@ -78,7 +76,7 @@ class _AnonymousState extends State<AnonymousWidget> {
               fixedSize: const Size(245, 50),
             ),
             onPressed: () {
-              Get.toNamed('/loginScreen');
+              Get.offNamed('/loginScreen');
             },
             child: const Text(
               'Okay!',
@@ -271,7 +269,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                     ),
                     onPressed: () {
                       //navigate to next page
-                      Get.back();
+                      Get.offNamed('/aboutSelfScreen', arguments: {"email": ""});
                     },
                     child: Text(
                       'I changed my mind...',
@@ -283,7 +281,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),
