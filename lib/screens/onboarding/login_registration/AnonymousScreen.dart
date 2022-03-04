@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -49,7 +50,7 @@ class _AnonymousState extends State<AnonymousWidget> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
-            child: Image.asset('assets/images/yellow_icon.png'),
+            child: SvgPicture.asset('assets/images/yellow_icon.svg'),
           ),
           const SizedBox(height: 10.0),
           const Text(
@@ -262,14 +263,14 @@ class _AnonymousState extends State<AnonymousWidget> {
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
-                          side: BorderSide(color: Colors.grey.shade300)
-                      ),
+                          side: BorderSide(color: Colors.grey.shade300)),
                       padding: const EdgeInsets.all(10),
                       primary: Colors.white,
                     ),
                     onPressed: () {
                       //navigate to next page
-                      Get.offNamed('/aboutSelfScreen', arguments: {"email": ""});
+                      Get.offNamed('/aboutSelfScreen',
+                          arguments: {"email": ""});
                     },
                     child: Text(
                       'I changed my mind...',

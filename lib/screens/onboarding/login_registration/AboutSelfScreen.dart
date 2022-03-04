@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -44,8 +45,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   handleUserInfo() async {
     email = Get.arguments["email"];
     print('email ${birthDateController.text} ${Get.arguments["email"]}');
-    var response = await UserProvider().updateUser(
-        UserForm(email, firstName, lastName, nickName, birthDateController.text, gender!));
+    var response = await UserProvider().updateUser(UserForm(email, firstName,
+        lastName, nickName, birthDateController.text, gender!));
     return response;
   }
 
@@ -105,10 +106,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background_images/bahag_background.png'),
-            fit: BoxFit.fill,
-          )
-      ),
+        image: AssetImage('assets/background_images/bahag_background.png'),
+        fit: BoxFit.fill,
+      )),
       child: Center(
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -136,12 +136,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
                     child: Center(
                         child: Text(
-                          'Tell us about yourself',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 30,
-                              fontFamily: 'Proxima Nova'),
-                        )),
+                      'Tell us about yourself',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30,
+                          fontFamily: 'Proxima Nova'),
+                    )),
                   ),
                   const Center(
                     child: Text(
@@ -174,7 +174,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           SizedBox(
                             child: TextFormField(
                               style: const TextStyle(fontSize: 14.0),
-                              decoration: textFormFieldDecoration('Enter your first name'),
+                              decoration: textFormFieldDecoration(
+                                  'Enter your first name'),
                               validator: (input) {
                                 if (input == null || input.isEmpty) {
                                   return 'This field is required.';
@@ -202,8 +203,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           SizedBox(
                             child: TextFormField(
-                              style: const TextStyle(fontSize: 14.0,),
-                              decoration: textFormFieldDecoration('Enter your last name'),
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              decoration: textFormFieldDecoration(
+                                  'Enter your last name'),
                               validator: (input) {
                                 if (input == null || input.isEmpty) {
                                   return 'This field is required.';
@@ -218,10 +222,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(height: 20.0),
                           Row(
                             children: [
-                              Text(
-                                  'Nickname (optional)',
-                                  style: captionTextStyle()
-                              ),
+                              Text('Nickname (optional)',
+                                  style: captionTextStyle()),
                             ],
                           ),
                           const SizedBox(height: 5.0),
@@ -230,7 +232,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               style: const TextStyle(
                                 fontSize: 14.0,
                               ),
-                              decoration: textFormFieldDecoration('Enter your Nickname'),
+                              decoration: textFormFieldDecoration(
+                                  'Enter your Nickname'),
                               onChanged: (val) {
                                 setState(() => nickName = val);
                               },
@@ -248,7 +251,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(height: 5.0),
                           SizedBox(
                             child: DropdownButtonFormField(
-                              decoration: textFormFieldDecoration('Enter your gender'),
+                              decoration:
+                                  textFormFieldDecoration('Enter your gender'),
                               value: gender,
                               icon: const Icon(Icons.arrow_drop_down),
                               items: const [
@@ -293,7 +297,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               controller: birthDateController,
                               onTap: () {
                                 // Below line stops keyboard from appearing
-                                FocusScope.of(context).requestFocus(FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
                                 // Show Date Picker Here
                                 _selectDate(context);
                               },
@@ -305,22 +310,21 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 hintStyle: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey.shade600,
-                                    fontFamily: 'Proxima Nova'
-                                ),
+                                    fontFamily: 'Proxima Nova'),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Colors.grey.shade300,
-                                    )
-                                ),
+                                  color: Colors.grey.shade300,
+                                )),
                                 suffixIcon: const Icon(
                                   Icons.calendar_today_outlined,
                                   color: Color.fromRGBO(94, 102, 104, 1),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 15.0),
                               ),
                               onChanged: (val) {
                                 setState(
-                                        () => birthDate = birthDateController.text);
+                                    () => birthDate = birthDateController.text);
                               },
                               validator: (input) {
                                 if (input == null || input.isEmpty) {
@@ -330,7 +334,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 200.0,),
+                          const SizedBox(
+                            height: 200.0,
+                          ),
                         ],
                       ),
                     ),
@@ -388,30 +394,28 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   width: 328,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                          side: BorderSide(color: Colors.grey.shade300)
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                            side: BorderSide(color: Colors.grey.shade300)),
+                        padding: const EdgeInsets.all(10),
+                        primary: Colors.white,
                       ),
-                      padding: const EdgeInsets.all(10),
-                      primary: Colors.white,
-                    ),
-                    onPressed: () {
-                      //navigate to next page
-                      Get.toNamed('/anonScreen',
-                          arguments: {"email": Get.parameters["email"]});
-                    },
-                    child: Text(
-                      'Stay Anonymous',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.green[300],
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )
-                  ),
+                      onPressed: () {
+                        //navigate to next page
+                        Get.toNamed('/anonScreen',
+                            arguments: {"email": Get.parameters["email"]});
+                      },
+                      child: Text(
+                        'Stay Anonymous',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.green[300],
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )),
                 ),
               ],
             ),
@@ -438,7 +442,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           ),
           Padding(
             padding: const EdgeInsets.all(5),
-            child: Image.asset('assets/images/yellow_icon.png'),
+            child: SvgPicture.asset('assets/images/yellow_icon.svg'),
           ),
           const Text(
             'Check your email to confirm your account in order to log in',

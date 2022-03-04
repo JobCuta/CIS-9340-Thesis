@@ -159,7 +159,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Get.back();
+                  Get.toNamed('/phqloadingScreen');
                   // Navigator
                 }),
           ),
@@ -194,7 +194,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Get.back();
+                  Get.toNamed('/phqloadingScreen');
                 }),
           ),
         ),

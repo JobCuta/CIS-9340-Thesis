@@ -52,22 +52,20 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
         Padding(
           padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
           child: Container(
-            height: 50,
+            alignment: Alignment.center,
+            height: 100,
             padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
             decoration: BoxDecoration(
                 color: const Color(0xff3290FF).withOpacity(0.60),
                 borderRadius: const BorderRadius.all(Radius.circular(4))),
-            child: const Align(
-              alignment: Alignment.topCenter,
-              child: Text('How do you feel in this moment?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Proxima Nova',
-                      fontWeight: FontWeight.w400)),
-            ),
+            child: const Text('How do you feel in this moment?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w400)),
           ),
         ),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [

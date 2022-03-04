@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'apis/userSecureStorage.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -15,6 +17,8 @@ import 'package:get/get.dart';
 
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 void main() {
   runApp(const Main());
 }
@@ -25,42 +29,46 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Kasiyanna App',
-      initialRoute: '/',
-      getPages: [
-        //intro
-        GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
-        GetPage(name: '/shakeScreen', page: () => const ShakeScreen()),
-        GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
-        //login_registration
-        GetPage(
-            name: '/accountScreen', page: () => const CreateAccountScreen()),
-        GetPage(name: '/aboutSelfScreen', page: () => const AboutSelfScreen()),
-        GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
-        GetPage(
-            name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
-        //questionnaires
-        GetPage(
-            name: '/assessScreen', page: () => const InitialAssessmentScreen()),
-        GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
-        GetPage(
-            name: '/phqloadingScreen',
-            page: () => const LoadingResultsScreen()),
-        GetPage(
-            name: '/phqInterpretationScreen',
-            page: () => PHQ9InterpretationScreen()),
-        GetPage(
-            name: '/emotionScreen',
-            page: () => const EmotionalEvaluationScreen()),
-        GetPage(
-            name: '/emotionPNScreen',
-            page: () => const EmotionalEvaluationPositiveNegativeScreen()),
-        //notification
-        GetPage(
-            name: '/notifScreen', page: () => const SetNotificationScreen()),
-      ],
-      home:
-          const IntroductionScreen(), //change to screen checking log-in persisence
-    );
+        title: 'Kasiyanna App',
+        initialRoute: '/assessScreen',
+        getPages: [
+          //intro
+          GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
+          GetPage(name: '/shakeScreen', page: () => const ShakeScreen()),
+          GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
+          //login_registration
+          GetPage(
+              name: '/accountScreen', page: () => const CreateAccountScreen()),
+          GetPage(
+              name: '/aboutSelfScreen', page: () => const AboutSelfScreen()),
+          GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
+          GetPage(
+              name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
+          //questionnaires
+          GetPage(
+              name: '/assessScreen',
+              page: () => const InitialAssessmentScreen()),
+          GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
+          GetPage(
+              name: '/phqloadingScreen',
+              page: () => const LoadingResultsScreen()),
+          GetPage(
+              name: '/phqInterpretationScreen',
+              page: () => PHQ9InterpretationScreen()),
+          GetPage(
+              name: '/emotionScreen',
+              page: () => const EmotionalEvaluationScreen()),
+          GetPage(
+              name: '/emotionPNScreen',
+              page: () => const EmotionalEvaluationPositiveNegativeScreen()),
+          //notification
+          GetPage(
+              name: '/notifScreen', page: () => const SetNotificationScreen()),
+        ],
+        home:
+            //change to screen checking log-in persisence
+            // (UserSecureStorage.getLoginKey() == "loginKey")
+            // ? const HomePageScreen():
+            const IntroductionScreen());
   }
 }

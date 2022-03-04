@@ -33,6 +33,9 @@ dependencies:
   # dependency to detect if the user is shaking their phone.  
   shake: ^2.0.0
 
+  # dependency to allow the use of svg images
+  flutter_svg: ^1.0.3
+
   # countdown timer dependency
   circular_countdown_timer: ^0.2.0
 

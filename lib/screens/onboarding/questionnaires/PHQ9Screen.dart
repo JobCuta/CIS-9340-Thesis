@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -50,15 +51,15 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
   ];
 
   final List<String> assetImages = [
-    'assets/images/PHQ9_1.png',
-    'assets/images/PHQ9_2.png',
-    'assets/images/PHQ9_3.png',
-    'assets/images/PHQ9_4.png',
-    'assets/images/PHQ9_5.png',
-    'assets/images/PHQ9_6.png',
-    'assets/images/PHQ9_7.png',
-    'assets/images/PHQ9_8.png',
-    'assets/images/PHQ9_9.png'
+    'assets/images/PHQ9_1.svg',
+    'assets/images/PHQ9_2.svg',
+    'assets/images/PHQ9_3.svg',
+    'assets/images/PHQ9_4.svg',
+    'assets/images/PHQ9_5.svg',
+    'assets/images/PHQ9_6.svg',
+    'assets/images/PHQ9_7.svg',
+    'assets/images/PHQ9_8.svg',
+    'assets/images/PHQ9_9.svg'
   ];
 
   // corresponding values for the user's answers
@@ -108,10 +109,11 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       // PHQ9 Questions
-                      Image(
-                          width: 200,
-                          height: 200,
-                          image: AssetImage(assetImages[position])),
+                      SvgPicture.asset(
+                        assetImages[position],
+                        width: 200,
+                        height: 200,
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(
@@ -235,7 +237,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Get.toNamed('/phqInterpretationScreen')
+                                    ? Get.toNamed('/emotionScreen')
                                     // Checks if the user selected a valid value
                                     : (answers[position] == 'Pick an option')
                                         ? null

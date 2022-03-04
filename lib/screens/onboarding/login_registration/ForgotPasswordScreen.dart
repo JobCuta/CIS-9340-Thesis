@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../apis/apis.dart';
@@ -77,8 +78,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 const SizedBox(
                   height: 15.0,
                 ),
-                const Image(
-                    image: AssetImage('assets/images/forgot_password.png')),
+                SvgPicture.asset('assets/images/forgot_password.svg'),
                 const SizedBox(
                   height: 20.0,
                 ),

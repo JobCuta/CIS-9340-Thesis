@@ -36,29 +36,41 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
               child: Wrap(
                   runSpacing: 30,
                   alignment: WrapAlignment.center,
-                  children: const [
-                Text("We're going to ask you X questions about mental health",
+                  children: [
+                const Text(
+                    "We are going to ask you 9 questions about your mental health",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontFamily: 'Proxima Nova',
                         fontWeight: FontWeight.w600)),
-                Text(
-                    'The questions will be about yourself, how you go through with and your physical well-being...',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Proxima Nova',
-                    )),
-                Text('Feedback will be given right after.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Proxima Nova',
-                      fontSize: 16,
-                    )),
+                Container(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff3290FF).withOpacity(0.60),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4))),
+                    child: Column(children: const [
+                      Text(
+                          'The questions will be about yourself, how you go through with and your physical well-being...',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400)),
+                      SizedBox(height: 50),
+                      Text('Feedback will be given right after.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Proxima Nova',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400)),
+                    ]))
               ]))),
       Container(
           padding: const EdgeInsets.all(20),
@@ -68,7 +80,7 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
-                    child: const Text('Next',
+                    child: const Text("I'm ready!",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Proxima Nova',

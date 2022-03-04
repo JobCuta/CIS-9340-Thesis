@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -80,21 +81,19 @@ class _EmotionalEvaluationPositiveNegativeScreenState
       Padding(
         padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
         child: Container(
-          height: 75,
-          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
+          alignment: Alignment.center,
+          height: 100,
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(4))),
-          child: const Align(
-            alignment: Alignment.topCenter,
-            child: Text('Which emotion best apply to you now?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w400)),
-          ),
+          child: const Text('Which emotion best apply to you now?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontFamily: 'Proxima Nova',
+                  fontWeight: FontWeight.w400)),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -322,10 +321,8 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                             color: Color(0xffF0F1F1),
                                           ),
                                         ),
-                                        const Image(
-                                          image: AssetImage(
-                                              'assets/images/notification_bell.png'),
-                                        ),
+                                        SvgPicture.asset(
+                                            'assets/images/notification_bell.svg'),
                                         Container(
                                           width:
                                               MediaQuery.of(context).size.width,
