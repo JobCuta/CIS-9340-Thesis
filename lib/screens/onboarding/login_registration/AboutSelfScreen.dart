@@ -127,25 +127,18 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                          fontFamily: 'Proxima Nova'),
+                      style: Theme.of(context).textTheme.headline1,
                     )),
                   ),
-                  const Center(
+                  Center(
                     child: Text(
                       'Please enter your credentials to continue',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: 'Proxima Nova',
-                      ),
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ),
                   const SizedBox(height: 30.0),
@@ -159,7 +152,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'First name',
-                                style: captionTextStyle(),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
                               )
                             ],
                           ),
@@ -189,7 +182,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Last name',
-                                style: captionTextStyle(),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -218,15 +211,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           Row(
                             children: [
                               Text('Nickname (optional)',
-                                  style: captionTextStyle()),
+                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
                             ],
                           ),
                           const SizedBox(height: 5.0),
                           SizedBox(
                             child: TextFormField(
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
+                              style: const TextStyle(fontSize: 14.0),
                               decoration: textFormFieldDecoration(
                                   'Enter your Nickname'),
                               onChanged: (val) {
@@ -239,7 +230,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Gender',
-                                style: captionTextStyle(),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -282,7 +273,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Birthday',
-                                style: captionTextStyle(),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -302,10 +293,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 hintText: 'Enter your birthday',
                                 fillColor: Colors.white,
                                 filled: true,
-                                hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey.shade600,
-                                    fontFamily: 'Proxima Nova'),
+                                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.grey.shade600),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                   color: Colors.grey.shade300,
@@ -314,8 +302,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                   Icons.calendar_today_outlined,
                                   color: Color.fromRGBO(94, 102, 104, 1),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                               ),
                               onChanged: (val) {
                                 setState(
@@ -350,13 +337,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   width: 328,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      primary: Colors.green[400],
-                    ),
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
@@ -367,14 +348,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         }
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       'Continue',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -400,12 +376,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       },
                       child: Text(
                         'Stay Anonymous',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.green[300],
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green[300]),
                       )),
                 ),
               ],
@@ -420,19 +391,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return Get.defaultDialog(
       title: 'Account successfully registered!',
       barrierDismissible: false,
-      titleStyle: const TextStyle(
-          fontSize: 30,
-          fontFamily: 'Proxima Nova',
-          fontWeight: FontWeight.w600),
+      titleStyle: Theme.of(context).textTheme.headline1,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Divider(
-            height: 1.0,
-            thickness: 1.0,
-            color: Colors.grey,
-          ),
+          const Divider(height: 1.0, thickness: 1.0, color: Colors.grey),
           Padding(
             padding: const EdgeInsets.all(5),
             child: SvgPicture.asset('assets/images/yellow_icon.svg'),
@@ -455,23 +419,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         onPressed: () {
           Get.offAndToNamed('/accountScreen');
         },
-        child: const Text(
+        child: Text(
           'Okay!',
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
         ),
       ),
-    );
-  }
-
-  TextStyle captionTextStyle() {
-    return const TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
-      color: Color.fromRGBO(94, 102, 104, 1),
-      fontFamily: 'Proxima Nova',
     );
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -115,29 +113,21 @@ class _LoginWidgetsState extends State<LoginWidgets> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 15.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
                   child: Center(
                       child: Text(
                     'Log in',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Proxima Nova',
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   )),
                 ),
                 const SizedBox(
                   height: 15.0,
                 ),
-                const Center(
+                Center(
                   child: Text(
                     'Please enter your credentials to continue',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Proxima Nova',
-                    ),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
                 Padding(
@@ -147,7 +137,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                     child: Column(
                       children: <Widget>[
                         Row(
-                          children: [Text('Email', style: captionTextStyle())],
+                          children: [Text('Email', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)))],
                         ),
                         const SizedBox(
                           height: 5.0,
@@ -163,7 +153,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                   _validate ? 'This field is required' : null,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your email',
-                              hintStyle: hintTextStyle(),
+                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -188,7 +178,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ),
                         Row(
                           children: [
-                            Text('Password', style: captionTextStyle()),
+                            Text('Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
                           ],
                         ),
                         const SizedBox(
@@ -204,7 +194,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
-                              hintStyle: hintTextStyle(),
+                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -248,10 +238,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                 },
                                 child: Text(
                                   'Forgot your password?',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.grey[500]),
+                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                                 ),
                               ),
                             ],
@@ -269,14 +256,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                 borderRadius: BorderRadius.circular(24),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Continue',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Proxima Nova',
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                             ),
                             onPressed: isButtonActive
                                 ? () async {
@@ -314,20 +296,5 @@ class _LoginWidgetsState extends State<LoginWidgets> {
         ),
       ),
     );
-  }
-
-  TextStyle captionTextStyle() {
-    return const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        color: Color.fromRGBO(94, 102, 104, 1),
-        fontFamily: 'Proxima Nova');
-  }
-
-  TextStyle hintTextStyle() {
-    return TextStyle(
-        fontWeight: FontWeight.w600,
-        color: Colors.grey[500],
-        fontFamily: 'Proxima Nova');
   }
 }

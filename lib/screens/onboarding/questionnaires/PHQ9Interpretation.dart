@@ -34,27 +34,17 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
             spacing: 100,
             runSpacing: 20,
             children: [
-              const Text(
+              Text(
                   'Here is your PHQ-9 score and proposed treatment action',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: 'Proxima Nova',
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white)),
+                  style: Theme.of(context).textTheme.subtitle1?.copyWith(fontSize: 24, color: Colors.white)),
               Text.rich(TextSpan(children: <InlineSpan>[
                 TextSpan(
                     text: _phqController.sum.toString(),
-                    style: const TextStyle(
-                        fontSize: 64,
-                        fontFamily: 'Inconsolata',
-                        color: Colors.white)),
+                    style: const TextStyle(fontSize: 64, fontFamily: 'Inconsolata', color: Colors.white)),
                 const TextSpan(
                     text: '/27',
-                    style: TextStyle(
-                        fontSize: 64,
-                        fontFamily: 'Inconsolata',
-                        color: Color(0xffD89512)))
+                    style: TextStyle(fontSize: 64, fontFamily: 'Inconsolata', color: Color(0xffD89512)))
               ])),
               LinearPercentIndicator(
                 linearStrokeCap: LinearStrokeCap.butt,
@@ -73,11 +63,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                               : _phqController.sum >= 5
                                   ? 'Mild Depression'
                                   : 'None - Minimal Depression',
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Proxima Nova')),
+                  style: Theme.of(context).textTheme.subtitle1?.copyWith(fontSize: 24, color: Colors.white)),
               Container(
                 // height: 100,
                 width: double.infinity,
@@ -99,11 +85,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                       ? 'Watchful waiting; repeat PHQ-9 at follow-up'
                                       : 'None',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w400)),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18, color: Colors.white)),
                 ),
               ),
             ],
@@ -116,13 +98,8 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
-                    child: const Text('Take me to Kasiyanna',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        )),
+                    child: Text('Take me to Kasiyanna',
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(

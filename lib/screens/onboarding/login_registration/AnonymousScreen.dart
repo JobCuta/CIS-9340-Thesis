@@ -30,14 +30,10 @@ class _AnonymousState extends State<AnonymousWidget> {
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text(
+      title: Text(
         'Account successfully registered!',
         textAlign: TextAlign.center,
-        style: TextStyle(
-          fontFamily: 'Proxima Nova',
-          fontSize: 24.0,
-          fontWeight: FontWeight.w400,
-        ),
+        style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -53,14 +49,10 @@ class _AnonymousState extends State<AnonymousWidget> {
             child: SvgPicture.asset('assets/images/yellow_icon.svg'),
           ),
           const SizedBox(height: 10.0),
-          const Text(
+          Text(
             'Check your email to confirm your account in order to log in',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Proxima Nova',
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
       ),
@@ -79,14 +71,9 @@ class _AnonymousState extends State<AnonymousWidget> {
             onPressed: () {
               Get.offNamed('/loginScreen');
             },
-            child: const Text(
+            child: Text(
               'Okay!',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontFamily: 'Proxima Nova',
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
             ),
           ),
         ),
@@ -128,26 +115,18 @@ class _AnonymousState extends State<AnonymousWidget> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Center(
                         child: Text(
                       'Staying anonymous',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                          fontFamily: 'Proxima Nova'),
+                      style: Theme.of(context).textTheme.headline1,
                     )),
                   ),
-                  const Center(
+                  Center(
                     child: Text(
                       'What do you want us to call you?',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: 'Proxima Nova',
-                        color: Colors.black,
-                      ),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
                     ),
                   ),
                   const SizedBox(
@@ -160,15 +139,10 @@ class _AnonymousState extends State<AnonymousWidget> {
                       child: Column(
                         children: <Widget>[
                           Row(
-                            children: const [
+                            children: [
                               Text(
                                 'Nickname',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color.fromRGBO(94, 102, 104, 1),
-                                  fontFamily: 'Proxima Nova',
-                                ),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -241,14 +215,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                         Get.to(_buildPopupDialog(context));
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       'Continue',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Proxima Nova',
-                        color: Colors.white,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -274,12 +243,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                     },
                     child: Text(
                       'I changed my mind...',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Proxima Nova',
-                        color: Colors.green[400],
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green[400]),
                     ),
                   ),
                 )

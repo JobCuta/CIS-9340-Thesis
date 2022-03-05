@@ -72,9 +72,7 @@ class IntroductionScreen extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text: 'Privacy Policy',
-                            style: const TextStyle(
-                              color: Colors.green,
-                            ),
+                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.green),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 //go to privacy policy page

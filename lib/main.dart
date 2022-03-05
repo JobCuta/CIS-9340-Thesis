@@ -71,6 +71,13 @@ class Main extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
             subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
           ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+              primary: Colors.green[400],
+              padding: const EdgeInsets.all(10),
+            ),
+          ),
         ),
         home:
             //change to screen checking log-in persisence

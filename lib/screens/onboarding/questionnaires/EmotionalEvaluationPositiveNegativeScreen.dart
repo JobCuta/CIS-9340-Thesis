@@ -87,13 +87,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(4))),
-          child: const Text('Which emotion best apply to you now?',
+          child: Text('Which emotion best apply to you now?',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontFamily: 'Proxima Nova',
-                  fontWeight: FontWeight.w400)),
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24, color: Colors.white)),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -192,10 +188,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                         listType: MultiSelectListType.CHIP,
                         searchable: true,
                         buttonText: Text("Positive Emotions",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Proxima Nova',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova',
                                 color: (_emotionController
                                         .isPositiveNotEmpty.value)
                                     ? const Color(0xff4CA7FC)
@@ -228,10 +221,7 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                         listType: MultiSelectListType.CHIP,
                         searchable: true,
                         buttonText: Text("Negative Emotions",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Proxima Nova',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova',
                                 color: (_emotionController
                                         .isNegativeNotEmpty.value)
                                     ? const Color(0xff4CA7FC)
@@ -265,13 +255,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
               height: 50,
               child: GetBuilder<EmotionController>(
                 builder: (value) => ElevatedButton(
-                    child: const Text(
+                    child: Text(
                       'Done!',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          fontFamily: 'Proxima Nova'),
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -290,26 +276,18 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                     insetPadding: const EdgeInsets.all(20.0),
-                                    title: const Text(
+                                    title: Text(
                                       'One last thing...',
-                                      style: TextStyle(
-                                        color: Color(0xffFFC122),
-                                        fontFamily: 'Proxima Nova',
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                      style: Theme.of(context).textTheme.headline1?.copyWith(color: const Color(0xffFFC122)),
                                       textAlign: TextAlign.center,
                                     ),
                                     content: Wrap(
                                       // runSpacing: 10,
                                       alignment: WrapAlignment.center,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'These questions will be asked to you 3 times a day. Would you like to be reminded when to answer them?',
-                                          style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'Proxima Nova',
-                                              fontWeight: FontWeight.w400),
+                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18),
                                           textAlign: TextAlign.center,
                                         ),
                                         const Padding(
@@ -339,14 +317,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                       BorderRadius.circular(24),
                                                 ),
                                               ),
-                                              child: const Text(
+                                              child: Text(
                                                 'Yes',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'Proxima Nova',
-                                                  fontSize: 20,
-                                                  color: Colors.white,
-                                                ),
+                                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                                               ),
                                               onPressed: () {
                                                 Get.offAndToNamed(
@@ -376,14 +349,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                                       BorderRadius.circular(24),
                                                 ),
                                               ),
-                                              child: const Text(
+                                              child: Text(
                                                 "I'll do this later...",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'Proxima Nova',
-                                                  fontSize: 20,
-                                                  color: Color(0xffFFC122),
-                                                ),
+                                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xffFFC122)),
                                               ),
                                               onPressed: () {
                                                 Get.back();
