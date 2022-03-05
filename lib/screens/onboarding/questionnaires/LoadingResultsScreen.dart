@@ -45,6 +45,8 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+        heightFactor: MediaQuery.of(context).size.height * 0.4,
+        widthFactor: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
             const SizedBox(
@@ -81,6 +83,8 @@ class nextScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+        heightFactor: MediaQuery.of(context).size.height * 0.4,
+        widthFactor: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
             const SizedBox(

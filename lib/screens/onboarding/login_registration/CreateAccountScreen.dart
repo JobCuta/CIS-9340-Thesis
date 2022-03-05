@@ -19,15 +19,12 @@ class CreateAccountScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.fromLTRB(15, 60, 15, 15),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 60, 15, 15),
                 child: Text(
                   'Before we continue...',
                   softWrap: true,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      fontFamily: 'Proxima Nova'),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.teal[900]),
                 ),
               ),
               Padding(
@@ -37,12 +34,9 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(
                 height: 15.0,
               ),
-              const Text(
+              Text(
                 'Create an account!',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 30,
-                    fontFamily: 'Proxima Nova'),
+                style: Theme.of(context).textTheme.headline1,
               ),
               const SizedBox(height: 15.0),
               Padding(
@@ -50,11 +44,7 @@ class CreateAccountScreen extends StatelessWidget {
                 child: Text(
                   'All interactions and data are fully encrypted and secure. Your data is safe with us!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      fontFamily: 'Proxima Nova',
-                      color: Colors.teal[900]),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.teal[900]),
                 ),
               ),
               const SizedBox(
@@ -66,13 +56,7 @@ class CreateAccountScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      primary: Colors.green[400],
-                    ),
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -90,27 +74,17 @@ class CreateAccountScreen extends StatelessWidget {
                                 child: const RegisterWidget());
                           });
                     },
-                    child: const Text(
+                    child: Text(
                       'Sign up',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 'Already have an account?',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Proxima Nova',
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromRGBO(78, 78, 78, 1),
-                ),
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color.fromRGBO(78, 78, 78, 1)),
               ),
               const SizedBox(height: 15),
               Padding(
@@ -146,12 +120,7 @@ class CreateAccountScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Log in',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.green.shade400,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green.shade400),
                     ),
                   ),
                 ),
