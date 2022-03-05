@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'apis/userSecureStorage.dart';
+import 'screens/main/HomepageScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -14,20 +16,42 @@ import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'package:get/get.dart';
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 void main() {
   runApp(const Main());
 }
 
-class Main extends StatelessWidget {
+class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
+
+  @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    UserSecureStorage.getLoginKey().then((value) {
+      print(value);
+      if (value == null) {
+        setState(() {
+          isLoggedIn = false;
+        });
+      } else {
+        setState(() {
+          isLoggedIn = true;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/shakeScreen',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -61,6 +85,8 @@ class Main extends StatelessWidget {
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
+          // main
+          GetPage(name: '/homepage', page: () => const HomePageScreen()),
         ],
         theme: ThemeData(
           fontFamily: 'Proxima Nova',
@@ -73,10 +99,6 @@ class Main extends StatelessWidget {
           ),
         ),
         home:
-            //change to screen checking log-in persisence
-            // (UserSecureStorage.getLoginKey() == "loginKey")
-            // ? const HomePageScreen():
-            const IntroductionScreen());
-
+            (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
   }
 }
