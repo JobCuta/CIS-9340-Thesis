@@ -83,14 +83,14 @@ class UserProvider extends GetConnect {
   Future<Response> logout() async => await get(domain + paths["logout"]);
 
   //PUT
-  Future<bool> updateUser(UserForm userData) async {
-    String? authKey = await UserSecureStorage.getLoginKey();
-    final response = await put(domain + paths["getUser"], userData.form(),
-        headers: {"Authorization": "Token " + authKey!});
-    print('update user response ${response.body} ${authKey}');
-    if (response.hasError) {
-      return false;
-    }
-    return true;
-  }
+  // Future<bool> updateUser(UserForm userData) async {
+  //   String? authKey = await UserSecureStorage.getLoginKey();
+  //   final response = await put(domain + paths["getUser"], userData.form(),
+  //       headers: {"Authorization": "Token " + authKey!});
+  //   print('update user response ${response.body} ${authKey}');
+  //   if (response.hasError) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 }
