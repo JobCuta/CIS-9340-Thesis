@@ -82,22 +82,16 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                const Text(
+                Text(
                   'Forgot your password?',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Proxima Nova'),
+                  style: Theme.of(context).textTheme.headline1,
                 ),
                 const SizedBox(
                   height: 15.0,
                 ),
-                const Text(
+                Text(
                   'Enter your email to change your password',
-                  style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                      fontFamily: 'Proxima Nova'),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 5.0,
@@ -109,14 +103,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                       child: Column(
                     children: <Widget>[
                       Row(
-                        children: const [
+                        children: [
                           Text(
                             'Confirm email',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Color.fromRGBO(94, 102, 104, 1),
-                                fontFamily: 'Proxima Nova'),
+                            style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 12,color: const Color.fromRGBO(94, 102, 104, 1)),
                           ),
                         ],
                       ),
@@ -127,16 +117,11 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                         height: 40.0,
                         child: TextField(
                           controller: _emailController,
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                          ),
+                          style: Theme.of(context).textTheme.bodyText2,
                           decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Email',
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[500],
-                                  fontFamily: 'Proxima Nova'),
+                              hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 12,color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -162,14 +147,9 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                 borderRadius: BorderRadius.circular(24.0),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Confirm',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Proxima Nova',
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                             ),
                             onPressed: () async => {
                                   if (isButtonActive)
@@ -185,10 +165,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                   const EdgeInsets.all(50.0),
                                               title: const Text(
                                                 'Enter the verification code we sent',
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400,),
                                                 textAlign: TextAlign.center,
                                               ),
                                               content: Column(
@@ -202,11 +179,9 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                   const SizedBox(
                                                     height: 10.0,
                                                   ),
-                                                  const Text(
+                                                  Text(
                                                     'Check your email and open the link given to reset your password',
-                                                    style: TextStyle(
-                                                      fontSize: 16.0,
-                                                    ),
+                                                    style: Theme.of(context).textTheme.bodyText1,
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   const SizedBox(
@@ -236,16 +211,9 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                                       30.0),
                                                         ),
                                                       ),
-                                                      child: const Text(
+                                                      child: Text(
                                                         'Continue',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily:
-                                                              'Proxima Nova',
-                                                          fontSize: 20,
-                                                          color: Colors.white,
-                                                        ),
+                                                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                                                       ),
                                                       onPressed: isButtonActive
                                                           ? () {

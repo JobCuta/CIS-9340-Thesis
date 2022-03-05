@@ -125,11 +125,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         child: Center(
                           child: Text(questions[position],
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Proxima Nova',
-                                  color: Colors.white)),
+                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
                         ),
                       ),
                       DecoratedBox(
@@ -167,11 +163,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                   value: items,
                                   child: Text(
                                     items,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Proxima Nova',
-                                        color: Color(0xff5E6668)),
+                                    style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: const Color(0xff5E6668)),
                                   ));
                             }).toList(),
                           ),
@@ -189,13 +181,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
-                              child: const Text(
+                              child: Text(
                                 'Previous',
-                                style: TextStyle(
-                                    color: Color(0xffFFBE18),
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Proxima Nova',
-                                    fontSize: 20),
+                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xff5E6668)),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -217,13 +205,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         child: SizedBox(
                           height: 50,
                           child: ElevatedButton(
-                              child: const Text(
+                              child: Text(
                                 'Next',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Proxima Nova',
-                                    fontSize: 20),
+                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,

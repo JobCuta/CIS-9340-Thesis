@@ -61,14 +61,9 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
             const SizedBox(
               height: 30.0,
             ),
-            const Text(
+            Text(
               'Evaluating your answers, your results are now being prepared...',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Proxima Nova',
-                fontWeight: FontWeight.w600,
-                color: Color(0xff737879),
-              ),
+              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xff737879)),
               textAlign: TextAlign.center,
             ),
           ],
@@ -99,14 +94,9 @@ class nextScreen extends StatelessWidget {
             const SizedBox(
               height: 30.0,
             ),
-            const Text(
+            Text(
               'Your results for your first evaluation is ready!',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Proxima Nova',
-                fontWeight: FontWeight.w600,
-                color: Color(0xff737879),
-              ),
+              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xff737879)),
               textAlign: TextAlign.center,
             ),
           ],

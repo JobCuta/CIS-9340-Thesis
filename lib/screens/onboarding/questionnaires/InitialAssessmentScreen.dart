@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'PHQ9Screen.dart';
-
 void main() {
   runApp(const GetMaterialApp(home: InitialAssessmentScreen()));
 }
@@ -37,14 +35,10 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                   runSpacing: 30,
                   alignment: WrapAlignment.center,
                   children: [
-                const Text(
+                Text(
                     "We are going to ask you 9 questions about your mental health",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600)),
+                    style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
                 Container(
                     margin:
                         const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
@@ -53,23 +47,15 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                         color: const Color(0xff3290FF).withOpacity(0.60),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
-                    child: Column(children: const [
+                    child: Column(children: [
                       Text(
                           'The questions will be about yourself, how you go through with and your physical well-being...',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w400)),
-                      SizedBox(height: 50),
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18, color: Colors.white)),
+                      const SizedBox(height: 50),
                       Text('Feedback will be given right after.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Proxima Nova',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400)),
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18, color: Colors.white)),
                     ]))
               ]))),
       Container(
@@ -80,11 +66,9 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
-                    child: const Text("I'm ready!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Proxima Nova',
-                            fontSize: 20)),
+                    child: Text("I'm ready!",
+                        style: Theme.of(context).textTheme.subtitle1,
+                    ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(

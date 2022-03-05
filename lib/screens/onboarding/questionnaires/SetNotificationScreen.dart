@@ -36,15 +36,12 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: const Align(
+          child: Align(
             alignment: Alignment.topCenter,
             child: Text(
                 'Set your preferred times for the day for when you want to be notified',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontFamily: 'Proxima Nova')),
+                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
           ),
         ),
       ),
@@ -54,8 +51,8 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
           child:
               Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text('Morning',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
+              Text('Morning',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -79,8 +76,8 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text('Afternoon',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
+              Text('Afternoon',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -104,8 +101,8 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text('Evening',
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
+              Text('Evening',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -149,14 +146,9 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Done!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Proxima Nova',
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                 ),
                 onPressed: () {
                   Get.toNamed('/phqloadingScreen');
@@ -184,14 +176,9 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "I'll do this later...",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Proxima Nova',
-                    fontSize: 20,
-                    color: Color(0xffFFC122),
-                  ),
+                  style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xffFFC122)),
                 ),
                 onPressed: () {
                   Get.toNamed('/phqloadingScreen');

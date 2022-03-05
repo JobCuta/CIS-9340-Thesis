@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/emotionController.dart';
-import 'EmotionalEvaluationPositiveNegativeScreen.dart';
+
 
 void main() {
   runApp(const GetMaterialApp(home: EmotionalEvaluationScreen()));
@@ -59,13 +59,9 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
             decoration: BoxDecoration(
                 color: const Color(0xff3290FF).withOpacity(0.60),
                 borderRadius: const BorderRadius.all(Radius.circular(4))),
-            child: const Text('How do you feel in this moment?',
+            child: Text('How do you feel in this moment?',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w400)),
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24, color: Colors.white)),
           ),
         ),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -102,12 +98,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       ),
                     ),
                   ),
-                  const Text('Very Happy',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white))
+                  Text('Very Happy',
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white))
                 ],
               ),
             ),
@@ -125,7 +117,6 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     child: InkWell(
                       onTap: () {
                         _emotionController.updateMainEmotion('Happy');
-
                         setState(() {
                           isVeryHappy = false;
                           isHappy = true;
@@ -146,12 +137,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       ),
                     ),
                   ),
-                  const Text('Happy',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white))
+                  Text('Happy',
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white))
                 ],
               ),
             ),
@@ -187,12 +174,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                     ),
                   ),
                 ),
-                const Text('Neutral',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white))
+                Text('Neutral',
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white))
               ],
             ),
           ),
@@ -229,12 +212,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       ),
                     ),
                   ),
-                  const Text('Very Bad',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white))
+                  Text('Very Bad',
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white))
                 ],
               ),
             ),
@@ -272,12 +251,8 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
                       ),
                     ),
                   ),
-                  const Text('Bad',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white))
+                  Text('Bad',
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white))
                 ],
               ),
             ),
@@ -293,10 +268,7 @@ class _EmotionalEvaluationScreenState extends State<EmotionalEvaluationScreen> {
               child: ElevatedButton(
                   child: const Text(
                     'Next',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

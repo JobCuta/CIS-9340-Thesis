@@ -72,26 +72,19 @@ class _RegisterState extends State<RegisterWidget> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 15.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
                   child: Center(
                       child: Text(
                     'Register',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        fontFamily: 'Proxima Nova'),
+                    style: Theme.of(context).textTheme.headline1,
                   )),
                 ),
                 const SizedBox(height: 15.0),
-                const Center(
+                Center(
                   child: Text(
                     'Please enter your credentials to continue',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      fontFamily: 'Body 2',
-                    ),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
                 const SizedBox(height: 30.0),
@@ -103,7 +96,7 @@ class _RegisterState extends State<RegisterWidget> {
                       children: <Widget>[
                         Row(
                           children: [
-                            Text('Email', style: captionTextStyle()),
+                            Text('Email', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -114,7 +107,7 @@ class _RegisterState extends State<RegisterWidget> {
                               isDense: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your email',
-                              hintStyle: hintTextStyle(),
+                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                               fillColor: Colors.white,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
@@ -143,7 +136,7 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text('Password', style: captionTextStyle()),
+                            Text('Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -158,7 +151,7 @@ class _RegisterState extends State<RegisterWidget> {
                               isDense: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
-                              hintStyle: hintTextStyle(),
+                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -192,7 +185,7 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text('Confirm Password', style: captionTextStyle())
+                            Text('Confirm Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -211,7 +204,7 @@ class _RegisterState extends State<RegisterWidget> {
                               hintText: 'Enter your password',
                               fillColor: Colors.white,
                               filled: true,
-                              hintStyle: hintTextStyle(),
+                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 12.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -253,22 +246,15 @@ class _RegisterState extends State<RegisterWidget> {
                                     child: RichText(
                                       text: TextSpan(
                                         text: 'I have read and understood the ',
-                                        style: const TextStyle(
-                                          fontFamily: 'Proxima Nova',
-                                          color: Colors.black,
-                                        ),
+                                        style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
                                               text: 'terms of use',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blue[300])),
+                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue)),
                                           const TextSpan(text: ' and '),
                                           TextSpan(
                                               text: 'privacy policy',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blue[300])),
+                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue)),
                                         ],
                                       ),
                                     ),
@@ -303,14 +289,9 @@ class _RegisterState extends State<RegisterWidget> {
                               primary: Colors.green[400],
                               onSurface: Colors.grey[700],
                             ),
-                            child: const Text(
+                            child: Text(
                               'Continue',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                             ),
                             onPressed: isSwitched
                                 ? () async {
@@ -341,20 +322,5 @@ class _RegisterState extends State<RegisterWidget> {
         ),
       ),
     );
-  }
-
-  TextStyle captionTextStyle() {
-    return const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-        color: Color.fromRGBO(94, 102, 104, 1),
-        fontFamily: 'Proxima Nova');
-  }
-
-  TextStyle hintTextStyle() {
-    return TextStyle(
-        fontWeight: FontWeight.w600,
-        color: Colors.grey[500],
-        fontFamily: 'Proxima Nova');
   }
 }
