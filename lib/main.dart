@@ -28,22 +28,6 @@ class Main extends StatelessWidget {
     return GetMaterialApp(
         title: 'Kasiyanna App',
         initialRoute: '/shakeScreen',
-        theme: ThemeData(
-          fontFamily: 'Proxima Nova',
-          //Use this to specify the default text styling
-          textTheme: const TextTheme(
-            headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
-            bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-            bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-            subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-              primary: Colors.green[400],
-            ),
-          ),
-        ),
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -78,6 +62,16 @@ class Main extends StatelessWidget {
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
         ],
+        theme: ThemeData(
+          fontFamily: 'Proxima Nova',
+          //Use this to specify the default text styling
+          textTheme: const TextTheme(
+            headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
+            bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+            bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+            subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+          ),
+        ),
         home:
             //change to screen checking log-in persisence
             // (UserSecureStorage.getLoginKey() == "loginKey")

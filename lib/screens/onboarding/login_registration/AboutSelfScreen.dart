@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'LoginScreen.dart';
+import '../../../widgets/errorDialog.dart';
 //import 'package:table_calendar/table_calendar.dart';
 
 void main() {
@@ -28,6 +28,8 @@ class AboutSelfWidget extends StatefulWidget {
 
 class _AboutSelfState extends State<AboutSelfWidget> {
   String email = '';
+  String pass1 = '';
+  String pass2 = '';
   String firstName = '';
   String lastName = '';
   String nickName = '';
@@ -38,31 +40,24 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   bool isButtonActive = false;
   final TextEditingController birthDateController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  late DateTime _focusedDay = DateTime.now();
-  late DateTime _selectedDay = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
 
   handleUserInfo() async {
+    print('arguments ${Get.arguments}');
     email = Get.arguments["email"];
-    print('email ${birthDateController.text} ${Get.arguments["email"]}');
-    var response = await UserProvider().updateUser(UserForm(email, firstName,
-        lastName, nickName, birthDateController.text, gender!));
+    pass1 = Get.arguments["pass1"];
+    pass2 = Get.arguments["pass2"];
+    var response = await UserProvider().register(RegisterForm(
+        email,
+        pass1,
+        pass2,
+        firstName,
+        lastName,
+        nickName,
+        birthDateController.text,
+        gender!));
     return response;
   }
-
-/*Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }*/
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -258,15 +253,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               items: const [
                                 DropdownMenuItem<String>(
                                   child: Text('Male'),
-                                  value: 'Male',
+                                  value: 'M',
                                 ),
                                 DropdownMenuItem<String>(
                                   child: Text('Female'),
-                                  value: 'Female',
+                                  value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
                                   child: Text('Rather not to say...'),
-                                  value: 'Rather not to say...',
+                                  value: 'P',
                                 ),
                               ],
                               onChanged: (String? value) {
@@ -364,15 +359,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     ),
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
-                        if (await handleUserInfo()) {
-                          Get.to(_buildPopupDialog(context));
+                        var response = await handleUserInfo();
+                        if (response["status"]) {
+                          registeredDialog();
                         } else {
-                          Get.snackbar(
-                            "Registration Error",
-                            "Something went wrong. Please try again",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                          );
+                          errorDialog(response["message"]);
                         }
                       }
                     },
@@ -425,12 +416,14 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
-    return AlertDialog(
-      title: const Text(
-        'Account successfully registered!',
-        textAlign: TextAlign.center,
-      ),
+  Future registeredDialog() {
+    return Get.defaultDialog(
+      title: 'Account successfully registered!',
+      barrierDismissible: false,
+      titleStyle: const TextStyle(
+          fontSize: 30,
+          fontFamily: 'Proxima Nova',
+          fontWeight: FontWeight.w600),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -450,81 +443,23 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           ),
         ],
       ),
-      actions: <Widget>[
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              padding: const EdgeInsets.all(10),
-              primary: Colors.green[400],
-              fixedSize: const Size(245, 50),
-            ),
-            onPressed: () {
-              Get.to(const LoginWidgets());
-            },
-            child: const Text(
-              'Okay!',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              ),
-            ),
+      confirm: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
           ),
+          padding: const EdgeInsets.all(10),
+          primary: Colors.green[400],
+          fixedSize: const Size(245, 50),
         ),
-      ],
-    );
-  }
-
-  Widget _tableCalendar(BuildContext context) {
-    return AlertDialog(
-      content: Center(
-        child: SizedBox(
-          width: 328,
-          height: 400,
-          child: TableCalendar(
-            firstDay: DateTime(1950),
-            lastDay: DateTime.now(),
-            focusedDay: _focusedDay,
-            calendarFormat: CalendarFormat.month,
-            headerStyle: HeaderStyle(
-                titleTextFormatter: (date, locale) =>
-                    DateFormat.yMMM(locale).format(date),
-                titleCentered: true,
-                titleTextStyle: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontFamily: 'IBM Plex Sans',
-                ),
-                formatButtonVisible: false,
-                leftChevronIcon:
-                    Icon(Icons.chevron_left, color: Colors.green[400]),
-                rightChevronIcon:
-                    Icon(Icons.chevron_right, color: Colors.green[400])),
-            daysOfWeekStyle: DaysOfWeekStyle(
-              dowTextFormatter: (date, locale) =>
-                  DateFormat('E').format(date).toUpperCase(),
-              weekdayStyle: daysTextStyle(),
-              weekendStyle: daysTextStyle(),
-            ),
-            calendarStyle: CalendarStyle(
-              isTodayHighlighted: false,
-              selectedDecoration: BoxDecoration(
-                color: Colors.green[500],
-                shape: BoxShape.circle,
-              ),
-            ),
-            selectedDayPredicate: (DateTime date) {
-              return isSameDay(_selectedDay, date);
-            },
-            onDaySelected: (DateTime selectDay, DateTime focusDay) {
-              setState(() {
-                _selectedDay = selectDay;
-                _focusedDay = focusDay;
-              });
-            },
+        onPressed: () {
+          Get.offAndToNamed('/accountScreen');
+        },
+        child: const Text(
+          'Okay!',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
           ),
         ),
       ),
@@ -569,13 +504,3 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     );
   }
 }
-/**
- * errorText: 'This Field is Required',
- * validator: (String value) {
-    print('date:: ${date.toString()}');
-    if (value.isEmpty) {
-    return 'birthday is Required.';
-    }
-    return null;
-    },
-**/

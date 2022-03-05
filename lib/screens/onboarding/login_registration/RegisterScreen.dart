@@ -1,10 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/apis/apis.dart';
-import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -42,13 +39,6 @@ class _RegisterState extends State<RegisterWidget> {
   String password = '';
   String confirmPassword = '';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-
-  handleRegistration() async {
-    var response = await UserProvider()
-        .register(RegisterForm(email, password, confirmPassword));
-    print('asdf ${response}');
-    return (response);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -325,23 +315,15 @@ class _RegisterState extends State<RegisterWidget> {
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      var result = await handleRegistration();
-                                      if (result["status"]) {
-                                        Get.toNamed('/aboutSelfScreen',
-                                            arguments: {"email": email},
-                                            preventDuplicates: false);
-                                      } else {
-                                        Get.snackbar(
-                                          "Server Error Occurred during Registration",
-                                          result["message"],
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.white,
-                                        );
-                                      }
-                                      // Get.toNamed('/aboutSelfScreen',
-                                      //     arguments: {"email" : email});
+                                      Get.toNamed('/aboutSelfScreen',
+                                          arguments: {
+                                            "email": email,
+                                            "pass1": password,
+                                            "pass2": confirmPassword
+                                          },
+                                          preventDuplicates: false
+                                      );
                                     }
-                                    //navigate to next page
                                   }
                                 : null,
                           ),
