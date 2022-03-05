@@ -43,6 +43,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   CalendarFormat format = CalendarFormat.month;
 
   handleUserInfo() async {
+    print('arguments ${Get.arguments}');
     email = Get.arguments["email"];
     pass1 = Get.arguments["pass1"];
     pass2 = Get.arguments["pass2"];
@@ -358,7 +359,6 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     ),
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
-                        registeredDialog();
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog();
@@ -421,10 +421,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       title: 'Account successfully registered!',
       barrierDismissible: false,
       titleStyle: const TextStyle(
-            fontSize: 30,
-            fontFamily: 'Proxima Nova',
-            fontWeight: FontWeight.w600
-      ),
+          fontSize: 30,
+          fontFamily: 'Proxima Nova',
+          fontWeight: FontWeight.w600),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -443,7 +442,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             textAlign: TextAlign.center,
           ),
         ],
-      ), 
+      ),
       confirm: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
