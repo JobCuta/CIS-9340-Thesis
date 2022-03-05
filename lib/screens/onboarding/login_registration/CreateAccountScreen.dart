@@ -25,10 +25,9 @@ class CreateAccountScreen extends StatelessWidget {
                   'Before we continue...',
                   softWrap: true,
                   style: TextStyle(
-                    fontFamily: 'Proxima Nova',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      fontFamily: 'Proxima Nova'),
                 ),
               ),
               Padding(

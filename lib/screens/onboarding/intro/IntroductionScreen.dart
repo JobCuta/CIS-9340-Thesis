@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 void main() {
   runApp(const IntroductionScreen());
 }

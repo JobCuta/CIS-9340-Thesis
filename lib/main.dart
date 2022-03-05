@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
-import 'apis/userSecureStorage.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -14,7 +12,6 @@ import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'package:get/get.dart';
-
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -65,10 +62,21 @@ class Main extends StatelessWidget {
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
         ],
+        theme: ThemeData(
+          fontFamily: 'Proxima Nova',
+          //Use this to specify the default text styling
+          textTheme: const TextTheme(
+            headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
+            bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+            bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+            subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+          ),
+        ),
         home:
             //change to screen checking log-in persisence
             // (UserSecureStorage.getLoginKey() == "loginKey")
             // ? const HomePageScreen():
             const IntroductionScreen());
+
   }
 }
