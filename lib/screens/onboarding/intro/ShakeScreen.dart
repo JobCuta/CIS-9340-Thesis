@@ -8,66 +8,62 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() {
-  runApp(const GetMaterialApp(home: ShakeScreen()));
+  runApp(GetMaterialApp(home: ShakeScreen()));
 }
 
 class ShakeScreen extends StatefulWidget {
-  const ShakeScreen({Key? key}) : super(key: key);
+  ShakeScreen({Key? key}) : super(key: key);
+
+  final bool initialAssessment = Get.arguments["initial?"]!;
 
   @override
   _ShakeScreenState createState() => _ShakeScreenState();
 }
 
 class _ShakeScreenState extends State<ShakeScreen> {
-  // variables for the PageView.builder
-  final PageController _pageController = PageController();
+  Timer? timer;
 
-  List<String> screenTitle = [
-    'Randomizing...',
+  var breathing = [
+    'assets/images/breathing.svg',
+    'Take a minute to breathe and meditate',
+    'Meditating refreshes your mind and readies you for anything.',
+    'Breathing'
   ];
-
-  List<String> screenDescription = [
-    "Let's see what you'll get!",
+  var meditation = [
+    'assets/images/meditating.svg',
+    'Notice your surroundings, relax your mind and body as you do so',
+    'Being aware of your surroundings helps your mind and body focus more!',
+    'Meditating'
+  ];
+  var walking = [
+    'assets/images/walking.svg',
+    'Pace around your environment and clear you mind',
+    'Meditating as you walk helps reduce stress and anxiety!',
+    'Walking'
   ];
 
   @override
   void initState() {
     super.initState();
-    // function for the detector (only starts after initialization)
-    startTime();
-  }
-
-  startTime() async {
-    var breathing = [
-      'assets/images/breathing.svg',
-      'Take a minute to breathe and meditate',
-      'Meditating refreshes your mind and readies you for anything.',
-      'Breathing'
-    ];
-    var meditation = [
-      'assets/images/meditating.svg',
-      'Notice your surroundings, relax your mind and body as you do so',
-      'Being aware of your surroundings helps your mind and body focus more!',
-      'Meditating'
-    ];
-    var walking = [
-      'assets/images/walking.svg',
-      'Pace around your environment and clear you mind',
-      'Meditating as you walk helps reduce stress and anxiety!',
-      'Walking'
-    ];
-
     var exercises = [breathing, walking, meditation];
     var randomExercise = (exercises..shuffle()).first;
-    var duration = const Duration(seconds: 5);
-    return Timer(duration, () {
+
+    // function for the detector (only starts after initialization)
+    timer = Timer(const Duration(seconds: 5), () {
       Get.toNamed('/exerciseScreen', arguments: {
         "assetImage": randomExercise[0],
         "prompt": randomExercise[1],
         "reason": randomExercise[2],
-        "type": randomExercise[3]
+        "type": randomExercise[3],
+        "initial?": widget.initialAssessment
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -82,60 +78,90 @@ class _ShakeScreenState extends State<ShakeScreen> {
                     ),
                     fit: BoxFit.cover))),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-          child: PageView.builder(
-            // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            itemBuilder: (context, position) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Initial countdown beofre the exercise begins
-                  CircleAvatar(
-                    radius: 100,
-                    backgroundColor: const Color(0xffFFA132).withOpacity(0.60),
-                    child: SvgPicture.asset('assets/images/phone.svg',
-                        width: 200, height: 200),
+            // color: Colors.amberAccent,
+            // height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Initial countdown beofre the exercise begins
+                CircleAvatar(
+                  radius: 100,
+                  backgroundColor: const Color(0xffFFA132).withOpacity(0.60),
+                  child: SvgPicture.asset('assets/images/phone.svg',
+                      width: 200, height: 200),
+                ),
+                Container(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: const Color(0xffFFA132).withOpacity(0.60),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4))),
+                    child: Column(
+                      children: const [
+                        Text('Randomizing...',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                fontFamily: 'Proxima Nova')),
+                        Divider(
+                          color: Colors.white,
+                          height: 25,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 5,
+                        ),
+                        Text("Let's see what you'll get!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Proxima Nova')),
+                      ],
+                    )),
+              ],
+            )),
+        Visibility(
+          visible: widget.initialAssessment == false,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    primary: const Color(0xff4CA7FC),
                   ),
-                  Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 0),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: const Color(0xffFFA132).withOpacity(0.60),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4))),
-                      child: Column(
-                        children: [
-                          Text(screenTitle[position],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  fontFamily: 'Proxima Nova')),
-                          const Divider(
-                            color: Colors.white,
-                            height: 25,
-                            thickness: 2,
-                            indent: 5,
-                            endIndent: 5,
-                          ),
-                          Text(screenDescription[position],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Proxima Nova')),
-                        ],
-                      )), // REMOVE UPON FINAL DEPLOYMENT (included for testing purposes only)
-                ],
-              );
-            },
+                  onPressed: () {
+                    dispose();
+                    Get.toNamed('/wellnessScreen');
+                  },
+                  child: const Text(
+                    'I want to pick the exercise',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontFamily: 'Proxima Nova',
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-        )
+        ),
       ]),
     );
   }
@@ -149,6 +175,7 @@ class ExerciseScreen extends StatefulWidget {
   final String prompt = Get.arguments["prompt"]!;
   final String reason = Get.arguments["reason"]!;
   final String type = Get.arguments["type"]!;
+  final bool initialAssessment = Get.arguments["initial?"]!;
 
   @override
   _ExerciseScreenState createState() => _ExerciseScreenState();
@@ -207,8 +234,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   children: [
                     // For the CountDownTimer Widgets
                     Container(
-                      margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.all(20),
+                      margin: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Visibility(
@@ -236,7 +263,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     // Holds the text seen on screen
                     Container(
                         margin: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 0),
+                            vertical: 10, horizontal: 0),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                             color: const Color(0xffFFA132).withOpacity(0.60),
@@ -275,6 +302,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                             endIndent: 5,
                           ),
                           Text((position == 2) ? widget.reason : widget.prompt,
+                              // Text(widget.reason,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontSize: 20,
@@ -284,42 +312,49 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                         ])),
                     // Button for the user to randomly generate a new exercise
                     (position == 1)
-                        ? SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 0),
+                            child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    padding: const EdgeInsets.all(12),
+                                    primary: const Color(0xff4CA7FC),
+                                  ),
+                                  onPressed: () {
+                                    var randomExercise =
+                                        (otherExercises..shuffle()).first;
+                                    Get.offAndToNamed('/exerciseScreen',
+                                        arguments: {
+                                          "assetImage": randomExercise[0],
+                                          "prompt": randomExercise[1],
+                                          "reason": randomExercise[2],
+                                          "type": randomExercise[3],
+                                          "initial?": widget.initialAssessment
+                                        });
+                                  },
+                                  child: const Text(
+                                    'I want another exercise',
+                                    style: TextStyle(
+                                      fontFamily: 'Proxima Nova',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ) // user to the createAccountScreen
                                 ),
-                                padding: const EdgeInsets.all(12),
-                                primary: const Color(0xff4CA7FC),
-                              ),
-                              onPressed: () {
-                                var randomExercise =
-                                    (otherExercises..shuffle()).first;
-                                Get.offAndToNamed('/exerciseScreen',
-                                    arguments: {
-                                      "assetImage": randomExercise[0],
-                                      "prompt": randomExercise[1],
-                                      "reason": randomExercise[2],
-                                      "type": randomExercise[3]
-                                    });
-                              },
-                              child: const Text(
-                                'I want another exercise',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ) // user to the createAccountScreen
-                            )
+                          )
                         : (position == 2)
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 0),
+                                    vertical: 10, horizontal: 0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
@@ -335,9 +370,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                     onPressed: () {
                                       Get.toNamed('/accountScreen');
                                     },
-                                    child: const Text(
-                                      'Continue',
-                                      style: TextStyle(
+                                    child: Text(
+                                      (widget.initialAssessment)
+                                          ? 'Continue...'
+                                          : 'Done',
+                                      style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white,
@@ -349,21 +386,23 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                               ) // Empty Text widget because the ternary operator needs a widget to be returned
                             : const Text(''),
                     // Allows the user to skip the exercises -> proceeds to the createAccountScreen
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 0),
-                      child: Visibility(
-                        visible: position <= 1,
-                        child: TextButton(
-                          onPressed: () {
-                            Get.toNamed('/accountScreen');
-                          },
-                          child: const Text(
-                            'Skip',
-                            style: TextStyle(
-                                color: Color(0xff4CA7FC),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
+                    Visibility(
+                      visible: widget.initialAssessment,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        child: Visibility(
+                          visible: position <= 1,
+                          child: TextButton(
+                            onPressed: () {
+                              Get.toNamed('/accountScreen');
+                            },
+                            child: const Text(
+                              'Skip',
+                              style: TextStyle(
+                                  color: Color(0xff4CA7FC),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'apis/userSecureStorage.dart';
 import 'screens/main/HomepageScreen.dart';
+import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -58,7 +59,7 @@ class _MainState extends State<Main> {
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
-          GetPage(name: '/shakeScreen', page: () => const ShakeScreen()),
+          GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
           GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
           //login_registration
           GetPage(
@@ -90,6 +91,11 @@ class _MainState extends State<Main> {
               name: '/notifScreen', page: () => const SetNotificationScreen()),
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
+
+          // wellness exercises
+          GetPage(
+              name: '/wellnessScreen',
+              page: () => const WellnessExercisesScreen()),
         ],
         theme: ThemeData(
           fontFamily: 'Proxima Nova',

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 void main() {
   runApp(const IntroductionScreen());
 }
@@ -68,7 +67,8 @@ class IntroductionScreen extends StatelessWidget {
                         primary: Colors.blue,
                       ),
                       onPressed: () {
-                        Get.toNamed("/shakeScreen");
+                        Get.toNamed("/shakeScreen",
+                            arguments: {"initial?": true});
                       },
                       child: const Text(
                         'Start your journey',
