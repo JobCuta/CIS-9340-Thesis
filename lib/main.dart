@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
+import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
+import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
+import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'apis/userSecureStorage.dart';
-import 'screens/main/HomepageScreen.dart';
-import 'screens/main/WellnessExercisesScreen.dart';
+// import 'screens/main/HomepageScreen.dart';
+// import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -96,6 +100,12 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/wellnessScreen',
               page: () => const WellnessExercisesScreen()),
+
+          GetPage(
+              name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
+
+          GetPage(
+              name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
         ],
         theme: ThemeData(
           fontFamily: 'Proxima Nova',

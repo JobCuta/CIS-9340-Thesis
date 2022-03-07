@@ -140,6 +140,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              
                               Text("Add today's entry",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -149,14 +150,17 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       fontWeight: FontWeight.w400)
                               ),
 
-                              Text('Go',
+                              TextButton(
+                                onPressed: () {Get.toNamed('/emotionStartScreen');},
+                                child: Text('Go',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Color(0xACB2B4).withOpacity(1.0),
                                       fontSize: 16,
                                       fontFamily: 'Proxima Nova',
                                       fontWeight: FontWeight.w400)
-                              ),
+                              )),
+
                             ],
                           ),
                         ],
