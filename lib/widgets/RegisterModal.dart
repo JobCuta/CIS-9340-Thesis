@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(const RegisterScreen());
+  runApp(const RegisterModal());
 }
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterModal extends StatelessWidget {
+  const RegisterModal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

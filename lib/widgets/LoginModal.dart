@@ -3,10 +3,10 @@ import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 
-void main() => runApp(const LoginScreen());
+void main() => runApp(const LoginModal());
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginModal extends StatelessWidget {
+  const LoginModal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

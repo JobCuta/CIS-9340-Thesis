@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../widgets/errorDialog.dart';
-//import 'package:table_calendar/table_calendar.dart';
 
 void main() {
   runApp(const AboutSelfScreen());
@@ -82,7 +81,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           child: child ?? const Text(''),
         );
       },
-      initialDate: selectedDate,
+      initialDate: selectedDate = DateTime.now(),
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
     );
@@ -446,7 +445,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     );
   }
 
-  TextStyle daysTextStyle() {
+  /**TextStyle daysTextStyle() {
     return TextStyle(
       fontFamily: 'IBM Plex Sans',
       fontSize: 10.0,
@@ -454,5 +453,5 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       color: Colors.grey[400],
       letterSpacing: 1.5,
     );
-  }
+  } **/
 }

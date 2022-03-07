@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'LoginScreen.dart';
-import 'RegisterScreen.dart';
+import '../../../widgets/LoginModal.dart';
+import '../../../widgets/RegisterModal.dart';
 
 void main() {
   runApp(const CreateAccountScreen());
