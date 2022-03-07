@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -34,11 +35,7 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
   }
 
   route() {
-    Get.to(
-      nextScreen(),
-      transition: Transition.fadeIn,
-      duration: const Duration(seconds: 1),
-    );
+    Get.to(nextScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
   }
 
   @override
@@ -74,6 +71,19 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
 }
 
 class nextScreen extends StatelessWidget {
+  void initState() {
+    startTime();
+  }
+
+  startTime() async {
+    var duration = const Duration(seconds: 2);
+    return Timer(duration, route);
+  }
+
+  route() {
+    Get.to(PHQ9InterpretationScreen(), transition: Transition.fadeIn,duration: const Duration(seconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
