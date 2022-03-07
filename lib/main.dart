@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
+//import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'apis/userSecureStorage.dart';
-// import 'screens/main/HomepageScreen.dart';
+import 'screens/main/HomepageScreen.dart';
 // import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
@@ -59,7 +59,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/',
+        initialRoute: '/homepage',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -95,7 +95,6 @@ class _MainState extends State<Main> {
               name: '/notifScreen', page: () => const SetNotificationScreen()),
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
-
           // wellness exercises
           GetPage(
               name: '/wellnessScreen',

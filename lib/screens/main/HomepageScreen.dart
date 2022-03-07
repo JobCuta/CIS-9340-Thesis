@@ -10,6 +10,8 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  int _selectedIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +142,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              
+
                               Text("Add today's entry",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -209,7 +211,75 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                 ],
               ),
-            ])
+            ]),
+        bottomSheet: bottomNavigationBar(),
     );
+  }
+
+  Container bottomNavigationBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(76, 167, 252, 1.0),
+      ),
+      child: BottomNavigationBar(
+        elevation: 0.0,
+        backgroundColor: const Color.fromRGBO(76, 167, 252, 1.0),
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0), child: Icon(Icons.notes),
+            ),
+            label: 'Entries',
+          ),
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0), child: Icon(Icons.calendar_today_outlined),
+            ),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0), child: Icon(Icons.home),
+              ),
+              label: 'Home'
+          ),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0), child: Icon(Icons.directions_walk),
+              ),
+              label: 'Adventure Mode'
+          ),
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0), child: Icon(Icons.widgets_outlined),
+            ),
+            label: 'Mini-games',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: const Color.fromRGBO(33, 108, 178, 1.0),
+        iconSize: 32.0,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: const TextStyle(
+            fontFamily: 'Proxima Nova',
+            fontSize: 8.0,
+            fontWeight: FontWeight.bold
+        ),
+        unselectedLabelStyle: const TextStyle(
+            fontFamily: 'Proxima Nova',
+            fontSize: 8.0,
+            fontWeight: FontWeight.bold
+        ),
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
