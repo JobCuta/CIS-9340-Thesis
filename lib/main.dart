@@ -40,7 +40,6 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     UserSecureStorage.getLoginKey().then((value) {
-      print(value);
       if (value == null) {
         setState(() {
           isLoggedIn = false;
@@ -51,7 +50,6 @@ class _MainState extends State<Main> {
         });
       }
     });
-    print(isLoggedIn);
     super.initState();
   }
 
@@ -101,10 +99,12 @@ class _MainState extends State<Main> {
               page: () => const WellnessExercisesScreen()),
 
           GetPage(
-              name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
+              name: '/emotionStartScreen',
+              page: () => const EmotionalEvaluationStartScreen()),
 
           GetPage(
-              name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
+              name: '/emotionEndScreen',
+              page: () => const EmotionalEvaluationEndScreen()),
         ],
         theme: ThemeData(
           fontFamily: 'Proxima Nova',
@@ -117,7 +117,8 @@ class _MainState extends State<Main> {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24)),
               primary: Colors.green[400],
               padding: const EdgeInsets.all(10),
             ),
