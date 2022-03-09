@@ -3,6 +3,7 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../constants/notificationService.dart';
 
@@ -15,8 +16,6 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   int _selectedIndex = 2;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
 
   static final List<Widget> _widgetOptions = <Widget>[
     const Text('Entries'),
@@ -105,12 +104,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+DailyController _dailyController = Get.put(DailyController());
+
 class _HomePageState extends State<HomePage> {
-  final DailyController _dailyController = Get.put(DailyController());
-
-  var _isDailyEntryDone = false;
-
-  var _isDailyExerciseDone = false;
+  bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
+  bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
   @override
   Widget build(BuildContext context) {
@@ -358,17 +356,152 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           const Text('Adventure Mode',
                               style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  fontFamily: 'Proxima Nova')),
-                          Text('Begin your interactive wellness experience!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.apply(
-                                      color: Colors.white,
-                                      fontFamily: 'Proxima Nova'))
+                                  // color: Color(0xff4ca7fc).withOpacity(1.0),
+                                  fontSize: 20,
+                                  fontFamily: 'Proxima Nova',
+                                  fontWeight: FontWeight.w600)),
+                          const SizedBox(height: 10.0),
+                          Text('Start your journey to wellness!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color:
+                                      const Color(0xff161818).withOpacity(1.0),
+                                  fontSize: 14,
+                                  fontFamily: 'Proxima Nova',
+                                  fontWeight: FontWeight.w400)),
+                          const Divider(
+                            color: Color(0xffF0F1F1),
+                            height: 25,
+                            thickness: 1,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _isDailyExerciseDone = true;
+                              });
+                              _dailyController.setDailyExerciseToDone();
+
+                              Get.toNamed('/wellnessScreen');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Do your daily exercise',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: const Color(0xff161818)
+                                            .withOpacity(1.0),
+                                        fontSize: 14,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w400)),
+                                !_isDailyExerciseDone
+                                    ? RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Go',
+                                              style: TextStyle(
+                                                  color: const Color(0x216CB2FF)
+                                                      .withOpacity(1.0),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600)),
+                                          WidgetSpan(
+                                              alignment:
+                                                  PlaceholderAlignment.middle,
+                                              child: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_right_sharp,
+                                                  color: const Color(0x216CB2FF)
+                                                      .withOpacity(1.0)))
+                                        ]),
+                                      )
+                                    : RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Completed',
+                                              style: TextStyle(
+                                                  color: const Color(0xACB2B4)
+                                                      .withOpacity(1.0),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600)),
+                                          WidgetSpan(
+                                              alignment:
+                                                  PlaceholderAlignment.middle,
+                                              child: Icon(Icons.check_circle,
+                                                  color: const Color(0x87E54)
+                                                      .withOpacity(1.0)))
+                                        ]),
+                                      ),
+                              ],
+                            ),
+                          ),
+                          const Divider(
+                            color: Color(0xffF0F1F1),
+                            height: 25,
+                            thickness: 1,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _isDailyEntryDone = true;
+                              });
+                              _dailyController.setDailyEntryToDone();
+                              Get.toNamed('/emotionStartScreen');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Add today's entry",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: const Color(0xff161818)
+                                            .withOpacity(1.0),
+                                        fontSize: 14,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w400)),
+                                !_isDailyEntryDone
+                                    ? RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Go',
+                                              style: TextStyle(
+                                                  color: const Color(0x216CB2FF)
+                                                      .withOpacity(1.0),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600)),
+                                          WidgetSpan(
+                                              alignment:
+                                                  PlaceholderAlignment.middle,
+                                              child: Icon(
+                                                  Icons
+                                                      .keyboard_arrow_right_sharp,
+                                                  color: const Color(0x216CB2FF)
+                                                      .withOpacity(1.0)))
+                                        ]),
+                                      )
+                                    : RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Completed',
+                                              style: TextStyle(
+                                                  color: const Color(0xACB2B4)
+                                                      .withOpacity(1.0),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Proxima Nova',
+                                                  fontWeight: FontWeight.w600)),
+                                          WidgetSpan(
+                                              alignment:
+                                                  PlaceholderAlignment.middle,
+                                              child: Icon(Icons.check_circle,
+                                                  color: const Color(0x87E54)
+                                                      .withOpacity(1.0)))
+                                        ]),
+                                      ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
