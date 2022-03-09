@@ -69,6 +69,9 @@ dependencies:
   get: ^4.6.1
   flutter_secure_storage: ^5.0.2
 
+  #dependency for pushing local notifications
+  flutter_local_notifications: ^9.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

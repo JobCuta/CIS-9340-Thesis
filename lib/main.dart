@@ -4,7 +4,9 @@ import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/userSecureStorage.dart';
+import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
 // import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
@@ -23,7 +25,9 @@ import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); //
   runApp(const Main());
 }
 
