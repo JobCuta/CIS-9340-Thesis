@@ -4,6 +4,7 @@ import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'package:get_storage/get_storage.dart';
 import 'apis/userSecureStorage.dart';
 import 'screens/main/HomepageScreen.dart';
 // import 'screens/main/WellnessExercisesScreen.dart';
@@ -23,7 +24,8 @@ import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init("DailyStorage");
   runApp(const Main());
 }
 

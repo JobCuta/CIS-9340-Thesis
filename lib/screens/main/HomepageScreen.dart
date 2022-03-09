@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -100,15 +102,17 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+
+DailyController _dailyController = Get.put(DailyController());
+
 class _HomePageState extends State<HomePage> {
-  final DailyController _dailyController = Get.put(DailyController());
-
-  var _isDailyEntryDone = false;
-
-  var _isDailyExerciseDone = false;
+  bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
+  bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Stack(
           children: [
@@ -195,10 +199,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                           InkWell(
                             onTap: () {
-                              _dailyController.setDailyExerciseToDone();
                               setState(() {
                                 _isDailyExerciseDone = true;
                               });
+                              _dailyController.setDailyExerciseToDone();
+
                               Get.toNamed('/wellnessScreen');
                             },
                             child: Row(
@@ -253,10 +258,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           InkWell(
                             onTap: () {
-                              _dailyController.setDailyEntryToDone();
                               setState(() {
                                 _isDailyEntryDone = true;
                               });
+                              _dailyController.setDailyEntryToDone();
                               Get.toNamed('/emotionStartScreen');
                             },
                             child: Row(
