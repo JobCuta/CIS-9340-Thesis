@@ -17,11 +17,13 @@ import 'screens/onboarding/login_registration/CreateAccountScreen.dart';
 import 'screens/onboarding/login_registration/ForgotPasswordScreen.dart';
 import 'screens/onboarding/questionnaires/EmotionalEvaluationPositiveNegativeScreen.dart';
 import 'screens/onboarding/questionnaires/EmotionalEvaluationScreen.dart';
-import 'screens/onboarding/questionnaires/InitialAssessmentScreen.dart';
+import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
+import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'package:get/get.dart';
+import 'screens/onboarding/questionnaires/SIDASScreen.dart';
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -63,7 +65,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/homepage',
+        initialRoute: '/assessPHQScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -79,14 +81,17 @@ class _MainState extends State<Main> {
               name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
           //questionnaires
           GetPage(
-              name: '/assessScreen',
-              page: () => const InitialAssessmentScreen()),
+              name: '/assessPHQScreen',
+              page: () => const InitialAssessmentPHQ9Screen()),
           GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
           GetPage(
-              name: '/phqloadingScreen',
-              page: () => const LoadingResultsScreen()),
+              name: '/loadingScreen', page: () => const LoadingResultsScreen()),
           GetPage(
-              name: '/phqInterpretationScreen',
+              name: '/assessSIDASScreen',
+              page: () => const InitialAssessmentSIDASScreen()),
+          GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
+          GetPage(
+              name: '/interpretationScreen',
               page: () => PHQ9InterpretationScreen()),
           GetPage(
               name: '/emotionScreen',

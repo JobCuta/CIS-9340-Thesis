@@ -89,7 +89,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
               borderRadius: const BorderRadius.all(Radius.circular(4))),
           child: Text('Which emotion best apply to you now?',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24, color: Colors.white)),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  ?.copyWith(fontSize: 24, color: Colors.white)),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -188,7 +191,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                         listType: MultiSelectListType.CHIP,
                         searchable: true,
                         buttonText: Text("Positive Emotions",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Proxima Nova',
                                 color: (_emotionController
                                         .isPositiveNotEmpty.value)
                                     ? const Color(0xff4CA7FC)
@@ -221,7 +227,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                         listType: MultiSelectListType.CHIP,
                         searchable: true,
                         buttonText: Text("Negative Emotions",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'Proxima Nova',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Proxima Nova',
                                 color: (_emotionController
                                         .isNegativeNotEmpty.value)
                                     ? const Color(0xff4CA7FC)
@@ -257,7 +266,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                 builder: (value) => ElevatedButton(
                     child: Text(
                       'Done!',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -278,7 +290,11 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                     insetPadding: const EdgeInsets.all(20.0),
                                     title: Text(
                                       'One last thing...',
-                                      style: Theme.of(context).textTheme.headline1?.copyWith(color: const Color(0xffFFC122)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          ?.copyWith(
+                                              color: const Color(0xffFFC122)),
                                       textAlign: TextAlign.center,
                                     ),
                                     content: Wrap(
@@ -287,7 +303,10 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                       children: [
                                         Text(
                                           'These questions will be asked to you 3 times a day. Would you like to be reminded when to answer them?',
-                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(fontSize: 18),
                                           textAlign: TextAlign.center,
                                         ),
                                         const Padding(
@@ -319,7 +338,11 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                               ),
                                               child: Text(
                                                 'Yes',
-                                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1
+                                                    ?.copyWith(
+                                                        color: Colors.white),
                                               ),
                                               onPressed: () {
                                                 Get.offAndToNamed(
@@ -351,12 +374,16 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                               ),
                                               child: Text(
                                                 "I'll do this later...",
-                                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xffFFC122)),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1
+                                                    ?.copyWith(
+                                                        color: const Color(
+                                                            0xffFFC122)),
                                               ),
                                               onPressed: () {
                                                 Get.back();
-                                                Get.toNamed(
-                                                    '/phqloadingScreen');
+                                                Get.toNamed('/loadingScreen');
                                               }),
                                         )
                                       ],

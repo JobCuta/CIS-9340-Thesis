@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../constants/notificationService.dart';
-import 'SideMenu.dart';
+// import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
@@ -38,6 +38,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       bottomSheet: bottomNavigationBar(),
     );
   }
+
   //Bottom Navigation Bar
   bottomNavigationBar() {
     return BottomNavigationBar(
@@ -361,19 +362,19 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             const Text('Adventure Mode',
                                 style: TextStyle(
-                                    // color: Color(0xff4ca7fc).withOpacity(1.0),
-                                    fontSize: 20,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w600)),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontFamily: 'Proxima Nova')),
                             const SizedBox(height: 10.0),
                             Text('Start your journey to wellness!',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: const Color(0xff161818)
-                                        .withOpacity(1.0),
-                                    fontSize: 14,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.apply(
+                                        color: Colors.white,
+                                        fontFamily: 'Proxima Nova')),
                           ]),
                     )
                   ]),

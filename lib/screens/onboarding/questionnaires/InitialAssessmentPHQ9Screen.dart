@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(const GetMaterialApp(home: InitialAssessmentScreen()));
+  runApp(const GetMaterialApp(home: InitialAssessmentPHQ9Screen()));
 }
 
-class InitialAssessmentScreen extends StatefulWidget {
-  const InitialAssessmentScreen({Key? key}) : super(key: key);
+class InitialAssessmentPHQ9Screen extends StatefulWidget {
+  const InitialAssessmentPHQ9Screen({Key? key}) : super(key: key);
 
   @override
-  _InitialAssessmentScreenState createState() =>
-      _InitialAssessmentScreenState();
+  _InitialAssessmentPHQ9ScreenState createState() =>
+      _InitialAssessmentPHQ9ScreenState();
 }
 
-class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
-  // Currently can't figure out how to display the hint text (Pick an option) with the current implementation
-  // thus 'Pick an option' was added as an option (countermeasure added to ensure the user cannot proceed unless they choose a different option)
-
+class _InitialAssessmentPHQ9ScreenState
+    extends State<InitialAssessmentPHQ9Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +36,10 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                 Text(
                     "We are going to ask you 9 questions about your mental health",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(color: Colors.white)),
                 Container(
                     margin:
                         const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
@@ -51,11 +52,17 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                       Text(
                           'The questions will be about yourself, how you go through with and your physical well-being...',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18, color: Colors.white)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontSize: 18, color: Colors.white)),
                       const SizedBox(height: 50),
                       Text('Feedback will be given right after.',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 18, color: Colors.white)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontSize: 18, color: Colors.white)),
                     ]))
               ]))),
       Container(
@@ -66,8 +73,12 @@ class _InitialAssessmentScreenState extends State<InitialAssessmentScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
-                    child: Text("I'm ready!",
-                        style: Theme.of(context).textTheme.subtitle1,
+                    child: Text(
+                      "I'm ready!",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.apply(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,

@@ -165,7 +165,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       ?.copyWith(color: Colors.white),
                 ),
                 onPressed: () {
-                  Get.toNamed('/phqloadingScreen');
+                  Get.toNamed('/loadingScreen');
                   // Navigator
                 }),
           ),
@@ -198,7 +198,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       ?.copyWith(color: const Color(0xffFFC122)),
                 ),
                 onPressed: () {
-                  Get.toNamed('/phqloadingScreen');
+                  Get.toNamed('/loadingScreen');
                 }),
           ),
         ),
