@@ -7,7 +7,6 @@ class PHQController extends GetxController {
   void updateValues(int position, int i) {
     answerValues[position] = i;
     calculateSum();
-    update();
   }
 
   void calculateSum() {

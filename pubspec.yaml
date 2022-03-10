@@ -69,9 +69,17 @@ dependencies:
   get: ^4.6.1
   flutter_secure_storage: ^5.0.2
 
+  # hive database for storing PHQ9 values
+  hive: ^2.0.6
+  hive_flutter: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Hive database generators
+  build_runner: ^2.1.7
+  hive_generator: ^1.1.2
 
   
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../apis/phqHive.dart';
 import '../../../controllers/phqController.dart';
 
 class PHQ9InterpretationScreen extends StatefulWidget {
@@ -16,8 +18,21 @@ class PHQ9InterpretationScreen extends StatefulWidget {
 class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
   final PHQController _phqController = Get.put(PHQController());
 
+  //to save data locally to hive
+  void addToPhqHive(List<int> answerValues, int sum) async {
+    var box = await Hive.openBox('phq');
+    var newPhq = phqHive(date: DateTime.now(), answerValues: answerValues, sum: sum);
+    box.add(newPhq);
+    //Output values inside hive
+    //print(box.getAt(0).date.toString());
+    //print(box.getAt(0).answerValues.toString());
+    //print(box.getAt(0).sum.toString());
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    addToPhqHive(_phqController.answerValues, _phqController.sum);
     return Scaffold(
         body: Stack(alignment: AlignmentDirectional.topCenter, children: [
       Container(

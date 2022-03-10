@@ -4,7 +4,11 @@ import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import '../../../apis/phqHive.dart';
 import '../../../controllers/phqController.dart';
+
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class PHQ9Screen extends StatefulWidget {
   const PHQ9Screen({Key? key, bool? initialAssessment}) : super(key: key);
@@ -15,6 +19,12 @@ class PHQ9Screen extends StatefulWidget {
 
 class _PHQ9ScreenState extends State<PHQ9Screen> {
   final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    Hive.box('phqHive').close();
+    super.dispose();
+  }
 
   var options = [
     'Pick an option',

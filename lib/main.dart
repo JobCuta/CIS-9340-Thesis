@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
@@ -16,7 +17,14 @@ import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+//import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(phqHiveAdapter());
+  await Hive.openBox('phq');
   runApp(const Main());
 }
 
