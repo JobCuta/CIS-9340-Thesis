@@ -74,6 +74,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
           GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
           GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
+
           //login_registration
           GetPage(
               name: '/accountScreen', page: () => const CreateAccountScreen()),
@@ -82,40 +83,26 @@ class _MainState extends State<Main> {
           GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
           GetPage(
               name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
+
           //questionnaires
-          GetPage(
-              name: '/assessScreen',
-              page: () => const InitialAssessmentScreen()),
+          GetPage(name: '/assessScreen', page: () => const InitialAssessmentScreen()),
           GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
-          GetPage(
-              name: '/phqloadingScreen',
-              page: () => const LoadingResultsScreen()),
-          GetPage(
-              name: '/phqInterpretationScreen',
-              page: () => PHQ9InterpretationScreen()),
-          GetPage(
-              name: '/emotionScreen',
-              page: () => const EmotionalEvaluationScreen()),
-          GetPage(
-              name: '/emotionPNScreen',
-              page: () => const EmotionalEvaluationPositiveNegativeScreen()),
+          GetPage(name: '/phqloadingScreen', page: () => const LoadingResultsScreen()),
+          GetPage(name: '/phqInterpretationScreen', page: () => PHQ9InterpretationScreen()),
+          GetPage(name: '/emotionScreen', page: () => const EmotionalEvaluationScreen()),
+          GetPage(name: '/emotionPNScreen', page: () => const EmotionalEvaluationPositiveNegativeScreen()),
+
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
+
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
+
           // wellness exercises
-          GetPage(
-              name: '/wellnessScreen',
-              page: () => const WellnessExercisesScreen()),
-
-          GetPage(
-              name: '/emotionStartScreen',
-              page: () => const EmotionalEvaluationStartScreen()),
-
-          GetPage(
-              name: '/emotionEndScreen',
-              page: () => const EmotionalEvaluationEndScreen()),
+          GetPage(name: '/wellnessScreen', page: () => const WellnessExercisesScreen()),
+          GetPage(name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
+          GetPage(name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
         ],
         theme: themeData,
         home:

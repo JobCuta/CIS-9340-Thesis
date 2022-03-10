@@ -58,7 +58,7 @@ class IntroductionScreen extends StatelessWidget {
                       },
                       child: Text(
                         'Start your journey',
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                       ),
                     ),
                   ),

@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/nextScreenModal.dart';
+import 'package:flutter_application_1/screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
-void main() {
-  runApp(const LoadingResultsScreen());
-}
+void main() => runApp(const nextScreenModal());
 
-class LoadingResultsScreen extends StatelessWidget {
-  const LoadingResultsScreen({Key? key}) : super(key: key);
+class nextScreenModal extends StatelessWidget {
+  const nextScreenModal({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const LoadingResultsScreenWidget();
+  Widget build(BuildContext context) => const nextScreenModalWidget();
 }
 
-class LoadingResultsScreenWidget extends StatefulWidget {
-  const LoadingResultsScreenWidget({Key? key}) : super(key: key);
+class nextScreenModalWidget extends StatefulWidget {
+  const nextScreenModalWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoadingResultsScreenWidget> createState() =>
-      _LoadingResultsScreenState();
+  State<nextScreenModalWidget> createState() =>
+      _nextScreenModalState();
 }
 
-class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
+class _nextScreenModalState extends State<nextScreenModalWidget> {
   @override
   void initState() {
     super.initState();
@@ -34,7 +32,7 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
     return Timer(duration, route);
   }
 
-  route() => Get.to(const nextScreenModal(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+  route() => Get.to(PHQ9InterpretationScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +48,14 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
             Padding(
               padding: const EdgeInsets.all(5),
               child: Image.asset(
-                'assets/images/flower_fill.gif',
+                'assets/images/flower_filled.png',
               ),
             ),
             const SizedBox(
               height: 30.0,
             ),
             Text(
-              'Evaluating your answers, your results are now being prepared...',
+              'Your results for your first evaluation is ready!',
               style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xff737879)),
               textAlign: TextAlign.center,
             ),
@@ -66,5 +64,5 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
       ),
     );
   }
-}
 
+}

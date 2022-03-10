@@ -131,7 +131,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: Theme.of(context).textTheme.headline1,
+                      style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
                     )),
                   ),
                   Center(

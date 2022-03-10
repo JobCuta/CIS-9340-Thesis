@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 
 void main() => runApp(const LoginModal());
 
@@ -118,7 +119,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   child: Center(
                       child: Text(
                     'Log in',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
                   )),
                 ),
                 const SizedBox(
@@ -271,7 +272,14 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         snackPosition: SnackPosition.BOTTOM,
                                         backgroundColor: Colors.green,
                                       );
+<<<<<<< HEAD
                                       Get.offAndToNamed('/homepage');
+=======
+                                      Timer(const Duration(seconds: 5), (){
+                                        const CircularProgressIndicator(color: Colors.white);
+                                        Get.toNamed('/homepage');
+                                      } );
+>>>>>>> 26fc1796800c54e4f514f6a41f99c76d9c8d8b63
                                       //Navigate to main page
                                     } else {
                                       Get.snackbar(

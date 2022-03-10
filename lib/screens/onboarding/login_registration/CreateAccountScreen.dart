@@ -11,7 +11,7 @@ class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       body: Container(
           decoration:
@@ -36,7 +36,7 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               Text(
                 'Create an account!',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
               ),
               const SizedBox(height: 15.0),
               Padding(

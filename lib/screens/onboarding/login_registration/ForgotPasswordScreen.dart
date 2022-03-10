@@ -84,7 +84,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 ),
                 Text(
                   'Forgot your password?',
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 15.0,
