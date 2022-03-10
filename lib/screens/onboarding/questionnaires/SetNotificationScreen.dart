@@ -31,17 +31,19 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
       Padding(
         padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
         child: Container(
-          height: 120,
+          height: 80,
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Align(
-            alignment: Alignment.topCenter,
             child: Text(
                 'Set your preferred times for the day for when you want to be notified',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    ?.copyWith(color: Colors.white)),
           ),
         ),
       ),
@@ -52,7 +54,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
               Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('Morning',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -77,7 +82,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('Afternoon',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -102,7 +110,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('Evening',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18, color: Colors.white)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontSize: 18, color: Colors.white)),
               const Expanded(
                 flex: 1,
                 child: Text(''),
@@ -148,7 +159,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 ),
                 child: Text(
                   'Done!',
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(color: Colors.white),
                 ),
                 onPressed: () {
                   Get.toNamed('/phqloadingScreen');
@@ -178,7 +192,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 ),
                 child: Text(
                   "I'll do this later...",
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xffFFC122)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(color: const Color(0xffFFC122)),
                 ),
                 onPressed: () {
                   Get.toNamed('/phqloadingScreen');
