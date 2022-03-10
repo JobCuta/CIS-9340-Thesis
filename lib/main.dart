@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScree
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
+import 'apis/phqHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
@@ -23,6 +24,7 @@ import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'package:get/get.dart';
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -30,6 +32,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
   await GetStorage.init("DailyStorage");
+  await Hive.initFlutter();
+  Hive.registerAdapter(phqHiveAdapter());
+  await Hive.openBox('phq');
   runApp(const Main());
 }
 
