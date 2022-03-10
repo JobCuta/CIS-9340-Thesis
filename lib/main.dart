@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScree
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
+import 'apis/phqHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
@@ -23,6 +24,7 @@ import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'package:get/get.dart';
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -30,6 +32,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
   await GetStorage.init("DailyStorage");
+  await Hive.initFlutter();
+  Hive.registerAdapter(phqHiveAdapter());
+  await Hive.openBox('phq');
   runApp(const Main());
 }
 
@@ -99,26 +104,48 @@ class _MainState extends State<Main> {
           GetPage(name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
           GetPage(name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
         ],
-        theme: ThemeData(
-          fontFamily: 'Proxima Nova',
-          //Use this to specify the default text styling
-          textTheme: const TextTheme(
-            headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
-            bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-            bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-            subtitle1: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24)),
-              primary: Colors.green[400],
-              padding: const EdgeInsets.all(10),
-            ),
-          ),
-        ),
+        theme: themeData,
         home:
             //change to screen checking log-in persisence
             (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
   }
 }
+
+final ThemeData themeData = ThemeData(
+  fontFamily: 'Proxima Nova',
+  textTheme: const TextTheme(
+    headline1: TextStyle(fontSize: 68.0,),
+    headline2: TextStyle(fontSize: 56.0,),
+    headline3: TextStyle(fontSize: 46.0,),
+    headline4: TextStyle(fontSize: 38.0,),
+    headline5: TextStyle(fontSize: 30.0,),
+    subtitle1: TextStyle(fontSize: 24.0,),
+    subtitle2: TextStyle(fontSize: 20.0,),
+    bodyText1: TextStyle(fontSize: 16.0,),
+    bodyText2: TextStyle(fontSize: 14.0,),
+    caption: TextStyle(fontSize: 12.0,),
+
+  ),
+  backgroundColor: const Color(0xffF2F6F7),
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light, 
+    primary: Color(0xff1BBCB6), 
+    onPrimary: Color(0xffFFFFFF), 
+    secondary: Color(0xff3FCD67), 
+    onSecondary: Color(0xffFFFFFF),
+    error: Color(0xffB22428), 
+    onError: Color(0xffFFFFFF), 
+    background: Color(0xffF2F6F7), 
+    onBackground: Color(0xff161818), 
+    surface: Color(0xffFFFFFF), 
+    onSurface: Color(0xff161818)
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24)),
+      primary: Colors.green[400],
+      padding: const EdgeInsets.all(10),
+    ),
+  ),
+);
