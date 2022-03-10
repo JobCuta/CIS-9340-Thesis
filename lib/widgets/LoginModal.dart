@@ -271,7 +271,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         snackPosition: SnackPosition.BOTTOM,
                                         backgroundColor: Colors.green,
                                       );
-                                      Get.toNamed('/homepage');
+                                      Get.offAndToNamed('/homepage');
                                       //Navigate to main page
                                     } else {
                                       Get.snackbar(

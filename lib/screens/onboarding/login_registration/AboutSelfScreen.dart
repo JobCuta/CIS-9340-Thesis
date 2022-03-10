@@ -151,7 +151,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'First name',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)),
                               )
                             ],
                           ),
@@ -181,7 +187,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Last name',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -210,7 +222,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           Row(
                             children: [
                               Text('Nickname (optional)',
-                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontSize: 12,
+                                          color: const Color.fromRGBO(
+                                              94, 102, 104, 1))),
                             ],
                           ),
                           const SizedBox(height: 5.0),
@@ -229,7 +247,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Gender',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -272,7 +296,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             children: [
                               Text(
                                 'Birthday',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -292,7 +322,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 hintText: 'Enter your birthday',
                                 fillColor: Colors.white,
                                 filled: true,
-                                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.grey.shade600),
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(color: Colors.grey.shade600),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                   color: Colors.grey.shade300,
@@ -301,7 +334,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                   Icons.calendar_today_outlined,
                                   color: Color.fromRGBO(94, 102, 104, 1),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 15.0),
                               ),
                               onChanged: (val) {
                                 setState(
@@ -342,6 +376,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog();
+                          Get.toNamed('accountScreen');
                         } else {
                           errorDialog(response["message"]);
                         }
@@ -349,7 +384,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     },
                     child: Text(
                       'Continue',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -375,7 +413,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       },
                       child: Text(
                         'Stay Anonymous',
-                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green[300]),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.copyWith(color: Colors.green[300]),
                       )),
                 ),
               ],
@@ -420,7 +461,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         },
         child: Text(
           'Okay!',
-          style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              ?.copyWith(color: Colors.white),
         ),
       ),
     );

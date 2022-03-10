@@ -161,4 +161,10 @@ final ThemeData themeData = ThemeData(
       padding: const EdgeInsets.all(10),
     ),
   ),
+  buttonTheme: ButtonThemeData(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24)
+    )
+  ),
+  
 );
