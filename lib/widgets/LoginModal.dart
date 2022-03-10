@@ -272,14 +272,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         snackPosition: SnackPosition.BOTTOM,
                                         backgroundColor: Colors.green,
                                       );
-<<<<<<< HEAD
                                       Get.offAndToNamed('/homepage');
-=======
-                                      Timer(const Duration(seconds: 5), (){
-                                        const CircularProgressIndicator(color: Colors.white);
-                                        Get.toNamed('/homepage');
-                                      } );
->>>>>>> 26fc1796800c54e4f514f6a41f99c76d9c8d8b63
                                       //Navigate to main page
                                     } else {
                                       Get.snackbar(
