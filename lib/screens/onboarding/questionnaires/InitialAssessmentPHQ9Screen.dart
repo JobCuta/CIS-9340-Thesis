@@ -30,20 +30,20 @@ class _InitialAssessmentPHQ9ScreenState
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
           child: Center(
               child: Wrap(
-                  runSpacing: 30,
+                  runSpacing: 20,
                   alignment: WrapAlignment.center,
                   children: [
                 Text(
                     "We are going to ask you 9 questions about your mental health",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(color: Colors.white)),
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        color: Colors.white,
+                        fontFamily: 'Proxima Nova',
+                        fontWeight: FontWeight.w600)),
                 Container(
                     margin:
                         const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: const Color(0xff3290FF).withOpacity(0.60),
                         borderRadius:
@@ -55,14 +55,18 @@ class _InitialAssessmentPHQ9ScreenState
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
-                              ?.copyWith(fontSize: 18, color: Colors.white)),
-                      const SizedBox(height: 50),
+                              ?.copyWith(
+                                  fontFamily: 'Proxima Nova',
+                                  color: Colors.white)),
+                      const SizedBox(height: 30),
                       Text('Feedback will be given right after.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
-                              ?.copyWith(fontSize: 18, color: Colors.white)),
+                              ?.copyWith(
+                                  fontFamily: 'Proxima Nova',
+                                  color: Colors.white)),
                     ]))
               ]))),
       Container(
@@ -75,10 +79,10 @@ class _InitialAssessmentPHQ9ScreenState
                 child: ElevatedButton(
                     child: Text(
                       "I'm ready!",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          ?.apply(color: Colors.white),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "Proxima Nova"),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,

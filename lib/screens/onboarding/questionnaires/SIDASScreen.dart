@@ -33,6 +33,14 @@ class _SIDASScreenState extends State<SIDASScreen> {
     '(0 = Not at all, 10 = Extremely)',
   ];
 
+  final List<String> zero_string = [
+    '0 = Never',
+    '0 = No Control',
+    '0 = Not close at all',
+    '0 = Not at all',
+    '0 = Not at all',
+  ];
+
   final SIDASController _sidasController = Get.put(SIDASController());
 
   @override
@@ -75,8 +83,9 @@ class _SIDASScreenState extends State<SIDASScreen> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
                 child: Center(
-                    child: Wrap(alignment: WrapAlignment.center, runSpacing: 20,
-                        // mainAxisAlignment: MainAxisAlignment.center,
+                    child: Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 20,
                         children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -86,22 +95,248 @@ class _SIDASScreenState extends State<SIDASScreen> {
                             color: const Color(0xff3290FF).withOpacity(0.60),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8))),
-                        child: Wrap(runSpacing: 10, children: [
-                          Text(questions[position],
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(color: Colors.white)),
-                          Text(answer_guide[position],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'Proxima Nova',
-                                  fontWeight: FontWeight.w400))
-                        ]),
+                        child: Wrap(
+                            alignment: WrapAlignment.center,
+                            runSpacing: 10,
+                            children: [
+                              Text(questions[position],
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(color: Colors.white)),
+                              Text(answer_guide[position],
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'Proxima Nova',
+                                      fontWeight: FontWeight.w400))
+                            ]),
                       ),
+                      Row(children: [
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 1 : 9);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xffFFB762)),
+                                  child: Text('1',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 2 : 8);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFFAE50)),
+                                  child: Text('2',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 3 : 7);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFFA236)),
+                                  child: Text('3',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 4 : 6);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xffFF8A00)),
+                                  child: Text('4',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(position, 5);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFF7A00)),
+                                  child: Text('5',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 6 : 4);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFF6B00)),
+                                  child: Text('6',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 7 : 3);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xffFF7A00)),
+                                  child: Text('7',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 8 : 2);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFF8A00)),
+                                  child: Text('8',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 9 : 1);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFFA236)),
+                                  child: Text('9',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                _sidasController.updateValues(
+                                    position, (position != 1) ? 10 : 0);
+                              },
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                      color: const Color(0xffFFAE50)),
+                                  child: Text('10',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Proxima Nova')))),
+                        )
+                      ]),
+                      InkWell(
+                          onTap: () {
+                            _sidasController.updateValues(
+                                position, (position != 1) ? 0 : 10);
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 13.0, horizontal: 14.0),
+                              decoration: const BoxDecoration(
+                                  color: Color(0xffFFA236),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(3))),
+                              child: Text(zero_string[position],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Proxima Nova')))),
                     ])),
               ),
               // Bottombar
@@ -118,8 +353,11 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                 'Previous',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
-                                    ?.copyWith(color: const Color(0xff5E6668)),
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xffFFBE18)),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -145,8 +383,11 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                 'Next',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1
-                                    ?.copyWith(color: Colors.white),
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -158,7 +399,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Get.toNamed('/emotionScreen')
+                                    ? Get.toNamed('/interpretationScreen')
                                     // Checks if the user selected a valid value
                                     : _pageController.jumpToPage(position + 1);
                               }),

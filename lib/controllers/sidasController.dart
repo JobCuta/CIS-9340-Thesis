@@ -6,6 +6,7 @@ class SIDASController extends GetxController {
 
   void updateValues(int position, int i) {
     answerValues[position] = i;
+    print(answerValues);
     calculateSum();
     update();
   }
@@ -15,6 +16,7 @@ class SIDASController extends GetxController {
     for (var num in answerValues) {
       sum += num;
     }
+    print(sum);
     update();
   }
 }

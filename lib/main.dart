@@ -70,7 +70,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/assessPHQScreen',
+        initialRoute: '/homepage',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -132,36 +132,53 @@ class _MainState extends State<Main> {
 final ThemeData themeData = ThemeData(
   fontFamily: 'Proxima Nova',
   textTheme: const TextTheme(
-    headline1: TextStyle(fontSize: 68.0,),
-    headline2: TextStyle(fontSize: 56.0,),
-    headline3: TextStyle(fontSize: 46.0,),
-    headline4: TextStyle(fontSize: 38.0,),
-    headline5: TextStyle(fontSize: 30.0,),
-    subtitle1: TextStyle(fontSize: 24.0,),
-    subtitle2: TextStyle(fontSize: 20.0,),
-    bodyText1: TextStyle(fontSize: 16.0,),
-    bodyText2: TextStyle(fontSize: 14.0,),
-    caption: TextStyle(fontSize: 12.0,),
-
+    headline1: TextStyle(
+      fontSize: 68.0,
+    ),
+    headline2: TextStyle(
+      fontSize: 56.0,
+    ),
+    headline3: TextStyle(
+      fontSize: 46.0,
+    ),
+    headline4: TextStyle(
+      fontSize: 38.0,
+    ),
+    headline5: TextStyle(
+      fontSize: 30.0,
+    ),
+    subtitle1: TextStyle(
+      fontSize: 24.0,
+    ),
+    subtitle2: TextStyle(
+      fontSize: 20.0,
+    ),
+    bodyText1: TextStyle(
+      fontSize: 16.0,
+    ),
+    bodyText2: TextStyle(
+      fontSize: 14.0,
+    ),
+    caption: TextStyle(
+      fontSize: 12.0,
+    ),
   ),
   backgroundColor: const Color(0xffF2F6F7),
   colorScheme: const ColorScheme(
-    brightness: Brightness.light, 
-    primary: Color(0xff1BBCB6), 
-    onPrimary: Color(0xffFFFFFF), 
-    secondary: Color(0xff3FCD67), 
-    onSecondary: Color(0xffFFFFFF),
-    error: Color(0xffB22428), 
-    onError: Color(0xffFFFFFF), 
-    background: Color(0xffF2F6F7), 
-    onBackground: Color(0xff161818), 
-    surface: Color(0xffFFFFFF), 
-    onSurface: Color(0xff161818)
-  ),
+      brightness: Brightness.light,
+      primary: Color(0xff1BBCB6),
+      onPrimary: Color(0xffFFFFFF),
+      secondary: Color(0xff3FCD67),
+      onSecondary: Color(0xffFFFFFF),
+      error: Color(0xffB22428),
+      onError: Color(0xffFFFFFF),
+      background: Color(0xffF2F6F7),
+      onBackground: Color(0xff161818),
+      surface: Color(0xffFFFFFF),
+      onSurface: Color(0xff161818)),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       primary: Colors.green[400],
       padding: const EdgeInsets.all(10),
     ),

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../constants/notificationService.dart';
-// import 'SideMenu.dart';
+import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // drawer: SideMenu(),
+      drawer: SideMenu(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
