@@ -34,4 +34,4 @@ The rules are as follows:
 # Packages Used
 - GetX (https://pub.dev/packages/get)
 - Flutter Secure Storage (https://pub.dev/packages/flutter_secure_storage)
-- 
+- GetStorage (https://pub.dev/packages/get_storage)

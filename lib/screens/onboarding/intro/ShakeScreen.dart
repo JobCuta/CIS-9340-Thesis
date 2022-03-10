@@ -368,7 +368,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                       primary: const Color(0xff4CA7FC),
                                     ),
                                     onPressed: () {
-                                      Get.toNamed('/accountScreen');
+                                      (widget.initialAssessment)
+                                          ? Get.toNamed('/accountScreen')
+                                          : Get.toNamed('/homepage');
+                                      // Get.toNamed('/accountScreen');
                                     },
                                     child: Text(
                                       (widget.initialAssessment)

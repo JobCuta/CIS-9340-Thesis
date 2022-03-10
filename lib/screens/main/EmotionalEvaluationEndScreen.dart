@@ -8,7 +8,7 @@ import '../../../controllers/emotionController.dart';
 
 void main() {
   runApp(
-      const GetMaterialApp(home: EmotionScreen()));
+      const GetMaterialApp(home: EmotionalEvaluationEndScreen()));
 }
 
 class Emotion {
@@ -24,16 +24,16 @@ class Emotion {
   toString() => name;
 }
 
-class EmotionScreen extends StatefulWidget {
-  const EmotionScreen({key}) : super(key: key);
+class EmotionalEvaluationEndScreen extends StatefulWidget {
+  const EmotionalEvaluationEndScreen({key}) : super(key: key);
 
   @override
-  _EmotionScreenState createState() =>
-      _EmotionScreenState();
+  _EmotionalEvaluationEndScreenState createState() =>
+      _EmotionalEvaluationEndScreenState();
 }
 
-class _EmotionScreenState
-    extends State<EmotionScreen> {
+class _EmotionalEvaluationEndScreenState
+    extends State<EmotionalEvaluationEndScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Emotion> positiveEmotionsList = [
@@ -82,7 +82,7 @@ class _EmotionScreenState
                 )
             ),
 
-            leading: BackButton(onPressed: () {Get.offAndToNamed('.homepage');}),
+            leading: BackButton(onPressed: () {Get.toNamed('.homepage');}),
             elevation: 0,
             backgroundColor: Colors.transparent
         ),

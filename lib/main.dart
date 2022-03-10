@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
+import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
+import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
+import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_storage/get_storage.dart';
 import 'apis/userSecureStorage.dart';
+import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
-import 'screens/main/WellnessExercisesScreen.dart';
+// import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -19,7 +26,10 @@ import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); //
+  await GetStorage.init("DailyStorage");
   runApp(const Main());
 }
 
@@ -36,7 +46,6 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     UserSecureStorage.getLoginKey().then((value) {
-      print(value);
       if (value == null) {
         setState(() {
           isLoggedIn = false;
@@ -47,7 +56,6 @@ class _MainState extends State<Main> {
         });
       }
     });
-    print(isLoggedIn);
     super.initState();
   }
 
@@ -55,7 +63,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/',
+        initialRoute: '/homepage',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -91,11 +99,18 @@ class _MainState extends State<Main> {
               name: '/notifScreen', page: () => const SetNotificationScreen()),
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
-
           // wellness exercises
           GetPage(
               name: '/wellnessScreen',
               page: () => const WellnessExercisesScreen()),
+
+          GetPage(
+              name: '/emotionStartScreen',
+              page: () => const EmotionalEvaluationStartScreen()),
+
+          GetPage(
+              name: '/emotionEndScreen',
+              page: () => const EmotionalEvaluationEndScreen()),
         ],
         theme: ThemeData(
           fontFamily: 'Proxima Nova',
@@ -108,7 +123,8 @@ class _MainState extends State<Main> {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24)),
               primary: Colors.green[400],
               padding: const EdgeInsets.all(10),
             ),
