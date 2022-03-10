@@ -76,6 +76,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
           GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
           GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
+
           //login_registration
           GetPage(
               name: '/accountScreen', page: () => const CreateAccountScreen()),
@@ -84,6 +85,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
           GetPage(
               name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
+
           //questionnaires
           GetPage(
               name: '/assessPHQScreen',
@@ -107,17 +109,17 @@ class _MainState extends State<Main> {
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
+
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
+
           // wellness exercises
           GetPage(
               name: '/wellnessScreen',
               page: () => const WellnessExercisesScreen()),
-
           GetPage(
               name: '/emotionStartScreen',
               page: () => const EmotionalEvaluationStartScreen()),
-
           GetPage(
               name: '/emotionEndScreen',
               page: () => const EmotionalEvaluationEndScreen()),
@@ -183,4 +185,6 @@ final ThemeData themeData = ThemeData(
       padding: const EdgeInsets.all(10),
     ),
   ),
+  buttonTheme: ButtonThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
 );

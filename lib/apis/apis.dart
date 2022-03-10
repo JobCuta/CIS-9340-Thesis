@@ -33,7 +33,6 @@ class UserProvider extends GetConnect {
             "Unknown error occurred checking if response contains login key";
       }
     }
-
     return {"message": message, "status": status};
   }
 
@@ -82,15 +81,19 @@ class UserProvider extends GetConnect {
   //GET
   Future<Response> logout() async => await get(domain + paths["logout"]);
 
-  //PUT
-  // Future<bool> updateUser(UserForm userData) async {
-  //   String? authKey = await UserSecureStorage.getLoginKey();
-  //   final response = await put(domain + paths["getUser"], userData.form(),
-  //       headers: {"Authorization": "Token " + authKey!});
-  //   print('update user response ${response.body} ${authKey}');
-  //   if (response.hasError) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
+  Future<Object> user(bool initial) async {
+    final response = await get(domain + paths["getUser"]);
+    var map = Map<String, dynamic>.from(response.body);
+    if (!response.hasError) {
+      if (initial) {
+        await UserSecureStorage.setLoginDetails(map["email"],
+            map["nickname"] == "" ? map["first_name"] : map["nickname"]);
+        return true;
+      } else {
+        return response;
+      }
+    } else {
+      return false;
+    }
+  }
 }

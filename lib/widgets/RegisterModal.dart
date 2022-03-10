@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
@@ -76,7 +78,7 @@ class _RegisterState extends State<RegisterWidget> {
                   child: Center(
                       child: Text(
                     'Register',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
                   )),
                 ),
                 const SizedBox(height: 15.0),
@@ -295,14 +297,17 @@ class _RegisterState extends State<RegisterWidget> {
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      Get.toNamed('/aboutSelfScreen',
-                                          arguments: {
-                                            "email": email,
-                                            "pass1": password,
-                                            "pass2": confirmPassword
-                                          },
-                                          preventDuplicates: false
-                                      );
+                                      Timer(const Duration(seconds: 5), (){
+                                        const CircularProgressIndicator(color: Colors.white);
+                                        Get.toNamed('/aboutSelfScreen',
+                                            arguments: {
+                                              "email": email,
+                                              "pass1": password,
+                                              "pass2": confirmPassword
+                                            },
+                                            preventDuplicates: false
+                                        );
+                                      } );
                                     }
                                   }
                                 : null,
