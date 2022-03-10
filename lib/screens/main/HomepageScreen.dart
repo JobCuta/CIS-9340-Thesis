@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../constants/notificationService.dart';
+import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -28,11 +29,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      drawer: SideMenu(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomSheet: bottomNavigationBar(),
     );
   }
-
   //Bottom Navigation Bar
   bottomNavigationBar() {
     return BottomNavigationBar(
