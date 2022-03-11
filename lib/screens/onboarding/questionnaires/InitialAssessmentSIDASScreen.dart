@@ -36,10 +36,7 @@ class _InitialAssessmentSIDASScreenState
                 Text(
                     "We are going to ask you 5 questions about any suicidal ideation present",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        color: Colors.white,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600)),
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
                 Container(
                   margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
@@ -50,8 +47,7 @@ class _InitialAssessmentSIDASScreenState
                   child: Text(
                       'These questions will help determine any presence of suicidal ideation and will assess your severity of such mindset.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          fontFamily: 'Proxima Nova', color: Colors.white)),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white)),
                 )
               ]))),
       Container(
@@ -64,11 +60,7 @@ class _InitialAssessmentSIDASScreenState
                 child: ElevatedButton(
                     child: Text(
                       "I'm ready!",
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Proxima Nova"),
-                    ),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       shape: RoundedRectangleBorder(

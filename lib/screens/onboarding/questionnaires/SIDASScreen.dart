@@ -103,17 +103,10 @@ class _SIDASScreenState extends State<SIDASScreen> {
                             children: [
                               Text(questions[position],
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1
-                                      ?.copyWith(color: Colors.white)),
+                                  style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white)),
                               Text(answer_guide[position],
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'Proxima Nova',
-                                      fontWeight: FontWeight.w400))
+                                  style: Theme.of(context).textTheme.caption?.copyWith(color: Colors.white))
                             ]),
                       ),
                       GetBuilder<SIDASController>(
@@ -143,13 +136,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFB762)),
                                     child: Text('0',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -176,13 +163,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFAE50)),
                                     child: Text('1',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -209,13 +190,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFA236)),
                                     child: Text('2',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -242,13 +217,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFF8A00)),
                                     child: Text('3',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -275,13 +244,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFF7A00)),
                                     child: Text('4',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -302,13 +265,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFF6B00)),
                                     child: Text('5',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -335,13 +292,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFF7A00)),
                                     child: Text('6',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -368,13 +319,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFF8A00)),
                                     child: Text('7',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -401,13 +346,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFA236)),
                                     child: Text('8',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -434,13 +373,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFAE50)),
                                     child: Text('9',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           ),
                           Expanded(
                             child: InkWell(
@@ -467,13 +400,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                             width: 4),
                                         color: const Color(0xffFFB762)),
                                     child: Text('10',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'Proxima Nova')))),
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)))),
                           )
                         ]),
                         // InkWell(
@@ -513,13 +440,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                           child: ElevatedButton(
                               child: Text(
                                 'Previous',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontFamily: 'Proxima Nova',
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xffFFBE18)),
+                                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0xffFFBE18)),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -543,13 +464,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                           child: ElevatedButton(
                               child: Text(
                                 'Next',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontFamily: 'Proxima Nova',
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,

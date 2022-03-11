@@ -277,15 +277,15 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               ),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                 child: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                   child: TextField(
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16),
                     // controller: controller,
                     maxLines: null,
                     // onChanged: onChanged,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Input text',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0),

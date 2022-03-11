@@ -64,17 +64,10 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
             child: Wrap(
               runSpacing: 5,
               children: [
-                const Text('Choose an exercise you want',
-                    style: TextStyle(
-                        color: Color(0xffF8A13C),
-                        fontSize: 20,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600)),
-                const Text('Open your mind, relieve your body',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w400)),
+                Text('Choose an exercise you want',
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0xffF8A13C))),
+                Text('Open your mind, relieve your body',
+                    style: Theme.of(context).textTheme.bodyText2),
                 const Divider(
                   color: Color(0xffF0F1F1),
                   height: 25,
@@ -99,30 +92,19 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                         Wrap(
                           spacing: 5,
                           direction: Axis.vertical,
-                          children: const [
+                          children: [
                             Text('Breathing Exercise',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400)),
+                                style: Theme.of(context).textTheme.bodyText2),
                             Text("Relax and lower your body's stress",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xffACB2B4))),
+                                style: Theme.of(context).textTheme.caption?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
-                          text: const TextSpan(children: [
+                          text: TextSpan(children: [
                             TextSpan(
                                 text: 'Go',
-                                style: TextStyle(
-                                    color: Color(0xffACB2B4),
-                                    fontSize: 16,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w600)),
-                            WidgetSpan(
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                            const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
                                     color: Color(0xffACB2B4)))
@@ -154,30 +136,19 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                         Wrap(
                           spacing: 5,
                           direction: Axis.vertical,
-                          children: const [
+                          children: [
                             Text('Walking Meditation',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400)),
+                                style: Theme.of(context).textTheme.bodyText2),
                             Text("Match your breathing with a steady pace",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xffACB2B4))),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
-                          text: const TextSpan(children: [
+                          text: TextSpan(children: [
                             TextSpan(
                                 text: 'Go',
-                                style: TextStyle(
-                                    color: Color(0xffACB2B4),
-                                    fontSize: 16,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w600)),
-                            WidgetSpan(
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                            const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
                                     color: Color(0xffACB2B4)))
@@ -211,33 +182,22 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                           direction: Axis.vertical,
                           children: [
                             Row(
-                              children: const [
+                              children: [
                                 Text('Grounding Exercise',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Proxima Nova',
-                                        fontWeight: FontWeight.w400)),
+                                    style: Theme.of(context).textTheme.bodyText2),
                               ],
                             ),
-                            const Text(
+                            Text(
                                 "Pull away from all the noise in your mind",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xffACB2B4))),
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
-                          text: const TextSpan(children: <InlineSpan>[
+                          text:TextSpan(children: <InlineSpan>[
                             TextSpan(
                                 text: 'Go',
-                                style: TextStyle(
-                                    color: Color(0xffACB2B4),
-                                    fontSize: 16,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w600)),
-                            WidgetSpan(
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                            const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
                                     color: Color(0xffACB2B4)))

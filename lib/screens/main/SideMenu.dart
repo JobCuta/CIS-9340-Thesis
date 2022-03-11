@@ -106,8 +106,8 @@ class SideMenu extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
 }) {
-    final color = Colors.grey;
-    final hoverColor = Colors.white70;
+    const color = Colors.grey;
+    const hoverColor = Colors.white70;
 
     return ListTile(
       leading: Icon(icon, color: color),

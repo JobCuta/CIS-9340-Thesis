@@ -36,7 +36,7 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               Text(
                 'Create an account!',
-                style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline5?.copyWith(color: Colors.black),
               ),
               const SizedBox(height: 15.0),
               Padding(
@@ -76,7 +76,7 @@ class CreateAccountScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Sign up',
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
                     ),
                   ),
                 ),

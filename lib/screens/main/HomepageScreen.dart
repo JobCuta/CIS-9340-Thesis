@@ -87,14 +87,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       unselectedItemColor: const Color.fromRGBO(33, 108, 178, 1.0),
       iconSize: 32.0,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: const TextStyle(
-          fontFamily: 'Proxima Nova',
-          fontSize: 8.0,
-          fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(
-          fontFamily: 'Proxima Nova',
-          fontSize: 8.0,
-          fontWeight: FontWeight.bold),
+      selectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+      unselectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
       onTap: _onItemTapped,
     );
   }
@@ -145,13 +139,9 @@ class _HomePageState extends State<HomePage> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
                     child: Column(children: [
-                      const Text('Welcome!',
+                      Text('Welcome!',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w600)),
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
                       const SizedBox(height: 10),
                       Container(
                         alignment: Alignment.center,
@@ -161,14 +151,10 @@ class _HomePageState extends State<HomePage> {
                             color: const Color(0xff216CB2).withOpacity(0.20),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10))),
-                        child: const Text(
+                        child: Text(
                             'Remember, all is well and all will be well.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontFamily: 'Proxima Nova',
-                                fontWeight: FontWeight.w400)),
+                            style: Theme.of(context).textTheme.caption?.copyWith(color: Colors.white)),
                       )
                     ])),
               ),
@@ -192,19 +178,11 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text('Your dailies for today',
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: const Color(0xff4ca7fc).withOpacity(1.0),
-                              fontSize: 20,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w600)),
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
                       const SizedBox(height: 10.0),
                       Text('Start your journey to wellness!',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: const Color(0xff161818).withOpacity(1.0),
-                              fontSize: 14,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w400)),
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
                       const Divider(
                         color: Color(0xffF0F1F1),
                         height: 25,
@@ -223,23 +201,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text('Do your daily exercise',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: const Color(0xff161818)
-                                        .withOpacity(1.0),
-                                    fontSize: 14,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400)),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
                             !_isDailyExerciseDone
                                 ? RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: TextStyle(
-                                              color: const Color(0x216CB2FF)
-                                                  .withOpacity(1.0),
-                                              fontSize: 16,
-                                              fontFamily: 'Proxima Nova',
-                                              fontWeight: FontWeight.w600)),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
@@ -253,17 +221,12 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Completed',
-                                          style: TextStyle(
-                                              color: const Color(0xffACB2B4)
-                                                  .withOpacity(1.0),
-                                              fontSize: 16,
-                                              fontFamily: 'Proxima Nova',
-                                              fontWeight: FontWeight.w600)),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0x0ff87e54).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0xff87E54)
+                                              color: const Color(0x0ff87e54)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),
@@ -288,23 +251,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text("Add today's entry",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: const Color(0xff161818)
-                                        .withOpacity(1.0),
-                                    fontSize: 14,
-                                    fontFamily: 'Proxima Nova',
-                                    fontWeight: FontWeight.w400)),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
                             !_isDailyEntryDone
                                 ? RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: TextStyle(
-                                              color: const Color(0xff216CB2)
-                                                  .withOpacity(1.0),
-                                              fontSize: 16,
-                                              fontFamily: 'Proxima Nova',
-                                              fontWeight: FontWeight.w600)),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff216CB2).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
@@ -318,17 +271,12 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Completed',
-                                          style: TextStyle(
-                                              color: const Color(0xffACB2B4)
-                                                  .withOpacity(1.0),
-                                              fontSize: 16,
-                                              fontFamily: 'Proxima Nova',
-                                              fontWeight: FontWeight.w600)),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0xff87E54)
+                                              color: const Color(0x0ff87e54)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),
@@ -364,21 +312,12 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           direction: Axis.vertical,
                           children: [
-                            const Text('Adventure Mode',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    fontFamily: 'Proxima Nova')),
+                            Text('Adventure Mode',
+                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
                             const SizedBox(height: 10.0),
                             Text('Start your journey to wellness!',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.apply(
-                                        color: Colors.white,
-                                        fontFamily: 'Proxima Nova')),
+                                style: Theme.of(context).textTheme.bodyText2?.apply(color: Colors.white)),
                           ]),
                     )
                   ]),
@@ -408,16 +347,10 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       direction: Axis.vertical,
                       children: [
-                        const Text('Daily Wellness Exercise',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontFamily: 'Proxima Nova')),
+                        Text('Daily Wellness Exercise',
+                            style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
                         Text('Keep your mind and body in shape!',
-                            style: Theme.of(context).textTheme.bodyText2?.apply(
-                                color: Colors.white,
-                                fontFamily: 'Proxima Nova'))
+                            style: Theme.of(context).textTheme.bodyText2?.apply(color: Colors.white)),
                       ],
                     ),
                   ),

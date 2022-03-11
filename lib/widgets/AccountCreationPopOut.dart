@@ -7,7 +7,7 @@ Widget buildPopupDialog(BuildContext context) {
     title: Text(
       'Account successfully registered!',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24),
+      style: Theme.of(context).textTheme.subtitle1,
     ),
     content: Column(
       mainAxisSize: MainAxisSize.min,

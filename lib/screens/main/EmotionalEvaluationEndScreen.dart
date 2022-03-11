@@ -72,14 +72,9 @@ class _EmotionalEvaluationEndScreenState
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-            title: const Text(
+            title: Text(
                 'Add an Entry',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w400
-                )
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
             ),
 
             leading: BackButton(onPressed: () {Get.toNamed('.homepage');}),
@@ -105,36 +100,24 @@ class _EmotionalEvaluationEndScreenState
                 alignment: Alignment.center,
                 child: ListView(
                   children: [
-                    const Text('Date & Time',
+                    Text('Date & Time',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: 'Proxima Nova',
-                            fontWeight: FontWeight.w600)
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
                     ),
 
                     const SizedBox(height: 35.0),
 
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text('Date',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Proxima Nova',
-                                  fontWeight: FontWeight.w400)
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                           ),
 
                           Text('Wed, 2 March',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Proxima Nova',
-                                  fontWeight: FontWeight.w600)
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
                           ),
                         ]),
 
@@ -142,23 +125,15 @@ class _EmotionalEvaluationEndScreenState
 
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text('Time',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Proxima Nova',
-                                  fontWeight: FontWeight.w400)
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                           ),
 
                           Text('22:21, Evening',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'Proxima Nova',
-                                  fontWeight: FontWeight.w600)
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
                           ),
                         ]),
 
@@ -178,13 +153,9 @@ class _EmotionalEvaluationEndScreenState
                       decoration: BoxDecoration(
                           color: const Color(0xff3290FF).withOpacity(0.60),
                           borderRadius: const BorderRadius.all(Radius.circular(4))),
-                      child: const Text('Which emotion best apply to you now?',
+                      child:Text('Which emotion best apply to you now?',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: 'Proxima Nova',
-                              fontWeight: FontWeight.w400)),
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400)),
                     ),
 
 
@@ -283,13 +254,9 @@ class _EmotionalEvaluationEndScreenState
                             height: 50,
                             child: GetBuilder<EmotionController>(
                               builder: (value) => ElevatedButton(
-                                  child: const Text(
+                                  child: Text(
                                     'Done!',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        fontFamily: 'Proxima Nova'),
+                                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
                                   ),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
