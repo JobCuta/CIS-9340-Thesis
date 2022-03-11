@@ -16,6 +16,7 @@ import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
 import 'screens/onboarding/login_registration/CreateAccountScreen.dart';
 import 'screens/onboarding/login_registration/ForgotPasswordScreen.dart';
+import 'screens/main/CalendarScreen.dart';
 import 'screens/onboarding/questionnaires/EmotionalEvaluationPositiveNegativeScreen.dart';
 import 'screens/onboarding/questionnaires/EmotionalEvaluationScreen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
@@ -70,7 +71,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/homepage',
+        initialRoute: '/calendarScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -123,6 +124,11 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/emotionEndScreen',
               page: () => const EmotionalEvaluationEndScreen()),
+
+          //calendar
+          GetPage(
+              name: '/calendarScreen',
+              page: () => const CalendarScreen())
         ],
         theme: themeData,
         home:
