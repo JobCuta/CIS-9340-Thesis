@@ -79,9 +79,10 @@ class _SIDASScreenState extends State<SIDASScreen> {
                   ),
                 ),
               ),
+
               Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                 child: Center(
                     child: Wrap(
                         alignment: WrapAlignment.center,
@@ -89,15 +90,16 @@ class _SIDASScreenState extends State<SIDASScreen> {
                         children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 13.0, horizontal: 14.0),
+                            vertical: 13.0, horizontal: 15.0),
                         decoration: BoxDecoration(
                             color: const Color(0xff3290FF).withOpacity(0.60),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8))),
                         child: Wrap(
                             alignment: WrapAlignment.center,
-                            runSpacing: 10,
+                            runSpacing: 20,
                             children: [
                               Text(questions[position],
                                   textAlign: TextAlign.center,
@@ -114,229 +116,389 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                       fontWeight: FontWeight.w400))
                             ]),
                       ),
-                      Row(children: [
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 1 : 9);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xffFFB762)),
-                                  child: Text('1',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 2 : 8);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFFAE50)),
-                                  child: Text('2',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 3 : 7);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFFA236)),
-                                  child: Text('3',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 4 : 6);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xffFF8A00)),
-                                  child: Text('4',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(position, 5);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFF7A00)),
-                                  child: Text('5',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 6 : 4);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFF6B00)),
-                                  child: Text('6',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 7 : 3);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xffFF7A00)),
-                                  child: Text('7',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 8 : 2);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFF8A00)),
-                                  child: Text('8',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 9 : 1);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFFA236)),
-                                  child: Text('9',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                _sidasController.updateValues(
-                                    position, (position != 1) ? 10 : 0);
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0xffFFAE50)),
-                                  child: Text('10',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova')))),
-                        )
-                      ]),
-                      InkWell(
-                          onTap: () {
-                            _sidasController.updateValues(
-                                position, (position != 1) ? 0 : 10);
-                          },
-                          child: Container(
-                              alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 13.0, horizontal: 14.0),
-                              decoration: const BoxDecoration(
-                                  color: Color(0xffFFA236),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
-                              child: Text(zero_string[position],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Proxima Nova')))),
+                      GetBuilder<SIDASController>(
+                        builder: (value) => Row(children: [
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 0 : 10);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        0
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        10
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFB762)),
+                                    child: Text('0',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 1 : 9);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        1
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        9
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFAE50)),
+                                    child: Text('1',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 2 : 8);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        2
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        8
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFA236)),
+                                    child: Text('2',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 3 : 7);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        3
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        7
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFF8A00)),
+                                    child: Text('3',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 4 : 6);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        4
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        6
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFF7A00)),
+                                    child: Text('4',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(position, 5);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color:
+                                                _sidasController.answerValues[
+                                                            position] ==
+                                                        5
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFF6B00)),
+                                    child: Text('5',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 6 : 4);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        6
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        4
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFF7A00)),
+                                    child: Text('6',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 7 : 3);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        7
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        3
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFF8A00)),
+                                    child: Text('7',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 8 : 2);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        8
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        2
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFA236)),
+                                    child: Text('8',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 9 : 1);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        9
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        1
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFAE50)),
+                                    child: Text('9',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                onTap: () {
+                                  _sidasController.updateValues(
+                                      position, (position != 1) ? 10 : 0);
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: position != 1
+                                                ? _sidasController.answerValues[
+                                                            position] ==
+                                                        10
+                                                    ? Colors.white
+                                                    : Colors.transparent
+                                                : _sidasController.answerValues[
+                                                            position] ==
+                                                        0
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                            width: 4),
+                                        color: const Color(0xffFFB762)),
+                                    child: Text('10',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Proxima Nova')))),
+                          )
+                        ]),
+                        // InkWell(
+                        //     onTap: () {
+                        //       _sidasController.updateValues(
+                        //           position, (position != 1) ? 0 : 10);
+                        //     },
+                        //     child: Container(
+                        //         alignment: Alignment.center,
+                        //         width: MediaQuery.of(context).size.width,
+                        //         padding: const EdgeInsets.symmetric(
+                        //             vertical: 13.0, horizontal: 14.0),
+                        //         decoration: const BoxDecoration(
+                        //             color: Color(0xffFFA236),
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(3))),
+                        //         child: Text(zero_string[position],
+                        //             style: Theme.of(context)
+                        //                 .textTheme
+                        //                 .bodyText1
+                        //                 ?.copyWith(
+                        //                     color: Colors.white,
+                        //                     fontWeight: FontWeight.w700,
+                        //                     fontFamily: 'Proxima Nova')))),
+                      )
                     ])),
               ),
               // Bottombar
@@ -399,7 +561,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Get.toNamed('/interpretationScreen')
+                                    ? Get.toNamed('/loadingScreen')
                                     // Checks if the user selected a valid value
                                     : _pageController.jumpToPage(position + 1);
                               }),

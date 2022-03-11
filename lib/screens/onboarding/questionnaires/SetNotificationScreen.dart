@@ -29,22 +29,21 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   ),
                   fit: BoxFit.cover))),
       Padding(
-        padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
+        padding: const EdgeInsets.fromLTRB(25, 100, 25, 0),
         child: Container(
-          height: 80,
+          alignment: Alignment.center,
+          height: 120,
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
           decoration: BoxDecoration(
               color: const Color(0xff3290FF).withOpacity(0.60),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: Align(
-            child: Text(
-                'Set your preferred times for the day for when you want to be notified',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    ?.copyWith(color: Colors.white)),
-          ),
+          child: Text(
+              'Set your preferred times for the day for when you want to be notified',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(color: Colors.white)),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -52,16 +51,12 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
           padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
           child:
               Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Morning',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontSize: 18, color: Colors.white)),
-              const Expanded(
-                flex: 1,
-                child: Text(''),
-              ),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
               TextButton(
                   onPressed: () {
                     _timeController.selectMorningTime(context);
@@ -72,24 +67,26 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                               TextSpan(
                                   text: _timeController.morningTime.value
                                       .format(context),
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 18)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontFamily: 'Proxima Nova',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white)),
                               const WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      color: Colors.white))
+                                      size: 30, color: Colors.white))
                             ]),
                           )))
             ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Afternoon',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontSize: 18, color: Colors.white)),
-              const Expanded(
-                flex: 1,
-                child: Text(''),
-              ),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
               TextButton(
                   onPressed: () {
                     _timeController.selectAfternoonTime(context);
@@ -100,24 +97,26 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                               TextSpan(
                                   text: _timeController.afternoonTime.value
                                       .format(context),
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 18)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontFamily: 'Proxima Nova',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white)),
                               const WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      color: Colors.white))
+                                      size: 30, color: Colors.white))
                             ]),
                           )))
             ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Evening',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontSize: 18, color: Colors.white)),
-              const Expanded(
-                flex: 1,
-                child: Text(''),
-              ),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
               TextButton(
                   onPressed: () {
                     _timeController.selectEveningTime(context);
@@ -128,11 +127,17 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                               TextSpan(
                                   text: _timeController.eveningTime.value
                                       .format(context),
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 18)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontFamily: 'Proxima Nova',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white)),
                               const WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      color: Colors.white))
+                                      size: 30, color: Colors.white))
                             ]),
                           ))),
             ]),
@@ -159,14 +164,13 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 ),
                 child: Text(
                   'Done!',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova'),
                 ),
                 onPressed: () {
                   Get.toNamed('/loadingScreen');
-                  // Navigator
                 }),
           ),
         ),
@@ -192,10 +196,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 ),
                 child: Text(
                   "I'll do this later...",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.copyWith(color: const Color(0xffFFC122)),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      color: const Color(0xffFFC122),
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Proxima Nova'),
                 ),
                 onPressed: () {
                   Get.toNamed('/loadingScreen');

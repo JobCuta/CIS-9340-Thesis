@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../constants/notificationService.dart';
-//import 'SideMenu.dart';
+import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -30,9 +30,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      //drawer: SideMenu(),
+      drawer: SideMenu(),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        primary: true,
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomSheet: bottomNavigationBar(),
@@ -171,7 +173,8 @@ class _HomePageState extends State<HomePage> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    NotificationService.showNotification();
+                    Get.toNamed(
+                        '/notifScreen'); // NotificationService.showNotification();
                   },
                   child: const Text('Test Notification')),
               // const SizedBox(height: 50.0),
