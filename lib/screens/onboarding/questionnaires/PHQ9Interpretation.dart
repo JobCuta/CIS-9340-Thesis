@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../apis/phqHive.dart';
+import '../../../apis/sidasHive.dart';
+
 import '../../../controllers/phqController.dart';
 import '../../../controllers/sidasController.dart';
 
@@ -26,15 +28,33 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
     var newPhq =
         phqHive(date: DateTime.now(), answerValues: answerValues, sum: sum);
     box.add(newPhq);
-    //Output values inside hive into terminal on index 1
-    //print(box.getAt(0).date.toString());
-    //print(box.getAt(0).answerValues.toString());
-    //print(box.getAt(0).sum.toString());
+
+    //Output values inside hive into terminal in the last index
+    // var last_entry = box.toMap().length - 1;
+    // print('PHQ9');
+    // print(box.getAt(last_entry).date.toString());
+    // print(box.getAt(last_entry).answerValues.toString());
+    // print(box.getAt(last_entry).sum.toString());
+  }
+
+  void addToSidasHive(List<int> answerValues, int sum) async {
+    var box = await Hive.openBox('sidas');
+    var newSidas =
+        sidasHive(date: DateTime.now(), answerValues: answerValues, sum: sum);
+    box.add(newSidas);
+
+    //Output values inside hive into terminal in the last index
+    // var last_entry = box.toMap().length - 1;
+    // print('SIDAS');
+    // print(box.getAt(last_entry).date.toString());
+    // print(box.getAt(last_entry).answerValues.toString());
+    // print(box.getAt(last_entry).sum.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     addToPhqHive(_phqController.answerValues, _phqController.sum);
+    addToSidasHive(_sidasController.answerValues, _sidasController.sum);
     return Scaffold(
         body: Stack(alignment: AlignmentDirectional.topCenter, children: [
       Container(
@@ -45,7 +65,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                   ),
                   fit: BoxFit.cover))),
       Container(
-          padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 25),
           child: Wrap(
               alignment: WrapAlignment.center,
               spacing: 100,

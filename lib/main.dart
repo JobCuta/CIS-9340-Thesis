@@ -7,6 +7,7 @@ import 'package:flutter_application_1/screens/onboarding/login_registration/Anon
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
 import 'apis/phqHive.dart';
+import 'apis/sidasHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
@@ -38,6 +39,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(phqHiveAdapter());
   await Hive.openBox('phq');
+  Hive.registerAdapter(sidasHiveAdapter());
+  await Hive.openBox('sidas');
   runApp(const Main());
 }
 
@@ -71,7 +74,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/calendarScreen',
+        initialRoute: '/assessPHQScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -126,9 +129,7 @@ class _MainState extends State<Main> {
               page: () => const EmotionalEvaluationEndScreen()),
 
           //calendar
-          GetPage(
-              name: '/calendarScreen',
-              page: () => const CalendarScreen())
+          GetPage(name: '/calendarScreen', page: () => const CalendarScreen())
         ],
         theme: themeData,
         home:
