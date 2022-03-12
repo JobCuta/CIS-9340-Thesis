@@ -77,7 +77,7 @@ class _EmotionalEvaluationEndScreenState
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
             ),
 
-            leading: BackButton(onPressed: () {Get.toNamed('.homepage');}),
+            leading: BackButton(onPressed: () {Get.toNamed('/homepage');}),
             elevation: 0,
             backgroundColor: Colors.transparent
         ),

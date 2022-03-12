@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
-import 'dart:async';
 
 void main() => runApp(const LoginModal());
 
@@ -74,7 +73,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   handleLogin() async {
     var response = await UserProvider()
         .login(LoginForm(emailController.text, passwordController.text));
+    print("response loging ${response}");
     if (response["status"]) {
+      await UserProvider().user(true);
       return true;
     } else {
       error = response["message"];
@@ -108,7 +109,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
           elevation: 0.0,
           backgroundColor: Colors.transparent,
         ),
-        body: Container(
+        body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
@@ -119,7 +120,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   child: Center(
                       child: Text(
                     'Log in',
-                    style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1
+                        ?.copyWith(color: Colors.black),
                   )),
                 ),
                 const SizedBox(
@@ -138,7 +142,16 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                     child: Column(
                       children: <Widget>[
                         Row(
-                          children: [Text('Email', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)))],
+                          children: [
+                            Text('Email',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)))
+                          ],
                         ),
                         const SizedBox(
                           height: 5.0,
@@ -154,7 +167,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                   _validate ? 'This field is required' : null,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your email',
-                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -179,7 +196,14 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ),
                         Row(
                           children: [
-                            Text('Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
+                            Text('Password',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1))),
                           ],
                         ),
                         const SizedBox(
@@ -195,7 +219,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
-                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -239,7 +267,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                 },
                                 child: Text(
                                   'Forgot your password?',
-                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontSize: 12,
+                                          color: Colors.grey[500]),
                                 ),
                               ),
                             ],
@@ -259,7 +292,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             child: Text(
                               'Continue',
-                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(color: Colors.white),
                             ),
                             onPressed: isButtonActive
                                 ? () async {
@@ -273,7 +309,6 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         backgroundColor: Colors.green,
                                       );
                                       Get.offAndToNamed('/homepage');
-                                      //Navigate to main page
                                     } else {
                                       Get.snackbar(
                                         "Log in failed",

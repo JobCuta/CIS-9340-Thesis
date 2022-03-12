@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserSecureStorage {
@@ -13,11 +15,13 @@ class UserSecureStorage {
   static Future<String?> getLoginKey() async =>
       await _storage.read(key: _loginKey);
 
+  static removeLoginKey() async => await _storage.delete(key: _loginKey);
+
   static Future setLoginDetails(String email, String usern) async {
     await _storage.write(key: _email, value: email);
     await _storage.write(key: _usern, value: usern);
   }
 
-  static Future getEmail() async => await _storage.read(key: _email);
-  static Future getUsern() async => await _storage.read(key: _usern);
+  static Future<String?> getEmail() async => await _storage.read(key: _email);
+  static Future<String?> getUsern() async => await _storage.read(key: _usern);
 }

@@ -79,13 +79,22 @@ class UserProvider extends GetConnect {
   }
 
   //GET
-  Future<Response> logout() async => await get(domain + paths["logout"]);
+  Future<Response> logout() async {
+    var response = await get(domain + paths["logout"]);
+    UserSecureStorage.removeLoginKey();
+    return response;
+  }
 
   Future<Object> user(bool initial) async {
-    final response = await get(domain + paths["getUser"]);
+    String key = ""; 
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
     var map = Map<String, dynamic>.from(response.body);
+    print("it be like that");
     if (!response.hasError) {
+      print("it be like that2 $map");
       if (initial) {
+        print("hello ${map["email"]}");
         await UserSecureStorage.setLoginDetails(map["email"],
             map["nickname"] == "" ? map["first_name"] : map["nickname"]);
         return true;
