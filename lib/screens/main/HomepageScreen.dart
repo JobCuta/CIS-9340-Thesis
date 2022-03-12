@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../../constants/notificationService.dart';
 import 'SideMenu.dart';
@@ -107,9 +108,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-DailyController _dailyController = Get.put(DailyController());
+
+final DailyController _dailyController = Get.put(DailyController());
 
 class _HomePageState extends State<HomePage> {
+
   bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
   bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
@@ -190,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyExerciseToDone();
+                          _dailyController.setDailyTaskToDone('exercise');
                           setState(() {
                             _isDailyExerciseDone = true;
                           });
@@ -240,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyEntryToDone();
+                          _dailyController.setDailyTaskToDone('entry');
                           setState(() {
                             _isDailyEntryDone = true;
                           });
