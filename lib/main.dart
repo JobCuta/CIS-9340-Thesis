@@ -142,16 +142,16 @@ class _MainState extends State<Main> {
 final ThemeData themeData = ThemeData(
   fontFamily: 'Proxima Nova',
   textTheme: const TextTheme(
-    headline1: TextStyle(fontSize: 68.0, fontWeight: FontWeight.w600),
-    headline2: TextStyle(fontSize: 56.0, fontWeight: FontWeight.w600),
-    headline3: TextStyle(fontSize: 46.0, fontWeight: FontWeight.w600),
-    headline4: TextStyle(fontSize: 38.0, fontWeight: FontWeight.w600),
-    headline5: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
-    subtitle1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
-    subtitle2: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
-    bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-    bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-    caption: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400),
+    headline1: TextStyle(fontSize: 68.0),
+    headline2: TextStyle(fontSize: 56.0,),
+    headline3: TextStyle(fontSize: 46.0,),
+    headline4: TextStyle(fontSize: 38.0,),
+    headline5: TextStyle(fontSize: 30.0,),
+    subtitle1: TextStyle(fontSize: 24.0,),
+    subtitle2: TextStyle(fontSize: 20.0,),
+    bodyText1: TextStyle(fontSize: 16.0,),
+    bodyText2: TextStyle(fontSize: 14.0,),
+    caption: TextStyle(fontSize: 12.0,),
   ),
   backgroundColor: const Color(0xffF2F6F7),
   colorScheme: const ColorScheme(
@@ -165,7 +165,8 @@ final ThemeData themeData = ThemeData(
       background: Color(0xffF2F6F7),
       onBackground: Color(0xff161818),
       surface: Color(0xffFFFFFF),
-      onSurface: Color(0xff161818)),
+      onSurface: Color(0xff161818)
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -174,5 +175,6 @@ final ThemeData themeData = ThemeData(
     ),
   ),
   buttonTheme: ButtonThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))
+  ),
 );

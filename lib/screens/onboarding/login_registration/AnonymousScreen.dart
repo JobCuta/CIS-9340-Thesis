@@ -62,7 +62,10 @@ class _AnonymousState extends State<AnonymousWidget> {
                     child: Center(
                         child: Text(
                       'Staying anonymous',
-                      style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.headline1?.
+                        copyWith(
+                          fontWeight: FontWeight.w600
+                        ),
                     )),
                   ),
                   Center(

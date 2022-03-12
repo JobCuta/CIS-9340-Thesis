@@ -122,8 +122,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                     'Log in',
                     style: Theme.of(context)
                         .textTheme
-                        .headline1
-                        ?.copyWith(color: Colors.black),
+                        .headline5?.
+                          copyWith(
+                            fontWeight: FontWeight.w600
+                          )
                   )),
                 ),
                 const SizedBox(

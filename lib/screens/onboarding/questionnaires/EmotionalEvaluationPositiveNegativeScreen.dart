@@ -294,7 +294,9 @@ class _EmotionalEvaluationPositiveNegativeScreenState
                                           .textTheme
                                           .headline1
                                           ?.copyWith(
-                                              color: const Color(0xffFFC122)),
+                                              color: const Color(0xffFFC122),
+                                              fontWeight: FontWeight.w600
+                                            ),
                                       textAlign: TextAlign.center,
                                     ),
                                     content: Wrap(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../widgets/LoginModal.dart';
 import '../../../widgets/RegisterModal.dart';
@@ -36,7 +37,10 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               Text(
                 'Create an account!',
-                style: Theme.of(context).textTheme.headline5?.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.headline5?.
+                  copyWith(
+                    fontWeight: FontWeight.w700
+                  ),
               ),
               const SizedBox(height: 15.0),
               Padding(
@@ -44,7 +48,7 @@ class CreateAccountScreen extends StatelessWidget {
                 child: Text(
                   'All interactions and data are fully encrypted and secure. Your data is safe with us!',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.teal[900]),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Theme.of(context).colorScheme.darkGreen),
                 ),
               ),
               const SizedBox(

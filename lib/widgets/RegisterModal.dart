@@ -78,7 +78,11 @@ class _RegisterState extends State<RegisterWidget> {
                   child: Center(
                       child: Text(
                     'Register',
-                    style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.headline1?.
+                      copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600  
+                      ),
                   )),
                 ),
                 const SizedBox(height: 15.0),

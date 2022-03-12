@@ -131,7 +131,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.headline1?.
+                        copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                     )),
                   ),
                   Center(
@@ -431,7 +434,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return Get.defaultDialog(
       title: 'Account successfully registered!',
       barrierDismissible: false,
-      titleStyle: Theme.of(context).textTheme.headline1,
+      titleStyle: Theme.of(context).textTheme.headline1?.
+        copyWith(
+          fontWeight: FontWeight.w600
+        ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

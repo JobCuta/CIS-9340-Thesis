@@ -84,7 +84,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 ),
                 Text(
                   'Forgot your password?',
-                  style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.black),
+                  style: Theme.of(context).textTheme.headline1?.
+                    copyWith(
+                      fontWeight: FontWeight.w600
+                    ),
                 ),
                 const SizedBox(
                   height: 15.0,
@@ -106,7 +109,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                         children: [
                           Text(
                             'Confirm email',
-                            style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 12,color: const Color.fromRGBO(94, 102, 104, 1)),
+                            style: Theme.of(context).textTheme.caption?.
+                              copyWith(
+                                color: const Color.fromRGBO(94, 102, 104, 1)
+                              ),
                           ),
                         ],
                       ),
