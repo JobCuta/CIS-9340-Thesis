@@ -1,4 +1,4 @@
-enum Mood {
+enum MoodEnum {
   VeryBad,
   Bad,
   Neutral,

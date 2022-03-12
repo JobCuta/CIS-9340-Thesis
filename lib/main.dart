@@ -45,7 +45,7 @@ Future<void> main() async {
   Hive.registerAdapter(DailyHiveAdapter());
   await Hive.openBox<DailyHive>('daily');
   Hive.registerAdapter(EmotionEntryHiveAdapter());
-  await Hive.openBox('emotion');
+  await Hive.openBox<EmotionEntryHive>('emotion');
   runApp(const Main());
 }
 
@@ -137,9 +137,9 @@ class _MainState extends State<Main> {
           GetPage(name: '/calendarScreen', page: () => const CalendarScreen())
         ],
         theme: themeData,
-        home: const HomePageScreen());
+        home: 
             //change to screen checking log-in persisence
-            // (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
+            (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
   }
 }
 

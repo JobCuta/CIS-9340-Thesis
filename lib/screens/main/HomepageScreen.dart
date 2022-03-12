@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text('Your dailies for today',
                           textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0x004CA7FC).withOpacity(1.0))),
                       const SizedBox(height: 10.0),
                       Text('Start your journey to wellness!',
                           textAlign: TextAlign.center,
@@ -210,26 +210,26 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(
                                               Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0x216CB2FF)
+                                              color: const Color(0xFF216CB2)
                                                   .withOpacity(1.0)))
                                     ]),
                                   )
                                 : RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
-                                          text: 'Completed',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0x0ff87e54).withOpacity(1.0))),
+                                          text: 'Completed ',
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0x0ff87e54)
+                                              color: const Color(0xFF87E54C)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),
@@ -260,26 +260,26 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff216CB2).withOpacity(1.0))),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(
                                               Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0xff216CB2)
+                                              color: const Color(0xFF216CB2)
                                                   .withOpacity(1.0)))
                                     ]),
                                   )
                                 : RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
-                                          text: 'Completed',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4).withOpacity(1.0))),
+                                          text: 'Completed ',
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0x0ff87e54)
+                                              color: const Color(0xFF87E54C)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),

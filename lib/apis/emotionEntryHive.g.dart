@@ -20,9 +20,9 @@ class EmotionEntryHiveAdapter extends TypeAdapter<EmotionEntryHive> {
       overallMood: fields[0] as Mood,
       weekday: fields[1] as String,
       date: fields[2] as String,
-      morningCheck: (fields[3] as Map).cast<Mood, String>(),
-      afternoonCheck: (fields[4] as Map).cast<Mood, String>(),
-      eveningCheck: (fields[5] as Map).cast<Mood, String>(),
+      morningCheck: (fields[3] as Map).cast<String, Mood>(),
+      afternoonCheck: (fields[4] as Map).cast<String, Mood>(),
+      eveningCheck: (fields[5] as Map).cast<String, Mood>(),
     );
   }
 

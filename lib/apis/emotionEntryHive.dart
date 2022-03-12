@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:get/get.dart';
-import 'package:flutter_application_1/enums/Mood.dart';
+import 'package:flutter_application_1/models/Mood.dart';
 
 part 'emotionEntryHive.g.dart';
 
@@ -16,13 +16,13 @@ class EmotionEntryHive extends HiveObject{
   String date;
 
   @HiveField(3)
-  Map<Mood, String> morningCheck;   // mood and time
+  Map<String, Mood> morningCheck;   // mood and time
 
   @HiveField(4)
-  Map<Mood, String> afternoonCheck;
+  Map<String, Mood> afternoonCheck;
 
   @HiveField(5)
-  Map<Mood, String> eveningCheck;
+  Map<String, Mood> eveningCheck;
 
   EmotionEntryHive({
     required this.overallMood,

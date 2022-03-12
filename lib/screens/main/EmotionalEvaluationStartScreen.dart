@@ -41,6 +41,18 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
     final EmotionController _emotionController = Get.put(EmotionController());
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          title: Text(
+              'Add an Entry',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+
+          leading: BackButton(onPressed: () {Get.toNamed('.homepage');}),
+          elevation: 0,
+          backgroundColor: Colors.transparent
+      ),
+
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(
@@ -51,20 +63,20 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                     fit: BoxFit.cover))),
 
         Padding(
-          padding: const EdgeInsets.fromLTRB(25, 75, 25, 0),
+          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
           child: ListView(
             children: [
               Container(
                 alignment: Alignment.center,
-                height: 100,
+                height: 66,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                 decoration: BoxDecoration(
                     color: const Color(0xff3290FF).withOpacity(0.60),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
                 child: Text('How do you feel in this moment?',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 24, color: Colors.white)),
+                    style: Theme.of(context).textTheme.subtitle1?.copyWith(fontSize: 20, color: Colors.white)),
               ),
 
               const SizedBox(height: 30.0),
@@ -276,19 +288,22 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                 ),
               ),
 
+              const SizedBox(height: 5.0),
+
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                 child: Material(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   child: TextField(
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x005E6668).withOpacity(1.0)),
                     // controller: controller,
                     maxLines: null,
                     // onChanged: onChanged,
-                    decoration: const InputDecoration(
-                      hintText: 'Input text',
+                    decoration: InputDecoration(
+                      hintText: 'Write something you wanna mention here',
+                      hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0),
 
                     ),
                   ),
@@ -307,9 +322,9 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               width: MediaQuery.of(context).size.width,
               height: 50,
               child: ElevatedButton(
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                  child: Text('Next',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0xFFFFFFFF).withOpacity(1.0)),
                   ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
