@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../../constants/notificationService.dart';
 import 'SideMenu.dart';
@@ -107,9 +108,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-DailyController _dailyController = Get.put(DailyController());
+
+final DailyController _dailyController = Get.put(DailyController());
 
 class _HomePageState extends State<HomePage> {
+
   bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
   bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
@@ -178,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text('Your dailies for today',
                           textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0x004CA7FC).withOpacity(1.0))),
                       const SizedBox(height: 10.0),
                       Text('Start your journey to wellness!',
                           textAlign: TextAlign.center,
@@ -190,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyExerciseToDone();
+                          _dailyController.setDailyTaskToDone('exercise');
                           setState(() {
                             _isDailyExerciseDone = true;
                           });
@@ -207,26 +210,26 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(
                                               Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0x216CB2FF)
+                                              color: const Color(0xFF216CB2)
                                                   .withOpacity(1.0)))
                                     ]),
                                   )
                                 : RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
-                                          text: 'Completed',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0x0ff87e54).withOpacity(1.0))),
+                                          text: 'Completed ',
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0x0ff87e54)
+                                              color: const Color(0xFF87E54C)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),
@@ -240,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyEntryToDone();
+                          _dailyController.setDailyTaskToDone('entry');
                           setState(() {
                             _isDailyEntryDone = true;
                           });
@@ -257,26 +260,26 @@ class _HomePageState extends State<HomePage> {
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xff216CB2).withOpacity(1.0))),
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(
                                               Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0xff216CB2)
+                                              color: const Color(0xFF216CB2)
                                                   .withOpacity(1.0)))
                                     ]),
                                   )
                                 : RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
-                                          text: 'Completed',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4).withOpacity(1.0))),
+                                          text: 'Completed ',
+                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
                                       WidgetSpan(
                                           alignment:
                                               PlaceholderAlignment.middle,
                                           child: Icon(Icons.check_circle,
-                                              color: const Color(0x0ff87e54)
+                                              color: const Color(0xFF87E54C)
                                                   .withOpacity(1.0)))
                                     ]),
                                   ),

@@ -269,7 +269,8 @@ class _EmotionalEvaluationEndScreenState
                                         : const Color(0xffE2E4E4),
                                   ),
                                   onPressed: () {
-
+                                    // _emotionController.saveToStorage();
+                                    Get.toNamed('/homepage');
                                   }),
                             )),
                       ),

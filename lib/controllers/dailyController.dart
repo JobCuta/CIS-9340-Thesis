@@ -1,9 +1,10 @@
 // import 'package:flutter/material.dart';
+// import 'package:flutter_application_1/apis/dailyHive.dart';
+import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
 
 class DailyController extends GetxController {
-  final GetStorage box = GetStorage("DailyStorage");
 
   var _isDailyEntryDone = false.obs;
   var _isDailyExerciseDone = false.obs;
@@ -11,50 +12,47 @@ class DailyController extends GetxController {
   @override
   void onInit() {
     init();
-    getDaily();
-    checkCurrentDateTime();
     super.onInit();
   }
 
   void init() {
-    box.writeIfNull("currentWeekDay", DateTime.now().weekday);
-    box.writeIfNull("isDailyEntryDone", false);
-    box.writeIfNull("isDailyExerciseDone", false);
-    update();
-
-  }
-
-   Future<void> getDaily() async {
-    _isDailyEntryDone.value = await box.read("isDailyEntryDone");
-    _isDailyExerciseDone.value = await box.read("isDailyExerciseDone");
-    update();
-   } 
-
-
-  Future<void> checkCurrentDateTime() async { 
-    int value = await box.read("currentWeekDay");
-    int currentWeekDay = DateTime.now().weekday;
-    
-    if (value != currentWeekDay) {
-      await box.write("currentWeekDay", currentWeekDay);
-      await box.write("isDailyEntryDone", false);
-      await box.write("isDailyExerciseDone", false);
-
-      _isDailyEntryDone.value = false;
-      _isDailyExerciseDone.value = false;
-      update();
+    Box box = Hive.box<DailyHive>('daily');
+    if (box.isEmpty) {
+      DailyHive newDaily =
+          DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
+      box.put('dailyStatus', newDaily);
     }
-  }
 
-  Future<void> setDailyEntryToDone() async {
-    await box.write("isDailyEntryDone", true);
-    _isDailyEntryDone.value = true;
+    DailyHive daily = box.get('dailyStatus'); 
+
+    int storedWeekDay = daily.currentWeekDay;
+    int currentWeekDay = DateTime.now().weekday;
+
+    if (storedWeekDay != currentWeekDay) {
+      DailyHive daily = DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
+      daily.save();
+    }
+
+    _isDailyEntryDone.value = daily.isDailyEntryDone;
+    _isDailyExerciseDone.value = daily.isDailyExerciseDone;
+
     update();
   }
 
-  Future<void> setDailyExerciseToDone() async {
-    await box.write("isDailyExerciseDone", true);
-    _isDailyExerciseDone.value = true;
+  void setDailyTaskToDone(String task) {
+    Box box = Hive.box<DailyHive>('daily');
+    DailyHive daily = box.get('dailyStatus');
+
+    if (task == 'entry') {
+      daily.isDailyEntryDone = true;
+      _isDailyEntryDone.value = true;
+    }
+    else {
+      daily.isDailyExerciseDone = true;
+      _isDailyExerciseDone.value = true;
+    }
+
+    daily.save();
     update();
   }
 

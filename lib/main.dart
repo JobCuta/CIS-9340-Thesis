@@ -6,9 +6,10 @@ import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get_storage/get_storage.dart';
 import 'apis/phqHive.dart';
 import 'apis/sidasHive.dart';
+import 'apis/dailyHive.dart';
+import 'apis/emotionEntryHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/main/HomepageScreen.dart';
@@ -36,12 +37,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
-  await GetStorage.init("DailyStorage");
   await Hive.initFlutter();
   Hive.registerAdapter(phqHiveAdapter());
   await Hive.openBox('phq');
   Hive.registerAdapter(sidasHiveAdapter());
   await Hive.openBox('sidas');
+  Hive.registerAdapter(DailyHiveAdapter());
+  await Hive.openBox<DailyHive>('daily');
+  Hive.registerAdapter(EmotionEntryHiveAdapter());
+  await Hive.openBox<EmotionEntryHive>('emotion');
   runApp(const Main());
 }
 
@@ -133,7 +137,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/calendarScreen', page: () => const CalendarScreen())
         ],
         theme: themeData,
-        home:
+        home: 
             //change to screen checking log-in persisence
             (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
   }
