@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
@@ -79,7 +80,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/',
+        initialRoute: '/mentalHealthOnlineScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -134,7 +135,10 @@ class _MainState extends State<Main> {
               page: () => const EmotionalEvaluationEndScreen()),
 
           //calendar
-          GetPage(name: '/calendarScreen', page: () => const CalendarScreen())
+          GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
+
+          //Side Menu
+          GetPage(name: '/mentalHealthOnlineScreen', page: () => const MentalHealthOnlineScreen()),
         ],
         theme: themeData,
         home: 
