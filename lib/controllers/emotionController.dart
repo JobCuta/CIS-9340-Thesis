@@ -9,9 +9,14 @@ class EmotionController extends GetxController {
   final _selectedPositiveEmotions = [].obs;
   final _selectedNegativeEmotions = [].obs;
   var mainEmotion = ''.obs;
+  var note = ''.obs;
   var isPositiveNotEmpty = false.obs;
   var isNegativeNotEmpty = false.obs;
   var isValid = false.obs;
+  var isEditMode = false.obs;
+  var isMorningCheck = false.obs;
+  var isAfternoonCheck = false.obs;
+  var isEveningCheck = false.obs;
 
   void addPositiveEmotion(emotion) {
     _selectedPositiveEmotions.add(emotion);
@@ -144,6 +149,11 @@ class EmotionController extends GetxController {
   String dateTimeNowToString() {
     DateTime dateTime = DateTime.now();
     return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
+  }
+
+  void setEditMode(bool isEdit) {
+    isEditMode.value = isEdit;
+    update();
   }
 
 }

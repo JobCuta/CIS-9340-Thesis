@@ -36,7 +36,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
   bool isNeutral = false;
   bool isBad = false;
   bool isVeryBad = false;
-
+  bool isEditMode = false;
 
   void updateEmotionValues(MoodEnum mood) {
     if (mood == MoodEnum.VeryHappy) {
