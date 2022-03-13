@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/EntriesDetailScreen.dart';
+import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/phqHive.dart';
@@ -134,7 +136,11 @@ class _MainState extends State<Main> {
               page: () => const EmotionalEvaluationEndScreen()),
 
           //calendar
-          GetPage(name: '/calendarScreen', page: () => const CalendarScreen())
+          GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
+
+          // entries detail
+          GetPage(name: '/entriesScreen', page: () => const EntriesScreen()),
+          GetPage(name: '/entriesDetailScreen', page: () => const EntriesDetailScreen())
         ],
         theme: themeData,
         home: 
