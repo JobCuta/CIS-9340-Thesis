@@ -196,7 +196,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               RichText(
                 text: TextSpan(
                   children: [
-                    const WidgetSpan(child: Icon(Icons.note_add_outlined, size: 16)),
+                    const WidgetSpan(child: Icon(Icons.description, size: 16)),
                     TextSpan(text: " Notes", style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 14, color: Colors.white)),
                   ],
                 ),
