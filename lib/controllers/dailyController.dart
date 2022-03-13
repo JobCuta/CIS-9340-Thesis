@@ -24,15 +24,13 @@ class DailyController extends GetxController {
     }
 
     DailyHive daily = box.get('dailyStatus'); 
-
     int storedWeekDay = daily.currentWeekDay;
     int currentWeekDay = DateTime.now().weekday;
 
     if (storedWeekDay != currentWeekDay) {
-      DailyHive daily = DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
+      daily = DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
       daily.save();
     }
-
     _isDailyEntryDone.value = daily.isDailyEntryDone;
     _isDailyExerciseDone.value = daily.isDailyExerciseDone;
 

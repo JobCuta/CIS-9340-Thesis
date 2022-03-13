@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/emotionController.dart';
@@ -36,9 +37,106 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
   bool isBad = false;
   bool isVeryBad = false;
 
+
+  void updateEmotionValues(MoodEnum mood) {
+    if (mood == MoodEnum.VeryHappy) {
+      isVeryHappy = true;
+      isHappy = false;
+      isNeutral = false;
+      isBad = false;
+      isVeryBad = false;
+    }
+
+    else if (mood == MoodEnum.Happy) {
+      isVeryHappy = false;
+      isHappy = true;
+      isNeutral = false;
+      isBad = false;
+      isVeryBad = false;
+    }
+
+    else if (mood == MoodEnum.Neutral) {
+      isVeryHappy = false;
+      isHappy = false;
+      isNeutral = true;
+      isBad = false;
+      isVeryBad = false;
+    } 
+
+    else if (mood == MoodEnum.Bad) {
+      isVeryHappy = false;
+      isHappy = false;
+      isNeutral = false;
+      isBad = true;
+      isVeryBad = false;
+    } 
+
+    else if (mood == MoodEnum.VeryBad) {
+      isVeryHappy = false;
+      isHappy = false;
+      isNeutral = false;
+      isBad = false;
+      isVeryBad = true;
+    }  
+  }
+
+  AssetImage getImageOfMood(MoodEnum mood) {
+    AssetImage image = const AssetImage('placeholder');
+
+    if (mood == MoodEnum.VeryBad) {
+      image = (isVeryBad) ? veryBadSelected.icon : veryBadNotSelected.icon;
+    }
+    else if (mood == MoodEnum.Bad) {
+      image = (isBad) ? badSelected.icon : badNotSelected.icon;
+    }
+    else if (mood == MoodEnum.Neutral) {
+      image = (isNeutral) ? neutralSelected.icon : neutralNotSelected.icon;
+    }
+    else if (mood == MoodEnum.Happy) {
+      image = (isHappy) ? happySelected.icon : happyNotSelected.icon;
+    }
+    else if (mood == MoodEnum.VeryHappy) {
+      image = (isVeryHappy) ? veryHappySelected.icon : veryHappyNotSelected.icon;
+    }
+
+    return image;
+  }  
+
+  Center _buildMoodComponent(MoodEnum mood, EmotionController _emotionController) {
+    return Center(
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        direction: Axis.vertical,
+        spacing: 5,
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                _emotionController.updateMainEmotion(mood.name);
+                setState(() {
+                  updateEmotionValues(mood);
+                });
+              }, // Image tapped
+              splashColor: Colors.white12, // Splash color over image
+              child: Ink.image(
+                image: getImageOfMood(mood),
+                width: 42,
+                height: 42,
+              ),
+            ),
+          ),
+          Text((mood == MoodEnum.VeryHappy) ? 'Very\nHappy' : (mood == MoodEnum.VeryBad) ? 'Very\nBad' : mood.name,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final EmotionController _emotionController = Get.put(EmotionController());
+    EmotionController _emotionController = Get.put(EmotionController());
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -82,199 +180,15 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               const SizedBox(height: 30.0),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            _emotionController.updateMainEmotion('Very Happy');
-                            setState(() {
-                              isVeryHappy = true;
-                              isHappy = false;
-                              isNeutral = false;
-                              isBad = false;
-                              isVeryBad = false;
-                            });
-                          }, // Image tapped
-                          splashColor: Colors.white12, // Splash color over image
-                          child: Ink.image(
-                            image: (isVeryHappy)
-                                ? const AssetImage(
-                                    'assets/images/face_very_happy_selected.png',
-                                  )
-                                : const AssetImage(
-                                    'assets/images/face_very_happy.png'),
-                            width: 42,
-                            height: 42,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 5.0),
-
-                      Text('Very\nHappy',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
-                    ],
-                  ),
-
-                  Center(
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      direction: Axis.vertical,
-                      spacing: 5,
-                      children: [
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              _emotionController.updateMainEmotion('Happy');
-                              setState(() {
-                                isVeryHappy = false;
-                                isHappy = true;
-                                isNeutral = false;
-                                isBad = false;
-                                isVeryBad = false;
-                              });
-                            }, // Image tapped
-                            splashColor: Colors.white12, // Splash color over image
-                            child: Ink.image(
-                              image: (isHappy)
-                                  ? const AssetImage(
-                                      'assets/images/face_happy_selected.png',
-                                    )
-                                  : const AssetImage('assets/images/face_happy.png'),
-                              width: 42,
-                              height: 42,
-                            ),
-                          ),
-                        ),
-                        Text('Happy',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
-                      ],
-                    ),
-                  ),
-
-                Center(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    direction: Axis.vertical,
-                    spacing: 5,
-                    children: [
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            _emotionController.updateMainEmotion('Neutral');
-                            setState(() {
-                              isVeryHappy = false;
-                              isHappy = false;
-                              isNeutral = true;
-                              isBad = false;
-                              isVeryBad = false;
-                            });
-                          }, // Image tapped
-                          splashColor: Colors.white12, // Splash color over image
-                          child: Ink.image(
-                            image: (isNeutral)
-                                ? const AssetImage(
-                                    'assets/images/face_neutral_selected.png',
-                                  )
-                                : const AssetImage('assets/images/face_neutral.png'),
-                            width: 42,
-                            height: 42,
-                          ),
-                        ),
-                      ),
-                      Text('Neutral',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
-                    ],
-                  ),
-                ),
-
-                Center(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    direction: Axis.vertical,
-                    spacing: 5,
-                    children: [
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            _emotionController.updateMainEmotion('Bad');
-                            setState(() {
-                              isVeryHappy = false;
-                              isHappy = false;
-                              isNeutral = false;
-                              isBad = true;
-                              isVeryBad = false;
-                            });
-                          },
-                          splashColor: Colors.white12,
-                          child: Ink.image(
-                            image: (isBad)
-                                ? const AssetImage(
-                                    'assets/images/face_bad_selected.png',
-                                  )
-                                : const AssetImage('assets/images/face_bad.png'),
-                            width: 42,
-                            height: 42,
-                          ),
-                        ),
-                      ),
-                      Text('Bad',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
-                    ],
-                  ),
-                ),
-
-                Center(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    direction: Axis.vertical,
-                    spacing: 5,
-                    children: [
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            _emotionController.updateMainEmotion('Very Bad');
-                            setState(() {
-                              isVeryHappy = false;
-                              isHappy = false;
-                              isNeutral = false;
-                              isBad = false;
-                              isVeryBad = true;
-                            });
-                          }, // Image tapped
-                          splashColor: Colors.white12, // Splash color over image
-                          child: Ink.image(
-                            image: (isVeryBad)
-                                ? const AssetImage(
-                                    'assets/images/face_very_bad_selected.png',
-                                  )
-                                : const AssetImage(
-                                    'assets/images/face_very_bad.png'),
-                            width: 42,
-                            height: 42,
-                          ),
-                        ),
-                      ),
-                      Text('Very\nBad',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
-                    ],
-                  ),
-                ),
+                  _buildMoodComponent(MoodEnum.VeryBad, _emotionController),
+                  _buildMoodComponent(MoodEnum.Bad, _emotionController),
+                  _buildMoodComponent(MoodEnum.Neutral, _emotionController),
+                  _buildMoodComponent(MoodEnum.Happy, _emotionController),
+                  _buildMoodComponent(MoodEnum.VeryHappy, _emotionController),
               ]),
 
               const SizedBox(height: 45.0),

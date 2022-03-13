@@ -1,7 +1,6 @@
 // import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
-import 'package:flutter_application_1/enums/MoodEnum.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -76,23 +75,75 @@ class EmotionController extends GetxController {
     // add method to (hour + minute + second) in a string
     String time = DateTime.now().toString();
     Map<String, Mood> test1 = {
-      time : Mood(name: MoodEnum.Bad, icon: const AssetImage('assets/images/face_very_happy.png')),
+      time : Mood(name: MoodEnum.Bad, icon: const AssetImage('assets/images/face_very_happy.png'), isSelected: true),
     };
+
+    String date = dateTimeNowToString();
 
     if (isValid.value) {
       Box box = Hive.box<EmotionEntryHive>('emotion');
-      EmotionEntryHive emotionEntry = EmotionEntryHive(
+      EmotionEntryHive newEmotionEntry = EmotionEntryHive(
         // gonna make this dynamic later (overallMood, morningCheck, afternoonCheck, eveningCheck)
-        overallMood: Mood(name: MoodEnum.Neutral, icon: const AssetImage('assets/images/face_very_happy.png')), 
+        overallMood: Mood(name: MoodEnum.Neutral, icon: const AssetImage('assets/images/face_very_happy.png'), isSelected: true), 
         weekday: weekdayString[DateTime.now().weekday] as String, 
-        date: DateTime.now().toString(), 
+        date: date,
         morningCheck: test1[time] as Map<String, Mood>,
         afternoonCheck: test1[time] as Map<String, Mood>,
         eveningCheck: test1[time] as Map<String, Mood>
       );
 
-      box.add(emotionEntry);
+      box.put(date, newEmotionEntry);
     }
+  }
+
+  void updateEntryInStorage(String key, Map<String, Mood> morningCheck, Map<String, Mood> afternoonCheck, Map<String, Mood> eveningCheck) {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    EmotionEntryHive emotionEntry = box.get(key);
+    
+    if (morningCheck != null) {
+      emotionEntry.morningCheck = morningCheck;
+    }
+    if (afternoonCheck != null) {
+      emotionEntry.afternoonCheck = afternoonCheck;
+    }
+    if (eveningCheck != null) {
+      emotionEntry.eveningCheck = eveningCheck;
+    }
+
+    emotionEntry.save();
+  }
+
+  EmotionEntryHive getTodaysEmotionEntry() {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    String date = dateTimeNowToString();
+
+    if (box.containsKey(date)) {
+      return box.get(date);
+    }
+
+    throw Exception('No emotion entry yet for today');
+  }
+
+  List<EmotionEntryHive> getAllEmotionEntries() {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+    List<EmotionEntryHive> emotionEntries = [];
+    for (var key in emotionEntryKeys) {
+      emotionEntries.add(box.get(key));
+    }
+
+    return emotionEntries;
+  }
+
+  void deleteEmotionEntry(String key) {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    EmotionEntryHive emotionEntry = box.get(key);
+    emotionEntry.delete();
+  }
+
+  String dateTimeNowToString() {
+    DateTime dateTime = DateTime.now();
+    return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
   }
 
 }

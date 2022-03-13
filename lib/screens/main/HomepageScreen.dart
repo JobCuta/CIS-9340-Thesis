@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.fromLTRB(25, 100, 25, 0),
                 child: Container(
                     alignment: Alignment.center,
-                    height: 100,
+                    height: 110,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 18.0),
                     decoration: BoxDecoration(
