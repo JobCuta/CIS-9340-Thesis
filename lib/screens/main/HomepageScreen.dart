@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
+import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   int _selectedIndex = 2;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text('Entries'),
+    const EntriesScreen(),
     const Text('Calendar'),
     const HomePage(),
     const Text('Adventure Mode'),
