@@ -10,6 +10,8 @@ import 'package:hive/hive.dart';
 import '../apis/EmotionEntryDetail.dart';
 
 class EmotionController extends GetxController {
+  var _selectedEmotionEntry;
+
   final _selectedPositiveEmotions = [].obs;
   final _selectedNegativeEmotions = [].obs;
   var mainEmotion = ''.obs;
@@ -86,12 +88,18 @@ class EmotionController extends GetxController {
   void updatePartOfTheDayCheck(String part) {
     if (part == 'morning') {
       isMorningCheck.value = true;
+      isAfternoonCheck.value = false;
+      isEveningCheck.value = false;
     }
     else if (part == 'afternoon') {
       isAfternoonCheck.value = true;
+      isMorningCheck.value = false;
+      isEveningCheck.value = false;
     }
     else if (part == 'evening') {
       isEveningCheck.value = true;
+      isMorningCheck.value = false;
+      isAfternoonCheck.value = false;
     }
 
     print ("Part of the Day checks = " + isMorningCheck.value.toString() + ", " + isAfternoonCheck.value.toString() + ", " + isEveningCheck.value.toString());
@@ -148,13 +156,13 @@ class EmotionController extends GetxController {
         date: date,
         morningCheck: (isMorningCheck.value) 
           ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['noData']!.name, positiveEmotions: [], negativeEmotions: []),
+          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
         afternoonCheck: (isAfternoonCheck.value) 
           ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['noData']!.name, positiveEmotions: [], negativeEmotions: []),
+          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
         eveningCheck: (isEveningCheck.value)
           ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['noData']!.name, positiveEmotions: [], negativeEmotions: []),
+          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
       );
 
       resetAllPartOfTheDayChecks();
@@ -351,9 +359,22 @@ class EmotionController extends GetxController {
     update();
   }
 
-  void setEditMode(bool isEdit) {
-    isEditMode.value = isEdit;
-
+  void updateFirstTimeAdding(bool isFirstTime) {
+    isFirstTimeAdding.value = isFirstTime;
     update();
+  }
+
+  void updateEditMode(bool isEdit) {
+    isEditMode.value = isEdit;
+    update();
+  }
+
+  void updateSelectedEmotionEntry(EmotionEntryHive emotionEntry) {
+    _selectedEmotionEntry = emotionEntry;
+    update();
+  }
+
+  EmotionEntryHive getSelectedEmotionEntry() {
+    return _selectedEmotionEntry;
   }
 }

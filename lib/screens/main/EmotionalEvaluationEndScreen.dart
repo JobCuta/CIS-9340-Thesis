@@ -257,7 +257,7 @@ class _EmotionalEvaluationEndScreenState
                                         : const Color(0xffE2E4E4),
                                   ),
                                   onPressed: () {
-                                    _emotionController.isFirstTimeAdding.value || _emotionController.isEditMode.value 
+                                    (_emotionController.isFirstTimeAdding.value || _emotionController.isEditMode.value) 
                                       ? _emotionController.saveEntryToStorage() 
                                       : _emotionController.updateEntryInStorage();
 
