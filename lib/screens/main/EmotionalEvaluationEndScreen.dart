@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -9,19 +10,6 @@ import '../../../controllers/emotionController.dart';
 void main() {
   runApp(
       const GetMaterialApp(home: EmotionalEvaluationEndScreen()));
-}
-
-class Emotion {
-  final int id;
-  final String name;
-
-  Emotion({
-    required this.id,
-    required this.name,
-  });
-
-  @override
-  toString() => name;
 }
 
 class EmotionalEvaluationEndScreen extends StatefulWidget {
@@ -269,7 +257,10 @@ class _EmotionalEvaluationEndScreenState
                                         : const Color(0xffE2E4E4),
                                   ),
                                   onPressed: () {
-                                    // _emotionController.saveToStorage();
+                                    _emotionController.isFirstTimeAdding.value || _emotionController.isEditMode.value 
+                                      ? _emotionController.saveEntryToStorage() 
+                                      : _emotionController.updateEntryInStorage();
+
                                     Get.toNamed('/homepage');
                                   }),
                             )),

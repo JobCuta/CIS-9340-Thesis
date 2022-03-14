@@ -28,7 +28,9 @@ class DailyController extends GetxController {
     int currentWeekDay = DateTime.now().weekday;
 
     if (storedWeekDay != currentWeekDay) {
-      daily = DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
+      daily.currentWeekDay = DateTime.now().weekday;
+      daily.isDailyExerciseDone = false;
+      daily.isDailyEntryDone = false;
       daily.save();
     }
     _isDailyEntryDone.value = daily.isDailyEntryDone;
