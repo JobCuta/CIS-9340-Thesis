@@ -44,6 +44,7 @@ dependencies:
 
   # Custom calendar dependency
   table_calendar: ^3.0.4
+  flutter_calendar_carousel: ^2.1.0
   
   # dependency for the fading text (Random Exercises)
   animated_text_kit: ^4.2.1
