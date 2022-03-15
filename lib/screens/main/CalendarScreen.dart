@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,9 +16,11 @@ class _CalendarScreenState extends State<CalendarScreen>{
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
 
   TextEditingController missedDays = TextEditingController();
   TextEditingController emotionCounter = TextEditingController();
+  TextEditingController moodController = TextEditingController();
 
   //Emotion colors
   Color color1 = const Color.fromRGBO(78, 72, 146, 1);
@@ -25,6 +28,17 @@ class _CalendarScreenState extends State<CalendarScreen>{
   Color color3 = const Color.fromRGBO(17, 172, 221, 1);
   Color color4 = const Color.fromRGBO(255, 178, 89, 1);
   Color color5 = const Color.fromRGBO(0, 191, 88, 1);
+
+  //Status colors
+  Color? filled = Colors.grey[700];
+  Color? unfilled = Colors.grey[400];
+  Color? timeFilled = Colors.grey[400];
+
+  //Image paths
+  String happyPath = 'assets/images/face_happy_selected.png';
+  String addPath = 'assets/images/add.png';
+  String neutralPath = 'assets/images/face_neutral_selected.png';
+  Image happy = Image.asset('assets/images/face_happy_selected.png', height: 60, width: 60);
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +197,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                     children: [
                       Container(
                         height: 40.0, width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(color: Color.fromRGBO(50, 144, 255, 0.6)),
+                        decoration: BoxDecoration(color: const Color.fromRGBO(50, 144, 255, 0.4), borderRadius: BorderRadius.circular(5)),
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text('Your overall mood for today',
@@ -193,7 +207,86 @@ class _CalendarScreenState extends State<CalendarScreen>{
                       ),
                       const SizedBox(height: 15.0),
                       Container(
-                        height: 184, width: MediaQuery.of(context).size.width , decoration: containerDecoration(),
+                        height: 188, width: MediaQuery.of(context).size.width , decoration: containerDecoration(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [happy],
+                              ),
+                              const SizedBox(width: 10.0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(displayedDate.toUpperCase(), style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Overall Mood: ',
+                                              style: statusTextStyle(16.0, filled),
+                                              children: <TextSpan>[
+                                                TextSpan(text: 'Happy', style: TextStyle(color: color4))
+                                              ]
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(width: 100.0),
+                                      Icon(Icons.more_horiz, color: Colors.grey[600])
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                    children: <Widget>[
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Evening check ', style: statusTextStyle(14.0, filled),
+                                          children: <TextSpan>[
+                                            TextSpan(text: '22:21', style: statusTextStyle(12.0, timeFilled))
+                                          ]
+                                        ),
+                                      ),
+                                      emotionImage(happyPath, 24.0, 24.0)
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                    children: <Widget>[
+                                      RichText(
+                                        text: TextSpan(
+                                            text: 'Afternoon check ', style: statusTextStyle(14.0, unfilled),
+                                            children: <TextSpan>[
+                                              TextSpan(text: 'missed', style: statusTextStyle(12.0, timeFilled))
+                                            ]
+                                        ),
+                                      ),
+                                      emotionImage(addPath, 24.0, 24.0)
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                    children: <Widget>[
+                                      RichText(
+                                        text: TextSpan(
+                                            text: 'Morning check ', style: statusTextStyle(14.0, filled),
+                                            children: <TextSpan>[
+                                              TextSpan(text: '6:42', style: statusTextStyle(12.0, timeFilled))
+                                            ]
+                                        ),
+                                      ),
+                                      emotionImage(neutralPath, 24.0, 24.0)
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 100.0),
                     ],
@@ -233,5 +326,16 @@ class _CalendarScreenState extends State<CalendarScreen>{
       color: Colors.white,
       borderRadius: BorderRadius.circular(15.0),
     );
+  }
+
+  statusTextStyle(size, color) {
+    return TextStyle(
+        fontSize: size, fontWeight: FontWeight.w600, color: color, fontFamily: 'Proxima Nova'
+    );
+  }
+  
+  emotionImage(path, height, width) {
+    return Image.asset(
+      path, height: height, width: width);
   }
 }
