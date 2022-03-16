@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
@@ -23,7 +24,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const EntriesScreen(),
-    const Text('Calendar'),
+    const CalendarScreen(),
     const HomePage(),
     const Text('Adventure Mode'),
     const Text('Mini-games')
@@ -32,14 +33,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      drawer: SideMenu(),
-      appBar: AppBar(
-        primary: true,
-        elevation: 0,
-        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
+            SharedAxisTransition(
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
       bottomSheet: bottomNavigationBar(),
     );
   }
@@ -100,6 +102,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       _selectedIndex = index;
     });
   }
+
+
 }
 
 class HomePage extends StatefulWidget {
@@ -120,6 +124,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+      ),
+      extendBodyBehindAppBar: true,
+      drawer: SideMenu(),
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(

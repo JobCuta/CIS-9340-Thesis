@@ -1,5 +1,5 @@
 
-
+import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -45,8 +45,12 @@ class _CalendarScreenState extends State<CalendarScreen>{
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
-        backgroundColor: Colors.transparent,
+        primary: true,
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
+      drawer: SideMenu(),
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Container(
@@ -58,7 +62,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 16.0, right: 16, top: 100, bottom: 16),
                     child: Container(
                       decoration: containerDecoration(),
                       height: 330.0,
