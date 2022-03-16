@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
@@ -122,9 +121,6 @@ class _MainState extends State<Main> {
 
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
-
-          //Side Menu
-          GetPage(name: '/MentalHealthOnlineScreen', page: () => const MentalHealthOnlineScreen()),
 
           // wellness exercises
           GetPage(

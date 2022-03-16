@@ -1,47 +1,47 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'emotionEntryHive.dart';
+part of 'EmotionEntryDetail.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class EmotionEntryHiveAdapter extends TypeAdapter<EmotionEntryHive> {
+class EmotionEntryDetailAdapter extends TypeAdapter<EmotionEntryDetail> {
   @override
-  final int typeId = 3;
+  final int typeId = 4;
 
   @override
-  EmotionEntryHive read(BinaryReader reader) {
+  EmotionEntryDetail read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return EmotionEntryHive(
-      overallMood: fields[0] as String,
-      weekday: fields[1] as String,
-      date: fields[2] as String,
-      morningCheck: fields[3] as EmotionEntryDetail,
-      afternoonCheck: fields[4] as EmotionEntryDetail,
-      eveningCheck: fields[5] as EmotionEntryDetail,
+    return EmotionEntryDetail(
+      time: fields[0] as String,
+      note: fields[1] as String,
+      mood: fields[2] as String,
+      positiveEmotions: (fields[3] as List).cast<dynamic>(),
+      negativeEmotions: (fields[4] as List).cast<dynamic>(),
+      isEmpty: fields[5] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, EmotionEntryHive obj) {
+  void write(BinaryWriter writer, EmotionEntryDetail obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.overallMood)
+      ..write(obj.time)
       ..writeByte(1)
-      ..write(obj.weekday)
+      ..write(obj.note)
       ..writeByte(2)
-      ..write(obj.date)
+      ..write(obj.mood)
       ..writeByte(3)
-      ..write(obj.morningCheck)
+      ..write(obj.positiveEmotions)
       ..writeByte(4)
-      ..write(obj.afternoonCheck)
+      ..write(obj.negativeEmotions)
       ..writeByte(5)
-      ..write(obj.eveningCheck);
+      ..write(obj.isEmpty);
   }
 
   @override
@@ -50,7 +50,7 @@ class EmotionEntryHiveAdapter extends TypeAdapter<EmotionEntryHive> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EmotionEntryHiveAdapter &&
+      other is EmotionEntryDetailAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

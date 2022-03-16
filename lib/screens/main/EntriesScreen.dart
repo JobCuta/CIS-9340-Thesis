@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
 
@@ -11,11 +14,23 @@ class EntriesScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _EntriesScreenState();
 }
 
+
+final EmotionController _emotionController = Get.put(EmotionController());
+
 class _EntriesScreenState extends State<EntriesScreen>{
+  List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
+  Map<int, String> weekdayString = {
+    1 : 'Monday',
+    2 : 'Tuesday',
+    3 : 'Wednesday',
+    4 : 'Thursday',
+    5 : 'Friday',
+    6 : 'Saturday',
+    7 : 'Sunday'
+  }; 
+
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: SideMenu(),
@@ -39,195 +54,130 @@ class _EntriesScreenState extends State<EntriesScreen>{
           child: Column(
             children: [
               // EMOTION CONTAINER
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 120, 25, 0),
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
 
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: emotionEntries.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(25, 120, 25, 0),
+                    child: Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+
+                          
+                      child: InkWell(
+                        onTap: () {
+                          _emotionController.updateSelectedEmotionEntry(emotionEntries[index]);
+                          Get.toNamed('/entriesDetailScreen');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image(
+                              image: moodMap[emotionEntries[index].overallMood]!.icon, 
+                              width: 62,
+                              height: 62,
+                            ),
                       
-                  child: InkWell(
-                    onTap: () {
-                      Get.toNamed('/entriesDetailScreen');
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Image(
-                          image: AssetImage('assets/images/face_very_bad.png'),
-                          width: 62,
-                          height: 62,
-                        ),
-                  
-                        const SizedBox(width: 10.0),
-                  
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('WEDNESDAY, FEBRUARY 7',
-                                style: Theme.of(context).textTheme.bodyText2,
-                              ),
-                              Text('Overall Mood: Happy',
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                        
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Evening check  22:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Afternoon check  12:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Morning check  7:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10.0),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
-                                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-
+                            const SizedBox(width: 10.0),
                       
-                  child: InkWell(
-                    onTap: () {},
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Image(
-                          image: AssetImage('assets/images/face_very_bad.png'),
-                          width: 62,
-                          height: 62,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text((emotionEntries[index].weekday + " " + emotionEntries[index].date).toUpperCase(),
+                                    style: Theme.of(context).textTheme.caption!.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
+                                  ),
+                                  Text('Overall Mood: ' + emotionEntries[index].overallMood,
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                  ),
+                            
+                                  const SizedBox(height: 10.0),
+                            
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Evening check ' + emotionEntries[index].eveningCheck.time,
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                      ),
+                            
+                                      (emotionEntries[index].eveningCheck.mood != 'NoData') 
+                                      ? Image(
+                                        image: moodMap[emotionEntries[index].eveningCheck.mood]!.icon, 
+                                        width: 24, 
+                                        height: 24
+                                      )
+                                      : IconButton(onPressed: () {
+                                          _emotionController.updatePartOfTheDayCheck('evening');
+                                          _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateEditMode(false);
+                                          Get.toNamed('/emotionStartScreen');
+                                        }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
+                                    ],
+                                  ),
+                            
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Afternoon check ' + emotionEntries[index].afternoonCheck.time,
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                      ),
+                            
+                                    (emotionEntries[index].afternoonCheck.mood != 'NoData') 
+                                      ? Image(
+                                        image: moodMap[emotionEntries[index].afternoonCheck.mood]!.icon, 
+                                        width: 24, 
+                                        height: 24
+                                      )
+                                      : IconButton(onPressed: () {
+                                          _emotionController.updatePartOfTheDayCheck('afternoon');
+                                          _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateEditMode(false);
+                                          Get.toNamed('/emotionStartScreen');
+                                        }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
+                                    ],
+                                  ),
+                            
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Morning check ' + emotionEntries[index].morningCheck.time,
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                      ),
+                            
+                                    (emotionEntries[index].morningCheck.mood != 'NoData') 
+                                      ? Image(
+                                        image: moodMap[emotionEntries[index].morningCheck.mood]!.icon, 
+                                        width: 24, 
+                                        height: 24
+                                      )
+                                      : IconButton(onPressed: () {
+                                          _emotionController.updatePartOfTheDayCheck('morning');
+                                          _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateEditMode(false);
+                                          Get.toNamed('/emotionStartScreen');
+                                        }, 
+                                        icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]
                         ),
-                  
-                        const SizedBox(width: 10.0),
-                  
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('WEDNESDAY, FEBRUARY 7',
-                                style: Theme.of(context).textTheme.bodyText2,
-                              ),
-                              Text('Overall Mood: Happy',
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                        
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Evening check  22:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Afternoon check  12:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                        
-                              const SizedBox(height: 10.0),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Morning check  7:21',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                  ),
-                        
-                                  const Image(
-                                    image: AssetImage('assets/images/face_very_bad.png'), 
-                                    width: 24, 
-                                    height: 24
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }
               ),
+        
 
               const SizedBox(height: 10.0),
               Padding(

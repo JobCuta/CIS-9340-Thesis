@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 
@@ -30,16 +32,26 @@ class EmotionalEvaluationStartScreen extends StatefulWidget {
       _EmotionalEvaluationStartScreenState();
 }
 
+
+final EmotionController _emotionController = Get.put(EmotionController());
+EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
+    ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+
 class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStartScreen> {
-  bool isVeryHappy = false;
-  bool isHappy = false;
-  bool isNeutral = false;
-  bool isBad = false;
-  bool isVeryBad = false;
 
 
-  void updateEmotionValues(MoodEnum mood) {
-    if (mood == MoodEnum.VeryHappy) {
+  bool isVeryHappy = emotionEntryDetail.mood == 'VeryHappy' ? true : false;
+  bool isHappy = emotionEntryDetail.mood == 'Happy' ? true : false;
+  bool isNeutral = emotionEntryDetail.mood == 'Neutral' ? true : false;
+  bool isBad = emotionEntryDetail.mood == 'Bad' ? true : false;
+  bool isVeryBad = emotionEntryDetail.mood == 'VeryBad' ? true : false;
+  bool isEditMode = _emotionController.isEditMode.value ? true : false;
+  String note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
+
+  void updateEmotionValues(String mood) {
+    if (mood == 'VeryHappy') {
       isVeryHappy = true;
       isHappy = false;
       isNeutral = false;
@@ -47,7 +59,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
       isVeryBad = false;
     }
 
-    else if (mood == MoodEnum.Happy) {
+    else if (mood == 'Happy') {
       isVeryHappy = false;
       isHappy = true;
       isNeutral = false;
@@ -55,7 +67,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
       isVeryBad = false;
     }
 
-    else if (mood == MoodEnum.Neutral) {
+    else if (mood == 'Neutral') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = true;
@@ -63,7 +75,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
       isVeryBad = false;
     } 
 
-    else if (mood == MoodEnum.Bad) {
+    else if (mood == 'Bad') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = false;
@@ -71,7 +83,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
       isVeryBad = false;
     } 
 
-    else if (mood == MoodEnum.VeryBad) {
+    else if (mood == 'VeryBad') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = false;
@@ -80,29 +92,29 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
     }  
   }
 
-  AssetImage getImageOfMood(MoodEnum mood) {
+  AssetImage getImageOfMood(String mood) {
     AssetImage image = const AssetImage('placeholder');
 
-    if (mood == MoodEnum.VeryBad) {
-      image = (isVeryBad) ? veryBadSelected.icon : veryBadNotSelected.icon;
+    if (mood == 'VeryBad') {
+      image = (isVeryBad) ? moodMap[mood]!.icon : moodMap['VeryBadNotSelected']!.icon;
     }
-    else if (mood == MoodEnum.Bad) {
-      image = (isBad) ? badSelected.icon : badNotSelected.icon;
+    else if (mood == 'Bad') {
+      image = (isBad) ? moodMap[mood]!.icon : moodMap['BadNotSelected']!.icon;
     }
-    else if (mood == MoodEnum.Neutral) {
-      image = (isNeutral) ? neutralSelected.icon : neutralNotSelected.icon;
+    else if (mood == 'Neutral') {
+      image = (isNeutral) ? moodMap[mood]!.icon : moodMap['NeutralNotSelected']!.icon;
     }
-    else if (mood == MoodEnum.Happy) {
-      image = (isHappy) ? happySelected.icon : happyNotSelected.icon;
+    else if (mood == 'Happy') {
+      image = (isHappy) ? moodMap[mood]!.icon : moodMap['HappyNotSelected']!.icon;
     }
-    else if (mood == MoodEnum.VeryHappy) {
-      image = (isVeryHappy) ? veryHappySelected.icon : veryHappyNotSelected.icon;
+    else if (mood == 'VeryHappy') {
+      image = (isVeryHappy) ? moodMap[mood]!.icon : moodMap['VeryHappyNotSelected']!.icon;
     }
 
     return image;
   }  
 
-  Center _buildMoodComponent(MoodEnum mood, EmotionController _emotionController) {
+  Center _buildMoodComponent(String mood, EmotionController _emotionController) {
     return Center(
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -113,7 +125,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                _emotionController.updateMainEmotion(mood.name);
+                _emotionController.updateMainEmotion(mood);
                 setState(() {
                   updateEmotionValues(mood);
                 });
@@ -126,7 +138,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               ),
             ),
           ),
-          Text((mood == MoodEnum.VeryHappy) ? 'Very\nHappy' : (mood == MoodEnum.VeryBad) ? 'Very\nBad' : mood.name,
+          Text((mood == 'VeryHappy') ? 'Very\nHappy' : (mood == 'VeryBad') ? 'Very\nBad' : mood,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
         ],
@@ -136,8 +148,6 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
 
   @override
   Widget build(BuildContext context) {
-    EmotionController _emotionController = Get.put(EmotionController());
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -184,11 +194,11 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildMoodComponent(MoodEnum.VeryBad, _emotionController),
-                  _buildMoodComponent(MoodEnum.Bad, _emotionController),
-                  _buildMoodComponent(MoodEnum.Neutral, _emotionController),
-                  _buildMoodComponent(MoodEnum.Happy, _emotionController),
-                  _buildMoodComponent(MoodEnum.VeryHappy, _emotionController),
+                  _buildMoodComponent('VeryBad', _emotionController),
+                  _buildMoodComponent('Bad', _emotionController),
+                  _buildMoodComponent('Neutral', _emotionController),
+                  _buildMoodComponent('Happy', _emotionController),
+                  _buildMoodComponent('VeryHappy', _emotionController),
               ]),
 
               const SizedBox(height: 45.0),
@@ -210,9 +220,9 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   child: TextField(
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x005E6668).withOpacity(1.0)),
-                    // controller: controller,
+                    controller: TextEditingController()..text = note,
                     maxLines: null,
-                    // onChanged: onChanged,
+                    onChanged: _emotionController.updateNotes,
                     decoration: InputDecoration(
                       hintText: 'Write something you wanna mention here',
                       hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
