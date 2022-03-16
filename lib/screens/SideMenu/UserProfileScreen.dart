@@ -1,4 +1,7 @@
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:flutter/material.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -29,7 +32,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  _buildFieldComponent(String fieldName, String fieldValue) {
+  _buildFieldComponent(String fieldName, String fieldValue, bool isEditable) {
     return InkWell(
       onTap: () {},
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -45,10 +48,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
                     color: const Color(0xffC7CBCC),
                     fontWeight: FontWeight.w600)),
-            const WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: Icon(Icons.keyboard_arrow_right_sharp,
-                    color: Color(0xffC7CBCC)))
+            isEditable
+                ? WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(Icons.keyboard_arrow_right_sharp,
+                        color: Color(0xffC7CBCC)))
+                : TextSpan(text: '')
           ]),
         )
       ]),
@@ -57,6 +62,70 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    showLogoutConfirmation() {
+      return showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+              insetPadding: const EdgeInsets.all(50.0),
+              title: Text(
+                'Come back soon!',
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                    color: const Color(0xff161818),
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              content: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: Wrap(
+                    runSpacing: 20,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/logout.svg'),
+                      Text('Are you sure you want to logout?',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xff161818))),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              child: Text(
+                                'Logout',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        color: const Color(0xffFC4C51),
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () async {
+                                var response = await UserProvider().logout();
+                                print('logout $response');
+                                Get.offAndToNamed('/accountScreen');
+                              },
+                            ),
+                            TextButton(
+                                child: Text(
+                                  'Cancel',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          color: const Color(0xff161818),
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  Get.back();
+                                }),
+                          ])
+                    ]),
+              )));
+    }
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -139,19 +208,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             thickness: 1,
                           ),
                           _buildFieldComponent(
-                              'First, Last Name', 'Joe Apples'),
+                              'First, Last Name', 'Joe Apples', true),
                           const Divider(
                             color: Color(0xffF0F1F1),
                             height: 25,
                             thickness: 1,
                           ),
-                          _buildFieldComponent('Nickname', 'Appley'),
+                          _buildFieldComponent('Nickname', 'Appley', true),
                           const Divider(
                             color: Color(0xffF0F1F1),
                             height: 25,
                             thickness: 1,
                           ),
-                          _buildFieldComponent('Email', 'apples@gmail.com')
+                          _buildFieldComponent(
+                              'Email', 'apples@gmail.com', false)
                         ],
                       )),
                 ],
@@ -166,8 +236,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: () {
-                      dispose();
-                      Get.toNamed('/wellnessScreen');
+                      showLogoutConfirmation();
                     },
                     child: Text('Logout',
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
