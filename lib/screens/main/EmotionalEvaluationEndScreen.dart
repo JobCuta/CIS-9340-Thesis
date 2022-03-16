@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,9 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
   _EmotionalEvaluationEndScreenState createState() =>
       _EmotionalEvaluationEndScreenState();
 }
+
+
+final EmotionController _emotionController = Get.put(EmotionController());
 
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
@@ -55,7 +59,12 @@ class _EmotionalEvaluationEndScreenState
         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
         .toList();
 
-    final EmotionController _emotionController = Get.put(EmotionController());
+EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
+    ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+
+    bool isEditMode = _emotionController.isEditMode.value;
 
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -178,6 +187,7 @@ class _EmotionalEvaluationEndScreenState
                                       title: const Text("Search for your emotion",
                                           style: TextStyle(fontSize: 16)),
                                       items: _positiveEmotionsItems,
+                                      initialValue: isEditMode ? emotionEntryDetail.positiveEmotions as List<Emotion> : [],
                                       onConfirm: (values) {
                                         _emotionController.updatePositiveEmotion(values);
                                       },
@@ -214,6 +224,7 @@ class _EmotionalEvaluationEndScreenState
                                                   : const Color(0xff778083))),
                                       title: const Text("Search for your emotion",
                                           style: TextStyle(fontSize: 16)),
+                                      initialValue: isEditMode ? emotionEntryDetail.negativeEmotions as List<Emotion> : [],
                                       items: _negativeEmotionsItems,
                                       onConfirm: (values) {
                                         _emotionController.updateNegativeEmotion(values);
@@ -243,7 +254,7 @@ class _EmotionalEvaluationEndScreenState
                             child: GetBuilder<EmotionController>(
                               builder: (value) => ElevatedButton(
                                   child: Text(
-                                    'Done!',
+                                    'Save',
                                     style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -257,9 +268,13 @@ class _EmotionalEvaluationEndScreenState
                                         : const Color(0xffE2E4E4),
                                   ),
                                   onPressed: () {
-                                    (_emotionController.isFirstTimeAdding.value || _emotionController.isEditMode.value) 
-                                      ? _emotionController.saveEntryToStorage() 
-                                      : _emotionController.updateEntryInStorage();
+                                    if (isEditMode) {
+                                      _emotionController.updateEntryInStorage();
+                                    } else {
+                                      (_emotionController.isAddingFromDaily.value)
+                                          ? _emotionController.saveEntryToStorage() 
+                                          : _emotionController.updateEntryInStorage();
+                                    }
 
                                     Get.toNamed('/homepage');
                                   }),

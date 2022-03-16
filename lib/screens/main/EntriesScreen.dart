@@ -113,7 +113,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                       )
                                       : IconButton(onPressed: () {
                                           _emotionController.updatePartOfTheDayCheck('evening');
-                                          _emotionController.updateFirstTimeAdding(false);
+                                          _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');
                                         }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
@@ -136,7 +136,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                       )
                                       : IconButton(onPressed: () {
                                           _emotionController.updatePartOfTheDayCheck('afternoon');
-                                          _emotionController.updateFirstTimeAdding(false);
+                                          _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');
                                         }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
@@ -159,7 +159,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                       )
                                       : IconButton(onPressed: () {
                                           _emotionController.updatePartOfTheDayCheck('morning');
-                                          _emotionController.updateFirstTimeAdding(false);
+                                          _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');
                                         }, 

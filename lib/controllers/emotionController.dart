@@ -21,17 +21,12 @@ class EmotionController extends GetxController {
   var isNegativeNotEmpty = false.obs;
   var isValid = false.obs;
 
-  var isFirstTimeAdding = false.obs;
+  var isAddingFromDaily = false.obs;
   var isEditMode = false.obs;
   var isMorningCheck = false.obs;
   var isAfternoonCheck = false.obs;
   var isEveningCheck = false.obs;
 
-    @override
-    void onInit() {
-      checkIfFirstTimeAddingForTheDay();
-      super.onInit();
-    }
 
   void addPositiveEmotion(emotion) {
     _selectedPositiveEmotions.add(emotion);
@@ -106,12 +101,21 @@ class EmotionController extends GetxController {
     update();
   }
 
-  void resetAllPartOfTheDayChecks() {
+  void resetAllValues() {
     isMorningCheck.value = false;
     isAfternoonCheck.value = false;
     isEveningCheck.value = false;
-    isFirstTimeAdding.value = false;
+    isAddingFromDaily.value = false;
     isEditMode.value = true;
+
+    _selectedPositiveEmotions.value = [];
+    _selectedNegativeEmotions.value = [];
+    mainEmotion.value = '';
+    note.value = '';
+
+    isPositiveNotEmpty.value = false;
+    isNegativeNotEmpty.value = false;
+    isValid.value = false;
 
     update();
   }
@@ -165,7 +169,7 @@ class EmotionController extends GetxController {
           : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
       );
 
-      resetAllPartOfTheDayChecks();
+      resetAllValues();
       print("--------------- ADDING ---------------");
       print("Emotion box length = " + box.length.toString());
       print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
@@ -285,7 +289,7 @@ class EmotionController extends GetxController {
     }
 
 
-    int overallMood = (moodValue / moodCount) as int;
+    num overallMood = moodValue / moodCount;
     if (overallMood == 1) {
       emotionEntry.overallMood = 'VeryBad';
     }
@@ -335,10 +339,21 @@ class EmotionController extends GetxController {
     return emotionEntries;
   }
 
-  void deleteEmotionEntry() {
+  void deleteEmotionEntry(String part) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
-    emotionEntry.delete();
+    
+    if (part == 'morning') {
+      emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+    else if (part == 'afternoon') {
+      emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+    else if (part == 'evening') {
+      emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+
+    emotionEntry.save();
   }
 
   // KEY FOR THE BOX
@@ -351,16 +366,8 @@ class EmotionController extends GetxController {
     return dateTime.hour.toString() + ":" + dateTime.minute.toString() + ":" + dateTime.second.toString();
   }
 
-  void checkIfFirstTimeAddingForTheDay() {
-    Box box = Hive.box<EmotionEntryHive>('emotion');
-    String key = dateToString(DateTime.now());
-    isFirstTimeAdding.value = !box.containsKey(key);
-  
-    update();
-  }
-
-  void updateFirstTimeAdding(bool isFirstTime) {
-    isFirstTimeAdding.value = isFirstTime;
+  void updateIfAddingFromDaily(bool isFromDaily) {
+    isAddingFromDaily.value = isFromDaily;
     update();
   }
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 
@@ -30,13 +32,23 @@ class EmotionalEvaluationStartScreen extends StatefulWidget {
       _EmotionalEvaluationStartScreenState();
 }
 
+
+final EmotionController _emotionController = Get.put(EmotionController());
+EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
+    ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
+    ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+
 class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStartScreen> {
-  bool isVeryHappy = false;
-  bool isHappy = false;
-  bool isNeutral = false;
-  bool isBad = false;
-  bool isVeryBad = false;
-  bool isEditMode = false;
+
+
+  bool isVeryHappy = emotionEntryDetail.mood == 'VeryHappy' ? true : false;
+  bool isHappy = emotionEntryDetail.mood == 'Happy' ? true : false;
+  bool isNeutral = emotionEntryDetail.mood == 'Neutral' ? true : false;
+  bool isBad = emotionEntryDetail.mood == 'Bad' ? true : false;
+  bool isVeryBad = emotionEntryDetail.mood == 'VeryBad' ? true : false;
+  bool isEditMode = _emotionController.isEditMode.value ? true : false;
+  String note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
 
   void updateEmotionValues(String mood) {
     if (mood == 'VeryHappy') {
@@ -136,8 +148,6 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
 
   @override
   Widget build(BuildContext context) {
-    EmotionController _emotionController = Get.put(EmotionController());
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -210,7 +220,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   child: TextField(
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x005E6668).withOpacity(1.0)),
-                    // controller: controller,
+                    controller: TextEditingController()..text = note,
                     maxLines: null,
                     onChanged: _emotionController.updateNotes,
                     decoration: InputDecoration(

@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -117,7 +118,7 @@ class HomePage extends StatefulWidget {
 final DailyController _dailyController = Get.put(DailyController());
 
 class _HomePageState extends State<HomePage> {
-
+  final EmotionController _emotionController = Get.put(EmotionController());
   bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
   bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
@@ -259,6 +260,8 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             _isDailyEntryDone = true;
                           });
+                          _emotionController.updateIfAddingFromDaily(true);
+                          _emotionController.updateEditMode(false);
                           Get.toNamed('/emotionStartScreen');
                         },
                         child: Row(
