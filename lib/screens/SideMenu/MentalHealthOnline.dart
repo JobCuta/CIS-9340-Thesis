@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/constants/HotlineNumbers.dart' as constants;
 
 class MentalHealthOnlineScreen extends StatefulWidget {
   const MentalHealthOnlineScreen({key}) : super(key: key);
@@ -72,7 +73,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '1553')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.luzonLandline)),)
                       ]),
                   Text('GLOBE / TM Subscribers:',
                     textAlign: TextAlign.left,
@@ -86,7 +87,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0966-351-4518')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.globeSubscribers1)),)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +97,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0917-899-8727')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.globeSubscribers2)),)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +107,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0917-899-USAP')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.globeSubscribers3)),)
                       ]),
                   Text('National Center for Mental Health 24/7:',
                     textAlign: TextAlign.left,
@@ -120,7 +121,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0966-351-4518')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.nationalCenter1)),)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +131,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0917-899-8727')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.nationalCenter2)),)
                       ]),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +141,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0917-899-USAP')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.nationalCenter3)),)
                       ]),
                   Text('SMART/SUN/TNT Subscribers:',
                     textAlign: TextAlign.left,
@@ -154,7 +155,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                         ),
                         IconButton(icon: const Icon(Icons.content_copy, color: Colors.white),
-                          onPressed: () => Clipboard.setData(const ClipboardData(text: '0908-639-2672')),)
+                          onPressed: () => Clipboard.setData(const ClipboardData(text: constants.smartSubscribers)),)
                       ]),
                 ],
               ),
