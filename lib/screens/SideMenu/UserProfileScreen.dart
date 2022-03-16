@@ -32,9 +32,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  _buildFieldComponent(String fieldName, String fieldValue, bool isEditable) {
+  _buildFieldComponent(
+      String fieldName, String fieldValue, bool isEditable, Function()? onTap) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(fieldName,
             style: Theme.of(context)
@@ -49,11 +50,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     color: const Color(0xffC7CBCC),
                     fontWeight: FontWeight.w600)),
             isEditable
-                ? WidgetSpan(
+                ? const WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
                     child: Icon(Icons.keyboard_arrow_right_sharp,
                         color: Color(0xffC7CBCC)))
-                : TextSpan(text: '')
+                : const TextSpan(text: '')
           ]),
         )
       ]),
@@ -194,6 +195,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       margin: const EdgeInsets.only(top: 30),
                       alignment: Alignment.bottomLeft,
                       child: Wrap(
+                        runSpacing: 3,
                         children: [
                           Text('Personal Data',
                               style: Theme.of(context)
@@ -208,20 +210,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             thickness: 1,
                           ),
                           _buildFieldComponent(
-                              'First, Last Name', 'Joe Apples', true),
-                          const Divider(
-                            color: Color(0xffF0F1F1),
-                            height: 25,
-                            thickness: 1,
-                          ),
-                          _buildFieldComponent('Nickname', 'Appley', true),
+                              'First, Last Name & Nickname', 'Joe Apples', true,
+                              (() {
+                            Get.toNamed('/userProfileNamesScreen');
+                          })),
                           const Divider(
                             color: Color(0xffF0F1F1),
                             height: 25,
                             thickness: 1,
                           ),
                           _buildFieldComponent(
-                              'Email', 'apples@gmail.com', false)
+                              'Email', 'apples@gmail.com', false, (() {}))
                         ],
                       )),
                 ],

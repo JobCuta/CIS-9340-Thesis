@@ -16,6 +16,7 @@ import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
+import 'screens/SideMenu/UserProfileNamesScreen.dart';
 import 'screens/SideMenu/UserProfileScreen.dart';
 import 'screens/main/HomepageScreen.dart';
 // import 'screens/main/WellnessExercisesScreen.dart';
@@ -155,6 +156,9 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/userProfileScreen',
               page: () => const UserProfileScreen()),
+          GetPage(
+              name: '/userProfileNamesScreen',
+              page: () => const UserProfileNamesScreen()),
         ],
         theme: themeData,
         home:
