@@ -32,7 +32,7 @@ class _nextScreenModalState extends State<nextScreenModalWidget> {
     return Timer(duration, route);
   }
 
-  route() => Get.to(PHQ9InterpretationScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+  route() => Get.off(PHQ9InterpretationScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {

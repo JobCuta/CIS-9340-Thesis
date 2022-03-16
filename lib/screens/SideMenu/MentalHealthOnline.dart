@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 
 class MentalHealthOnlineScreen extends StatefulWidget {
-  const MentalHealthOnlineScreen({Key? key}) : super(key: key);
+  const MentalHealthOnlineScreen({key}) : super(key: key);
 
   @override
   State<MentalHealthOnlineScreen> createState() => _MentalHealthOnlineScreenState();
@@ -19,7 +19,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
             'Mental Health Online',
             style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
           ),
-          leading: BackButton(onPressed: () {Get.toNamed('/homepage');}),
+          leading: BackButton(onPressed: () => {Get.offAndToNamed('/homepage')}),
           primary: true,
           elevation: 0,
           backgroundColor: const Color(0xff216CB2).withOpacity(0.40),

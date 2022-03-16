@@ -302,7 +302,7 @@ class _RegisterState extends State<RegisterWidget> {
                                 ? () async {
                                     if (_form.currentState!.validate()) {
                                       Timer(const Duration(seconds: 5), (){
-                                        const CircularProgressIndicator(color: Colors.white);
+                                        const CircularProgressIndicator(color: Colors.green);
                                         Get.toNamed('/aboutSelfScreen',
                                             arguments: {
                                               "email": email,
