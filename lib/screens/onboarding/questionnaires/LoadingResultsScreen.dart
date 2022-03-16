@@ -34,7 +34,7 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
     return Timer(duration, route);
   }
 
-  route() => Get.to(const nextScreenModal(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+  route() => Get.off(const nextScreenModal(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {

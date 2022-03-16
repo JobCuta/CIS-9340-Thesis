@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -310,7 +311,10 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         snackPosition: SnackPosition.BOTTOM,
                                         backgroundColor: Colors.green,
                                       );
-                                      Get.offAndToNamed('/homepage');
+                                      Timer(const Duration(seconds: 5), (){
+                                        buildShowDialog(context);
+                                        Get.offAndToNamed('/homepage');
+                                      });
                                     } else {
                                       Get.snackbar(
                                         "Log in failed",
@@ -335,4 +339,15 @@ class _LoginWidgetsState extends State<LoginWidgets> {
       ),
     );
   }
+}
+
+buildShowDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(backgroundColor: Colors.green),
+        );
+      });
 }

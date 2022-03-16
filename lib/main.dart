@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/apis/Emotion.dart';
-import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
-import 'package:flutter_application_1/screens/main/EntriesDetailScreen.dart';
-import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/phqHive.dart';
@@ -18,6 +15,8 @@ import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/SideMenu/UserProfileNamesScreen.dart';
 import 'screens/SideMenu/UserProfileScreen.dart';
+import 'screens/main/EntriesDetailScreen.dart';
+import 'screens/main/EntriesScreen.dart';
 import 'screens/main/HomepageScreen.dart';
 // import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
@@ -52,10 +51,6 @@ Future<void> main() async {
   await Hive.openBox<DailyHive>('daily');
   Hive.registerAdapter(EmotionEntryHiveAdapter());
   await Hive.openBox<EmotionEntryHive>('emotion');
-  Hive.registerAdapter(EmotionEntryDetailAdapter());
-  await Hive.openBox('emotionDetail');
-  Hive.registerAdapter(EmotionAdapter());
-  await Hive.openBox('emotionObj');
   runApp(const Main());
 }
 
@@ -131,6 +126,11 @@ class _MainState extends State<Main> {
 
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
+
+          //SideMenu
+          GetPage(
+              name: '/MentalHealthOnlineScreen',
+              page: () => const MentalHealthOnlineScreen()),
 
           // wellness exercises
           GetPage(
