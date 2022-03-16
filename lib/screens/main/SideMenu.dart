@@ -67,6 +67,11 @@ class _SideMenuState extends State<SideMenu> {
                 icon: Icons.sports_gymnastics,
               ),
               const SizedBox(height: 8),
+              buildMenuItem(
+                text: 'Hope Box',
+                icon: Icons.card_giftcard,
+              ),
+              const SizedBox(height: 8),
               const Divider(color: Colors.grey),
               const SizedBox(height: 8),
               buildMenuItem(
