@@ -1,5 +1,5 @@
 
-
+import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -45,8 +45,12 @@ class _CalendarScreenState extends State<CalendarScreen>{
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
-        backgroundColor: Colors.transparent,
+        primary: true,
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
+      drawer: SideMenu(),
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Container(
@@ -58,7 +62,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 16.0, right: 16, top: 100, bottom: 16),
                     child: Container(
                       decoration: containerDecoration(),
                       height: 330.0,
@@ -66,52 +70,56 @@ class _CalendarScreenState extends State<CalendarScreen>{
                         children: [
                           SizedBox(
                             height: 222,
-                            child: TableCalendar(
-                              focusedDay: selectedDay,
-                              firstDay: DateTime(1, 1, 2022),
-                              lastDay: DateTime.now(),
-                              onFormatChanged: (CalendarFormat _format) {
-                                setState(() {
-                                  format = _format;
-                                });
-                              },
-                              rowHeight: 25.0,
+                            child: Column(
+                              children: [
+                                TableCalendar(
+                                  focusedDay: selectedDay,
+                                  firstDay: DateTime(1, 1, 2022),
+                                  lastDay: DateTime.now(),
+                                  onFormatChanged: (CalendarFormat _format) {
+                                    setState(() {
+                                      format = _format;
+                                    });
+                                  },
+                                  rowHeight: 25.0,
 
-                              //Day Changed
-                              onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                                setState(() {
-                                  selectedDay = selectDay;
-                                  focusedDay = focusDay;
-                                });
-                              },
-                              selectedDayPredicate: (DateTime date) {
-                                return isSameDay(selectedDay, date);
-                              },
+                                  //Day Changed
+                                  onDaySelected: (DateTime selectDay, DateTime focusDay) {
+                                    setState(() {
+                                      selectedDay = selectDay;
+                                      focusedDay = focusDay;
+                                    });
+                                  },
+                                  selectedDayPredicate: (DateTime date) {
+                                    return isSameDay(selectedDay, date);
+                                  },
 
-                              //Header Design
-                              headerStyle: HeaderStyle(
-                                formatButtonVisible: false,
-                                titleCentered: true,
-                                titleTextStyle: const TextStyle(fontSize: 12.0),
-                                titleTextFormatter: (date, locale) => DateFormat.yMMM(locale).format(date),
-                                headerPadding: const EdgeInsets.all(0)
-                              ),
+                                  //Header Design
+                                  headerStyle: HeaderStyle(
+                                    formatButtonVisible: false,
+                                    titleCentered: true,
+                                    titleTextStyle: const TextStyle(fontSize: 12.0),
+                                    titleTextFormatter: (date, locale) => DateFormat.yMMM(locale).format(date),
+                                    headerPadding: const EdgeInsets.all(0)
+                                  ),
 
-                              daysOfWeekStyle: DaysOfWeekStyle(
-                                dowTextFormatter: (date, locale) => DateFormat.E(locale).format(date),
-                                weekendStyle: const TextStyle(fontSize: 11),
-                                weekdayStyle: const TextStyle(fontSize: 11),
-                              ),
+                                  daysOfWeekStyle: DaysOfWeekStyle(
+                                    dowTextFormatter: (date, locale) => DateFormat.E(locale).format(date),
+                                    weekendStyle: const TextStyle(fontSize: 11),
+                                    weekdayStyle: const TextStyle(fontSize: 11),
+                                  ),
 
-                              //Calendar Design
-                              calendarStyle: const CalendarStyle(
-                                defaultTextStyle: TextStyle(fontSize: 11),
-                                weekendTextStyle: TextStyle(fontSize: 11),
-                                todayTextStyle: TextStyle(fontSize: 11),
-                                selectedTextStyle: TextStyle(fontSize: 11),
-                                disabledTextStyle: TextStyle(fontSize: 11),
-                                outsideTextStyle: TextStyle(fontSize: 11),
-                              ),
+                                  //Calendar Design
+                                  calendarStyle: const CalendarStyle(
+                                    defaultTextStyle: TextStyle(fontSize: 11),
+                                    weekendTextStyle: TextStyle(fontSize: 11),
+                                    todayTextStyle: TextStyle(fontSize: 11),
+                                    selectedTextStyle: TextStyle(fontSize: 11),
+                                    disabledTextStyle: TextStyle(fontSize: 11),
+                                    outsideTextStyle: TextStyle(fontSize: 11),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const Padding(
@@ -216,73 +224,79 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                 children: [happy],
                               ),
                               const SizedBox(width: 10.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: <Widget>[
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(displayedDate.toUpperCase(), style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Overall Mood: ',
-                                              style: statusTextStyle(16.0, filled),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 122,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(displayedDate.toUpperCase(), style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                                            RichText(
+                                              text: TextSpan(
+                                                text: 'Overall Mood: ',
+                                                style: statusTextStyle(16.0, filled),
+                                                children: <TextSpan>[
+                                                  TextSpan(text: 'Happy', style: TextStyle(color: color4))
+                                                ]
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Icon(Icons.more_horiz, color: Colors.grey[600])
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Evening check ', style: statusTextStyle(14.0, filled),
+                                            children: <TextSpan>[
+                                              TextSpan(text: '22:21', style: statusTextStyle(12.0, timeFilled))
+                                            ]
+                                          ),
+                                        ),
+                                        emotionImage(happyPath, 24.0, 24.0)
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                              text: 'Afternoon check ', style: statusTextStyle(14.0, unfilled),
                                               children: <TextSpan>[
-                                                TextSpan(text: 'Happy', style: TextStyle(color: color4))
+                                                TextSpan(text: 'missed', style: statusTextStyle(12.0, timeFilled))
                                               ]
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(width: 100.0),
-                                      Icon(Icons.more_horiz, color: Colors.grey[600])
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          text: 'Evening check ', style: statusTextStyle(14.0, filled),
-                                          children: <TextSpan>[
-                                            TextSpan(text: '22:21', style: statusTextStyle(12.0, timeFilled))
-                                          ]
+                                          ),
                                         ),
-                                      ),
-                                      emotionImage(happyPath, 24.0, 24.0)
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                            text: 'Afternoon check ', style: statusTextStyle(14.0, unfilled),
-                                            children: <TextSpan>[
-                                              TextSpan(text: 'missed', style: statusTextStyle(12.0, timeFilled))
-                                            ]
+                                        emotionImage(addPath, 24.0, 24.0)
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                              text: 'Morning check ', style: statusTextStyle(14.0, filled),
+                                              children: <TextSpan>[
+                                                TextSpan(text: '6:42', style: statusTextStyle(12.0, timeFilled))
+                                              ]
+                                          ),
                                         ),
-                                      ),
-                                      emotionImage(addPath, 24.0, 24.0)
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                            text: 'Morning check ', style: statusTextStyle(14.0, filled),
-                                            children: <TextSpan>[
-                                              TextSpan(text: '6:42', style: statusTextStyle(12.0, timeFilled))
-                                            ]
-                                        ),
-                                      ),
-                                      emotionImage(neutralPath, 24.0, 24.0)
-                                    ],
-                                  ),
-                                ],
+                                        emotionImage(neutralPath, 24.0, 24.0)
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),

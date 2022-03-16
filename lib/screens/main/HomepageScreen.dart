@@ -1,6 +1,8 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -23,7 +25,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const EntriesScreen(),
-    const Text('Calendar'),
+    const CalendarScreen(),
     const HomePage(),
     const Text('Adventure Mode'),
     const Text('Mini-games')
@@ -32,14 +34,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      drawer: SideMenu(),
-      appBar: AppBar(
-        primary: true,
-        elevation: 0,
-        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
+            SharedAxisTransition(
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
       bottomSheet: bottomNavigationBar(),
     );
   }
@@ -100,6 +103,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       _selectedIndex = index;
     });
   }
+
+
 }
 
 class HomePage extends StatefulWidget {
@@ -113,13 +118,20 @@ class HomePage extends StatefulWidget {
 final DailyController _dailyController = Get.put(DailyController());
 
 class _HomePageState extends State<HomePage> {
-
+  final EmotionController _emotionController = Get.put(EmotionController());
   bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
   bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+      ),
+      extendBodyBehindAppBar: true,
+      drawer: SideMenu(),
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(
@@ -248,6 +260,8 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             _isDailyEntryDone = true;
                           });
+                          _emotionController.updateIfAddingFromDaily(true);
+                          _emotionController.updateEditMode(false);
                           Get.toNamed('/emotionStartScreen');
                         },
                         child: Row(

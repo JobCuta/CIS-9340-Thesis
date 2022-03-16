@@ -102,7 +102,11 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                               _emotionController.updatePartOfTheDayCheck('evening');
                                               _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                               _emotionController.updateEditMode(true);
+                                              _emotionController.updateIfAddingFromDaily(false);
                                               Get.toNamed('/emotionStartScreen');
+                                            } else if (value == 'Delete') {
+                                              _emotionController.deleteEmotionEntry('evening');
+                                              Get.toNamed('/entriesScreen');
                                             }
                                           },
                                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -137,8 +141,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                         )
                                         : IconButton(onPressed: () {
                                             _emotionController.updatePartOfTheDayCheck('evening');
-                                            _emotionController.updateFirstTimeAdding(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
                                             _emotionController.updateEditMode(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
+
                                             Get.toNamed('/emotionStartScreen');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
@@ -245,7 +251,12 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                               _emotionController.updatePartOfTheDayCheck('afternoon');
                                               _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                               _emotionController.updateEditMode(true);
+                                              _emotionController.updateIfAddingFromDaily(false);
+
                                               Get.toNamed('/emotionStartScreen');
+                                            }  else if (value == 'Delete') {
+                                              _emotionController.deleteEmotionEntry('afternoon');
+                                              Get.toNamed('/entriesScreen');
                                             }
                                           },
                                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -280,8 +291,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                         )
                                         : IconButton(onPressed: () {
                                             _emotionController.updatePartOfTheDayCheck('afternoon');
-                                            _emotionController.updateFirstTimeAdding(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
                                             _emotionController.updateEditMode(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
+
                                             Get.toNamed('/emotionStartScreen');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
@@ -386,8 +399,13 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                         _emotionController.updatePartOfTheDayCheck('morning');
                                         _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                         _emotionController.updateEditMode(true);
+                                        _emotionController.updateIfAddingFromDaily(false);
+
                                         Get.toNamed('/emotionStartScreen');
-                                      }
+                                      }  else if (value == 'Delete') {
+                                          _emotionController.deleteEmotionEntry('morning');
+                                          Get.toNamed('/entriesScreen');
+                                        }
                                     },
                                     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                                       PopupMenuItem(
@@ -421,8 +439,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                         )
                                         : IconButton(onPressed: () {
                                             _emotionController.updatePartOfTheDayCheck('morning');
-                                            _emotionController.updateFirstTimeAdding(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
                                             _emotionController.updateEditMode(false);
+                                            _emotionController.updateIfAddingFromDaily(false);
+                                            
                                             Get.toNamed('/emotionStartScreen');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                 ],
