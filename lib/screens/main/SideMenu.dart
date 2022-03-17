@@ -82,6 +82,7 @@ class _SideMenuState extends State<SideMenu> {
               buildMenuItem(
                 text: 'Settings and User Profile',
                 icon: Icons.settings,
+                onClicked: () => Get.toNamed('/userProfileScreen'),
               ),
               const SizedBox(height: 100),
               TextButton(
@@ -91,9 +92,9 @@ class _SideMenuState extends State<SideMenu> {
                         color: Colors.red,
                         fontWeight: FontWeight.bold)),
                 onPressed: () async {
-                    var response = await UserProvider().logout();
-                    print('logout $response');
-                    Get.offAndToNamed('/accountScreen');
+                  var response = await UserProvider().logout();
+                  print('logout $response');
+                  Get.offAndToNamed('/accountScreen');
                 },
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/controllers/userProfileController.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -127,6 +128,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               )));
     }
 
+    final UserProfileController _userProfileController =
+        Get.put(UserProfileController());
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -151,79 +155,83 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 fit: BoxFit.cover,
               ),
             )),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 60),
-                    width: MediaQuery.of(context).size.width,
-                    height: 300,
-                    alignment: Alignment.center,
-                    child: Wrap(
-                        direction: Axis.vertical,
-                        spacing: 20,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          const CircleAvatar(
-                              radius: 60,
-                              backgroundImage: AssetImage(
-                                  'assets/images/default_user_image.png')),
-                          Text('_USERNAME_',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2!
-                                  .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _buildLevelComponent(
-                                  '24', 'Daily tasks finished'),
-                              const SizedBox(width: 30),
-                              _buildLevelComponent('24', 'Levels'),
-                              const SizedBox(width: 30),
-                              _buildLevelComponent('24', 'Entries'),
-                              const SizedBox(width: 30),
-                              _buildLevelComponent('24', 'Achievements'),
-                            ],
-                          )
-                        ]),
-                  ),
-                  Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      alignment: Alignment.bottomLeft,
+            GetBuilder<UserProfileController>(
+              builder: (value) => Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 60),
+                      width: MediaQuery.of(context).size.width,
+                      height: 300,
+                      alignment: Alignment.center,
                       child: Wrap(
-                        runSpacing: 3,
-                        children: [
-                          Text('Personal Data',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      color: const Color(0xffACB2B4),
-                                      fontWeight: FontWeight.w600)),
-                          const Divider(
-                            color: Color(0xffF0F1F1),
-                            height: 25,
-                            thickness: 1,
-                          ),
-                          _buildFieldComponent(
-                              'First, Last Name & Nickname', 'Joe Apples', true,
-                              (() {
-                            Get.toNamed('/userProfileNamesScreen');
-                          })),
-                          const Divider(
-                            color: Color(0xffF0F1F1),
-                            height: 25,
-                            thickness: 1,
-                          ),
-                          _buildFieldComponent(
-                              'Email', 'apples@gmail.com', false, (() {}))
-                        ],
-                      )),
-                ],
+                          direction: Axis.vertical,
+                          spacing: 20,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            const CircleAvatar(
+                                radius: 60,
+                                backgroundImage: AssetImage(
+                                    'assets/images/default_user_image.png')),
+                            Text(_userProfileController.nicknameController.text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                _buildLevelComponent(
+                                    '24', 'Daily tasks finished'),
+                                const SizedBox(width: 30),
+                                _buildLevelComponent('24', 'Levels'),
+                                const SizedBox(width: 30),
+                                _buildLevelComponent('24', 'Entries'),
+                                const SizedBox(width: 30),
+                                _buildLevelComponent('24', 'Achievements'),
+                              ],
+                            )
+                          ]),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        alignment: Alignment.bottomLeft,
+                        child: Wrap(
+                          runSpacing: 3,
+                          children: [
+                            Text('Personal Data',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: const Color(0xffACB2B4),
+                                        fontWeight: FontWeight.w600)),
+                            const Divider(
+                              color: Color(0xffF0F1F1),
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            _buildFieldComponent(
+                                'First, Last Name & Nickname',
+                                '${_userProfileController.firstNameController.text} ${_userProfileController.lastNameController.text}',
+                                true, (() {
+                              Get.toNamed('/userProfileNamesScreen');
+                            })),
+                            const Divider(
+                              color: Color(0xffF0F1F1),
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            _buildFieldComponent('Email',
+                                _userProfileController.email, false, (() {}))
+                          ],
+                        )),
+                  ],
+                ),
               ),
             ),
             Container(

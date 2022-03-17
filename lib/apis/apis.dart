@@ -86,17 +86,23 @@ class UserProvider extends GetConnect {
   }
 
   Future<Object> user(bool initial) async {
-    String key = ""; 
-    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
+    String key = "";
+    await UserSecureStorage.getLoginKey()
+        .then((value) => key = value.toString());
+    final response = await get(domain + paths["getUser"],
+        headers: {"Authorization": "Token " + key});
     var map = Map<String, dynamic>.from(response.body);
     print("it be like that");
     if (!response.hasError) {
       print("it be like that2 $map");
       if (initial) {
         print("hello ${map["email"]}");
-        await UserSecureStorage.setLoginDetails(map["email"],
-            map["nickname"] == "" ? map["first_name"] : map["nickname"]);
+
+        await UserSecureStorage.setLoginDetails(
+            map["email"],
+            map["nickname"] == "" ? map["first_name"] : map["nickname"],
+            map["first_name"],
+            map["last_name"]);
         return true;
       } else {
         return response;
