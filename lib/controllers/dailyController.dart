@@ -1,13 +1,15 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class DailyController extends GetxController {
-
-  var _isDailyEntryDone = false.obs;
-  var _isDailyExerciseDone = false.obs;
+  var isDailyEntryDone = false.obs;
+  var isDailyExerciseDone = false.obs;
+  final _emotionController = Get.put(EmotionController());
 
   @override
   void onInit() {
@@ -33,35 +35,30 @@ class DailyController extends GetxController {
       daily.isDailyEntryDone = false;
       daily.save();
     }
-    _isDailyEntryDone.value = daily.isDailyEntryDone;
-    _isDailyExerciseDone.value = daily.isDailyExerciseDone;
+    isDailyEntryDone.value = daily.isDailyEntryDone;
+    isDailyExerciseDone.value = daily.isDailyExerciseDone;
+
+    _emotionController.saveEntryToStorage();
 
     update();
   }
 
-  void setDailyTaskToDone(String task) {
+  void setDailyTaskToDone(DailyTask task) {
     Box box = Hive.box<DailyHive>('daily');
     DailyHive daily = box.get('dailyStatus');
 
-    if (task == 'entry') {
-      daily.isDailyEntryDone = true;
-      _isDailyEntryDone.value = true;
+    if (DailyTask.values.contains(task)) {
+      if (task == DailyTask.EmotionEntry) {
+        daily.isDailyEntryDone = true;
+        isDailyEntryDone.value = true;
+      }
+      else if (task == DailyTask.Exercise) {
+        daily.isDailyExerciseDone = true;
+        isDailyExerciseDone.value = true;
+      }
+
+      daily.save();
+      update();
     }
-    else {
-      daily.isDailyExerciseDone = true;
-      _isDailyExerciseDone.value = true;
-    }
-
-    daily.save();
-    update();
   }
-
-  bool getDailyEntryDone() {
-    return _isDailyEntryDone.value;
-  }
-
-  bool getDailyExerciseDone() {
-    return _isDailyExerciseDone.value;
-  }
-
 }

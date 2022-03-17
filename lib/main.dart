@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/Emotion.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
@@ -51,6 +53,10 @@ Future<void> main() async {
   await Hive.openBox<DailyHive>('daily');
   Hive.registerAdapter(EmotionEntryHiveAdapter());
   await Hive.openBox<EmotionEntryHive>('emotion');
+  Hive.registerAdapter(EmotionEntryDetailAdapter());
+  await Hive.openBox<EmotionEntryDetail>('emotionEntry');
+  Hive.registerAdapter(EmotionAdapter());
+  await Hive.openBox('emotionObj');
   runApp(const Main());
 }
 

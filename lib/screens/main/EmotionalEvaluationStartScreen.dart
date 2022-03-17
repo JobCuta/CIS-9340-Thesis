@@ -34,21 +34,34 @@ class EmotionalEvaluationStartScreen extends StatefulWidget {
 
 
 final EmotionController _emotionController = Get.put(EmotionController());
-EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
-    ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
-    ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
-    ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+
 
 class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStartScreen> {
 
+  bool isVeryHappy = false;
+  bool isHappy = false;
+  bool isNeutral = false;
+  bool isBad = false;
+  bool isVeryBad = false;
+  bool isEditMode = false;
+  String note = ''; 
 
-  bool isVeryHappy = emotionEntryDetail.mood == 'VeryHappy' ? true : false;
-  bool isHappy = emotionEntryDetail.mood == 'Happy' ? true : false;
-  bool isNeutral = emotionEntryDetail.mood == 'Neutral' ? true : false;
-  bool isBad = emotionEntryDetail.mood == 'Bad' ? true : false;
-  bool isVeryBad = emotionEntryDetail.mood == 'VeryBad' ? true : false;
-  bool isEditMode = _emotionController.isEditMode.value ? true : false;
-  String note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
+  void checkIfEditMode() {
+    if (_emotionController.isEditMode.value) {
+      EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
+          ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
+          ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
+          ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+          
+      isVeryHappy = emotionEntryDetail.mood == 'VeryHappy' ? true : false;
+      isHappy = emotionEntryDetail.mood == 'Happy' ? true : false;
+      isNeutral = emotionEntryDetail.mood == 'Neutral' ? true : false;
+      isBad = emotionEntryDetail.mood == 'Bad' ? true : false;
+      isVeryBad = emotionEntryDetail.mood == 'VeryBad' ? true : false;
+      isEditMode = _emotionController.isEditMode.value ? true : false;
+      note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
+    }
+  }
 
   void updateEmotionValues(String mood) {
     if (mood == 'VeryHappy') {
@@ -148,6 +161,8 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
 
   @override
   Widget build(BuildContext context) {
+    checkIfEditMode();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -218,9 +233,9 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                 child: Material(
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  child: TextField(
+                  child: TextFormField(
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x005E6668).withOpacity(1.0)),
-                    controller: TextEditingController()..text = note,
+                    initialValue: note,
                     maxLines: null,
                     onChanged: _emotionController.updateNotes,
                     decoration: InputDecoration(
