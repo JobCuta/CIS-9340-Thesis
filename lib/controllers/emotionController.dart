@@ -306,9 +306,10 @@ class EmotionController extends GetxController {
 
     if (box.containsKey(date)) {
       return box.get(date);
+    } else {
+      saveEntryToStorage();
+      return box.get(date);
     }
-
-    throw Exception('No emotion entry yet for today');
   }
 
   List<EmotionEntryHive> getAllEmotionEntries() {

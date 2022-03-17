@@ -284,8 +284,7 @@ class _EmotionalEvaluationEndScreenState
                                   ),
                                   onPressed: () {
                                     _emotionController.updateEntryInStorage();
-
-                                    Get.toNamed('/homepage');
+                                    Get.offAllNamed('/homepage');
                                   }),
                             )),
                       ),

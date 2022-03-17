@@ -1,6 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:get/get.dart';
@@ -11,13 +12,7 @@ class DailyController extends GetxController {
   var isDailyExerciseDone = false.obs;
   final _emotionController = Get.put(EmotionController());
 
-  @override
-  void onInit() {
-    init();
-    super.onInit();
-  }
-
-  void init() {
+  void prepareTheObjects() {
     Box box = Hive.box<DailyHive>('daily');
     if (box.isEmpty) {
       DailyHive newDaily =
@@ -34,11 +29,13 @@ class DailyController extends GetxController {
       daily.isDailyExerciseDone = false;
       daily.isDailyEntryDone = false;
       daily.save();
+
+      _emotionController.saveEntryToStorage();
     }
     isDailyEntryDone.value = daily.isDailyEntryDone;
     isDailyExerciseDone.value = daily.isDailyExerciseDone;
 
-    _emotionController.saveEntryToStorage();
+    EmotionEntryHive emotionEntry =  _emotionController.getTodaysEmotionEntry();
 
     update();
   }
