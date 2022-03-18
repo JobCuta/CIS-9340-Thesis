@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -95,7 +96,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                     roundedEdges: const Radius.circular(4),
                     totalSteps: questions.length,
                     currentStep: position + 1,
-                    selectedColor: Colors.white,
+                    selectedColor: Theme.of(context).colorScheme.neutralWhite01,
                     unselectedColor: const Color(0xffA1D6FF),
                   ),
                 ),
@@ -129,14 +130,15 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                   .subtitle2
                                   ?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                    fontFamily: 'Proxima Nova',
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
                                   )),
                         ),
                       ),
                       DecoratedBox(
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.neutralWhite01,
                             borderRadius: BorderRadius.circular(8)),
                         child: Padding(
                           padding:
@@ -171,9 +173,12 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     items,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2
+                                        .bodyText1
                                         ?.copyWith(
-                                            color: const Color(0xffACB2B4)),
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray03),
                                   ));
                             }).toList(),
                           ),
@@ -197,17 +202,14 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     .textTheme
                                     .subtitle2
                                     ?.copyWith(
-                                        fontFamily: 'Proxima Nova',
                                         fontWeight: FontWeight.w600,
                                         color: const Color(0xffFFBE18)),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                padding: const EdgeInsets.all(10),
-                                primary: Colors.white,
+                                primary: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
                               ),
                               onPressed: () {
                                 (position == 0)
@@ -227,18 +229,17 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     .textTheme
                                     .subtitle2
                                     ?.copyWith(
-                                        fontFamily: 'Proxima Nova',
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                padding: const EdgeInsets.all(10),
                                 primary: (answers[position] == 'Pick an option')
-                                    ? const Color(0xffE2E4E4)
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite04
                                     : const Color(0xffFFBE18),
                               ),
                               onPressed: () {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../constants/notificationService.dart';
-
 class TimeController extends GetxController {
   var morningTime = const TimeOfDay(hour: 9, minute: 30).obs;
   var afternoonTime = const TimeOfDay(hour: 12, minute: 30).obs;
@@ -19,7 +17,6 @@ class TimeController extends GetxController {
     );
     morningTime.value = timeOfDay!;
     update();
-    NotificationService.showMorningNotification(morningTime.value);
   }
 
   Future selectAfternoonTime(BuildContext context) async {
@@ -33,7 +30,6 @@ class TimeController extends GetxController {
     );
     afternoonTime.value = timeOfDay!;
     update();
-    NotificationService.showAfternoonNotification(afternoonTime.value);
   }
 
   Future selectEveningTime(BuildContext context) async {
@@ -47,6 +43,5 @@ class TimeController extends GetxController {
     );
     eveningTime.value = timeOfDay!;
     update();
-    NotificationService.showEveningNotification(eveningTime.value);
   }
 }
