@@ -34,17 +34,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageTransitionSwitcher(
-        transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
-            SharedAxisTransition(
-                animation: primaryAnimation,
-                secondaryAnimation: secondaryAnimation,
-                transitionType: SharedAxisTransitionType.horizontal,
-                child: child,),
-        child: _widgetOptions.elementAt(_selectedIndex),
+    return WillPopScope(
+      onWillPop: () async => false, //change to confirm exit modal
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
+              SharedAxisTransition(
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
+                  transitionType: SharedAxisTransitionType.horizontal,
+                  child: child,),
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomSheet: bottomNavigationBar(),
       ),
-      bottomSheet: bottomNavigationBar(),
     );
   }
 

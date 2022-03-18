@@ -24,7 +24,7 @@ class UserProvider extends GetConnect {
   //POST
   Future login(LoginForm loginData) async {
     final response = await post(domain + paths["login"], loginData.form());
-    print('response ${response}');
+    print('response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
     bool status = false;
@@ -35,6 +35,8 @@ class UserProvider extends GetConnect {
         status = true;
         message = "Successfully logged in.";
         await UserSecureStorage.setKeyLogin(map["key"]);
+      } else if (map.containsKey("email")) {
+        message = map["email"][0];
       } else {
         message =
             "Unknown error occurred checking if response contains login key";
@@ -99,9 +101,8 @@ class UserProvider extends GetConnect {
     final response = await get(domain + paths["getUser"],
         headers: {"Authorization": "Token " + key});
     var map = Map<String, dynamic>.from(response.body);
-    print("it be like that");
     if (!response.hasError) {
-      print("it be like that2 $map");
+      print("User Info $map");
       if (initial) {
         print("hello ${map["email"]}");
 

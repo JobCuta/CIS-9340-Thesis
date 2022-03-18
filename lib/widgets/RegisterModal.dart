@@ -394,19 +394,13 @@ class _RegisterState extends State<RegisterWidget> {
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      Timer(const Duration(seconds: 5), () {
-                                        CircularProgressIndicator(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .intGreenMain);
-                                        Get.toNamed('/aboutSelfScreen',
-                                            arguments: {
-                                              "email": email,
-                                              "pass1": password,
-                                              "pass2": confirmPassword
-                                            },
-                                            preventDuplicates: false);
-                                      });
+                                      Get.toNamed('/aboutSelfScreen',
+                                          arguments: {
+                                            "email": email,
+                                            "pass1": password,
+                                            "pass2": confirmPassword
+                                          },
+                                          preventDuplicates: false);
                                     }
                                   }
                                 : null,

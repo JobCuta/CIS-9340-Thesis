@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
+import '../../../apis/apis.dart';
+import '../../../constants/forms.dart';
 import '../../../widgets/AccountCreationPopOut.dart';
+import '../../../widgets/errorDialog.dart';
 
 void main() {
   runApp(const AnonymousScreen());
@@ -25,8 +28,25 @@ class AnonymousWidget extends StatefulWidget {
 }
 
 class _AnonymousState extends State<AnonymousWidget> {
-  String nickName = '';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  String email = '';
+  String pass1 = '';
+  String pass2 = '';
+  String nickName = '';
+
+  handleUserInfo() async {
+    print('arguments ${Get.arguments}');
+    email = Get.arguments["email"];
+    pass1 = Get.arguments["pass1"];
+    pass2 = Get.arguments["pass2"];
+    var response = await UserProvider().register(RegisterForm.anon(
+        email,
+        pass1,
+        pass2,
+        nickName));
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,10 +191,14 @@ class _AnonymousState extends State<AnonymousWidget> {
                       elevation: 0,
                       primary: Theme.of(context).colorScheme.intGreenMain,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_form.currentState!.validate()) {
-                        buildPopupDialog(context);
-                        Get.offAllNamed('/accountScreen');
+                        var response = await handleUserInfo();
+                        if (response["status"]) {
+                          registeredDialog(context);
+                        } else {
+                          errorDialog(response["message"]);
+                        }
                       }
                     },
                     child: Text(
@@ -200,8 +224,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                     ),
                     onPressed: () {
                       //navigate to next page
-                      Get.offNamed('/aboutSelfScreen',
-                          arguments: {"email": ""});
+                      Get.back();
                     },
                     child: Text(
                       'I changed my mind...',

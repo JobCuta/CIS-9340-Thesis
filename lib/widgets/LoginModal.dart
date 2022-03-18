@@ -34,6 +34,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   late TextEditingController emailController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
   String error = '';
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -73,7 +74,6 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   }
 
   handleLogin() async {
-    print("response loging ${emailController.text} ${passwordController.text}");
     var response = await UserProvider()
         .login(LoginForm(emailController.text, passwordController.text));
     if (response["status"]) {
@@ -310,44 +310,47 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               onSurface:
                                   Theme.of(context).colorScheme.neutralGray03,
                             ),
-                            child: Text(
-                              'Continue',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01),
-                            ),
+                            child: isLoading
+                                ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                                : Text(
+                                    'Continue',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01),
+                                  ),
                             onPressed: isButtonActive
                                 ? () async {
                                     //Navigation and account validation
+                                    setState(() => isLoading = true);
                                     bool result = await handleLogin();
-                                    if (result) {
-                                      Get.snackbar(
-                                        "Logged In",
-                                        "It Worked!",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .intGreenMain,
-                                      );
-                                      Timer(const Duration(seconds: 5), () {
-                                        buildShowDialog(context);
+                                    Timer(const Duration(seconds: 1), () {
+                                      if (result) {
                                         Get.offAndToNamed('/homepage');
-                                      });
-                                    } else {
-                                      Get.snackbar(
-                                        "Log in failed",
-                                        error,
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed02,
-                                      );
-                                    }
+                                      } else {
+                                        Get.snackbar(
+                                          "Log in failed",
+                                          error,
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .accentRed02,
+                                          colorText:  Colors.white
+                                        );
+                                        setState(() => isLoading = false);
+                                      }
+                                    });
                                   }
                                 : null,
                           ),
@@ -364,16 +367,4 @@ class _LoginWidgetsState extends State<LoginWidgets> {
       ),
     );
   }
-}
-
-buildShowDialog(BuildContext context) {
-  return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Center(
-          child: CircularProgressIndicator(
-              backgroundColor: Theme.of(context).colorScheme.intGreenMain),
-        );
-      });
 }

@@ -10,17 +10,19 @@ class LoginForm {
 }
 
 class RegisterForm {
-  late String email;
-  late String pass1;
-  late String pass2;
-  late String fname;
-  late String lname;
-  late String nickn;
-  late String bday;
-  late String gender;
+  late String email='';
+  late String pass1='';
+  late String pass2='';
+  late String fname='';
+  late String lname='';
+  late String nickn='';
+  late String bday='';
+  late String gender='';
 
   RegisterForm(this.email, this.pass1, this.pass2, this.fname, this.lname,
       this.nickn, this.bday, this.gender);
+
+  RegisterForm.anon(this.email, this.pass1, this.pass2, this.nickn);
 
   Map<String, String> form() {
     return {
