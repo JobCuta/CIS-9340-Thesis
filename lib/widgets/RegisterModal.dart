@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -56,9 +57,9 @@ class _RegisterState extends State<RegisterWidget> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           leading: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.neutralWhite01,
             ),
             onPressed: () {
               Get.back();
@@ -78,17 +79,18 @@ class _RegisterState extends State<RegisterWidget> {
                   child: Center(
                       child: Text(
                     'Register',
-                    style: Theme.of(context).textTheme.headline5?.
-                      copyWith(
-                        fontWeight: FontWeight.w600  
-                      ),
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralBlack02,
+                        fontWeight: FontWeight.w600),
                   )),
                 ),
                 const SizedBox(height: 15.0),
                 Center(
                   child: Text(
                     'Please enter your credentials to continue',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralBlack03,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
                 const SizedBox(height: 30.0),
@@ -100,25 +102,42 @@ class _RegisterState extends State<RegisterWidget> {
                       children: <Widget>[
                         Row(
                           children: [
-                            Text('Email', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
+                            Text('Email',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600)),
                           ],
                         ),
                         const SizedBox(height: 5.0),
                         SizedBox(
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(fontSize: 14.0),
                             decoration: InputDecoration(
                               isDense: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your email',
-                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
-                              fillColor: Colors.white,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03),
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 17.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               )),
                             ),
                             validator: (input) {
@@ -140,12 +159,21 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text('Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
+                            Text('Password',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600)),
                           ],
                         ),
                         const SizedBox(height: 5.0),
                         SizedBox(
                           child: TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(RegExp('[ ]')),
                             ],
@@ -155,12 +183,20 @@ class _RegisterState extends State<RegisterWidget> {
                               isDense: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
-                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03,
+                                      fontWeight: FontWeight.w400),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               )),
                               suffixIcon: IconButton(
                                 iconSize: 25,
@@ -189,7 +225,15 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(height: 25.0),
                         Row(
                           children: [
-                            Text('Confirm Password', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1))),
+                            Text('Confirm Password',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600)),
                           ],
                         ),
                         const SizedBox(height: 5.0),
@@ -206,14 +250,23 @@ class _RegisterState extends State<RegisterWidget> {
                               border: const OutlineInputBorder(),
                               isDense: true,
                               hintText: 'Enter your password',
-                              fillColor: Colors.white,
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
                               filled: true,
-                              hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12, color: Colors.grey[500]),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03,
+                                      fontWeight: FontWeight.w400),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 12.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               )),
                               suffixIcon: IconButton(
                                 iconSize: 25,
@@ -250,15 +303,46 @@ class _RegisterState extends State<RegisterWidget> {
                                     child: RichText(
                                       text: TextSpan(
                                         text: 'I have read and understood the ',
-                                        style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                color: const Color(0xff363636),
+                                                fontWeight: FontWeight.w400),
                                         children: <TextSpan>[
                                           TextSpan(
                                               text: 'terms of use',
-                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue)),
-                                          const TextSpan(text: ' and '),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .accentBlue02)),
+                                          TextSpan(
+                                            text: ' and ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                    color:
+                                                        const Color(0xff363636),
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                          ),
                                           TextSpan(
                                               text: 'privacy policy',
-                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue)),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .accentBlue02)),
                                         ],
                                       ),
                                     ),
@@ -270,8 +354,12 @@ class _RegisterState extends State<RegisterWidget> {
                                         isSwitched = value;
                                       });
                                     },
-                                    activeColor: Colors.white,
-                                    activeTrackColor: Colors.green,
+                                    activeColor: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    activeTrackColor: Theme.of(context)
+                                        .colorScheme
+                                        .intGreenMain,
                                   ),
                                 ],
                               ),
@@ -286,31 +374,39 @@ class _RegisterState extends State<RegisterWidget> {
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              primary: Colors.green[400],
-                              onSurface: Colors.grey[700],
+                              elevation: 0,
+                              primary:
+                                  Theme.of(context).colorScheme.intGreenMain,
+                              onSurface:
+                                  Theme.of(context).colorScheme.neutralGray03,
                             ),
                             child: Text(
                               'Continue',
-                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01),
                             ),
                             onPressed: isSwitched
                                 ? () async {
                                     if (_form.currentState!.validate()) {
-                                      Timer(const Duration(seconds: 5), (){
-                                        const CircularProgressIndicator(color: Colors.green);
+                                      Timer(const Duration(seconds: 5), () {
+                                        CircularProgressIndicator(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .intGreenMain);
                                         Get.toNamed('/aboutSelfScreen',
                                             arguments: {
                                               "email": email,
                                               "pass1": password,
                                               "pass2": confirmPassword
                                             },
-                                            preventDuplicates: false
-                                        );
-                                      } );
+                                            preventDuplicates: false);
+                                      });
                                     }
                                   }
                                 : null,

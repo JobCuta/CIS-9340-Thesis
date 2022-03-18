@@ -12,7 +12,7 @@ class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           decoration:
@@ -25,7 +25,9 @@ class CreateAccountScreen extends StatelessWidget {
                 child: Text(
                   'Before we continue...',
                   softWrap: true,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.teal[900]),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: Theme.of(context).colorScheme.intGreen07,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
@@ -37,10 +39,9 @@ class CreateAccountScreen extends StatelessWidget {
               ),
               Text(
                 'Create an account!',
-                style: Theme.of(context).textTheme.headline5?.
-                  copyWith(
-                    fontWeight: FontWeight.w700
-                  ),
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).colorScheme.neutralBlack02),
               ),
               const SizedBox(height: 15.0),
               Padding(
@@ -48,7 +49,9 @@ class CreateAccountScreen extends StatelessWidget {
                 child: Text(
                   'All interactions and data are fully encrypted and secure. Your data is safe with us!',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Theme.of(context).colorScheme.darkGreen),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).colorScheme.intGreen07,
+                      height: 2),
                 ),
               ),
               const SizedBox(
@@ -60,7 +63,7 @@ class CreateAccountScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: Theme.of(context).elevatedButtonTheme.style,
+                    style: ElevatedButton.styleFrom(elevation: 0),
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -80,7 +83,9 @@ class CreateAccountScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Sign up',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralWhite01,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -88,7 +93,10 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(height: 15),
               Text(
                 'Already have an account?',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color.fromRGBO(78, 78, 78, 1)),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    ?.copyWith(color: const Color(0xff4E4E4E)),
               ),
               const SizedBox(height: 15),
               Padding(
@@ -98,12 +106,10 @@ class CreateAccountScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                          side: BorderSide(color: Colors.grey.shade300)),
-                      padding: const EdgeInsets.all(12),
-                      primary: Colors.white,
+                      elevation: 0,
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.neutralWhite04),
+                      primary: Theme.of(context).colorScheme.neutralWhite01,
                     ),
                     onPressed: () {
                       showModalBottomSheet(
@@ -124,7 +130,9 @@ class CreateAccountScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Log in',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green.shade400),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color: Theme.of(context).colorScheme.intGreenMain,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -65,18 +67,20 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         return Theme(
           data: ThemeData(
             textTheme: TextTheme(
-              subtitle1: const TextStyle(color: Colors.black),
-              button: TextStyle(color: Colors.green[500]),
+              subtitle1: TextStyle(
+                  color: Theme.of(context).colorScheme.neutralBlack02),
+              button:
+                  TextStyle(color: Theme.of(context).colorScheme.intGreenMain),
             ),
-            colorScheme: const ColorScheme.light(
-              primary: Colors.green,
-              onSecondary: Colors.black,
-              onPrimary: Colors.white,
-              surface: Colors.black,
-              onSurface: Colors.black,
-              secondary: Colors.black,
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.intGreenMain,
+              onSecondary: Theme.of(context).colorScheme.neutralBlack02,
+              onPrimary: Theme.of(context).colorScheme.neutralWhite01,
+              surface: Theme.of(context).colorScheme.neutralBlack02,
+              onSurface: Theme.of(context).colorScheme.neutralBlack02,
+              secondary: Theme.of(context).colorScheme.neutralBlack02,
             ),
-            dialogBackgroundColor: Colors.white,
+            dialogBackgroundColor: Theme.of(context).colorScheme.neutralWhite01,
           ),
           child: child ?? const Text(''),
         );
@@ -111,7 +115,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.grey[700],
+                color: Theme.of(context).colorScheme.neutralGray04,
               ),
               onPressed: () {
                 Get.back();
@@ -131,16 +135,17 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: Theme.of(context).textTheme.headline5?.
-                        copyWith(
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
                           fontWeight: FontWeight.w600,
-                        ),
+                          color: Theme.of(context).colorScheme.neutralBlack02),
                     )),
                   ),
                   Center(
                     child: Text(
                       'Please enter your credentials to continue',
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralBlack03,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(height: 30.0),
@@ -156,11 +161,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 'First name',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600),
                               )
                             ],
                           ),
@@ -169,6 +175,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           SizedBox(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(fontSize: 14.0),
                               decoration: textFormFieldDecoration(
                                   'Enter your first name'),
@@ -192,11 +199,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 'Last name',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -205,6 +213,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           SizedBox(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -227,11 +236,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               Text('Nickname (optional)',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
+                                      .caption
                                       ?.copyWith(
-                                          fontSize: 12,
-                                          color: const Color.fromRGBO(
-                                              94, 102, 104, 1))),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray04,
+                                          fontWeight: FontWeight.w600)),
                             ],
                           ),
                           const SizedBox(height: 5.0),
@@ -239,7 +249,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             child: TextFormField(
                               style: const TextStyle(fontSize: 14.0),
                               decoration: textFormFieldDecoration(
-                                  'Enter your Nickname'),
+                                  'Enter your nickname'),
                               onChanged: (val) {
                                 setState(() => nickName = val);
                               },
@@ -252,16 +262,18 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 'Gender',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
                           const SizedBox(height: 5.0),
                           SizedBox(
+                            height: 50,
                             child: DropdownButtonFormField(
                               style: const TextStyle(fontSize: 14.0),
                               decoration:
@@ -270,21 +282,39 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               icon: const Icon(Icons.arrow_drop_down),
                               items: [
                                 DropdownMenuItem<String>(
-                                  child: Text('Male', 
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
+                                  child: Text('Male',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralBlack02)),
                                   value: 'M',
                                 ),
                                 DropdownMenuItem<String>(
                                   child: Text('Female',
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralBlack02)),
                                   value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
-                                  child: Text('Prefer not to say..',
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
+                                  child: Text('Rather not to say...',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralBlack02)),
                                   value: 'P',
                                 ),
                               ],
@@ -308,11 +338,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 'Birthday',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04,
+                                        fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -328,26 +359,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 // Show Date Picker Here
                                 _selectDate(context);
                               },
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText: 'Enter your birthday',
-                                fillColor: Colors.white,
-                                filled: true,
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(color: Colors.grey.shade600),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                )),
-                                suffixIcon: const Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: Color.fromRGBO(94, 102, 104, 1),
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
-                              ),
+                              decoration: textFormFieldDecoration(
+                                  'Enter your birthday'),
                               onChanged: (val) {
                                 setState(
                                     () => birthDate = birthDateController.text);
@@ -369,16 +382,16 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             ),
           ),
           bottomSheet: Container(
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             height: 110,
-            margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+            margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
             child: ListView(
               children: [
                 SizedBox(
-                  width: 328,
+                  width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: Theme.of(context).elevatedButtonTheme.style,
+                    style: ElevatedButton.styleFrom(elevation: 0),
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
@@ -392,10 +405,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     },
                     child: Text(
                       'Continue',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralWhite01,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -403,15 +415,14 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   height: 10.0,
                 ),
                 SizedBox(
-                  width: 328,
+                  width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                            side: BorderSide(color: Colors.grey.shade300)),
-                        padding: const EdgeInsets.all(10),
+                        elevation: 0,
+                        side: BorderSide(
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite04),
                         primary: Colors.white,
                       ),
                       onPressed: () {
@@ -421,10 +432,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       },
                       child: Text(
                         'Stay Anonymous',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: Colors.green[300]),
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            color: Theme.of(context).colorScheme.intGreenMain,
+                            fontWeight: FontWeight.w600),
                       )),
                 ),
               ],
@@ -439,10 +449,10 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return Get.defaultDialog(
       title: 'Account successfully registered!',
       barrierDismissible: false,
-      titleStyle: Theme.of(context).textTheme.headline5?.
-        copyWith(
-          fontWeight: FontWeight.w600
-        ),
+      titleStyle: Theme.of(context)
+          .textTheme
+          .headline5
+          ?.copyWith(fontWeight: FontWeight.w600),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -485,11 +495,12 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return InputDecoration(
       border: const OutlineInputBorder(),
       hintText: hintText,
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).colorScheme.neutralWhite01,
       filled: true,
       hintStyle: TextStyle(
+          fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: Colors.grey.shade600,
+          color: Theme.of(context).colorScheme.neutralGray03,
           fontFamily: 'Proxima Nova'),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+
 import '../../../widgets/AccountCreationPopOut.dart';
 
 void main() {
@@ -62,19 +64,17 @@ class _AnonymousState extends State<AnonymousWidget> {
                     child: Center(
                         child: Text(
                       'Staying anonymous',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralBlack02),
                     )),
                   ),
                   Center(
                     child: Text(
                       'What do you want us to call you?',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralBlack03,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(
@@ -92,11 +92,12 @@ class _AnonymousState extends State<AnonymousWidget> {
                                 'Nickname',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)),
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04),
                               ),
                             ],
                           ),
@@ -111,18 +112,27 @@ class _AnonymousState extends State<AnonymousWidget> {
                               decoration: InputDecoration(
                                 isDense: true,
                                 border: const OutlineInputBorder(),
-                                hintText: 'Enter your name',
-                                fillColor: Colors.white,
+                                hintText: 'Enter your nickname',
+                                fillColor: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
                                 filled: true,
-                                hintStyle: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey.shade600,
-                                    fontFamily: 'Proxima Nova'),
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03,
+                                    ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 12.0, horizontal: 15.0),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralGray01,
                                 )),
                               ),
                               onChanged: (val) {
@@ -148,21 +158,18 @@ class _AnonymousState extends State<AnonymousWidget> {
             ),
           ),
           bottomSheet: Container(
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             height: 120,
             margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
             child: ListView(
               children: [
                 SizedBox(
-                  width: 328,
+                  width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      primary: Colors.green[400],
+                      elevation: 0,
+                      primary: Theme.of(context).colorScheme.intGreenMain,
                     ),
                     onPressed: () {
                       if (_form.currentState!.validate()) {
@@ -172,10 +179,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                     },
                     child: Text(
                       'Continue',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralWhite01),
                     ),
                   ),
                 ),
@@ -183,16 +189,14 @@ class _AnonymousState extends State<AnonymousWidget> {
                   height: 10.0,
                 ),
                 SizedBox(
-                  width: 328,
+                  width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                          side: BorderSide(color: Colors.grey.shade300)),
-                      padding: const EdgeInsets.all(10),
-                      primary: Colors.white,
+                      elevation: 0,
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.neutralGray01),
+                      primary: Theme.of(context).colorScheme.neutralWhite01,
                     ),
                     onPressed: () {
                       //navigate to next page
@@ -201,10 +205,9 @@ class _AnonymousState extends State<AnonymousWidget> {
                     },
                     child: Text(
                       'I changed my mind...',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          ?.copyWith(color: Colors.green[400]),
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.intGreenMain),
                     ),
                   ),
                 )

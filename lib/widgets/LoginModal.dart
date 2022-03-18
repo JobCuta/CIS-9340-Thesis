@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 
 void main() => runApp(const LoginModal());
@@ -123,7 +124,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           style: Theme.of(context)
                               .textTheme
                               .headline5
-                              ?.copyWith(fontWeight: FontWeight.w600))),
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralBlack02))),
                 ),
                 const SizedBox(
                   height: 15.0,
@@ -131,7 +136,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                 Center(
                   child: Text(
                     'Please enter your credentials to continue',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.neutralBlack03),
                   ),
                 ),
                 Padding(
@@ -145,11 +152,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             Text('Email',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1)))
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04))
                           ],
                         ),
                         const SizedBox(
@@ -157,6 +165,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ),
                         SizedBox(
                           child: TextField(
+                            keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(
                               fontSize: 14.0,
                             ),
@@ -168,14 +177,18 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               hintText: 'Enter your email',
                               hintStyle: Theme.of(context)
                                   .textTheme
-                                  .bodyText1
+                                  .bodyText2
                                   ?.copyWith(
-                                      fontSize: 12, color: Colors.grey[500]),
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               )),
                             ),
                             onChanged: (val) {
@@ -198,11 +211,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             Text('Password',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .caption
                                     ?.copyWith(
-                                        fontSize: 12,
-                                        color: const Color.fromRGBO(
-                                            94, 102, 104, 1))),
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04)),
                           ],
                         ),
                         const SizedBox(
@@ -210,6 +224,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         ),
                         SizedBox(
                           child: TextField(
+                            keyboardType: TextInputType.visiblePassword,
                             controller: passwordController,
                             obscureText: _isObscure,
                             style: const TextStyle(
@@ -220,14 +235,18 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               hintText: 'Enter your password',
                               hintStyle: Theme.of(context)
                                   .textTheme
-                                  .bodyText1
+                                  .bodyText2
                                   ?.copyWith(
-                                      fontSize: 12, color: Colors.grey[500]),
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               )),
                               suffixIcon: IconButton(
                                 icon: Icon(_isObscure
@@ -268,10 +287,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                   'Forgot your password?',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
+                                      .caption
                                       ?.copyWith(
-                                          fontSize: 12,
-                                          color: Colors.grey[500]),
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray03),
                                 ),
                               ),
                             ],
@@ -283,18 +304,22 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.green[400],
-                              onSurface: Colors.grey[700],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
+                              elevation: 0,
+                              primary:
+                                  Theme.of(context).colorScheme.intGreenMain,
+                              onSurface:
+                                  Theme.of(context).colorScheme.neutralGray03,
                             ),
                             child: Text(
                               'Continue',
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
-                                  ?.copyWith(color: Colors.white),
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01),
                             ),
                             onPressed: isButtonActive
                                 ? () async {
@@ -305,9 +330,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         "Logged In",
                                         "It Worked!",
                                         snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .intGreenMain,
                                       );
-                                      Timer(const Duration(seconds: 5), (){
+                                      Timer(const Duration(seconds: 5), () {
                                         buildShowDialog(context);
                                         Get.offAndToNamed('/homepage');
                                       });
@@ -316,7 +343,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                         "Log in failed",
                                         error,
                                         snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .accentRed02,
                                       );
                                     }
                                   }
@@ -342,8 +371,9 @@ buildShowDialog(BuildContext context) {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(backgroundColor: Colors.green),
+        return Center(
+          child: CircularProgressIndicator(
+              backgroundColor: Theme.of(context).colorScheme.intGreenMain),
         );
       });
 }

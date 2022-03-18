@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -78,8 +77,6 @@ class _ShakeScreenState extends State<ShakeScreen> {
                     ),
                     fit: BoxFit.cover))),
         Container(
-            // color: Colors.amberAccent,
-            // height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,16 +97,23 @@ class _ShakeScreenState extends State<ShakeScreen> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
                     child: Column(
-                      children: const [
-                        Text('Randomizing...',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                                fontFamily: 'Proxima Nova')),
+                      children: [
+                        Text(
+                          widget.initialAssessment
+                              ? 'Randomizing...'
+                              : 'Randomizing your exercise...',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01),
+                        ),
                         Divider(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.neutralWhite01,
                           height: 25,
                           thickness: 2,
                           indent: 5,
@@ -117,11 +121,14 @@ class _ShakeScreenState extends State<ShakeScreen> {
                         ),
                         Text("Let's see what you'll get!",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Proxima Nova')),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
                       ],
                     )),
               ],
@@ -138,25 +145,16 @@ class _ShakeScreenState extends State<ShakeScreen> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    primary: const Color(0xff4CA7FC),
+                    primary: Theme.of(context).colorScheme.accentBlue02,
                   ),
                   onPressed: () {
                     dispose();
                     Get.toNamed('/wellnessScreen');
                   },
-                  child: const Text(
-                    'I want to pick the exercise',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      fontFamily: 'Proxima Nova',
-                    ),
-                  ),
+                  child: Text('I want to pick the exercise',
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralWhite01)),
                 ),
               ),
             ),
@@ -272,13 +270,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                         child: Column(children: [
                           // Determines which AnimatedTextKit widget should be shown
                           (position == 0)
-                              ? const Text('Relax and get ready...',
+                              ? Text('Relax and get ready...',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontFamily: 'Proxima Nova'))
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01))
                               : (position == 1)
                                   ? SizedBox(
                                       child: (widget.type == 'Breathing')
@@ -287,28 +288,33 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                               ? const WalkingCycleWidget()
                                               : const MeditationCycleWidget(),
                                       height: 26)
-                                  : const Text('Good job!',
+                                  : Text('Good job!',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontFamily: 'Proxima Nova')),
-                          const Divider(
-                            color: Colors.white,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralWhite01)),
+                          Divider(
+                            color: Theme.of(context).colorScheme.neutralWhite01,
                             height: 25,
                             thickness: 2,
                             indent: 5,
                             endIndent: 5,
                           ),
                           Text((position == 2) ? widget.reason : widget.prompt,
-                              // Text(widget.reason,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Proxima Nova')),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
                         ])),
                     // Button for the user to randomly generate a new exercise
                     (position == 1)
@@ -319,36 +325,33 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 50,
                                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24),
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      primary: Theme.of(context)
+                                          .colorScheme
+                                          .accentBlue02,
                                     ),
-                                    padding: const EdgeInsets.all(12),
-                                    primary: const Color(0xff4CA7FC),
-                                  ),
-                                  onPressed: () {
-                                    var randomExercise =
-                                        (otherExercises..shuffle()).first;
-                                    Get.offAndToNamed('/exerciseScreen',
-                                        arguments: {
-                                          "assetImage": randomExercise[0],
-                                          "prompt": randomExercise[1],
-                                          "reason": randomExercise[2],
-                                          "type": randomExercise[3],
-                                          "initial?": widget.initialAssessment
-                                        });
-                                  },
-                                  child: const Text(
-                                    'I want another exercise',
-                                    style: TextStyle(
-                                      fontFamily: 'Proxima Nova',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ) // user to the createAccountScreen
+                                    onPressed: () {
+                                      var randomExercise =
+                                          (otherExercises..shuffle()).first;
+                                      Get.offAndToNamed('/exerciseScreen',
+                                          arguments: {
+                                            "assetImage": randomExercise[0],
+                                            "prompt": randomExercise[1],
+                                            "reason": randomExercise[2],
+                                            "type": randomExercise[3],
+                                            "initial?": widget.initialAssessment
+                                          });
+                                    },
+                                    child: Text('I want another exercise',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralWhite01))) // user to the createAccountScreen
                                 ),
                           )
                         : (position == 2)
@@ -359,32 +362,30 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
                                   child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24),
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .accentBlue02,
                                       ),
-                                      padding: const EdgeInsets.all(12),
-                                      primary: const Color(0xff4CA7FC),
-                                    ),
-                                    onPressed: () {
-                                      (widget.initialAssessment)
-                                          ? Get.toNamed('/accountScreen')
-                                          : Get.toNamed('/homepage');
-                                      // Get.toNamed('/accountScreen');
-                                    },
-                                    child: Text(
-                                      (widget.initialAssessment)
-                                          ? 'Continue...'
-                                          : 'Done',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                        fontFamily: 'Proxima Nova',
-                                      ),
-                                    ),
-                                  ),
+                                      onPressed: () {
+                                        (widget.initialAssessment)
+                                            ? Get.toNamed('/accountScreen')
+                                            : Get.toNamed('/homepage');
+                                        // Get.toNamed('/accountScreen');
+                                      },
+                                      child: Text(
+                                          (widget.initialAssessment)
+                                              ? 'Continue...'
+                                              : 'Done',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralWhite01))),
                                 ),
                               ) // Empty Text widget because the ternary operator needs a widget to be returned
                             : const Text(''),
@@ -392,20 +393,22 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     Visibility(
                       visible: widget.initialAssessment,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Visibility(
                           visible: position <= 1,
                           child: TextButton(
                             onPressed: () {
                               Get.toNamed('/accountScreen');
                             },
-                            child: const Text(
-                              'Skip',
-                              style: TextStyle(
-                                  color: Color(0xff4CA7FC),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                            child: Text('Skip',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .accentBlue02)),
                           ),
                         ),
                       ),
@@ -431,14 +434,16 @@ class _MeditationCycleWidgetState extends State<MeditationCycleWidget> {
     return AnimatedTextKit(
       animatedTexts: [
         FadeAnimatedText('Focus...',
-            textStyle: const TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             fadeInEnd: 0.2,
             fadeOutBegin: 0.9,
             duration: const Duration(seconds: 15)),
         FadeAnimatedText('Ground yourself...',
-            textStyle: const TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             duration: const Duration(seconds: 15)),
       ],
       totalRepeatCount: 2,
@@ -460,14 +465,16 @@ class _WalkingCycleWidgetState extends State<WalkingCycleWidget> {
     return AnimatedTextKit(
       animatedTexts: [
         FadeAnimatedText('Clear your mind',
-            textStyle: const TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             fadeInEnd: 0.2,
             fadeOutBegin: 0.9,
             duration: const Duration(seconds: 15)),
         FadeAnimatedText('Pace yourself carefully',
-            textStyle: const TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             duration: const Duration(seconds: 15)),
       ],
       totalRepeatCount: 2,
@@ -489,22 +496,26 @@ class BreathingCycleWidgetState extends State<BreathingCycleWidget> {
     return AnimatedTextKit(
       animatedTexts: [
         FadeAnimatedText('Inhale...',
-            textStyle: const TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             fadeInEnd: 0.2,
             fadeOutBegin: 0.7,
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
-            textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Exhale...',
-            textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
-            textStyle: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.w600, color: Colors.white),
+            textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.neutralWhite01),
             duration: const Duration(seconds: 4)),
       ],
       totalRepeatCount: 4,
@@ -544,11 +555,9 @@ class _InitialCountdownWidgetState extends State<InitialCountdownWidget> {
         backgroundGradient: null,
         strokeWidth: 20.0,
         strokeCap: StrokeCap.round,
-        textStyle: const TextStyle(
-            fontSize: 50.0,
-            color: Colors.white,
+        textStyle: Theme.of(context).textTheme.headline2?.copyWith(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Proxima Nova'),
+            color: Theme.of(context).colorScheme.neutralWhite01),
 
         // Format for the Countdown Text.
         textFormat: CountdownTextFormat.SS,
@@ -594,11 +603,9 @@ class _MainCountdownWidgetState extends State<MainCountdownWidget> {
         backgroundColor: const Color(0xffE1871D).withOpacity(0.40),
         strokeWidth: 20.0,
         strokeCap: StrokeCap.round,
-        textStyle: const TextStyle(
-            fontSize: 50.0,
-            color: Colors.white,
+        textStyle: Theme.of(context).textTheme.headline2?.copyWith(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Proxima Nova'),
+            color: Theme.of(context).colorScheme.neutralWhite01),
 
         // Format for the Countdown Text.
         textFormat: CountdownTextFormat.SS,

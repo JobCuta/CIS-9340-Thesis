@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_application_1/constants/colors.dart';
 import '../../../apis/apis.dart';
 
 void main() => runApp(const ForgotPasswordScreen());
@@ -60,11 +60,12 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.grey[850],
+              color: Theme.of(context).colorScheme.neutralGray04,
             ),
             onPressed: () {
               Get.offAllNamed('/accountScreen');
               //Navigation
+              Get.back();
             },
           ),
           backgroundColor: Colors.transparent,
@@ -85,20 +86,18 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 ),
                 Text(
                   'Forgot your password?',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralBlack02),
                 ),
                 const SizedBox(
                   height: 15.0,
                 ),
                 Text(
                   'Enter your email to change your password',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(color: Colors.black),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).colorScheme.neutralBlack03,
+                      fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(
                   height: 5.0,
@@ -117,8 +116,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                 .textTheme
                                 .caption
                                 ?.copyWith(
-                                    color:
-                                        const Color.fromRGBO(94, 102, 104, 1)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -128,6 +129,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                       SizedBox(
                         height: 40.0,
                         child: TextField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           style: Theme.of(context).textTheme.bodyText2,
                           decoration: InputDecoration(
@@ -137,12 +139,16 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                      fontSize: 12, color: Colors.grey[500]),
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
                               ))),
                         ),
                       ),
@@ -150,25 +156,29 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                         height: 30.0,
                       ),
                       Container(
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
                         height: 50,
                         decoration: const BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(24))),
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.green[400],
-                              onSurface: Colors.grey[700],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24.0),
-                              ),
+                              elevation: 0,
+                              primary:
+                                  Theme.of(context).colorScheme.intGreenMain,
+                              onSurface:
+                                  Theme.of(context).colorScheme.neutralGray03,
                             ),
                             child: Text(
                               'Confirm',
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1
-                                  ?.copyWith(color: Colors.white),
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01),
                             ),
                             onPressed: () async => {
                                   if (isButtonActive)
@@ -182,21 +192,28 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                 AlertDialog(
                                               insetPadding:
                                                   const EdgeInsets.all(50.0),
-                                              title: const Text(
+                                              title: Text(
                                                 'Enter the verification code we sent',
-                                                style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1
+                                                    ?.copyWith(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .neutralBlack02,
+                                                        fontWeight:
+                                                            FontWeight.w400),
                                                 textAlign: TextAlign.center,
                                               ),
                                               content: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  const Divider(
+                                                  Divider(
                                                     height: 1.0,
                                                     thickness: 1.0,
-                                                    color: Colors.grey,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .neutralWhite04,
                                                   ),
                                                   const SizedBox(
                                                     height: 10.0,
@@ -205,18 +222,28 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                     'Check your email and open the link given to reset your password',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyText1,
+                                                        .bodyText1
+                                                        ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .neutralBlack02),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   const SizedBox(
                                                     height: 10.0,
                                                   ),
                                                   Container(
-                                                    width: double.infinity,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     height: 50,
                                                     margin: const EdgeInsets
                                                             .fromLTRB(
-                                                        15, 0, 15, 20),
+                                                        15, 10, 15, 10),
                                                     decoration: const BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.all(
@@ -225,24 +252,26 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                     child: ElevatedButton(
                                                       style: ElevatedButton
                                                           .styleFrom(
-                                                        primary: Colors.green,
-                                                        onSurface: Colors.green,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      30.0),
-                                                        ),
+                                                        elevation: 0,
+                                                        primary:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .intGreenMain,
+                                                        onSurface:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .neutralGray03,
                                                       ),
                                                       child: Text(
-                                                        'Continue',
+                                                        'Confirm',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .subtitle1
                                                             ?.copyWith(
-                                                                color: Colors
-                                                                    .white),
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .neutralWhite01),
                                                       ),
                                                       onPressed: isButtonActive
                                                           ? () {
@@ -264,7 +293,9 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                             "Server Error Occurred during Request",
                                             result["email"],
                                             snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor: Colors.white,
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01,
                                           )
                                         }
                                     }

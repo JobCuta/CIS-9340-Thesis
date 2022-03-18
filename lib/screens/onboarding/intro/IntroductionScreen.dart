@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 
 void main() {
   runApp(const IntroductionScreen());
@@ -33,17 +34,17 @@ class IntroductionScreen extends StatelessWidget {
                   ),
                   Text(
                     'Welcome to Kasiyanna!',
-                    style: Theme.of(context).textTheme.headline5?.
-                      copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600
-                      ),
+                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralWhite01,
+                        fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 10.0),
                   Text(
                     'Kasiyanna is the app that will join you in your journey to reaching mindfulness and emotional comfort. Not only does Kasiyanna ask you daily questions about your emotional well-being but also lets you enrich the journey thorugh games and daily tasks!',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(height: 2.0, color: Colors.white),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        height: 2.0,
+                        color: Theme.of(context).colorScheme.neutralWhite01),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -52,17 +53,22 @@ class IntroductionScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                      style:Theme.of(context).elevatedButtonTheme.style,
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).colorScheme.accentBlue02,
+                        elevation: 0,
+                      ),
                       onPressed: () {
                         Get.toNamed("/shakeScreen",
                             arguments: {"initial?": true});
                       },
                       child: Text(
                         'Start your journey',
-                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -72,11 +78,20 @@ class IntroductionScreen extends StatelessWidget {
                     text: TextSpan(
                         text:
                             'Your privacy matters to us. You can learn how we can handle your information when you use our Services by reading our ',
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(height: 2.0, color: const Color.fromRGBO(82, 78, 88, 1)),
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            height: 2.0,
+                            color: const Color(0xff524E58)),
                         children: <TextSpan>[
                           TextSpan(
                             text: 'Privacy Policy',
-                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.green),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .intGreenMain),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 //go to privacy policy page
