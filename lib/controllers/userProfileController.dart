@@ -8,40 +8,25 @@ class UserProfileController extends GetxController {
   var lastNameController = TextEditingController();
   var nicknameController = TextEditingController();
   var email = '';
-  var birthday = '';
-  var gender = '';
-
   var validate = true;
 
   @override
   void onInit() {
     super.onInit();
     UserSecureStorage.getFirstn().then((value) {
-      firstNameController.text = value.toString();
+      firstNameController.text = value!.toString();
     });
 
     UserSecureStorage.getLastn().then((value) {
-      lastNameController.text = value.toString();
+      lastNameController.text = value!.toString();
     });
 
     UserSecureStorage.getUsern().then((value) {
-      nicknameController.text = value.toString();
+      nicknameController.text = value!.toString();
     });
 
     UserSecureStorage.getEmail().then((value) {
-      email = value.toString();
-    });
-
-    UserSecureStorage.getBirthday().then((value) {
-      birthday = value.toString();
-    });
-
-    UserSecureStorage.getGender().then((value) {
-      gender = value == 'M'
-          ? 'Male'
-          : value == 'F'
-              ? 'Female'
-              : 'Prefer not to say';
+      email = value!.toString();
     });
 
     firstNameController.addListener(() {
