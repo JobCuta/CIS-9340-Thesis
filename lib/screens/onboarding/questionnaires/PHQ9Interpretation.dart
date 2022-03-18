@@ -208,7 +208,9 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                       padding: const EdgeInsets.all(12),
                       primary: const Color(0xff4CA7FC),
                     ),
-                    onPressed: () {}),
+                    onPressed: () {
+                      Get.toNamed('/homepage');
+                    }),
               )))
     ]));
   }

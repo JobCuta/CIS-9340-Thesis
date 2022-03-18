@@ -78,9 +78,8 @@ class _RegisterState extends State<RegisterWidget> {
                   child: Center(
                       child: Text(
                     'Register',
-                    style: Theme.of(context).textTheme.headline1?.
+                    style: Theme.of(context).textTheme.headline5?.
                       copyWith(
-                        color: Colors.black,
                         fontWeight: FontWeight.w600  
                       ),
                   )),
@@ -240,7 +239,7 @@ class _RegisterState extends State<RegisterWidget> {
                             onChanged: (val) => confirmPassword = val,
                           ),
                         ),
-                        const SizedBox(height: 15.0),
+                        const SizedBox(height: 10.0),
                         Padding(
                           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                           child: Column(
@@ -280,7 +279,7 @@ class _RegisterState extends State<RegisterWidget> {
                           ),
                         ),
                         const SizedBox(
-                          height: 50.0,
+                          height: 10.0,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,

@@ -7,6 +7,12 @@ class UserProvider extends GetConnect {
   final storage = const FlutterSecureStorage();
   static const domain = "https://kasiyanna-efd6n.ondigitalocean.app/";
 
+  @override
+  void onInit() {
+    httpClient.baseUrl = domain;
+    httpClient.timeout = const Duration(seconds: 10);
+  }
+
   final Map paths = {
     "login": "api/v1/auth/login/",
     "logout": "api/v1/auth/logout/",
@@ -18,6 +24,7 @@ class UserProvider extends GetConnect {
   //POST
   Future login(LoginForm loginData) async {
     final response = await post(domain + paths["login"], loginData.form());
+    print('response ${response}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
     bool status = false;
@@ -64,7 +71,7 @@ class UserProvider extends GetConnect {
 
   Future forgotPassword(String email) async {
     final response = await post(domain + paths["forgot"], {"email": email});
-    print('response ${response.body}');
+    print('forgot response ${response.statusText} ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (response.hasError) {
       if (map.containsKey("detail")) {

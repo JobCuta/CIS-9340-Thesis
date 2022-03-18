@@ -72,9 +72,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
   }
 
   handleLogin() async {
+    print("response loging ${emailController.text} ${passwordController.text}");
     var response = await UserProvider()
         .login(LoginForm(emailController.text, passwordController.text));
-    print("response loging ${response}");
     if (response["status"]) {
       await UserProvider().user(true);
       return true;
@@ -119,15 +119,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Center(
-                      child: Text(
-                    'Log in',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5?.
-                          copyWith(
-                            fontWeight: FontWeight.w600
-                          )
-                  )),
+                      child: Text('Log in',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              ?.copyWith(fontWeight: FontWeight.w600))),
                 ),
                 const SizedBox(
                   height: 15.0,

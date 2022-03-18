@@ -33,7 +33,7 @@ class IntroductionScreen extends StatelessWidget {
                   ),
                   Text(
                     'Welcome to Kasiyanna!',
-                    style: Theme.of(context).textTheme.headline1?.
+                    style: Theme.of(context).textTheme.headline5?.
                       copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600
