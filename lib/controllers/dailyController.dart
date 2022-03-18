@@ -10,6 +10,9 @@ import 'package:hive/hive.dart';
 class DailyController extends GetxController {
   var isDailyEntryDone = false.obs;
   var isDailyExerciseDone = false.obs;
+  var isMorningEntryDone = false.obs;
+  var isAfternoonEntryDone = false.obs;
+  var isEveningEntryDone = false.obs;
   final _emotionController = Get.put(EmotionController());
 
   void prepareTheObjects() {
@@ -57,5 +60,14 @@ class DailyController extends GetxController {
       daily.save();
       update();
     }
+  }
+
+  void checkIfEntriesDone() {
+    EmotionEntryHive emotionEntry =  _emotionController.getTodaysEmotionEntry();
+    isMorningEntryDone.value = emotionEntry.morningCheck.mood != 'NoData';
+    isAfternoonEntryDone.value = emotionEntry.afternoonCheck.mood != 'NoData';
+    isEveningEntryDone.value = emotionEntry.eveningCheck.mood != 'NoData';
+
+    update();
   }
 }

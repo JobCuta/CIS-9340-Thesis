@@ -104,8 +104,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
       _selectedIndex = index;
     });
   }
-
-
 }
 
 class HomePage extends StatefulWidget {
@@ -153,8 +151,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _dailyController.checkIfEntriesDone();
     bool _isDailyExerciseDone = _dailyController.isDailyExerciseDone.value;
     bool _isDailyEntryDone = _dailyController.isDailyEntryDone.value;
+    bool _isMorningEntryDone = _dailyController.isMorningEntryDone.value;
+    bool _isAfternoonEntryDone = _dailyController.isAfternoonEntryDone.value;
+    bool _isEveningEntryDone = _dailyController.isEveningEntryDone.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -213,6 +215,62 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: const Text('Test Notification')),
               // const SizedBox(height: 50.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                child: Container(
+                  width: 500,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                    // MORNING
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.brightness_7_sharp, 
+                          size: 24.0,
+                          color: (_isMorningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      width: 100,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      )),
+
+                    // AFTERNOON
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.sunny, 
+                          size: 24.0,
+                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      width: 100,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                    )),
+
+                    // EVENING
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.brightness_2_sharp,
+                          size: 24.0,
+                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                  ],),
+                )
+              ),
 
               Padding(
                 padding:

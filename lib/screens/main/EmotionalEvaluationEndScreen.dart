@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../controllers/emotionController.dart';
+import '../../enums/DailyTask.dart';
 
 void main() {
   runApp(
@@ -23,6 +25,7 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
 
 
 final EmotionController _emotionController = Get.put(EmotionController());
+final DailyController _dailyController = Get.put(DailyController());
 
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
@@ -284,6 +287,7 @@ class _EmotionalEvaluationEndScreenState
                                   ),
                                   onPressed: () {
                                     _emotionController.updateEntryInStorage();
+                                    _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                                     Get.offAllNamed('/homepage');
                                   }),
                             )),

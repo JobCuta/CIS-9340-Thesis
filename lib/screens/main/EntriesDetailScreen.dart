@@ -117,7 +117,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             ),
                                             PopupMenuItem(
                                               value: 'Delete',
-                                              child: Text('Delete', style: Theme.of(context).textTheme.bodyText2),
+                                              child: Text('Delete', 
+                                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xffB22428).withOpacity(1.0)),
+                                                ),
                                             ),
                                           ],
                                         )

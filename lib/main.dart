@@ -46,17 +46,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
 
+  Hive.registerAdapter(sidasHiveAdapter());
+  Hive.registerAdapter(phqHiveAdapter());
+  Hive.registerAdapter<DailyHive>(DailyHiveAdapter());
   Hive.registerAdapter<EmotionEntryHive>(EmotionEntryHiveAdapter());
   Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
   Hive.registerAdapter(EmotionAdapter());
 
   await Hive.initFlutter();
-  Hive.registerAdapter(phqHiveAdapter());
-  await Hive.openBox('phq');
-  Hive.registerAdapter(sidasHiveAdapter());
-  await Hive.openBox('sidas');
 
-  Hive.registerAdapter<DailyHive>(DailyHiveAdapter());
+  await Hive.openBox('phq');
+  await Hive.openBox('sidas');
   await Hive.openBox<DailyHive>('daily');
   await Hive.openBox<EmotionEntryHive>('emotion');
   await Hive.openBox<EmotionEntryDetail>('emotionEntry');
