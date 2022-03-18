@@ -62,16 +62,19 @@ class _AnonymousState extends State<AnonymousWidget> {
                     child: Center(
                         child: Text(
                       'Staying anonymous',
-                      style: Theme.of(context).textTheme.headline1?.
-                        copyWith(
-                          fontWeight: FontWeight.w600
-                        ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     )),
                   ),
                   Center(
                     child: Text(
                       'What do you want us to call you?',
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: Colors.black),
                     ),
                   ),
                   const SizedBox(
@@ -87,7 +90,13 @@ class _AnonymousState extends State<AnonymousWidget> {
                             children: [
                               Text(
                                 'Nickname',
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 12, color: const Color.fromRGBO(94, 102, 104, 1)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: const Color.fromRGBO(
+                                            94, 102, 104, 1)),
                               ),
                             ],
                           ),
@@ -157,12 +166,16 @@ class _AnonymousState extends State<AnonymousWidget> {
                     ),
                     onPressed: () {
                       if (_form.currentState!.validate()) {
-                          Get.to(buildPopupDialog(context));
-                        }
-                      },
+                        buildPopupDialog(context);
+                        Get.offAllNamed('/accountScreen');
+                      }
+                    },
                     child: Text(
                       'Continue',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -188,7 +201,10 @@ class _AnonymousState extends State<AnonymousWidget> {
                     },
                     child: Text(
                       'I changed my mind...',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.green[400]),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.green[400]),
                     ),
                   ),
                 )

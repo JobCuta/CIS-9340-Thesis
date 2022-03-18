@@ -131,7 +131,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: Theme.of(context).textTheme.headline1?.
+                      style: Theme.of(context).textTheme.headline5?.
                         copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -263,21 +263,28 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(height: 5.0),
                           SizedBox(
                             child: DropdownButtonFormField(
+                              style: const TextStyle(fontSize: 14.0),
                               decoration:
                                   textFormFieldDecoration('Enter your gender'),
                               value: gender,
                               icon: const Icon(Icons.arrow_drop_down),
-                              items: const [
+                              items: [
                                 DropdownMenuItem<String>(
-                                  child: Text('Male'),
+                                  child: Text('Male', 
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
                                   value: 'M',
                                 ),
                                 DropdownMenuItem<String>(
-                                  child: Text('Female'),
+                                  child: Text('Female',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
                                   value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
-                                  child: Text('Rather not to say...'),
+                                  child: Text('Prefer not to say..',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
                                   value: 'P',
                                 ),
                               ],
@@ -313,6 +320,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           SizedBox(
                             child: TextFormField(
                               controller: birthDateController,
+                              style: Theme.of(context).textTheme.bodyText1,
                               onTap: () {
                                 // Below line stops keyboard from appearing
                                 FocusScope.of(context)
@@ -352,9 +360,6 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               },
                             ),
                           ),
-                          const SizedBox(
-                            height: 200.0,
-                          ),
                         ],
                       ),
                     ),
@@ -365,7 +370,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           ),
           bottomSheet: Container(
             width: double.infinity,
-            height: 120,
+            height: 110,
             margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
             child: ListView(
               children: [
@@ -379,7 +384,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog();
-                          Get.toNamed('accountScreen');
+                          Get.offAllNamed('/accountScreen');
                         } else {
                           errorDialog(response["message"]);
                         }
@@ -434,7 +439,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return Get.defaultDialog(
       title: 'Account successfully registered!',
       barrierDismissible: false,
-      titleStyle: Theme.of(context).textTheme.headline1?.
+      titleStyle: Theme.of(context).textTheme.headline5?.
         copyWith(
           fontWeight: FontWeight.w600
         ),

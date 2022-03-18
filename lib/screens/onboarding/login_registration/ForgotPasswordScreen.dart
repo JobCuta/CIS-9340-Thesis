@@ -63,6 +63,7 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
               color: Colors.grey[850],
             ),
             onPressed: () {
+              Get.offAllNamed('/accountScreen');
               //Navigation
             },
           ),
@@ -84,17 +85,20 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                 ),
                 Text(
                   'Forgot your password?',
-                  style: Theme.of(context).textTheme.headline5?.
-                    copyWith(
-                      fontWeight: FontWeight.w600
-                    ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
                   height: 15.0,
                 ),
                 Text(
                   'Enter your email to change your password',
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.black),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 5.0,
@@ -109,10 +113,12 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                         children: [
                           Text(
                             'Confirm email',
-                            style: Theme.of(context).textTheme.caption?.
-                              copyWith(
-                                color: const Color.fromRGBO(94, 102, 104, 1)
-                              ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color:
+                                        const Color.fromRGBO(94, 102, 104, 1)),
                           ),
                         ],
                       ),
@@ -127,7 +133,11 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                           decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: 'Email',
-                              hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 12,color: Colors.grey[500]),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      fontSize: 12, color: Colors.grey[500]),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
@@ -155,7 +165,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                             ),
                             child: Text(
                               'Confirm',
-                              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(color: Colors.white),
                             ),
                             onPressed: () async => {
                                   if (isButtonActive)
@@ -171,7 +184,10 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                   const EdgeInsets.all(50.0),
                                               title: const Text(
                                                 'Enter the verification code we sent',
-                                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400,),
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
                                                 textAlign: TextAlign.center,
                                               ),
                                               content: Column(
@@ -187,7 +203,9 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                   ),
                                                   Text(
                                                     'Check your email and open the link given to reset your password',
-                                                    style: Theme.of(context).textTheme.bodyText1,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1,
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   const SizedBox(
@@ -219,7 +237,12 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                                       ),
                                                       child: Text(
                                                         'Continue',
-                                                        style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle1
+                                                            ?.copyWith(
+                                                                color: Colors
+                                                                    .white),
                                                       ),
                                                       onPressed: isButtonActive
                                                           ? () {
