@@ -34,7 +34,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   _buildFieldComponent(
-      String fieldName, String fieldValue, bool isEditable, Function()? onTap) {
+      {required String fieldName,
+      required String fieldValue,
+      required bool isEditable,
+      Function()? onTap}) {
     return InkWell(
       onTap: onTap,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -216,18 +219,40 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               thickness: 1,
                             ),
                             _buildFieldComponent(
-                                'First, Last Name & Nickname',
-                                '${_userProfileController.firstNameController.text} ${_userProfileController.lastNameController.text}',
-                                true, (() {
-                              Get.toNamed('/userProfileNamesScreen');
-                            })),
+                                fieldName: 'First, Last Name & Nickname',
+                                fieldValue:
+                                    '${_userProfileController.firstNameController.text} ${_userProfileController.lastNameController.text}',
+                                isEditable: true,
+                                onTap: (() {
+                                  Get.toNamed('/userProfileNamesScreen');
+                                })),
                             const Divider(
                               color: Color(0xffF0F1F1),
                               height: 25,
                               thickness: 1,
                             ),
-                            _buildFieldComponent('Email',
-                                _userProfileController.email, false, (() {}))
+                            _buildFieldComponent(
+                                fieldName: 'Email',
+                                fieldValue: _userProfileController.email,
+                                isEditable: false),
+                            const Divider(
+                              color: Color(0xffF0F1F1),
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            _buildFieldComponent(
+                                fieldName: 'Gender',
+                                fieldValue: _userProfileController.gender,
+                                isEditable: false),
+                            const Divider(
+                              color: Color(0xffF0F1F1),
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            _buildFieldComponent(
+                                fieldName: 'Birthday',
+                                fieldValue: _userProfileController.birthday,
+                                isEditable: false)
                           ],
                         )),
                   ],

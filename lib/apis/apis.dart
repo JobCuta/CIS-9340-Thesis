@@ -102,7 +102,9 @@ class UserProvider extends GetConnect {
             map["email"],
             map["nickname"] == "" ? map["first_name"] : map["nickname"],
             map["first_name"],
-            map["last_name"]);
+            map["last_name"],
+            map["date_of_birth"],
+            map["gender"]);
         return true;
       } else {
         return response;
