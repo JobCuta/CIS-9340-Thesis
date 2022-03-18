@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'package:flutter_application_1/constants/colors.dart';
+
 import '../../../apis/phqHive.dart';
 import '../../../apis/sidasHive.dart';
 
@@ -71,12 +73,15 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
               spacing: 100,
               runSpacing: 20,
               children: [
-                Text('Here is your PHQ-9 and Suicidal Ideation Score',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Proxima Nova',
-                        color: Colors.white)),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                  child: Text('Here is your PHQ-9 and Suicidal Ideation Score',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralWhite01)),
+                ),
                 Container(
                     margin: const EdgeInsets.all(10),
                     child: Wrap(
@@ -86,23 +91,29 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                         Text.rich(TextSpan(children: <InlineSpan>[
                           TextSpan(
                               text: _phqController.sum.toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 64,
                                   fontFamily: 'Inconsolata',
-                                  color: Colors.white)),
-                          const TextSpan(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01)),
+                          TextSpan(
                               text: '/27',
                               style: TextStyle(
                                   fontSize: 64,
                                   fontFamily: 'Inconsolata',
-                                  color: Color(0xffD89512)))
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .sunflowerYellow04))
                         ])),
                         LinearPercentIndicator(
                           linearStrokeCap: LinearStrokeCap.butt,
                           lineHeight: 20,
                           percent: _phqController.sum / 27,
-                          progressColor: Colors.white,
-                          backgroundColor: const Color(0xffFFE297),
+                          progressColor:
+                              Theme.of(context).colorScheme.neutralWhite01,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.sunflowerYellow03,
                         ),
                         Text(
                             _phqController.sum >= 20
@@ -117,7 +128,11 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
-                                ?.copyWith(fontSize: 24, color: Colors.white)),
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
                         Container(
                             margin: const EdgeInsets.all(10),
                             child: Wrap(
@@ -127,23 +142,31 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                 Text.rich(TextSpan(children: <InlineSpan>[
                                   TextSpan(
                                       text: _sidasController.sum.toString(),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 64,
                                           fontFamily: 'Inconsolata',
-                                          color: Colors.white)),
-                                  const TextSpan(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                                  TextSpan(
                                       text: '/50',
                                       style: TextStyle(
                                           fontSize: 64,
                                           fontFamily: 'Inconsolata',
-                                          color: Color(0xffD89512)))
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .sunflowerYellow04))
                                 ])),
                                 LinearPercentIndicator(
                                   linearStrokeCap: LinearStrokeCap.butt,
                                   lineHeight: 20,
                                   percent: _sidasController.sum / 50,
-                                  progressColor: Colors.white,
-                                  backgroundColor: const Color(0xffFFE297),
+                                  progressColor: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .sunflowerYellow03,
                                 ),
                                 Text(
                                     _sidasController.sum >= 21
@@ -153,7 +176,10 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                         .textTheme
                                         .subtitle1
                                         ?.copyWith(
-                                            fontSize: 24, color: Colors.white)),
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01)),
                               ],
                             )),
                         Container(
@@ -181,7 +207,10 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                        fontSize: 18, color: Colors.white)),
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01)),
                           ),
                         ),
                       ],
@@ -198,15 +227,11 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                     child: Text('Take me to Kasiyanna',
                         style: Theme.of(context).textTheme.subtitle2?.copyWith(
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Proxima Nova',
-                            color: Colors.white)),
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      primary: const Color(0xff4CA7FC),
+                      primary: Theme.of(context).colorScheme.accentBlue02,
                     ),
                     onPressed: () {
                       Get.toNamed('/homepage');

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/onboarding/questionnaires/PHQ9Interpretation.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -16,8 +18,7 @@ class nextScreenModalWidget extends StatefulWidget {
   const nextScreenModalWidget({Key? key}) : super(key: key);
 
   @override
-  State<nextScreenModalWidget> createState() =>
-      _nextScreenModalState();
+  State<nextScreenModalWidget> createState() => _nextScreenModalState();
 }
 
 class _nextScreenModalState extends State<nextScreenModalWidget> {
@@ -28,41 +29,46 @@ class _nextScreenModalState extends State<nextScreenModalWidget> {
   }
 
   startTime() async {
-    var duration = const Duration(seconds: 2);
+    var duration = const Duration(seconds: 3);
     return Timer(duration, route);
   }
 
-  route() => Get.off(PHQ9InterpretationScreen(), transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+  route() => Get.off(PHQ9InterpretationScreen(),
+      transition: Transition.fadeIn, duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        heightFactor: MediaQuery.of(context).size.height * 0.4,
+        heightFactor: MediaQuery.of(context).size.height,
         widthFactor: MediaQuery.of(context).size.width,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 145.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: Image.asset(
-                'assets/images/flower_filled.png',
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 145.0,
               ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            Text(
-              'Your results for your first evaluation is ready!',
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(color: const Color(0xff737879)),
-              textAlign: TextAlign.center,
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/flower_filled.png',
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
+              ),
+              Text(
+                'Your results for your first evaluation is ready!',
+                style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.neutralGray04),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 
 void main() {
   runApp(const GetMaterialApp(home: InitialAssessmentPHQ9Screen()));
@@ -37,27 +38,29 @@ class _InitialAssessmentPHQ9ScreenState
                     "We are going to ask you 9 questions about your mental health",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        color: Colors.white,
-                        fontFamily: 'Proxima Nova',
+                        color: Theme.of(context).colorScheme.neutralWhite01,
                         fontWeight: FontWeight.w600)),
                 Container(
                     margin:
                         const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 30),
                     decoration: BoxDecoration(
                         color: const Color(0xff3290FF).withOpacity(0.60),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
                     child: Column(children: [
                       Text(
-                          'The questions will be about yourself, how you go through with and your physical well-being...',
+                          'The questions will be about yourself, how you go through with these experiences, and your own well-being.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               ?.copyWith(
-                                  fontFamily: 'Proxima Nova',
-                                  color: Colors.white)),
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01)),
                       const SizedBox(height: 30),
                       Text('Feedback will be given right after.',
                           textAlign: TextAlign.center,
@@ -65,8 +68,10 @@ class _InitialAssessmentPHQ9ScreenState
                               .textTheme
                               .bodyText2
                               ?.copyWith(
-                                  fontFamily: 'Proxima Nova',
-                                  color: Colors.white)),
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01)),
                     ]))
               ]))),
       Container(
@@ -80,16 +85,11 @@ class _InitialAssessmentPHQ9ScreenState
                     child: Text(
                       "I'm ready!",
                       style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Proxima Nova"),
+                          color: Theme.of(context).colorScheme.neutralWhite01,
+                          fontWeight: FontWeight.w600),
                     ),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: const EdgeInsets.all(12),
                       primary: const Color(0xffFFBE18),
                     ),
                     onPressed: () {
