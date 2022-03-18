@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../controllers/emotionController.dart';
+import '../../enums/DailyTask.dart';
 
 void main() {
   runApp(
@@ -23,11 +25,31 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
 
 
 final EmotionController _emotionController = Get.put(EmotionController());
+final DailyController _dailyController = Get.put(DailyController());
 
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
+    bool isEditMode = false;
+    List<Emotion> positiveEmotions = [];
+    List<Emotion> negativeEmotions = [];
+
+    void checkIfEditMode() {
+      if (_emotionController.isEditMode.value) {
+        EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
+            ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
+            ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
+            ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+
+        isEditMode = _emotionController.isEditMode.value ? true : false;
+        positiveEmotions = emotionEntryDetail.positiveEmotions as List<Emotion>;
+        negativeEmotions = emotionEntryDetail.negativeEmotions as List<Emotion>;
+     }
+    }
+
   @override
   Widget build(BuildContext context) {
+    checkIfEditMode();
+
     final List<Emotion> positiveEmotionsList = [
       Emotion(id: 1, name: 'Good'),
       Emotion(id: 2, name: 'Happy'),
@@ -59,12 +81,8 @@ class _EmotionalEvaluationEndScreenState
         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
         .toList();
 
-EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
-    ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
-    ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
-    ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
 
-    bool isEditMode = _emotionController.isEditMode.value;
+
 
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -187,7 +205,7 @@ EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value
                                       title: const Text("Search for your emotion",
                                           style: TextStyle(fontSize: 16)),
                                       items: _positiveEmotionsItems,
-                                      initialValue: isEditMode ? emotionEntryDetail.positiveEmotions as List<Emotion> : [],
+                                      initialValue: isEditMode ? positiveEmotions : [],
                                       onConfirm: (values) {
                                         _emotionController.updatePositiveEmotion(values);
                                       },
@@ -224,7 +242,7 @@ EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value
                                                   : const Color(0xff778083))),
                                       title: const Text("Search for your emotion",
                                           style: TextStyle(fontSize: 16)),
-                                      initialValue: isEditMode ? emotionEntryDetail.negativeEmotions as List<Emotion> : [],
+                                      initialValue: isEditMode ? negativeEmotions : [],
                                       items: _negativeEmotionsItems,
                                       onConfirm: (values) {
                                         _emotionController.updateNegativeEmotion(values);
@@ -268,15 +286,9 @@ EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value
                                         : const Color(0xffE2E4E4),
                                   ),
                                   onPressed: () {
-                                    if (isEditMode) {
-                                      _emotionController.updateEntryInStorage();
-                                    } else {
-                                      (_emotionController.isAddingFromDaily.value)
-                                          ? _emotionController.saveEntryToStorage() 
-                                          : _emotionController.updateEntryInStorage();
-                                    }
-
-                                    Get.toNamed('/homepage');
+                                    _emotionController.updateEntryInStorage();
+                                    _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
+                                    Get.offAllNamed('/homepage');
                                   }),
                             )),
                       ),

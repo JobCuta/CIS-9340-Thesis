@@ -1,6 +1,7 @@
 // import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
@@ -12,8 +13,8 @@ import '../apis/EmotionEntryDetail.dart';
 class EmotionController extends GetxController {
   var _selectedEmotionEntry;
 
-  final _selectedPositiveEmotions = [].obs;
-  final _selectedNegativeEmotions = [].obs;
+  var _selectedPositiveEmotions = [].obs;
+  var _selectedNegativeEmotions = [].obs;
   var mainEmotion = ''.obs;
   var note = ''.obs;
 
@@ -80,18 +81,18 @@ class EmotionController extends GetxController {
     update();
   }
 
-  void updatePartOfTheDayCheck(String part) {
-    if (part == 'morning') {
+  void updatePartOfTheDayCheck(PartOfTheDay part) {
+    if (part == PartOfTheDay.Morning) {
       isMorningCheck.value = true;
       isAfternoonCheck.value = false;
       isEveningCheck.value = false;
     }
-    else if (part == 'afternoon') {
+    else if (part == PartOfTheDay.Afternoon) {
       isAfternoonCheck.value = true;
       isMorningCheck.value = false;
       isEveningCheck.value = false;
     }
-    else if (part == 'evening') {
+    else if (part == PartOfTheDay.Evening) {
       isEveningCheck.value = true;
       isMorningCheck.value = false;
       isAfternoonCheck.value = false;
@@ -120,6 +121,7 @@ class EmotionController extends GetxController {
     update();
   }
 
+  // THIS METHOD WILL ONLY BE USED IN DAILYCONTROLLER
   void saveEntryToStorage() {
     // maybe store this somewhere else
     Map<int, String> weekdayString = {
@@ -132,61 +134,41 @@ class EmotionController extends GetxController {
       7 : 'Sunday'
     }; 
 
-    if (isValid.value) {
-      DateTime dateTime = DateTime.now();
-      String date = dateToString(dateTime);
-      String time = timeToString(dateTime);
-      Mood? mood = moodMap[mainEmotion.value] as Mood;
-      List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
-      List<dynamic> negativeEmotions = _selectedNegativeEmotions.value;
+    DateTime dateTime = DateTime.now();
+    String date = dateToString(dateTime);
+    String time = timeToString(dateTime);
+    Mood? mood = moodMap['NoData'] as Mood;
+    List<dynamic> positiveEmotions = [];
+    List<dynamic> negativeEmotions = [];
 
-      if (!isMorningCheck.value && !isAfternoonCheck.value && !isEveningCheck.value) {
-        if (dateTime.hour < 12 && dateTime.hour > 23) {
-          isMorningCheck.value = true;
-        }
-        else if (dateTime.hour > 11 && dateTime.hour < 18) {
-          isAfternoonCheck.value = true;
-        }
-        else if (dateTime.hour > 17 && dateTime.hour < 24) {
-          isEveningCheck.value = true;
-        }              
-        update(); 
-      }
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    EmotionEntryHive newEmotionEntry = EmotionEntryHive(
+      overallMood: mood.name, 
+      weekday: weekdayString[DateTime.now().weekday] as String, 
+      date: date,
+      morningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
+      afternoonCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
+      eveningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
+    );
 
-      Box box = Hive.box<EmotionEntryHive>('emotion');
-      EmotionEntryHive newEmotionEntry = EmotionEntryHive(
-        overallMood: mood.name, 
-        weekday: weekdayString[DateTime.now().weekday] as String, 
-        date: date,
-        morningCheck: (isMorningCheck.value) 
-          ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
-        afternoonCheck: (isAfternoonCheck.value) 
-          ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
-        eveningCheck: (isEveningCheck.value)
-          ? EmotionEntryDetail(time: time, note: note.value, mood: mood.name, positiveEmotions: positiveEmotions, negativeEmotions: negativeEmotions, isEmpty: false)
-          : EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
-      );
+    resetAllValues();
+    print("--------------- ADDING ---------------");
+    print("Emotion box length = " + box.length.toString());
+    print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
+    print("[EEH] Weekday = " + newEmotionEntry.weekday);
+    print("[EEH] Date = " + newEmotionEntry.date);
+    print("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
+    print("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
+    print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
-      resetAllValues();
-      print("--------------- ADDING ---------------");
-      print("Emotion box length = " + box.length.toString());
-      print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
-      print("[EEH] Weekday = " + newEmotionEntry.weekday);
-      print("[EEH] Date = " + newEmotionEntry.date);
-      print("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-      print("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
-      print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
-
-      box.put(date, newEmotionEntry);
-    }
+    box.put(date, newEmotionEntry);
   }
 
   void updateEntryInStorage() {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     DateTime dateTime = DateTime.now();
     String time = timeToString(dateTime);
+
     EmotionEntryHive emotionEntry = box.get(dateToString(dateTime));
     Mood? mood = moodMap[mainEmotion.value] as Mood;
     List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
@@ -314,6 +296,7 @@ class EmotionController extends GetxController {
     print("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
     print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
     print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
+    resetAllValues();
     emotionEntry.save();
   }
 
@@ -323,9 +306,10 @@ class EmotionController extends GetxController {
 
     if (box.containsKey(date)) {
       return box.get(date);
+    } else {
+      saveEntryToStorage();
+      return box.get(date);
     }
-
-    throw Exception('No emotion entry yet for today');
   }
 
   List<EmotionEntryHive> getAllEmotionEntries() {
@@ -339,17 +323,17 @@ class EmotionController extends GetxController {
     return emotionEntries;
   }
 
-  void deleteEmotionEntry(String part) {
+  void deleteEmotionEntry(PartOfTheDay part) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
     
-    if (part == 'morning') {
+    if (part == PartOfTheDay.Morning) {
       emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
     }
-    else if (part == 'afternoon') {
+    else if (part == PartOfTheDay.Afternoon) {
       emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
     }
-    else if (part == 'evening') {
+    else if (part == PartOfTheDay.Evening) {
       emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
     }
 

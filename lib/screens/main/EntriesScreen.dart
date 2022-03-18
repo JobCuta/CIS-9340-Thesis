@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -112,7 +113,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                         height: 24
                                       )
                                       : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck('evening');
+                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');
@@ -135,7 +136,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                         height: 24
                                       )
                                       : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck('afternoon');
+                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');
@@ -158,7 +159,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                         height: 24
                                       )
                                       : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck('morning');
+                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           Get.toNamed('/emotionStartScreen');

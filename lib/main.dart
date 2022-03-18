@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/Emotion.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
@@ -42,15 +45,26 @@ import 'package:hive_flutter/hive_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
-  await Hive.initFlutter();
-  Hive.registerAdapter(phqHiveAdapter());
-  await Hive.openBox('phq');
+
   Hive.registerAdapter(sidasHiveAdapter());
+  Hive.registerAdapter(phqHiveAdapter());
+  Hive.registerAdapter<DailyHive>(DailyHiveAdapter());
+  Hive.registerAdapter<EmotionEntryHive>(EmotionEntryHiveAdapter());
+  Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
+  Hive.registerAdapter(EmotionAdapter());
+
+  await Hive.initFlutter();
+
+  await Hive.openBox('phq');
   await Hive.openBox('sidas');
-  Hive.registerAdapter(DailyHiveAdapter());
   await Hive.openBox<DailyHive>('daily');
-  Hive.registerAdapter(EmotionEntryHiveAdapter());
   await Hive.openBox<EmotionEntryHive>('emotion');
+  await Hive.openBox<EmotionEntryDetail>('emotionEntry');
+  await Hive.openBox('emotionObj');
+
+  final DailyController _dailyController = Get.put(DailyController());
+  _dailyController.prepareTheObjects();
+
   runApp(const Main());
 }
 
@@ -84,7 +98,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/',
+        initialRoute: '/homepage',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),

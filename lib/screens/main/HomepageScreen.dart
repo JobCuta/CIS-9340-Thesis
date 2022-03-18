@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -103,8 +104,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
       _selectedIndex = index;
     });
   }
-
-
 }
 
 class HomePage extends StatefulWidget {
@@ -114,16 +113,51 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-
-final DailyController _dailyController = Get.put(DailyController());
-
 class _HomePageState extends State<HomePage> {
+  final DailyController _dailyController = Get.put(DailyController());
   final EmotionController _emotionController = Get.put(EmotionController());
-  bool _isDailyExerciseDone = _dailyController.getDailyExerciseDone();
-  bool _isDailyEntryDone = _dailyController.getDailyEntryDone();
+
+  RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
+    return (isTaskDone) 
+      ? RichText(
+          text: TextSpan(children: [
+            TextSpan(
+                text: 'Completed ',
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
+            WidgetSpan(
+                alignment:
+                    PlaceholderAlignment.middle,
+                child: Icon(Icons.check_circle,
+                    color: const Color(0xFF87E54C)
+                        .withOpacity(1.0)))
+          ]),
+        )
+        
+      : RichText(
+          text: TextSpan(children: [
+            TextSpan(
+                text: 'Go',
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
+            WidgetSpan(
+                alignment:
+                    PlaceholderAlignment.middle,
+                child: Icon(
+                    Icons.keyboard_arrow_right_sharp,
+                    color: const Color(0xFF216CB2)
+                        .withOpacity(1.0)))
+          ]),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
+    _dailyController.checkIfEntriesDone();
+    bool _isDailyExerciseDone = _dailyController.isDailyExerciseDone.value;
+    bool _isDailyEntryDone = _dailyController.isDailyEntryDone.value;
+    bool _isMorningEntryDone = _dailyController.isMorningEntryDone.value;
+    bool _isAfternoonEntryDone = _dailyController.isAfternoonEntryDone.value;
+    bool _isEveningEntryDone = _dailyController.isEveningEntryDone.value;
+
     return Scaffold(
       appBar: AppBar(
         primary: true,
@@ -182,6 +216,63 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Test Notification')),
               // const SizedBox(height: 50.0),
               Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                child: Container(
+                  width: 500,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                    // MORNING
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.brightness_7_sharp, 
+                          size: 24.0,
+                          color: (_isMorningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      width: 100,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      )),
+
+                    // AFTERNOON
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.sunny, 
+                          size: 24.0,
+                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                      width: 100,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                    )),
+
+                    // EVENING
+                    CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.brightness_2_sharp,
+                          size: 24.0,
+                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
+                      ),
+                    ),
+                  ],),
+                )
+              ),
+
+              Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                 child: Container(
@@ -206,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyTaskToDone('exercise');
+                          _dailyController.setDailyTaskToDone(DailyTask.Exercise);
                           setState(() {
                             _isDailyExerciseDone = true;
                           });
@@ -218,34 +309,7 @@ class _HomePageState extends State<HomePage> {
                             Text('Do your daily exercise',
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
-                            !_isDailyExerciseDone
-                                ? RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(
-                                              Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0xFF216CB2)
-                                                  .withOpacity(1.0)))
-                                    ]),
-                                  )
-                                : RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: 'Completed ',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(Icons.check_circle,
-                                              color: const Color(0xFF87E54C)
-                                                  .withOpacity(1.0)))
-                                    ]),
-                                  ),
+                            displayBasedOnTaskCompleteness(_isDailyExerciseDone)
                           ],
                         ),
                       ),
@@ -256,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyTaskToDone('entry');
+                          _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                           setState(() {
                             _isDailyEntryDone = true;
                           });
@@ -269,35 +333,9 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text("Add today's entry",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
-                            !_isDailyEntryDone
-                                ? RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: 'Go',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(
-                                              Icons.keyboard_arrow_right_sharp,
-                                              color: const Color(0xFF216CB2)
-                                                  .withOpacity(1.0)))
-                                    ]),
-                                  )
-                                : RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: 'Completed ',
-                                          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(Icons.check_circle,
-                                              color: const Color(0xFF87E54C)
-                                                  .withOpacity(1.0)))
-                                    ]),
-                                  ),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                            ),
+                            displayBasedOnTaskCompleteness(_isDailyEntryDone)
                           ],
                         ),
                       ),

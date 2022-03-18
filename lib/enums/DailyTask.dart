@@ -1,0 +1,4 @@
+enum DailyTask {
+  Exercise,
+  EmotionEntry
+}
