@@ -134,6 +134,21 @@ class EmotionController extends GetxController {
       7 : 'Sunday'
     }; 
 
+    Map<int, String> month = {
+      1: 'January',
+      2: 'Febuary',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    };
+
     DateTime dateTime = DateTime.now();
     String date = dateToString(dateTime);
     String time = timeToString(dateTime);
@@ -145,7 +160,9 @@ class EmotionController extends GetxController {
     EmotionEntryHive newEmotionEntry = EmotionEntryHive(
       overallMood: mood.name, 
       weekday: weekdayString[DateTime.now().weekday] as String, 
-      date: date,
+      month: month[dateTime.month] as String,
+      day: dateTime.day,
+      year: dateTime.year,
       morningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
       afternoonCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
       eveningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
@@ -156,7 +173,6 @@ class EmotionController extends GetxController {
     print("Emotion box length = " + box.length.toString());
     print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
     print("[EEH] Weekday = " + newEmotionEntry.weekday);
-    print("[EEH] Date = " + newEmotionEntry.date);
     print("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
     print("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
     print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
@@ -292,7 +308,6 @@ class EmotionController extends GetxController {
     print("--------------- UPDATING ---------------");
     print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
     print("[EEH] Weekday = " + emotionEntry.weekday);
-    print("[EEH] Date = " + emotionEntry.date);
     print("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
     print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
     print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());

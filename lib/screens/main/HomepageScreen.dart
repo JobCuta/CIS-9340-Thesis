@@ -323,13 +323,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
-                          setState(() {
-                            _isDailyEntryDone = true;
-                          });
-                          _emotionController.updateIfAddingFromDaily(true);
-                          _emotionController.updateEditMode(false);
-                          Get.toNamed('/emotionStartScreen');
+                          if (!_isDailyEntryDone) {
+                            _emotionController.updateIfAddingFromDaily(true);
+                            _emotionController.updateEditMode(false);
+                            Get.toNamed('/emotionStartScreen');
+                          } 
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

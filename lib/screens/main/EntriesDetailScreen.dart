@@ -45,7 +45,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
         primary: true,
         elevation: 0,
         backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
-        title: Text(emotionEntry.date)
+        title: Text(emotionEntry.month.substring(0, 3) + " " + emotionEntry.day.toString() + ", " + emotionEntry.year.toString())
       ),
       body: Stack(
         children: [
@@ -66,7 +66,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
                 child: Container(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(15.0),
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -219,7 +219,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
                 child: Container(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(15.0),
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -367,7 +367,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
                 child: Container(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(15.0),
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -407,7 +407,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                         Get.toNamed('/emotionStartScreen');
                                       }  else if (value == 'Delete') {
                                           _emotionController.deleteEmotionEntry(PartOfTheDay.Morning);
-                                          Get.toNamed('/entriesScreen');
+                                          Get.offAllNamed('/homepage');
                                         }
                                     },
                                     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

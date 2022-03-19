@@ -14,21 +14,29 @@ class EmotionEntryHive extends HiveObject{
   String weekday;
 
   @HiveField(2)
-  String date;
+  String month;
 
   @HiveField(3)
-  EmotionEntryDetail morningCheck; 
+  int day;
 
   @HiveField(4)
-  EmotionEntryDetail afternoonCheck;
+  int year;
 
   @HiveField(5)
+  EmotionEntryDetail morningCheck; 
+
+  @HiveField(6)
+  EmotionEntryDetail afternoonCheck;
+
+  @HiveField(7)
   EmotionEntryDetail eveningCheck;
 
   EmotionEntryHive({
     required this.overallMood,
     required this.weekday,
-    required this.date,
+    required this.month,
+    required this.day,
+    required this.year,
     required this.morningCheck,
     required this.afternoonCheck,
     required this.eveningCheck,

@@ -19,28 +19,34 @@ class EmotionEntryHiveAdapter extends TypeAdapter<EmotionEntryHive> {
     return EmotionEntryHive(
       overallMood: fields[0] as String,
       weekday: fields[1] as String,
-      date: fields[2] as String,
-      morningCheck: fields[3] as EmotionEntryDetail,
-      afternoonCheck: fields[4] as EmotionEntryDetail,
-      eveningCheck: fields[5] as EmotionEntryDetail,
+      month: fields[2] as String,
+      day: fields[3] as int,
+      year: fields[4] as int,
+      morningCheck: fields[5] as EmotionEntryDetail,
+      afternoonCheck: fields[6] as EmotionEntryDetail,
+      eveningCheck: fields[7] as EmotionEntryDetail,
     );
   }
 
   @override
   void write(BinaryWriter writer, EmotionEntryHive obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.overallMood)
       ..writeByte(1)
       ..write(obj.weekday)
       ..writeByte(2)
-      ..write(obj.date)
+      ..write(obj.month)
       ..writeByte(3)
-      ..write(obj.morningCheck)
+      ..write(obj.day)
       ..writeByte(4)
-      ..write(obj.afternoonCheck)
+      ..write(obj.year)
       ..writeByte(5)
+      ..write(obj.morningCheck)
+      ..writeByte(6)
+      ..write(obj.afternoonCheck)
+      ..writeByte(7)
       ..write(obj.eveningCheck);
   }
 

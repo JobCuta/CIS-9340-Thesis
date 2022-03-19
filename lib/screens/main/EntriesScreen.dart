@@ -30,6 +30,25 @@ class _EntriesScreenState extends State<EntriesScreen>{
     7 : 'Sunday'
   }; 
 
+  Container _checkIfMonthLabelToDisplay(int index) {
+    if (emotionEntries[index].month != emotionEntries[index--].month) {
+          return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(
+          vertical: 12.0, horizontal: 12.0),
+      decoration: BoxDecoration(
+          color: const Color(0xff216CB2).withOpacity(1.00),
+          borderRadius:
+              const BorderRadius.all(Radius.circular(10))),
+      child: Text(
+          emotionEntries[index--].month + " " + emotionEntries[index--].day.toString(),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)),
+    );
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +76,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
               // EMOTION CONTAINER
 
               ListView.builder(
+                reverse: true,
                 shrinkWrap: true,
                 itemCount: emotionEntries.length,
                 itemBuilder: (context, index) {
@@ -88,8 +108,9 @@ class _EntriesScreenState extends State<EntriesScreen>{
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text((emotionEntries[index].weekday + " " + emotionEntries[index].date).toUpperCase(),
+                                  Text((emotionEntries[index].weekday + " " + emotionEntries[index].month + " " + emotionEntries[index].day.toString()).toUpperCase(),
                                     style: Theme.of(context).textTheme.caption!.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
                                   ),
                                   Text('Overall Mood: ' + emotionEntries[index].overallMood,
@@ -98,76 +119,96 @@ class _EntriesScreenState extends State<EntriesScreen>{
                             
                                   const SizedBox(height: 10.0),
                             
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Evening check ' + emotionEntries[index].eveningCheck.time,
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                      ),
+                                  SizedBox(
+                                    height: 35,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: Text('Evening check ' + emotionEntries[index].eveningCheck.time,
+                                              textAlign: TextAlign.left,
+                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                          ),
+                                        ),
                             
-                                      (emotionEntries[index].eveningCheck.mood != 'NoData') 
-                                      ? Image(
-                                        image: moodMap[emotionEntries[index].eveningCheck.mood]!.icon, 
-                                        width: 24, 
-                                        height: 24
-                                      )
-                                      : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
-                                          _emotionController.updateIfAddingFromDaily(false);
-                                          _emotionController.updateEditMode(false);
-                                          Get.toNamed('/emotionStartScreen');
-                                        }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
-                                    ],
+                                        (emotionEntries[index].eveningCheck.mood != 'NoData') 
+                                        ? Image(
+                                          image: moodMap[emotionEntries[index].eveningCheck.mood]!.icon, 
+                                          width: 24, 
+                                          height: 24
+                                        )
+                                        : IconButton(onPressed: () {
+                                            _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
+                                            _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateEditMode(false);
+                                            Get.toNamed('/emotionStartScreen');
+                                          }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
+                                      ],
+                                    ),
                                   ),
                             
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Afternoon check ' + emotionEntries[index].afternoonCheck.time,
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                      ),
+                                  SizedBox(
+                                    height: 35,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: Text('Afternoon check ' + emotionEntries[index].afternoonCheck.time,
+                                              textAlign: TextAlign.left,
+                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                          ),
+                                        ),
                             
-                                    (emotionEntries[index].afternoonCheck.mood != 'NoData') 
-                                      ? Image(
-                                        image: moodMap[emotionEntries[index].afternoonCheck.mood]!.icon, 
-                                        width: 24, 
-                                        height: 24
-                                      )
-                                      : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
-                                          _emotionController.updateIfAddingFromDaily(false);
-                                          _emotionController.updateEditMode(false);
-                                          Get.toNamed('/emotionStartScreen');
-                                        }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
-                                    ],
+                                      (emotionEntries[index].afternoonCheck.mood != 'NoData') 
+                                        ? Image(
+                                          image: moodMap[emotionEntries[index].afternoonCheck.mood]!.icon, 
+                                          width: 24, 
+                                          height: 24
+                                        )
+                                        : IconButton(onPressed: () {
+                                            _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
+                                            _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateEditMode(false);
+                                            Get.toNamed('/emotionStartScreen');
+                                          }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
+                                      ],
+                                    ),
                                   ),
                             
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Morning check ' + emotionEntries[index].morningCheck.time,
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                      ),
+                                  SizedBox(
+                                    height: 35,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: Text('Morning check ' + emotionEntries[index].morningCheck.time,
+                                              textAlign: TextAlign.left,
+                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                          ),
+                                        ),
                             
-                                    (emotionEntries[index].morningCheck.mood != 'NoData') 
-                                      ? Image(
-                                        image: moodMap[emotionEntries[index].morningCheck.mood]!.icon, 
-                                        width: 24, 
-                                        height: 24
-                                      )
-                                      : IconButton(onPressed: () {
-                                          _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
-                                          _emotionController.updateIfAddingFromDaily(false);
-                                          _emotionController.updateEditMode(false);
-                                          Get.toNamed('/emotionStartScreen');
-                                        }, 
-                                        icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)),
-                                      )
-                                    ],
+                                      (emotionEntries[index].morningCheck.mood != 'NoData') 
+                                        ? Image(
+                                          image: moodMap[emotionEntries[index].morningCheck.mood]!.icon, 
+                                          width: 24, 
+                                          height: 24
+                                        )
+                                        : IconButton(onPressed: () {
+                                            _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
+                                            _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateEditMode(false);
+                                            Get.toNamed('/emotionStartScreen');
+                                          }, 
+                                          icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)),
+                                        )
+                                      ],
+                                    ),
                                   ),
+
+                                  _checkIfMonthLabelToDisplay(index)
                                 ],
                               ),
                             ),

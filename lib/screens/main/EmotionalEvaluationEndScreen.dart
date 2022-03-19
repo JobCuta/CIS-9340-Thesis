@@ -238,7 +238,7 @@ class _EmotionalEvaluationEndScreenState
                                               fontFamily: 'Proxima Nova',
                                               color: (_emotionController
                                                   .isNegativeNotEmpty.value)
-                                                  ? const Color(0xff4CA7FC)
+                                                  ? const Color(0xffB22428)
                                                   : const Color(0xff778083))),
                                       title: const Text("Search for your emotion",
                                           style: TextStyle(fontSize: 16)),
@@ -248,7 +248,7 @@ class _EmotionalEvaluationEndScreenState
                                         _emotionController.updateNegativeEmotion(values);
                                       },
                                       chipDisplay: MultiSelectChipDisplay(
-                                        chipColor: const Color(0xff4CA7FC),
+                                        chipColor: const Color(0xffB22428),
                                         textStyle: const TextStyle(color: Colors.white),
                                         onTap: (item) {
                                           _emotionController.removeNegative(item);
