@@ -38,12 +38,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
       onWillPop: () async => false, //change to confirm exit modal
       child: Scaffold(
         body: PageTransitionSwitcher(
-          transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+                  Animation<double> secondaryAnimation) =>
               SharedAxisTransition(
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
-                  transitionType: SharedAxisTransitionType.horizontal,
-                  child: child,),
+            animation: primaryAnimation,
+            secondaryAnimation: secondaryAnimation,
+            transitionType: SharedAxisTransitionType.horizontal,
+            child: child,
+          ),
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomSheet: bottomNavigationBar(),
@@ -96,8 +98,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
       unselectedItemColor: const Color.fromRGBO(33, 108, 178, 1.0),
       iconSize: 32.0,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+      selectedLabelStyle: Theme.of(context)
+          .textTheme
+          .caption
+          ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+      unselectedLabelStyle: Theme.of(context)
+          .textTheme
+          .caption
+          ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
       onTap: _onItemTapped,
     );
   }
@@ -121,35 +129,31 @@ class _HomePageState extends State<HomePage> {
   final EmotionController _emotionController = Get.put(EmotionController());
 
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
-    return (isTaskDone) 
-      ? RichText(
-          text: TextSpan(children: [
-            TextSpan(
-                text: 'Completed ',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFFACB2B4).withOpacity(1.0))),
-            WidgetSpan(
-                alignment:
-                    PlaceholderAlignment.middle,
-                child: Icon(Icons.check_circle,
-                    color: const Color(0xFF87E54C)
-                        .withOpacity(1.0)))
-          ]),
-        )
-        
-      : RichText(
-          text: TextSpan(children: [
-            TextSpan(
-                text: 'Go',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xFF216CB2).withOpacity(1.0))),
-            WidgetSpan(
-                alignment:
-                    PlaceholderAlignment.middle,
-                child: Icon(
-                    Icons.keyboard_arrow_right_sharp,
-                    color: const Color(0xFF216CB2)
-                        .withOpacity(1.0)))
-          ]),
-        );
+    return (isTaskDone)
+        ? RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'Completed ',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: const Color(0xFFACB2B4).withOpacity(1.0))),
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Icon(Icons.check_circle,
+                      color: const Color(0xFF87E54C).withOpacity(1.0)))
+            ]),
+          )
+        : RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'Go',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: const Color(0xFF216CB2).withOpacity(1.0))),
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                      color: const Color(0xFF216CB2).withOpacity(1.0)))
+            ]),
+          );
   }
 
   @override
@@ -194,7 +198,10 @@ class _HomePageState extends State<HomePage> {
                     child: Column(children: [
                       Text('Welcome!',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(color: Colors.white)),
                       const SizedBox(height: 10),
                       Container(
                         alignment: Alignment.center,
@@ -207,74 +214,78 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                             'Remember, all is well and all will be well.',
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.caption?.copyWith(color: Colors.white)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(color: Colors.white)),
                       )
                     ])),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(
-                        '/notifScreen'); // NotificationService.showNotification();
-                  },
-                  child: const Text('Test Notification')),
-              // const SizedBox(height: 50.0),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                child: Container(
-                  width: 500,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 15.0),
+                  child: Container(
+                    width: 500,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // MORNING
+                        CircleAvatar(
+                          radius: 24.0,
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.brightness_7_sharp,
+                              size: 24.0,
+                              color: (_isMorningEntryDone)
+                                  ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
+                        ),
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 25.0),
+                            width: 100,
+                            height: 15,
+                            decoration: BoxDecoration(
+                                color: (_isAfternoonEntryDone)
+                                    ? const Color(0x00FFC122).withOpacity(1.0)
+                                    : const Color(0xFFACB2B4)
+                                        .withOpacity(1.0))),
 
-                    // MORNING
-                    CircleAvatar(
-                      radius: 24.0,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.brightness_7_sharp, 
-                          size: 24.0,
-                          color: (_isMorningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
-                      ),
+                        // AFTERNOON
+                        CircleAvatar(
+                          radius: 24.0,
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.sunny,
+                              size: 24.0,
+                              color: (_isAfternoonEntryDone)
+                                  ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
+                        ),
+                        Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 25.0),
+                            width: 100,
+                            height: 15,
+                            decoration: BoxDecoration(
+                                color: (_isEveningEntryDone)
+                                    ? const Color(0x00FFC122).withOpacity(1.0)
+                                    : const Color(0xFFACB2B4)
+                                        .withOpacity(1.0))),
+
+                        // EVENING
+                        CircleAvatar(
+                          radius: 24.0,
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.brightness_2_sharp,
+                              size: 24.0,
+                              color: (_isEveningEntryDone)
+                                  ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
+                        ),
+                      ],
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                      width: 100,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
-                      )),
-
-                    // AFTERNOON
-                    CircleAvatar(
-                      radius: 24.0,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.sunny, 
-                          size: 24.0,
-                          color: (_isAfternoonEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                      width: 100,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
-                    )),
-
-                    // EVENING
-                    CircleAvatar(
-                      radius: 24.0,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.brightness_2_sharp,
-                          size: 24.0,
-                          color: (_isEveningEntryDone) ? const Color(0x00FFC122).withOpacity(1.0) : const Color(0xFFACB2B4).withOpacity(1.0)
-                      ),
-                    ),
-                  ],),
-                )
-              ),
-
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -288,11 +299,21 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text('Your dailies for today',
                           textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0x004CA7FC).withOpacity(1.0))),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  color: const Color(0x004CA7FC)
+                                      .withOpacity(1.0))),
                       const SizedBox(height: 10.0),
                       Text('Start your journey to wellness!',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  color: const Color(0xff161818)
+                                      .withOpacity(1.0))),
                       const Divider(
                         color: Color(0xffF0F1F1),
                         height: 25,
@@ -300,7 +321,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          _dailyController.setDailyTaskToDone(DailyTask.Exercise);
+                          _dailyController
+                              .setDailyTaskToDone(DailyTask.Exercise);
                           setState(() {
                             _isDailyExerciseDone = true;
                           });
@@ -311,7 +333,12 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text('Do your daily exercise',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        color: const Color(0xff161818)
+                                            .withOpacity(1.0))),
                             displayBasedOnTaskCompleteness(_isDailyExerciseDone)
                           ],
                         ),
@@ -327,15 +354,19 @@ class _HomePageState extends State<HomePage> {
                             _emotionController.updateIfAddingFromDaily(true);
                             _emotionController.updateEditMode(false);
                             Get.toNamed('/emotionStartScreen');
-                          } 
+                          }
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Add today's entry",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                            ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        color: const Color(0xff161818)
+                                            .withOpacity(1.0))),
                             displayBasedOnTaskCompleteness(_isDailyEntryDone)
                           ],
                         ),
@@ -370,11 +401,19 @@ class _HomePageState extends State<HomePage> {
                           direction: Axis.vertical,
                           children: [
                             Text('Adventure Mode',
-                                style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600)),
                             const SizedBox(height: 10.0),
                             Text('Start your journey to wellness!',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.apply(color: Colors.white)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.apply(color: Colors.white)),
                           ]),
                     )
                   ]),
@@ -405,9 +444,17 @@ class _HomePageState extends State<HomePage> {
                       direction: Axis.vertical,
                       children: [
                         Text('Daily Wellness Exercise',
-                            style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.white, fontWeight: FontWeight.w600)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600)),
                         Text('Keep your mind and body in shape!',
-                            style: Theme.of(context).textTheme.bodyText2?.apply(color: Colors.white)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.apply(color: Colors.white)),
                       ],
                     ),
                   ),
@@ -420,4 +467,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

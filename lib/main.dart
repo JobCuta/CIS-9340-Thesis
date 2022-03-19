@@ -16,8 +16,10 @@ import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
-import 'screens/SideMenu/UserProfileNamesScreen.dart';
-import 'screens/SideMenu/UserProfileScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileEditScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileLanguageScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileNotificationsScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileScreen.dart';
 import 'screens/main/EntriesDetailScreen.dart';
 import 'screens/main/EntriesScreen.dart';
 import 'screens/main/HomepageScreen.dart';
@@ -96,7 +98,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/notifScreen',
+        initialRoute: '/userProfileScreen',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -158,13 +160,19 @@ class _MainState extends State<Main> {
               name: '/entriesDetailScreen',
               page: () => const EntriesDetailScreen()),
 
-          // Sidebar pages
+          // Profile pages
           GetPage(
               name: '/userProfileScreen',
               page: () => const UserProfileScreen()),
           GetPage(
-              name: '/userProfileNamesScreen',
-              page: () => const UserProfileNamesScreen()),
+              name: '/userProfileEditScreen',
+              page: () => const UserProfileEditScreen()),
+          GetPage(
+              name: '/userProfileNotificationsScreen',
+              page: () => const UserProfileNotificationsScreen()),
+          GetPage(
+              name: '/userProfileLanguageScreen',
+              page: () => const UserProfileLanguageScreen()),
         ],
         theme: themeData,
         home:

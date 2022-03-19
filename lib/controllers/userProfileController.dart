@@ -7,15 +7,34 @@ class UserProfileController extends GetxController {
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
   var nicknameController = TextEditingController();
+  var birthdayController = TextEditingController();
   var email = '';
-  var birthday = '';
   var gender = '';
-
   var validate = true;
 
   @override
   void onInit() {
     super.onInit();
+    resetAllValues();
+    firstNameController.addListener(() {
+      validate = firstNameController.value.text.isNotEmpty;
+      update();
+    });
+    lastNameController.addListener(() {
+      validate = lastNameController.value.text.isNotEmpty;
+      update();
+    });
+    nicknameController.addListener(() {
+      validate = nicknameController.value.text.isNotEmpty;
+      update();
+    });
+    birthdayController.addListener(() {
+      validate = birthdayController.value.text.isNotEmpty;
+      update();
+    });
+  }
+
+  void resetAllValues() {
     UserSecureStorage.getFirstn().then((value) {
       firstNameController.text = value.toString();
     });
@@ -33,7 +52,7 @@ class UserProfileController extends GetxController {
     });
 
     UserSecureStorage.getBirthday().then((value) {
-      birthday = value.toString();
+      birthdayController.text = value.toString();
     });
 
     UserSecureStorage.getGender().then((value) {
@@ -43,21 +62,16 @@ class UserProfileController extends GetxController {
               ? 'Female'
               : 'Prefer not to say';
     });
+  }
 
-    firstNameController.addListener(() {
-      print(firstNameController.value.text);
-      validate = firstNameController.value.text.isNotEmpty;
-      update();
-    });
-    lastNameController.addListener(() {
-      print(lastNameController.value.text);
-      validate = lastNameController.value.text.isNotEmpty;
-      update();
-    });
-    nicknameController.addListener(() {
-      print(nicknameController.value.text);
-      validate = nicknameController.value.text.isNotEmpty;
-      update();
-    });
+  void updateValues() {
+    //needs api call to actually update the users details in the backend.
+    UserSecureStorage.setLoginDetails(
+        email,
+        nicknameController.text,
+        firstNameController.text,
+        lastNameController.text,
+        birthdayController.text,
+        gender);
   }
 }
