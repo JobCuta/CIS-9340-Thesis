@@ -25,12 +25,15 @@ class UserProfileNotificationsScreenState
   Widget build(BuildContext context) {
     final TimeController _timeController = Get.put(TimeController());
 
-    _buildFieldComponent({required label, required timeValue, onPressed}) {
+    _buildFieldComponent(
+        {required label, required timeValue, required enabled, onPressed}) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(label,
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
                 fontWeight: FontWeight.w400,
-                color: Theme.of(context).colorScheme.neutralBlack02)),
+                color: enabled
+                    ? Theme.of(context).colorScheme.neutralBlack02
+                    : Theme.of(context).colorScheme.neutralGray01)),
         TextButton(
             onPressed: onPressed,
             child: GetBuilder<TimeController>(
@@ -43,16 +46,24 @@ class UserProfileNotificationsScreenState
                                 .bodyText1
                                 ?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray01)),
+                                    color: enabled
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray01)),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Icon(Icons.keyboard_arrow_right_sharp,
                                 size: 30,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralGray01))
+                                color: enabled
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack02
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray01))
                       ]),
                     )))
       ]);
@@ -141,41 +152,52 @@ class UserProfileNotificationsScreenState
                                 .bodyText2
                                 ?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04)),
+                                    color: isSwitched
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray01)),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 20),
-                        child: Wrap(
-                            alignment: WrapAlignment.center,
-                            runSpacing: 10,
-                            children: [
-                              _buildFieldComponent(
-                                label: 'Morning',
-                                timeValue: _timeController.morningTime.value
-                                    .format(context),
-                                onPressed: () {
-                                  _timeController.selectMorningTime(context);
-                                },
-                              ),
-                              _buildFieldComponent(
-                                  label: 'Afternoon',
-                                  timeValue: _timeController.afternoonTime.value
+                        child: GetBuilder<TimeController>(
+                          builder: (value) => Wrap(
+                              alignment: WrapAlignment.center,
+                              runSpacing: 10,
+                              children: [
+                                _buildFieldComponent(
+                                  label: 'Morning',
+                                  timeValue: _timeController.morningTime.value
                                       .format(context),
+                                  enabled: isSwitched,
                                   onPressed: () {
-                                    _timeController
-                                        .selectAfternoonTime(context);
-                                  }),
-                              _buildFieldComponent(
-                                  label: 'Evening',
-                                  timeValue: _timeController.eveningTime.value
-                                      .format(context),
-                                  onPressed: () {
-                                    _timeController.selectEveningTime(context);
-                                  })
-                            ]),
-                      ),
+                                    _timeController.selectMorningTime(context);
+                                  },
+                                ),
+                                _buildFieldComponent(
+                                    label: 'Afternoon',
+                                    timeValue: _timeController
+                                        .afternoonTime.value
+                                        .format(context),
+                                    enabled: isSwitched,
+                                    onPressed: () {
+                                      _timeController
+                                          .selectAfternoonTime(context);
+                                    }),
+                                _buildFieldComponent(
+                                    label: 'Evening',
+                                    timeValue: _timeController.eveningTime.value
+                                        .format(context),
+                                    enabled: isSwitched,
+                                    onPressed: () {
+                                      _timeController
+                                          .selectEveningTime(context);
+                                    })
+                              ]),
+                        ),
+                      )
                     ]),
                   ),
                 ])),

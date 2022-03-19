@@ -16,6 +16,10 @@ import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
+import 'screens/SideMenu/UserProfile/UserProfileAccountScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileContactSupportScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileDeactivateAccountScreen.dart';
+import 'screens/SideMenu/UserProfile/UserProfileDeactivateSucessfulScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileEditScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileLanguageScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileNotificationsScreen.dart';
@@ -98,7 +102,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/userProfileScreen',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -173,6 +177,18 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/userProfileLanguageScreen',
               page: () => const UserProfileLanguageScreen()),
+          GetPage(
+              name: '/userProfileContactScreen',
+              page: () => const UserProfileContactSupportScreen()),
+          GetPage(
+              name: '/userProfileAccountScreen',
+              page: () => const UserProfileAccountScreen()),
+          GetPage(
+              name: '/userDeactivateAccountScreen',
+              page: () => const UserProfileDeactivateAccountScreen()),
+          GetPage(
+              name: '/userDeactivateSuccessScreen',
+              page: () => const UserProfileDeactivateSuccessfulScreen()),
         ],
         theme: themeData,
         home:

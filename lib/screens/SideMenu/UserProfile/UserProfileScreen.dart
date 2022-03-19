@@ -76,7 +76,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               title: Text(
                 'Come back soon!',
                 style: Theme.of(context).textTheme.headline5?.copyWith(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    color: Theme.of(context).colorScheme.neutralBlack02,
                     fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
@@ -115,7 +115,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               onPressed: () async {
                                 var response = await UserProvider().logout();
                                 print('logout $response');
-                                Get.offAndToNamed('/accountScreen');
+                                Get.offAllNamed('/accountScreen');
                               },
                             ),
                             TextButton(
@@ -266,13 +266,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   fieldName: 'Contact Us',
                                   isEditable: true,
                                   onTap: (() {
-                                    // Get.toNamed('/userProfileEditScreen');
+                                    Get.toNamed('/userProfileContactScreen');
                                   })),
                               _buildFieldComponent(
                                   fieldName: 'Account',
                                   isEditable: true,
                                   onTap: (() {
-                                    // Get.toNamed('/userProfileEditScreen');
+                                    Get.toNamed('/userProfileAccountScreen');
                                   })),
                               Container(
                                 padding: const EdgeInsets.symmetric(
