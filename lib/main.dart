@@ -28,8 +28,6 @@ import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
 import 'screens/onboarding/login_registration/CreateAccountScreen.dart';
 import 'screens/onboarding/login_registration/ForgotPasswordScreen.dart';
 import 'screens/main/CalendarScreen.dart';
-import 'screens/onboarding/questionnaires/EmotionalEvaluationPositiveNegativeScreen.dart';
-import 'screens/onboarding/questionnaires/EmotionalEvaluationScreen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
@@ -128,12 +126,6 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/interpretationScreen',
               page: () => PHQ9InterpretationScreen()),
-          GetPage(
-              name: '/emotionScreen',
-              page: () => const EmotionalEvaluationScreen()),
-          GetPage(
-              name: '/emotionPNScreen',
-              page: () => const EmotionalEvaluationPositiveNegativeScreen()),
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
