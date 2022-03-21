@@ -16,6 +16,7 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
       appBar: AppBar(
           elevation: 1,
           leading: BackButton(
@@ -47,42 +48,57 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                   onChanged: (String? value) {
                     setState(() {
                       _locale = value.toString();
-                      // print(_locale);
                     });
+                    print(_locale);
                   },
                 ),
-                RadioListTile(
-                  title: Text('Ilocano',
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.neutralBlack02)),
-                  value: 'Ilocano',
-                  activeColor: Theme.of(context).colorScheme.accentBlue02,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  groupValue: _locale,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _locale = value.toString();
-                      // print(_locale);
-                    });
-                  },
+                // Remove after localization is integrated
+                AbsorbPointer(
+                  absorbing: true,
+                  child: RadioListTile(
+                    tileColor: Theme.of(context).colorScheme.neutralWhite04,
+                    title: Text('Ilocano',
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralGray01)),
+                    value: 'Ilocano',
+                    activeColor: Theme.of(context).colorScheme.accentBlue02,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    groupValue: _locale,
+                    onChanged: (String? value) {
+                      null;
+                      // setState(() {
+                      //   _locale = value.toString();
+                      //   // print(_locale);
+                      // });
+                      print(_locale);
+                    },
+                  ),
                 ),
-                RadioListTile(
-                  title: Text('Tagalog',
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.neutralBlack02)),
-                  value: 'Tagalog',
-                  activeColor: Theme.of(context).colorScheme.accentBlue02,
-                  groupValue: _locale,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _locale = value.toString();
-                      // print(_locale);
-                    });
-                  },
-                ),
+                // Remove after localization is integrated
+                AbsorbPointer(
+                  absorbing: true,
+                  child: RadioListTile(
+                    tileColor: Theme.of(context).colorScheme.neutralWhite04,
+                    title: Text('Tagalog',
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralGray01)),
+                    value: 'Tagalog',
+                    activeColor: Theme.of(context).colorScheme.accentBlue02,
+                    groupValue: _locale,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    onChanged: (String? value) {
+                      null;
+                      // setState(() {
+                      //   _locale = value.toString();
+                      // });
+                      print(_locale);
+                    },
+                  ),
+                )
               ]),
           Container(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),

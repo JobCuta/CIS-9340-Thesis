@@ -29,6 +29,7 @@ class _UserProfileDeactivateAccountScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
             elevation: 1,
             leading: BackButton(
@@ -117,7 +118,7 @@ class _UserProfileDeactivateAccountScreenState
             ),
             Container(
                 margin:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(

@@ -60,7 +60,7 @@ class UserProfileController extends GetxController {
           ? 'Male'
           : value == 'F'
               ? 'Female'
-              : 'Prefer not to say';
+              : 'Rather not say...';
     });
   }
 

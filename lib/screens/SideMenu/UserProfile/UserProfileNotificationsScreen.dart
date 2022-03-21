@@ -46,30 +46,23 @@ class UserProfileNotificationsScreenState
                                 .bodyText1
                                 ?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: enabled
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .neutralBlack02
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray01)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray01)),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Icon(Icons.keyboard_arrow_right_sharp,
                                 size: 30,
-                                color: enabled
-                                    ? Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray01))
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralGray01))
                       ]),
                     )))
       ]);
     }
 
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
             elevation: 1,
             leading: BackButton(
@@ -165,7 +158,7 @@ class UserProfileNotificationsScreenState
                         child: GetBuilder<TimeController>(
                           builder: (value) => Wrap(
                               alignment: WrapAlignment.center,
-                              runSpacing: 10,
+                              runSpacing: 5,
                               children: [
                                 _buildFieldComponent(
                                   label: 'Morning',
@@ -202,31 +195,33 @@ class UserProfileNotificationsScreenState
                   ),
                 ])),
             // Save Button
-            // Container(
-            //     padding:
-            //         const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-            //     child: Align(
-            //       alignment: Alignment.bottomCenter,
-            //       child: SizedBox(
-            //         width: MediaQuery.of(context).size.width,
-            //         height: 50,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //               elevation: 0,
-            //               primary: Theme.of(context).colorScheme.accentBlue02),
-            //           onPressed: () {},
-            //           child: Text('Save',
-            //               style: Theme.of(context)
-            //                   .textTheme
-            //                   .subtitle2!
-            //                   .copyWith(
-            //                       color: Theme.of(context)
-            //                           .colorScheme
-            //                           .neutralWhite01,
-            //                       fontWeight: FontWeight.w600)),
-            //         ),
-            //       ),
-            //     )),
+            Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          primary: isSwitched
+                              ? Theme.of(context).colorScheme.accentBlue02
+                              : Theme.of(context).colorScheme.neutralWhite04),
+                      onPressed: () {},
+                      child: Text('Save',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                )),
           ],
         ));
   }

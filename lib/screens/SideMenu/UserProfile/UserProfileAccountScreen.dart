@@ -18,6 +18,7 @@ class _UserProfileAccountScreenState extends State<UserProfileAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
             elevation: 1,
             leading: BackButton(
@@ -32,11 +33,12 @@ class _UserProfileAccountScreenState extends State<UserProfileAccountScreen> {
                     color: Theme.of(context).colorScheme.neutralBlack02))),
         primary: true,
         body: Container(
-            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -65,21 +67,19 @@ class _UserProfileAccountScreenState extends State<UserProfileAccountScreen> {
                         )
                       ]),
                 ),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                  child: Divider(
-                    color: Theme.of(context).colorScheme.neutralWhite03,
-                    height: 25,
-                    thickness: 2,
-                  ),
+                Divider(
+                  color: Theme.of(context).colorScheme.neutralWhite03,
+                  height: 25,
+                  thickness: 2,
                 ),
                 InkWell(
                   onTap: () {
                     Get.toNamed('/userDeactivateAccountScreen');
                   },
+                  splashColor: Theme.of(context).colorScheme.neutralGray02,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

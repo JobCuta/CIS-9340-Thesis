@@ -39,6 +39,7 @@ class _UserProfileContactSupportScreenState
     }
 
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
             elevation: 1,
             leading: BackButton(
@@ -52,87 +53,103 @@ class _UserProfileContactSupportScreenState
                     fontWeight: FontWeight.w400,
                     color: Theme.of(context).colorScheme.neutralBlack02))),
         primary: true,
-        body: Container(
-            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-            child: Wrap(
-              runSpacing: 20,
-              alignment: WrapAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images/contact.svg'),
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15.0, horizontal: 25.0),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.neutralWhite04,
-                      borderRadius: const BorderRadius.all(Radius.circular(8))),
-                  child: Text(
-                      'Got a suggestion or complaint? Give us a message! We appreciate and feedback.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.neutralGray04)),
-                ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text('Message',
-                          style: Theme.of(context).textTheme.caption!.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.neutralGray04,
-                              fontWeight: FontWeight.w600))),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: TextFormField(
-                        maxLines: 5,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                        ),
-                        controller: messageController,
-                        decoration:
-                            textFormFieldDecoration('Enter your message here'),
-                        validator: (input) {
-                          if (input == null || input.isEmpty) {
-                            return 'This field is required.';
-                          }
-                        }),
-                  ),
-                ]),
-                Container(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              primary: messageController.text.isNotEmpty
-                                  ? Theme.of(context).colorScheme.accentBlue02
-                                  : Theme.of(context)
+        body: Stack(
+          children: [
+            Container(
+                padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+                child: Wrap(
+                  runSpacing: 25,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/images/contact.svg'),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 25.0),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.neutralWhite04,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8))),
+                      child: Text(
+                          'Got a suggestion or complaint? Give us a message! We appreciate and feedback.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
                                       .colorScheme
-                                      .neutralWhite04),
-                          onPressed: () {
-                            messageController.text.isNotEmpty
-                                ? sendMessage()
-                                : null;
-                          },
-                          child: Text('Send',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
-                                      fontWeight: FontWeight.w600)),
-                        ),
-                      ),
-                    )),
-              ],
-            )));
+                                      .neutralGray04)),
+                    ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text('Message',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray04,
+                                          fontWeight: FontWeight.w600))),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15.0),
+                            child: TextFormField(
+                                maxLines: 5,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                                controller: messageController,
+                                decoration: textFormFieldDecoration(
+                                    'Enter your message here'),
+                                validator: (input) {
+                                  if (input == null || input.isEmpty) {
+                                    return 'This field is required.';
+                                  }
+                                }),
+                          ),
+                        ]),
+                  ],
+                )),
+            Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          primary: messageController.text.isNotEmpty
+                              ? Theme.of(context).colorScheme.accentBlue02
+                              : Theme.of(context).colorScheme.neutralWhite04),
+                      onPressed: () {
+                        messageController.text.isNotEmpty
+                            ? sendMessage()
+                            : null;
+                      },
+                      child: Text('Send',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                )),
+          ],
+        ));
   }
 
   Future<void> sendMessage() async {
@@ -140,8 +157,6 @@ class _UserProfileContactSupportScreenState
       body: messageController.text,
       subject: 'Feedback about Kasiyanna',
       recipients: ['2193079@slu.edu.ph'],
-      // attachmentPaths: attachments,
-      // isHTML: isHTML,
     );
 
     try {
@@ -151,6 +166,10 @@ class _UserProfileContactSupportScreenState
       print(error);
       platformResponse = error.toString();
     }
-    Get.snackbar('Contact Developers Email', platformResponse);
+    Get.snackbar(
+      'Contact Developers Email',
+      platformResponse,
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 }

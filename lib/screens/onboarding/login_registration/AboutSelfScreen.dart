@@ -307,7 +307,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                   value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
-                                  child: Text('Rather not to say...',
+                                  child: Text('Rather not say...',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2
@@ -427,13 +427,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       ),
                       onPressed: () {
                         //navigate to next page
-                        Get.toNamed('/anonScreen',
-                            arguments: {
-                              "email": Get.arguments["email"],
-                              "pass1": Get.arguments["pass1"],
-                              "pass2": Get.arguments["pass2"]
-                            }
-                        );
+                        Get.toNamed('/anonScreen', arguments: {
+                          "email": Get.arguments["email"],
+                          "pass1": Get.arguments["pass1"],
+                          "pass2": Get.arguments["pass2"]
+                        });
                       },
                       child: Text(
                         'Stay Anonymous',
