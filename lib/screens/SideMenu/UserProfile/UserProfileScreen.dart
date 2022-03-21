@@ -5,6 +5,8 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
+// import '../../../controllers/settingsController.dart';
+
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
 
@@ -13,6 +15,8 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  // final SettingsController _settingsController = Get.put(SettingsController());
+
   _buildLevelComponent(String value, String title) {
     return Wrap(
       alignment: WrapAlignment.center,
@@ -70,6 +74,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _settingsController.checkBox();
     final UserProfileController _userProfileController =
         Get.put(UserProfileController());
     bool _pinned = true;

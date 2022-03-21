@@ -156,7 +156,7 @@ class _UserProfileContactSupportScreenState
     final Email email = Email(
       body: messageController.text,
       subject: 'Feedback about Kasiyanna',
-      recipients: ['2193079@slu.edu.ph'],
+      recipients: ['kasiyannaapp@gmail.com'],
     );
 
     try {
