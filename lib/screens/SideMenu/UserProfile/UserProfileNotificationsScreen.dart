@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
 import '../../../constants/notificationService.dart';
+import '../../../controllers/settingsController.dart';
 import '../../../controllers/timeController.dart';
 
 void main() {
@@ -24,6 +25,8 @@ class UserProfileNotificationsScreenState
   @override
   Widget build(BuildContext context) {
     final TimeController _timeController = Get.put(TimeController());
+    final SettingsController _settingsController =
+        Get.put(SettingsController());
 
     _buildFieldComponent(
         {required label, required timeValue, required enabled, onPressed}) {
@@ -61,6 +64,15 @@ class UserProfileNotificationsScreenState
       ]);
     }
 
+    var morningTime = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsMorningTime[0]),
+        minute: int.parse(_settingsController.notificationsMorningTime[1]));
+    var afternoonTime = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsAfternoonTime[0]),
+        minute: int.parse(_settingsController.notificationsAfternoonTime[1]));
+    var eveningTime = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsEveningTime[0]),
+        minute: int.parse(_settingsController.notificationsEveningTime[1]));
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
@@ -162,11 +174,12 @@ class UserProfileNotificationsScreenState
                               children: [
                                 _buildFieldComponent(
                                   label: 'Morning',
-                                  timeValue: _timeController.morningTime.value
-                                      .format(context),
+                                  timeValue: morningTime.format(context),
                                   enabled: isSwitched,
                                   onPressed: () {
-                                    _timeController.selectMorningTime(context);
+                                    _timeController.selectMorningTime(
+                                        context: context,
+                                        initialTime: morningTime);
                                   },
                                 ),
                                 _buildFieldComponent(
@@ -176,8 +189,9 @@ class UserProfileNotificationsScreenState
                                         .format(context),
                                     enabled: isSwitched,
                                     onPressed: () {
-                                      _timeController
-                                          .selectAfternoonTime(context);
+                                      _timeController.selectAfternoonTime(
+                                          context: context,
+                                          initialTime: afternoonTime);
                                     }),
                                 _buildFieldComponent(
                                     label: 'Evening',
@@ -185,8 +199,9 @@ class UserProfileNotificationsScreenState
                                         .format(context),
                                     enabled: isSwitched,
                                     onPressed: () {
-                                      _timeController
-                                          .selectEveningTime(context);
+                                      _timeController.selectEveningTime(
+                                          context: context,
+                                          initialTime: eveningTime);
                                     })
                               ]),
                         ),
@@ -205,10 +220,9 @@ class UserProfileNotificationsScreenState
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          primary: isSwitched
-                              ? Theme.of(context).colorScheme.accentBlue02
-                              : Theme.of(context).colorScheme.neutralWhite04),
+                        elevation: 0,
+                        primary: Theme.of(context).colorScheme.accentBlue02,
+                      ),
                       onPressed: () {},
                       child: Text('Save',
                           style: Theme.of(context)

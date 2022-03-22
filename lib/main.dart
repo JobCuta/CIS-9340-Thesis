@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
@@ -67,10 +68,13 @@ Future<void> main() async {
   await Hive.openBox<EmotionEntryHive>('emotion');
   await Hive.openBox<EmotionEntryDetail>('emotionEntry');
   await Hive.openBox('emotionObj');
-  await Hive.openBox('settings');
+  await Hive.openBox<SettingsHive>('settings');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
+
+  final SettingsController _settingsController = Get.put(SettingsController());
+  _settingsController.prepareTheObjects();
 
   runApp(const Main());
 }

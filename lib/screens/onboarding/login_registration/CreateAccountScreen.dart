@@ -63,7 +63,9 @@ class CreateAccountScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(elevation: 0),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Theme.of(context).colorScheme.intGreenMain),
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,

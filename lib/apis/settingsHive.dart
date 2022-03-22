@@ -10,13 +10,13 @@ class SettingsHive extends HiveObject {
   bool notificationsEnabled;
 
   @HiveField(1)
-  TimeOfDay notificationsMorningTime;
+  List<String> notificationsMorningTime;
 
   @HiveField(2)
-  TimeOfDay notificationsAfternoonTime;
+  List<String> notificationsAfternoonTime;
 
   @HiveField(3)
-  TimeOfDay notificationsEveningTime;
+  List<String> notificationsEveningTime;
 
   @HiveField(4)
   String language;
@@ -34,9 +34,9 @@ class SettingsHive extends HiveObject {
     if (box.toMap().isNotEmpty) return;
     box.add(SettingsHive(
         notificationsEnabled: false,
-        notificationsMorningTime: TimeOfDay(hour: 9, minute: 30),
-        notificationsAfternoonTime: TimeOfDay(hour: 12, minute: 30),
-        notificationsEveningTime: TimeOfDay(hour: 18, minute: 30),
+        notificationsMorningTime: ['9', '30'],
+        notificationsAfternoonTime: ['12', '30'],
+        notificationsEveningTime: ['18', '30'],
         language: 'English'));
   }
 }

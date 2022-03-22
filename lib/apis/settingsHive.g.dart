@@ -18,9 +18,9 @@ class SettingsHiveAdapter extends TypeAdapter<SettingsHive> {
     };
     return SettingsHive(
       notificationsEnabled: fields[0] as bool,
-      notificationsMorningTime: fields[1] as TimeOfDay,
-      notificationsAfternoonTime: fields[2] as TimeOfDay,
-      notificationsEveningTime: fields[3] as TimeOfDay,
+      notificationsMorningTime: (fields[1] as List).cast<String>(),
+      notificationsAfternoonTime: (fields[2] as List).cast<String>(),
+      notificationsEveningTime: (fields[3] as List).cast<String>(),
       language: fields[4] as String,
     );
   }

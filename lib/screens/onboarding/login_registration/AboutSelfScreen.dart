@@ -349,29 +349,32 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ],
                           ),
                           const SizedBox(height: 5.0),
-                          SizedBox(
-                            child: TextFormField(
-                              controller: birthDateController,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              onTap: () {
-                                // Below line stops keyboard from appearing
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                // Show Date Picker Here
-                                _selectDate(context);
-                              },
-                              decoration: textFormFieldDecoration(
-                                  'Enter your birthday'),
-                              onChanged: (val) {
-                                setState(
-                                    () => birthDate = birthDateController.text);
-                              },
-                              validator: (input) {
-                                if (input == null || input.isEmpty) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 150),
+                            child: SizedBox(
+                              child: TextFormField(
+                                controller: birthDateController,
+                                style: Theme.of(context).textTheme.bodyText1,
+                                onTap: () {
+                                  // Below line stops keyboard from appearing
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  // Show Date Picker Here
+                                  _selectDate(context);
+                                },
+                                decoration: textFormFieldDecoration(
+                                    'Enter your birthday'),
+                                onChanged: (val) {
+                                  setState(() =>
+                                      birthDate = birthDateController.text);
+                                },
+                                validator: (input) {
+                                  if (input == null || input.isEmpty) {
+                                    return 'This field is required.';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
                         ],

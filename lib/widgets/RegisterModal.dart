@@ -375,10 +375,11 @@ class _RegisterState extends State<RegisterWidget> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              primary:
-                                  Theme.of(context).colorScheme.intGreenMain,
-                              onSurface:
-                                  Theme.of(context).colorScheme.neutralGray03,
+                              primary: isSwitched
+                                  ? Theme.of(context).colorScheme.intGreenMain
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite04,
                             ),
                             child: Text(
                               'Continue',

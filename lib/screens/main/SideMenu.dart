@@ -77,6 +77,7 @@ class _SideMenuState extends State<SideMenu> {
               buildMenuItem(
                 text: 'Mental Health Hotline',
                 icon: Icons.contact_phone,
+                onClicked: () => Get.toNamed('/MentalHealthOnlineScreen'),
               ),
               const SizedBox(height: 8),
               buildMenuItem(

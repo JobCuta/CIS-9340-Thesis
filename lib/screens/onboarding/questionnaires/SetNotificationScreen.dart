@@ -59,7 +59,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
-                    _timeController.selectMorningTime(context);
+                    _timeController.selectMorningTime(context: context);
                   },
                   child: GetBuilder<TimeController>(
                       builder: (value) => RichText(
@@ -92,7 +92,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
-                    _timeController.selectAfternoonTime(context);
+                    _timeController.selectAfternoonTime(context: context);
                   },
                   child: GetBuilder<TimeController>(
                       builder: (value) => RichText(
@@ -125,7 +125,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
-                    _timeController.selectEveningTime(context);
+                    _timeController.selectEveningTime(context: context);
                   },
                   child: GetBuilder<TimeController>(
                       builder: (value) => RichText(
