@@ -250,7 +250,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                     itemCount: emotionEntries.length,
                                     itemBuilder: (context, index) {
                                     return Container(
-                                      height: 188,
+                                      height: 220,
                                       width: MediaQuery.of(context).size.width,
                                       decoration: containerDecoration(),
                                       child: Padding(
@@ -356,7 +356,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                                               }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                                       ],
                                                     ),
-                                                    const SizedBox(height: 15),
+                                                    // const SizedBox(height: 15),
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: <Widget>[
