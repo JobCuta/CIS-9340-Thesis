@@ -31,6 +31,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     var emotionEntryBox =
         await Hive.openBox<EmotionEntryDetail>('emotionEntry');
     var emotionObjBox = await Hive.openBox('emotionObj');
+    var settingsBox = await Hive.openBox('settings');
 
     // Gets the no. of entries in the HIVE boxes
     print('START');
@@ -40,6 +41,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     print(emotionBox.length);
     print(emotionEntryBox.length);
     print(emotionObjBox.length);
+    print(settingsBox.length);
 
     await phqBox.clear();
     await sidasBox.clear();
@@ -47,6 +49,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     await emotionBox.clear();
     await emotionEntryBox.clear();
     await emotionObjBox.clear();
+    await settingsBox.clear();
 
     // Verifies that all entries have been removed from the HIVE boxes
     print('CLEARED');
@@ -56,6 +59,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     print(emotionBox.length);
     print(emotionEntryBox.length);
     print(emotionObjBox.length);
+    print(settingsBox.length);
   }
 
   @override

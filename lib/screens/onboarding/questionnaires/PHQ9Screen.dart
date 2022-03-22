@@ -173,12 +173,12 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     items,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText1
+                                        .bodyText2
                                         ?.copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .neutralGray03),
+                                                .neutralGray04),
                                   ));
                             }).toList(),
                           ),

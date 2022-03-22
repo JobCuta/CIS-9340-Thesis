@@ -54,24 +54,7 @@ class SettingsController extends GetxController {
     notificationsMorningTime.value = newSettings.notificationsMorningTime;
     notificationsAfternoonTime.value = newSettings.notificationsAfternoonTime;
     notificationsEveningTime.value = newSettings.notificationsEveningTime;
-
-    print('Settings in the controller');
-    print('-------------------------------------------------');
-
-    print(notificationsEnabled.value);
-    print(notificationsMorningTime.value);
-    print(notificationsAfternoonTime.value);
-    print(notificationsEveningTime.value);
-    print(language.value);
-
-    SettingsHive settings = box.get('settings');
-    print('Settings in the box');
-    print('-------------------------------------------------');
-    print(settings.notificationsEnabled);
-    print(settings.notificationsMorningTime);
-    print(settings.notificationsAfternoonTime);
-    print(settings.notificationsEveningTime);
-    print(settings.language);
+    // checkValues();
   }
 
   void updateLanguageSettings({
@@ -86,10 +69,22 @@ class SettingsController extends GetxController {
     box.putAt(0, newSettings);
 
     language.value = newLanguage;
+    // checkValues();
+  }
 
+  void resetAllValues() {
+    SettingsHive settings = box.get('settings');
+    notificationsEnabled.value = settings.notificationsEnabled;
+    notificationsMorningTime.value = settings.notificationsMorningTime;
+    notificationsAfternoonTime.value = settings.notificationsAfternoonTime;
+    notificationsEveningTime.value = settings.notificationsEveningTime;
+    language.value = settings.language;
+    // checkValues();
+  }
+
+  void checkValues() {
     print('Settings in the controller');
     print('-------------------------------------------------');
-
     print(notificationsEnabled.value);
     print(notificationsMorningTime.value);
     print(notificationsAfternoonTime.value);

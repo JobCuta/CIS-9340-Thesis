@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
+import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,10 +43,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       String? fieldValue,
       Function()? onTap}) {
     return InkWell(
-      splashColor: Theme.of(context).colorScheme.neutralWhite01,
+      splashColor: Theme.of(context).colorScheme.neutralGray02,
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(fieldName,
@@ -74,7 +75,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _settingsController.checkBox();
     final UserProfileController _userProfileController =
         Get.put(UserProfileController());
     bool _pinned = true;
@@ -152,6 +152,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+      drawer: const SideMenu(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -160,9 +161,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             floating: _floating,
             collapsedHeight: 75,
             expandedHeight: 50,
-            leading: BackButton(onPressed: () {
-              Get.toNamed('/homepage');
-            }),
+            // leading: BackButton(onPressed: () {
+            //   Get.toNamed('/homepage');
+            // }),
             title: Text('Settings and User Profile',
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     color: Theme.of(context).colorScheme.neutralWhite01,
