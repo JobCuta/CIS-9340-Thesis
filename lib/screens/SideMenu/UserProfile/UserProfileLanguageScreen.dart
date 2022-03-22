@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:get/get.dart';
 
 class UserProfileLanguageScreen extends StatefulWidget {
@@ -10,11 +11,12 @@ class UserProfileLanguageScreen extends StatefulWidget {
       _UserProfileLanguageScreenState();
 }
 
-String _locale = "English";
+final SettingsController _settingsController = Get.put(SettingsController());
 
 class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
   @override
   Widget build(BuildContext context) {
+    bool absorbing = true;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
       appBar: AppBar(
@@ -44,17 +46,14 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                   value: 'English',
                   activeColor: Theme.of(context).colorScheme.accentBlue02,
                   controlAffinity: ListTileControlAffinity.trailing,
-                  groupValue: _locale,
+                  groupValue: _settingsController.language.value,
                   onChanged: (String? value) {
-                    setState(() {
-                      _locale = value.toString();
-                    });
-                    print(_locale);
+                    _settingsController.language.value = value.toString();
                   },
                 ),
                 // Remove after localization is integrated
                 AbsorbPointer(
-                  absorbing: true,
+                  absorbing: absorbing,
                   child: RadioListTile(
                     tileColor: Theme.of(context).colorScheme.neutralWhite04,
                     title: Text('Ilocano',
@@ -65,20 +64,18 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                     value: 'Ilocano',
                     activeColor: Theme.of(context).colorScheme.accentBlue02,
                     controlAffinity: ListTileControlAffinity.trailing,
-                    groupValue: _locale,
+                    groupValue: _settingsController.language.value,
                     onChanged: (String? value) {
-                      null;
-                      // setState(() {
-                      //   _locale = value.toString();
-                      //   // print(_locale);
-                      // });
-                      print(_locale);
+                      absorbing
+                          ? _settingsController.language.value =
+                              value.toString()
+                          : '';
                     },
                   ),
                 ),
                 // Remove after localization is integrated
                 AbsorbPointer(
-                  absorbing: true,
+                  absorbing: absorbing,
                   child: RadioListTile(
                     tileColor: Theme.of(context).colorScheme.neutralWhite04,
                     title: Text('Tagalog',
@@ -88,14 +85,13 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                                 Theme.of(context).colorScheme.neutralGray01)),
                     value: 'Tagalog',
                     activeColor: Theme.of(context).colorScheme.accentBlue02,
-                    groupValue: _locale,
+                    groupValue: _settingsController.language.value,
                     controlAffinity: ListTileControlAffinity.trailing,
                     onChanged: (String? value) {
-                      null;
-                      // setState(() {
-                      //   _locale = value.toString();
-                      // });
-                      print(_locale);
+                      absorbing
+                          ? _settingsController.language.value =
+                              value.toString()
+                          : '';
                     },
                   ),
                 )
@@ -111,7 +107,10 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
                         primary: Theme.of(context).colorScheme.accentBlue02),
-                    onPressed: () {},
+                    onPressed: () {
+                      _settingsController.updateLanguageSettings(
+                          newLanguage: _settingsController.language.value);
+                    },
                     child: Text('Save',
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             color: Theme.of(context).colorScheme.neutralWhite01,

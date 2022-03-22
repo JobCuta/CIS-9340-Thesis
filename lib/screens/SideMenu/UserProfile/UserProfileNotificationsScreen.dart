@@ -20,8 +20,6 @@ class UserProfileNotificationsScreen extends StatefulWidget {
 
 class UserProfileNotificationsScreenState
     extends State<UserProfileNotificationsScreen> {
-  bool isSwitched = false;
-
   @override
   Widget build(BuildContext context) {
     final TimeController _timeController = Get.put(TimeController());
@@ -64,13 +62,13 @@ class UserProfileNotificationsScreenState
       ]);
     }
 
-    var morningTime = TimeOfDay(
+    _timeController.morningTime.value = TimeOfDay(
         hour: int.parse(_settingsController.notificationsMorningTime[0]),
         minute: int.parse(_settingsController.notificationsMorningTime[1]));
-    var afternoonTime = TimeOfDay(
+    _timeController.afternoonTime.value = TimeOfDay(
         hour: int.parse(_settingsController.notificationsAfternoonTime[0]),
         minute: int.parse(_settingsController.notificationsAfternoonTime[1]));
-    var eveningTime = TimeOfDay(
+    _timeController.eveningTime.value = TimeOfDay(
         hour: int.parse(_settingsController.notificationsEveningTime[0]),
         minute: int.parse(_settingsController.notificationsEveningTime[1]));
     return Scaffold(
@@ -80,7 +78,7 @@ class UserProfileNotificationsScreenState
             leading: BackButton(
                 color: Theme.of(context).colorScheme.accentBlue02,
                 onPressed: () {
-                  if (isSwitched) {
+                  if (_settingsController.notificationsEnabled.value) {
                     NotificationService.showMorningNotification(
                         _timeController.morningTime.value);
 
@@ -117,10 +115,11 @@ class UserProfileNotificationsScreenState
                                           .colorScheme
                                           .neutralBlack02))),
                       Switch.adaptive(
-                        value: isSwitched,
+                        value: _settingsController.notificationsEnabled.value,
                         onChanged: (value) {
                           setState(() {
-                            isSwitched = value;
+                            _settingsController.notificationsEnabled.value =
+                                value;
                           });
                         },
                         activeColor:
@@ -131,7 +130,7 @@ class UserProfileNotificationsScreenState
                     ],
                   ),
                   AbsorbPointer(
-                    absorbing: !isSwitched,
+                    absorbing: !_settingsController.notificationsEnabled.value,
                     child: Column(children: [
                       Container(
                         margin: const EdgeInsets.only(bottom: 20),
@@ -157,13 +156,16 @@ class UserProfileNotificationsScreenState
                                 .bodyText2
                                 ?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: isSwitched
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray01)),
+                                    color:
+                                        _settingsController
+                                                .notificationsEnabled.value
+                                            ? Theme.of(
+                                                    context)
+                                                .colorScheme
+                                                .neutralGray04
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray01)),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 20),
@@ -174,12 +176,13 @@ class UserProfileNotificationsScreenState
                               children: [
                                 _buildFieldComponent(
                                   label: 'Morning',
-                                  timeValue: morningTime.format(context),
-                                  enabled: isSwitched,
+                                  timeValue: _timeController.morningTime.value
+                                      .format(context),
+                                  enabled: _settingsController
+                                      .notificationsEnabled.value,
                                   onPressed: () {
                                     _timeController.selectMorningTime(
-                                        context: context,
-                                        initialTime: morningTime);
+                                        context: context);
                                   },
                                 ),
                                 _buildFieldComponent(
@@ -187,21 +190,22 @@ class UserProfileNotificationsScreenState
                                     timeValue: _timeController
                                         .afternoonTime.value
                                         .format(context),
-                                    enabled: isSwitched,
+                                    enabled: _settingsController
+                                        .notificationsEnabled.value,
                                     onPressed: () {
                                       _timeController.selectAfternoonTime(
-                                          context: context,
-                                          initialTime: afternoonTime);
+                                          context: context);
                                     }),
                                 _buildFieldComponent(
                                     label: 'Evening',
                                     timeValue: _timeController.eveningTime.value
                                         .format(context),
-                                    enabled: isSwitched,
+                                    enabled: _settingsController
+                                        .notificationsEnabled.value,
                                     onPressed: () {
                                       _timeController.selectEveningTime(
-                                          context: context,
-                                          initialTime: eveningTime);
+                                        context: context,
+                                      );
                                     })
                               ]),
                         ),
@@ -223,7 +227,28 @@ class UserProfileNotificationsScreenState
                         elevation: 0,
                         primary: Theme.of(context).colorScheme.accentBlue02,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // print(_timeController.morningTime.value.hour);
+                        _settingsController.updateNotificationSettings(
+                            newNotificationsEnabled:
+                                _settingsController.notificationsEnabled.value,
+                            newNotificationsMorningTime: [
+                              _timeController.morningTime.value.hour.toString(),
+                              _timeController.morningTime.value.minute
+                                  .toString()
+                            ],
+                            newNotificationsAfternoonTime: [
+                              _timeController.afternoonTime.value.hour
+                                  .toString(),
+                              _timeController.afternoonTime.value.minute
+                                  .toString()
+                            ],
+                            newNotificationsEveningTime: [
+                              _timeController.eveningTime.value.hour.toString(),
+                              _timeController.eveningTime.value.minute
+                                  .toString()
+                            ]);
+                      },
                       child: Text('Save',
                           style: Theme.of(context)
                               .textTheme

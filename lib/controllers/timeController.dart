@@ -9,7 +9,7 @@ class TimeController extends GetxController {
   Future selectMorningTime({required BuildContext context, initialTime}) async {
     TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
-      initialTime: initialTime ?? morningTime,
+      initialTime: morningTime.value,
       initialEntryMode: TimePickerEntryMode.dial,
       confirmText: "CONFIRM",
       cancelText: "CANCEL",

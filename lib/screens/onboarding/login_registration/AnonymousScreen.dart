@@ -34,17 +34,15 @@ class _AnonymousState extends State<AnonymousWidget> {
   String pass1 = '';
   String pass2 = '';
   String nickName = '';
+  bool anon = true;
 
   handleUserInfo() async {
     print('arguments ${Get.arguments}');
     email = Get.arguments["email"];
     pass1 = Get.arguments["pass1"];
     pass2 = Get.arguments["pass2"];
-    var response = await UserProvider().register(RegisterForm.anon(
-        email,
-        pass1,
-        pass2,
-        nickName));
+    var response = await UserProvider()
+        .register(RegisterForm.anon(email, pass1, pass2, nickName, anon));
     return response;
   }
 

@@ -395,7 +395,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(elevation: 0),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Theme.of(context).colorScheme.intGreenMain),
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
