@@ -17,7 +17,7 @@ class UserProvider extends GetConnect {
     "login": "api/v1/auth/login/",
     "logout": "api/v1/auth/logout/",
     "register": "api/v1/auth/registration/",
-    "forgot": "api/v1/auth/reset/",
+    "forgot": "api/v1/auth/password/reset/",
     "getUser": "api/v1/auth/user/",
   };
 
@@ -46,7 +46,9 @@ class UserProvider extends GetConnect {
   }
 
   Future register(RegisterForm userData) async {
-    final response = await post(domain + paths["register"], userData.form());
+    var form = userData.anon ? userData.anonForm() : userData.userForm();
+    final response =
+        await post(domain + paths["register"], form);
     print('register response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
