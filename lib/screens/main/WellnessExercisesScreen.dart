@@ -31,8 +31,6 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
       'Walking'
     ];
 
-    var exercises = [breathing, walking, meditation];
-    var randomExercise = (exercises..shuffle()).first;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

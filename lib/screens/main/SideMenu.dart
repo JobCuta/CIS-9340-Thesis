@@ -36,70 +36,72 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     const userImage = 'assets/images/User_Icon.png';
-    return Drawer(
-      child: Material(
-          color: Colors.white,
-          child: ListView(
-            padding: padding,
-            children: <Widget>[
-              buildHeader(
-                userImage: userImage,
-                name: usern,
-                email: email,
-                //OnClicked: (),
-              ),
-              const SizedBox(height: 12),
-              const Divider(color: Colors.grey),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Check your statistics',
-                icon: Icons.timeline,
-                onClicked: () => selectedItem(context, 0),
-              ),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Achievements',
-                icon: Icons.stars,
-              ),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Daily Exercise',
-                icon: Icons.sports_gymnastics,
-              ),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Hope Box',
-                icon: Icons.card_giftcard,
-              ),
-              const SizedBox(height: 8),
-              const Divider(color: Colors.grey),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Mental Health Hotline',
-                icon: Icons.contact_phone,
-                onClicked: () => Get.toNamed('/MentalHealthOnlineScreen'),
-              ),
-              const SizedBox(height: 8),
-              buildMenuItem(
-                text: 'Settings and User Profile',
-                icon: Icons.settings,
-                onClicked: () => Get.toNamed('/userProfileScreen'),
-              ),
-              const SizedBox(height: 100),
-              TextButton(
-                child: const Text('Logout',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold)),
-                onPressed: () async {
-                  var response = await UserProvider().logout();
-                  print('logout $response');
-                  Get.offAndToNamed('/accountScreen');
-                },
-              ),
-            ],
-          )),
+    return SafeArea(
+      child: Drawer(
+        child: Material(
+            color: Colors.white,
+            child: ListView(
+              padding: padding,
+              children: <Widget>[
+                buildHeader(
+                  userImage: userImage,
+                  name: usern,
+                  email: email,
+                  //OnClicked: (),
+                ),
+                const SizedBox(height: 12),
+                const Divider(color: Colors.grey),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Check your statistics',
+                  icon: Icons.timeline,
+                  onClicked: () => selectedItem(context, 0),
+                ),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Achievements',
+                  icon: Icons.stars,
+                ),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Daily Exercise',
+                  icon: Icons.sports_gymnastics,
+                ),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Hope Box',
+                  icon: Icons.card_giftcard,
+                ),
+                const SizedBox(height: 8),
+                const Divider(color: Colors.grey),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Mental Health Hotline',
+                  icon: Icons.contact_phone,
+                  onClicked: () => Get.toNamed('/MentalHealthOnlineScreen'),
+                ),
+                const SizedBox(height: 8),
+                buildMenuItem(
+                  text: 'Settings and User Profile',
+                  icon: Icons.settings,
+                  onClicked: () => Get.toNamed('/userProfileScreen'),
+                ),
+                const SizedBox(height: 100),
+                TextButton(
+                  child: const Text('Logout',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold)),
+                  onPressed: () async {
+                    var response = await UserProvider().logout();
+                    print('logout $response');
+                    Get.offAndToNamed('/accountScreen');
+                  },
+                ),
+              ],
+            )),
+      ),
     );
   }
 

@@ -39,12 +39,26 @@ class RegisterForm {
     };
   }
 
-    Map<String, String> anonForm() {
+  Map<String, String> userFormN() {
+    return {
+      "email": email,
+      "password1": pass1,
+      "password2": pass2,
+      "first_name": fname,
+      "last_name": lname,
+      "date_of_birth": bday,
+      "gender": gender,
+      "anon": "false",
+    };
+  }
+
+    Map<String, dynamic> anonForm() {
     return {
       "email": email,
       "password1": pass1,
       "password2": pass2,
       "nickname": nickn,
+      "date_of_birth": null,
       "anon": "true",
     };
   }

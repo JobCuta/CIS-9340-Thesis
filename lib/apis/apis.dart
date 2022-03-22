@@ -46,9 +46,13 @@ class UserProvider extends GetConnect {
   }
 
   Future register(RegisterForm userData) async {
-    var form = userData.anon ? userData.anonForm() : userData.userForm();
-    final response =
-        await post(domain + paths["register"], form);
+    var form = userData.anon
+        ? userData.anonForm()
+        : userData.nickn.isEmpty
+            ? userData.userFormN()
+            : userData.userForm();
+    print('form $form');
+    final response = await post(domain + paths["register"], form);
     print('register response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
@@ -104,10 +108,7 @@ class UserProvider extends GetConnect {
         headers: {"Authorization": "Token " + key});
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
-      print("User Info $map");
       if (initial) {
-        print("hello ${map["email"]}");
-
         await UserSecureStorage.setLoginDetails(
             map["email"],
             map["nickname"] == "" ? map["first_name"] : map["nickname"],

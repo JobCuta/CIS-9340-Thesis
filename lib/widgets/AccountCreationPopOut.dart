@@ -7,6 +7,7 @@ Future registeredDialog(BuildContext context) {
   return Get.defaultDialog(
     title: 'Account successfully registered!',
     barrierDismissible: false,
+    onWillPop: () => Future.value(false),
     contentPadding: const EdgeInsets.all(20),
     titleStyle: Theme.of(context)
         .textTheme

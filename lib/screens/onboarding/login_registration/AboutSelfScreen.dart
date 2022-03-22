@@ -61,6 +61,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return response;
   }
 
+  loginAccount() async {
+    var response = await UserProvider().login(LoginForm(email, pass1));
+    if (response["status"]) {
+      await UserProvider().user(true);
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -403,6 +410,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog(context);
+                          loginAccount();
                         } else {
                           errorDialog(response["message"]);
                         }
