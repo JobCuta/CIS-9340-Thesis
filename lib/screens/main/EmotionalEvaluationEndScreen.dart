@@ -81,8 +81,39 @@ class _EmotionalEvaluationEndScreenState
         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
         .toList();
 
+    
+        Map<int, String> weekdayString = {
+      1 : 'Monday',
+      2 : 'Tuesday',
+      3 : 'Wednesday',
+      4 : 'Thursday',
+      5 : 'Friday',
+      6 : 'Saturday',
+      7 : 'Sunday'
+    }; 
 
+    Map<int, String> monthString = {
+      1: 'January',
+      2: 'Febuary',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    };
 
+    DateTime dateTime = DateTime.now();
+    String weekday = weekdayString[dateTime.weekday] as String;
+    String month = monthString[dateTime.month] as String;
+    String partOfDay = '';
+    partOfDay = (dateTime.hour < 12 && dateTime.hour > 23) ? 'Morning' 
+      : dateTime.hour > 11 && dateTime.hour < 18 ? 'Afternoon' 
+      : 'Evening'; 
 
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -130,7 +161,7 @@ class _EmotionalEvaluationEndScreenState
                               style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                           ),
 
-                          Text('Wed, 2 March',
+                          Text(weekday.substring(0, 3) + ', ' +  dateTime.day.toString() + ' ' + month,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
                           ),
@@ -146,7 +177,7 @@ class _EmotionalEvaluationEndScreenState
                               style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
                           ),
 
-                          Text('22:21, Evening',
+                          Text(dateTime.hour.toString() + ":" + dateTime.minute.toString() + ", " + partOfDay,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
                           ),

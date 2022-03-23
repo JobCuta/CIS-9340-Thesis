@@ -13,15 +13,18 @@ class DailyController extends GetxController {
   var isMorningEntryDone = false.obs;
   var isAfternoonEntryDone = false.obs;
   var isEveningEntryDone = false.obs;
+  var showedAvailableTasks = false.obs;
   final _emotionController = Get.put(EmotionController());
 
   void prepareTheObjects() {
     Box box = Hive.box<DailyHive>('daily');
     if (box.isEmpty) {
       DailyHive newDaily =
-          DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false);
+          DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false, showedAvailableTasks: false);
       box.put('dailyStatus', newDaily);
     }
+
+    
 
     DailyHive daily = box.get('dailyStatus'); 
     int storedWeekDay = daily.currentWeekDay;
@@ -31,12 +34,14 @@ class DailyController extends GetxController {
       daily.currentWeekDay = DateTime.now().weekday;
       daily.isDailyExerciseDone = false;
       daily.isDailyEntryDone = false;
+      daily.showedAvailableTasks = false;
       daily.save();
 
       _emotionController.saveEntryToStorage();
     }
     isDailyEntryDone.value = daily.isDailyEntryDone;
     isDailyExerciseDone.value = daily.isDailyExerciseDone;
+    showedAvailableTasks.value = daily.showedAvailableTasks;
 
     EmotionEntryHive emotionEntry =  _emotionController.getTodaysEmotionEntry();
 
@@ -69,5 +74,15 @@ class DailyController extends GetxController {
     isEveningEntryDone.value = emotionEntry.eveningCheck.mood != 'NoData';
 
     update();
+  }
+
+  void updateShowedAvailableTasks(bool showedTasks) {
+    showedAvailableTasks.value = showedTasks;
+    update();
+
+    Box box = Hive.box<DailyHive>('daily');
+    DailyHive daily = box.get('dailyStatus');
+    daily.showedAvailableTasks = showedTasks;
+    daily.save();    
   }
 }

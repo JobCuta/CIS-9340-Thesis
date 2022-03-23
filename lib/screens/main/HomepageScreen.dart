@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
+import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
+import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -127,6 +130,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final DailyController _dailyController = Get.put(DailyController());
   final EmotionController _emotionController = Get.put(EmotionController());
+  final LevelController _levelController = Get.put(LevelController());
 
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
     return (isTaskDone)
@@ -155,6 +159,33 @@ class _HomePageState extends State<HomePage> {
             ]),
           );
   }
+
+  // ENABLE THIS LATER
+  // @override
+  // void initState() {
+
+  //   if (_dailyController.showedAvailableTasks.value) {
+  //     Future.delayed(Duration(seconds: 0)).then((_) {
+  //       showModalBottomSheet(
+  //         context: context,
+  //         shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(4),
+  //               topRight: Radius.circular(4)),
+  //         ),
+  //         useRootNavigator: true,
+  //         isScrollControlled: true,
+  //         builder: (context) {
+  //           return SizedBox(
+  //               height:
+  //                   MediaQuery.of(context).size.height * 0.75,
+  //               child: const LevelTasksTodayWidgets());
+  //         });
+  //     });
+  //   }
+
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                             width: 100,
                             height: 15,
                             decoration: BoxDecoration(
-                                color: (_isAfternoonEntryDone)
+                                color: (_isMorningEntryDone && _isAfternoonEntryDone)
                                     ? const Color(0x00FFC122).withOpacity(1.0)
                                     : const Color(0xFFACB2B4)
                                         .withOpacity(1.0))),
@@ -268,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                             width: 100,
                             height: 15,
                             decoration: BoxDecoration(
-                                color: (_isEveningEntryDone)
+                                color: (_isAfternoonEntryDone && _isEveningEntryDone)
                                     ? const Color(0x00FFC122).withOpacity(1.0)
                                     : const Color(0xFFACB2B4)
                                         .withOpacity(1.0))),
@@ -286,6 +317,28 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   )),
+              ElevatedButton(child: Text('Test LevelUp'),
+                onPressed: () {
+                  _levelController.getLevelFromStorage();
+                  _levelController.addXp(150);
+
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(4),
+                          topRight: Radius.circular(4)),
+                    ),
+                    useRootNavigator: true,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return SizedBox(
+                          height:
+                              MediaQuery.of(context).size.height * 0.75,
+                          child: const LevelWidgets());
+                    });
+                } 
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),

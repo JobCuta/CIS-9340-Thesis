@@ -36,8 +36,18 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
     12: 'Dec'
   };
 
+  int missedEntries = 0;
+
+  void _checkForAnyMissedEntries() {
+    if (emotionEntry.morningCheck.mood == 'NoData') missedEntries++;
+    if (emotionEntry.afternoonCheck.mood == 'NoData') missedEntries++;
+    if (emotionEntry.eveningCheck.mood == 'NoData') missedEntries++;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _checkForAnyMissedEntries();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: SideMenu(),
@@ -131,10 +141,15 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text('Evening check ' + (emotionEntry.eveningCheck.mood != 'NoData' ? emotionEntry.eveningCheck.time : 'missed'),
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                        ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Evening check ', 
+                                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntry.eveningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                              children: <TextSpan>[
+                                                TextSpan(text: (emotionEntry.eveningCheck.mood != 'NoData') ? emotionEntry.eveningCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
+                                              )]
+                                            ),
+                                          ),
 
                                         (emotionEntry.eveningCheck.mood != 'NoData') 
                                         ? Image(
@@ -148,7 +163,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             _emotionController.updateEditMode(false);
                                             _emotionController.updateIfAddingFromDaily(false);
 
-                                            Get.toNamed('/emotionStartScreen');
+                                            Get.offAllNamed('/homepage');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
                                     )                                                                    
@@ -281,10 +296,15 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text('Afternoon check ' + (emotionEntry.afternoonCheck.mood != 'NoData' ? emotionEntry.afternoonCheck.time : 'missed'),
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
-                                        ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Afternoon check ', 
+                                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntry.afternoonCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                              children: <TextSpan>[
+                                                TextSpan(text: (emotionEntry.afternoonCheck.mood != 'NoData') ? emotionEntry.afternoonCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
+                                              )]
+                                            ),
+                                          ),
                               
                                         (emotionEntry.afternoonCheck.mood != 'NoData') 
                                         ? Image(
@@ -298,7 +318,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             _emotionController.updateEditMode(false);
                                             _emotionController.updateIfAddingFromDaily(false);
 
-                                            Get.toNamed('/emotionStartScreen');
+                                            Get.offAllNamed('/homepage');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
                                     )                                                                    
@@ -429,9 +449,14 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Morning check ' + (emotionEntry.morningCheck.mood != 'NoData' ? emotionEntry.morningCheck.time : 'missed'),
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xff161818).withOpacity(1.0))
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Morning check ', 
+                                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntry.morningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                        children: <TextSpan>[
+                                          TextSpan(text: (emotionEntry.morningCheck.mood != 'NoData') ? emotionEntry.morningCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
+                                        )]
+                                      ),
                                     ),
                                     
                                     (emotionEntry.morningCheck.mood != 'NoData') 
@@ -513,7 +538,8 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
 
               const SizedBox(height: 10.0),
 
-              Padding(
+              (missedEntries  > 0 && missedEntries < 3) 
+              ? Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Container(
                   alignment: Alignment.center,
@@ -544,7 +570,28 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                     )
                   ])
                 ),
-              ),
+              )
+
+              : (missedEntries == 3) 
+              ? Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 70,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 18.0),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff3290FF).withOpacity(0.60),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4))),
+                  child: Text('No entries found!',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
+                ),
+              )
+
+              : const SizedBox(height: 10.0),
+
             ],
           )
         ),

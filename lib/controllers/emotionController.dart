@@ -230,7 +230,90 @@ class EmotionController extends GetxController {
       emotionEntry.eveningCheck.isEmpty = false;
     }
 
+    calculateOverallMood(emotionEntry);
 
+    print("--------------- UPDATING ---------------");
+    print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
+    print("[EEH] Weekday = " + emotionEntry.weekday);
+    print("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
+    print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
+    print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
+    resetAllValues();
+    emotionEntry.save();
+  }
+
+  EmotionEntryHive getTodaysEmotionEntry() {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    String date = dateToString(DateTime.now());
+
+    if (box.containsKey(date)) {
+      return box.get(date);
+    } else {
+      saveEntryToStorage();
+      return box.get(date);
+    }
+  }
+
+  List<EmotionEntryHive> getAllEmotionEntries() {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+    List<EmotionEntryHive> emotionEntries = [];
+    for (var key in emotionEntryKeys) {
+      emotionEntries.add(box.get(key));
+    }
+
+    return emotionEntries;
+  }
+
+  void deleteEmotionEntry(PartOfTheDay part) {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
+    
+    if (part == PartOfTheDay.Morning) {
+      emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+    else if (part == PartOfTheDay.Afternoon) {
+      emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+    else if (part == PartOfTheDay.Evening) {
+      emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+    }
+
+    calculateOverallMood(emotionEntry);
+
+    emotionEntry.save();
+  }
+
+  // KEY FOR THE BOX
+  String dateToString(DateTime dateTime) {
+    return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
+  }
+
+  
+  String timeToString(DateTime dateTime) {
+    return dateTime.hour.toString() + ":" + dateTime.minute.toString();
+  }
+
+  void updateIfAddingFromDaily(bool isFromDaily) {
+    isAddingFromDaily.value = isFromDaily;
+    update();
+  }
+
+  void updateEditMode(bool isEdit) {
+    isEditMode.value = isEdit;
+    update();
+  }
+
+  void updateSelectedEmotionEntry(EmotionEntryHive emotionEntry) {
+    _selectedEmotionEntry = emotionEntry;
+    update();
+  }
+
+  EmotionEntryHive getSelectedEmotionEntry() {
+    return _selectedEmotionEntry;
+  }
+
+  void calculateOverallMood(EmotionEntryHive emotionEntry) {
     int moodCount = 0;
     if (emotionEntry.morningCheck.mood != 'NoData') moodCount++;
     if (emotionEntry.afternoonCheck.mood != 'NoData') moodCount++;
@@ -303,84 +386,5 @@ class EmotionController extends GetxController {
     else if (overallMood == 5) {
       emotionEntry.overallMood = 'VeryHappy';
     }
-
-
-    print("--------------- UPDATING ---------------");
-    print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
-    print("[EEH] Weekday = " + emotionEntry.weekday);
-    print("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
-    print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
-    print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
-    resetAllValues();
-    emotionEntry.save();
-  }
-
-  EmotionEntryHive getTodaysEmotionEntry() {
-    Box box = Hive.box<EmotionEntryHive>('emotion');
-    String date = dateToString(DateTime.now());
-
-    if (box.containsKey(date)) {
-      return box.get(date);
-    } else {
-      saveEntryToStorage();
-      return box.get(date);
-    }
-  }
-
-  List<EmotionEntryHive> getAllEmotionEntries() {
-    Box box = Hive.box<EmotionEntryHive>('emotion');
-    final emotionEntryKeys = box.keys;
-    List<EmotionEntryHive> emotionEntries = [];
-    for (var key in emotionEntryKeys) {
-      emotionEntries.add(box.get(key));
-    }
-
-    return emotionEntries;
-  }
-
-  void deleteEmotionEntry(PartOfTheDay part) {
-    Box box = Hive.box<EmotionEntryHive>('emotion');
-    EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
-    
-    if (part == PartOfTheDay.Morning) {
-      emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Afternoon) {
-      emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Evening) {
-      emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-
-    emotionEntry.save();
-  }
-
-  // KEY FOR THE BOX
-  String dateToString(DateTime dateTime) {
-    return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
-  }
-
-  
-  String timeToString(DateTime dateTime) {
-    return dateTime.hour.toString() + ":" + dateTime.minute.toString() + ":" + dateTime.second.toString();
-  }
-
-  void updateIfAddingFromDaily(bool isFromDaily) {
-    isAddingFromDaily.value = isFromDaily;
-    update();
-  }
-
-  void updateEditMode(bool isEdit) {
-    isEditMode.value = isEdit;
-    update();
-  }
-
-  void updateSelectedEmotionEntry(EmotionEntryHive emotionEntry) {
-    _selectedEmotionEntry = emotionEntry;
-    update();
-  }
-
-  EmotionEntryHive getSelectedEmotionEntry() {
-    return _selectedEmotionEntry;
   }
 }

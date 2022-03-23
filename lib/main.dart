@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
@@ -56,6 +57,7 @@ Future<void> main() async {
   Hive.registerAdapter<EmotionEntryHive>(EmotionEntryHiveAdapter());
   Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
   Hive.registerAdapter(EmotionAdapter());
+  Hive.registerAdapter<Level>(LevelAdapter());
 
   await Hive.initFlutter();
 
@@ -65,6 +67,7 @@ Future<void> main() async {
   await Hive.openBox<EmotionEntryHive>('emotion');
   await Hive.openBox<EmotionEntryDetail>('emotionEntry');
   await Hive.openBox('emotionObj');
+  await Hive.openBox<Level>('level');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -102,7 +105,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/',
+        initialRoute: '/homepage',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),

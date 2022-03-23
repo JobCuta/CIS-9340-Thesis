@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dailyHive.dart';
+part of 'Level.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DailyHiveAdapter extends TypeAdapter<DailyHive> {
+class LevelAdapter extends TypeAdapter<Level> {
   @override
-  final int typeId = 2;
+  final int typeId = 6;
 
   @override
-  DailyHive read(BinaryReader reader) {
+  Level read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DailyHive(
-      currentWeekDay: fields[0] as int,
-      isDailyExerciseDone: fields[1] as bool,
-      isDailyEntryDone: fields[2] as bool,
-      showedAvailableTasks: fields[3] as bool,
+    return Level(
+      currentLevel: fields[0] as int,
+      currentXp: fields[1] as int,
+      xpForNextLevel: fields[2] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, DailyHive obj) {
+  void write(BinaryWriter writer, Level obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.currentWeekDay)
-      ..writeByte(1)
-      ..write(obj.isDailyExerciseDone)
-      ..writeByte(2)
-      ..write(obj.isDailyEntryDone)
       ..writeByte(3)
-      ..write(obj.showedAvailableTasks);
+      ..writeByte(0)
+      ..write(obj.currentLevel)
+      ..writeByte(1)
+      ..write(obj.currentXp)
+      ..writeByte(2)
+      ..write(obj.xpForNextLevel);
   }
 
   @override
@@ -44,7 +41,7 @@ class DailyHiveAdapter extends TypeAdapter<DailyHive> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DailyHiveAdapter &&
+      other is LevelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
