@@ -1,9 +1,12 @@
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
+import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+
+// import '../../../controllers/settingsController.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -13,8 +16,11 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  // final SettingsController _settingsController = Get.put(SettingsController());
+
   _buildLevelComponent(String value, String title) {
     return Wrap(
+      alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       direction: Axis.vertical,
       spacing: 5,
@@ -37,9 +43,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       String? fieldValue,
       Function()? onTap}) {
     return InkWell(
+      splashColor: Theme.of(context).colorScheme.neutralGray02,
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(fieldName,
@@ -68,6 +75,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProfileController _userProfileController =
+        Get.put(UserProfileController());
+    bool _pinned = true;
+    bool _snap = true;
+    bool _floating = true;
     showLogoutConfirmation() {
       return showDialog<String>(
           context: context,
@@ -138,175 +150,165 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               )));
     }
 
-    final UserProfileController _userProfileController =
-        Get.put(UserProfileController());
-
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: Text("Settings and User Profile",
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                  color: Theme.of(context).colorScheme.neutralWhite01)),
-          primary: true,
-          elevation: 0,
-          backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
-        ),
-        body: Stack(
-          children: [
-            Container(
-                decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/background_images/blue_user_profile_background.png',
-                ),
-                fit: BoxFit.cover,
-              ),
-            )),
-            GetBuilder<UserProfileController>(
-              builder: (value) => Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 60),
-                        width: MediaQuery.of(context).size.width,
-                        height: 300,
-                        alignment: Alignment.center,
-                        child: Wrap(
-                            direction: Axis.vertical,
-                            spacing: 20,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              const CircleAvatar(
-                                  radius: 60,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/default_user_image.png')),
-                              Text(
-                                  _userProfileController
-                                      .nicknameController.text,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01,
-                                          fontWeight: FontWeight.w600)),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  _buildLevelComponent(
-                                      '24', 'Daily tasks finished'),
-                                  const SizedBox(width: 30),
-                                  _buildLevelComponent('24', 'Levels'),
-                                  const SizedBox(width: 30),
-                                  _buildLevelComponent('24', 'Entries'),
-                                  const SizedBox(width: 30),
-                                  _buildLevelComponent('24', 'Achievements'),
-                                ],
-                              )
-                            ]),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8))),
-                          margin: const EdgeInsets.only(top: 20),
-                          alignment: Alignment.bottomLeft,
-                          child: Wrap(
-                            runSpacing: 3,
-                            children: [
-                              _buildFieldComponent(
-                                  fieldName: 'Edit Profile',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    Get.toNamed('/userProfileEditScreen');
-                                  })),
-                              _buildFieldComponent(
-                                  fieldName: 'Edit Avatar',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    // Get.toNamed('/userProfileEditScreen');
-                                  })),
-                              Divider(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite03,
-                                height: 25,
-                                thickness: 1,
-                              ),
-                              _buildFieldComponent(
-                                  fieldName: 'Notifications',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    Get.toNamed(
-                                        '/userProfileNotificationsScreen');
-                                  })),
-                              _buildFieldComponent(
-                                  fieldName: 'Language',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    Get.toNamed('/userProfileLanguageScreen');
-                                  })),
-                              Divider(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite03,
-                                height: 25,
-                                thickness: 1,
-                              ),
-                              _buildFieldComponent(
-                                  fieldName: 'Contact Us',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    Get.toNamed('/userProfileContactScreen');
-                                  })),
-                              _buildFieldComponent(
-                                  fieldName: 'Account',
-                                  isEditable: true,
-                                  onTap: (() {
-                                    Get.toNamed('/userProfileAccountScreen');
-                                  })),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 25),
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 50,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        showLogoutConfirmation();
-                                      },
-                                      child: Text('Logout',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle2!
-                                              .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .accentRed02,
-                                                  fontWeight: FontWeight.w600)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-              ),
+      backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+      drawer: const SideMenu(),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: _pinned,
+            snap: _snap,
+            floating: _floating,
+            collapsedHeight: 75,
+            expandedHeight: 50,
+            // leading: BackButton(onPressed: () {
+            //   Get.toNamed('/homepage');
+            // }),
+            title: Text('Settings and User Profile',
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    fontWeight: FontWeight.w400)),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(200),
+              child: Wrap(
+                  direction: Axis.vertical,
+                  spacing: 15,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: const CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage(
+                              'assets/images/default_user_image.png')),
+                    ),
+                    GetBuilder<UserProfileController>(
+                      builder: (value) => Text(
+                          _userProfileController.nicknameController.text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(
+                          bottom: 20, left: 25, right: 25),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildLevelComponent('24', 'Daily tasks finished'),
+                            const SizedBox(width: 30),
+                            _buildLevelComponent('24', 'Levels'),
+                            const SizedBox(width: 30),
+                            _buildLevelComponent('24', 'Entries'),
+                            const SizedBox(width: 30),
+                            _buildLevelComponent('24', 'Achievements'),
+                          ]),
+                    )
+                  ]),
             ),
-          ],
-        ));
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                  decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/background_images/blue_background.png',
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              )),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    borderRadius: const BorderRadius.all(Radius.circular(8))),
+                child: Wrap(
+                  runSpacing: 5,
+                  children: [
+                    _buildFieldComponent(
+                        fieldName: 'Edit Profile',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileEditScreen');
+                        })),
+                    _buildFieldComponent(
+                        fieldName: 'Edit Avatar',
+                        isEditable: true,
+                        onTap: (() {
+                          // Get.toNamed('/userProfileEditScreen');
+                        })),
+                    Divider(
+                      color: Theme.of(context).colorScheme.neutralWhite03,
+                      height: 25,
+                      thickness: 1,
+                    ),
+                    _buildFieldComponent(
+                        fieldName: 'Notifications',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileNotificationsScreen');
+                        })),
+                    _buildFieldComponent(
+                        fieldName: 'Language',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileLanguageScreen');
+                        })),
+                    Divider(
+                      color: Theme.of(context).colorScheme.neutralWhite03,
+                      height: 25,
+                      thickness: 1,
+                    ),
+                    _buildFieldComponent(
+                        fieldName: 'Contact Us',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileContactScreen');
+                        })),
+                    _buildFieldComponent(
+                        fieldName: 'Account',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileAccountScreen');
+                        })),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 25),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          child: TextButton(
+                            onPressed: () {
+                              showLogoutConfirmation();
+                            },
+                            child: Text('Logout',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .accentRed02,
+                                        fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          )
+        ],
+      ),
+    );
   }
 }

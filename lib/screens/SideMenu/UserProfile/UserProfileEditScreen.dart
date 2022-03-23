@@ -35,7 +35,7 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
     List options = [
       {'name': 'Male', 'value': 'M'},
       {'name': 'Female', 'value': 'F'},
-      {'name': 'Prefer not to say', 'value': 'P'}
+      {'name': 'Rather not say...', 'value': 'P'}
     ];
 
     updateProfile() {
@@ -123,141 +123,189 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
       }
     }
 
-    return Scaffold(
-        appBar: AppBar(
-            elevation: 1,
-            leading: BackButton(
-                color: Theme.of(context).colorScheme.accentBlue02,
-                onPressed: () {
-                  _profileController.resetAllValues();
-                  Get.back();
-                }),
-            backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
-            title: Text('Edit Profile',
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.neutralBlack02))),
-        primary: true,
-        body: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Wrap(
-                      children: [
-                        _buildTextField(
-                            fieldName: 'First Name',
-                            hintText: 'Enter your first name',
-                            controller: _profileController.firstNameController),
-                        _buildTextField(
-                            fieldName: 'Last Name',
-                            hintText: 'Enter your last name',
-                            controller: _profileController.lastNameController),
-                        _buildTextField(
-                            fieldName: 'Nickname',
-                            hintText: 'Enter your nickname',
-                            controller: _profileController.nicknameController),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text('Gender',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600))),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: SizedBox(
-                            height: 50,
-                            child: DropdownButtonFormField(
-                              style: const TextStyle(fontSize: 14.0),
-                              decoration:
-                                  textFormFieldDecoration('Enter your gender'),
-                              value: gender,
-                              icon: const Icon(Icons.arrow_drop_down),
-                              items: options.map((map) {
-                                return DropdownMenuItem(
-                                    child: Text(map['name'],
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .neutralBlack02)),
-                                    value: map['value']);
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  gender = value!;
-                                });
-                              },
-                              validator: (input) {
-                                if (input == null) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
-                            ),
+    // ensures that if the user pressed the back button after changing values without saving, the controllers values remain the same
+    return WillPopScope(
+      onWillPop: () {
+        _profileController.resetAllValues();
+        return Future.value(true);
+      },
+      child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+          appBar: AppBar(
+              elevation: 1,
+              leading: BackButton(
+                  color: Theme.of(context).colorScheme.accentBlue02,
+                  onPressed: () {
+                    _profileController.resetAllValues();
+                    Get.back();
+                  }),
+              backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+              title: Text('Edit Profile',
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.neutralBlack02))),
+          primary: true,
+          body: Stack(
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    children: [
+                      _buildTextField(
+                          fieldName: 'First Name',
+                          hintText: 'Enter your first name',
+                          controller: _profileController.firstNameController),
+                      _buildTextField(
+                          fieldName: 'Last Name',
+                          hintText: 'Enter your last name',
+                          controller: _profileController.lastNameController),
+                      _buildTextField(
+                          fieldName: 'Nickname',
+                          hintText: 'Enter your nickname',
+                          controller: _profileController.nicknameController),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text('Gender',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray04,
+                                      fontWeight: FontWeight.w600))),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: SizedBox(
+                          height: 50,
+                          child: DropdownButtonFormField(
+                            style: const TextStyle(fontSize: 14.0),
+                            decoration:
+                                textFormFieldDecoration('Enter your gender'),
+                            value: gender,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items: options.map((map) {
+                              return DropdownMenuItem(
+                                  child: Text(map['name'],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralBlack02)),
+                                  value: map['value']);
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                gender = value!;
+                              });
+                            },
+                            validator: (input) {
+                              if (input == null) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
                           ),
                         ),
-                        _buildTextField(
-                            fieldName: 'Birthday',
-                            hintText: 'Enter your birthday',
-                            controller: _profileController.birthdayController,
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              _selectDate(context);
-                            }),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            child: GetBuilder<UserProfileController>(
-                              builder: (value) => ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    primary: _profileController.validate
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .accentBlue02
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite04),
-                                onPressed: () {
-                                  _profileController.validate
-                                      ? updateProfile()
-                                      : null;
-                                },
-                                child: Text('Save',
+                      ),
+                      Divider(
+                        color: Theme.of(context).colorScheme.neutralWhite03,
+                        height: 25,
+                        thickness: 2,
+                      ),
+                      InkWell(
+                        splashColor:
+                            Theme.of(context).colorScheme.neutralGray02,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Birthday',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .bodyText1!
                                         .copyWith(
+                                            fontWeight: FontWeight.w400,
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .neutralWhite01,
-                                            fontWeight: FontWeight.w600)),
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
+                                                .neutralBlack02)),
+                                RichText(
+                                  text: TextSpan(children: <InlineSpan>[
+                                    TextSpan(
+                                        text: _profileController
+                                            .birthdayController.text,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralGray01,
+                                                fontWeight: FontWeight.w600)),
+                                    WidgetSpan(
+                                        alignment: PlaceholderAlignment.middle,
+                                        child: Icon(
+                                            Icons.keyboard_arrow_right_sharp,
+                                            size: 30,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray01))
+                                  ]),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: GetBuilder<UserProfileController>(
+                        builder: (value) => ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              primary: _profileController.validate
+                                  ? Theme.of(context).colorScheme.accentBlue02
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite04),
+                          onPressed: () {
+                            _profileController.validate
+                                ? updateProfile()
+                                : null;
+                          },
+                          child: Text('Save',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01,
+                                      fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    )),
+              )
+            ],
+          )),
+    );
   }
 }

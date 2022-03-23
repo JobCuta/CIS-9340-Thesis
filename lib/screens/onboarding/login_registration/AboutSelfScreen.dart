@@ -61,6 +61,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     return response;
   }
 
+  loginAccount() async {
+    var response = await UserProvider().login(LoginForm(email, pass1));
+    if (response["status"]) {
+      await UserProvider().user(true);
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -307,7 +314,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                   value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
-                                  child: Text('Rather not to say...',
+                                  child: Text('Rather not say...',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2
@@ -349,29 +356,32 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ],
                           ),
                           const SizedBox(height: 5.0),
-                          SizedBox(
-                            child: TextFormField(
-                              controller: birthDateController,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              onTap: () {
-                                // Below line stops keyboard from appearing
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                // Show Date Picker Here
-                                _selectDate(context);
-                              },
-                              decoration: textFormFieldDecoration(
-                                  'Enter your birthday'),
-                              onChanged: (val) {
-                                setState(
-                                    () => birthDate = birthDateController.text);
-                              },
-                              validator: (input) {
-                                if (input == null || input.isEmpty) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 150),
+                            child: SizedBox(
+                              child: TextFormField(
+                                controller: birthDateController,
+                                style: Theme.of(context).textTheme.bodyText1,
+                                onTap: () {
+                                  // Below line stops keyboard from appearing
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  // Show Date Picker Here
+                                  _selectDate(context);
+                                },
+                                decoration: textFormFieldDecoration(
+                                    'Enter your birthday'),
+                                onChanged: (val) {
+                                  setState(() =>
+                                      birthDate = birthDateController.text);
+                                },
+                                validator: (input) {
+                                  if (input == null || input.isEmpty) {
+                                    return 'This field is required.';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -392,12 +402,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(elevation: 0),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Theme.of(context).colorScheme.intGreenMain),
                     onPressed: () async {
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog(context);
+                          loginAccount();
                         } else {
                           errorDialog(response["message"]);
                         }
@@ -427,13 +440,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       ),
                       onPressed: () {
                         //navigate to next page
-                        Get.toNamed('/anonScreen',
-                            arguments: {
-                              "email": Get.arguments["email"],
-                              "pass1": Get.arguments["pass1"],
-                              "pass2": Get.arguments["pass2"]
-                            }
-                        );
+                        Get.toNamed('/anonScreen', arguments: {
+                          "email": Get.arguments["email"],
+                          "pass1": Get.arguments["pass1"],
+                          "pass2": Get.arguments["pass2"]
+                        });
                       },
                       child: Text(
                         'Stay Anonymous',

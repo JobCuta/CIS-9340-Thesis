@@ -18,13 +18,14 @@ class RegisterForm {
   late String nickn='';
   late String bday='';
   late String gender='';
+  late bool anon=false;
 
   RegisterForm(this.email, this.pass1, this.pass2, this.fname, this.lname,
       this.nickn, this.bday, this.gender);
 
-  RegisterForm.anon(this.email, this.pass1, this.pass2, this.nickn);
+  RegisterForm.anon(this.email, this.pass1, this.pass2, this.nickn, this.anon);
 
-  Map<String, String> form() {
+  Map<String, String> userForm() {
     return {
       "email": email,
       "password1": pass1,
@@ -34,6 +35,31 @@ class RegisterForm {
       "nickname": nickn,
       "date_of_birth": bday,
       "gender": gender,
+      "anon": "false",
+    };
+  }
+
+  Map<String, String> userFormN() {
+    return {
+      "email": email,
+      "password1": pass1,
+      "password2": pass2,
+      "first_name": fname,
+      "last_name": lname,
+      "date_of_birth": bday,
+      "gender": gender,
+      "anon": "false",
+    };
+  }
+
+    Map<String, dynamic> anonForm() {
+    return {
+      "email": email,
+      "password1": pass1,
+      "password2": pass2,
+      "nickname": nickn,
+      "date_of_birth": null,
+      "anon": "true",
     };
   }
 }

@@ -32,6 +32,7 @@ class EmotionEntryDetail extends HiveObject{
     required this.isEmpty,
   });
 
+  @override
   String toString() {
     return time + ", " + note + ", " + mood + ", " + positiveEmotions.length.toString() + ", " + negativeEmotions.length.toString();
   }

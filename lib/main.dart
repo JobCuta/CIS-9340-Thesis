@@ -4,6 +4,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScree
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/phqHive.dart';
+import 'apis/settingsHive.dart';
 import 'apis/sidasHive.dart';
 import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
@@ -58,6 +60,7 @@ Future<void> main() async {
   Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
   Hive.registerAdapter(EmotionAdapter());
   Hive.registerAdapter<Level>(LevelAdapter());
+  Hive.registerAdapter(SettingsHiveAdapter());
 
   await Hive.initFlutter();
 
@@ -68,9 +71,13 @@ Future<void> main() async {
   await Hive.openBox<EmotionEntryDetail>('emotionEntry');
   await Hive.openBox('emotionObj');
   await Hive.openBox<Level>('level');
+  await Hive.openBox<SettingsHive>('settings');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
+
+  final SettingsController _settingsController = Get.put(SettingsController());
+  _settingsController.prepareTheObjects();
 
   runApp(const Main());
 }

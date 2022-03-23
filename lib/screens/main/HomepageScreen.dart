@@ -12,9 +12,6 @@ import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
-
-import '../../constants/notificationService.dart';
 import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -203,7 +200,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
       extendBodyBehindAppBar: true,
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(
@@ -212,64 +209,29 @@ class _HomePageState extends State<HomePage> {
                       'assets/background_images/blue_background.png',
                     ),
                     fit: BoxFit.cover))),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 100, 25, 0),
-                child: Container(
-                    alignment: Alignment.center,
-                    height: 110,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 18.0),
-                    decoration: BoxDecoration(
-                        color: const Color(0xff3290FF).withOpacity(0.60),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4))),
-                    child: Column(children: [
-                      Text('Welcome!',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(color: Colors.white)),
-                      const SizedBox(height: 10),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 12.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xff216CB2).withOpacity(0.20),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                        child: Text(
-                            'Remember, all is well and all will be well.',
+        SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+                  child: Container(
+                      alignment: Alignment.center,
+                      height: 110,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 18.0),
+                      decoration: BoxDecoration(
+                          color: const Color(0xff3290FF).withOpacity(0.60),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: Column(children: [
+                        Text('Welcome!',
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .caption
+                                .subtitle2
                                 ?.copyWith(color: Colors.white)),
-                      )
-                    ])),
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  child: Container(
-                    width: 500,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // MORNING
-                        CircleAvatar(
-                          radius: 24.0,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.brightness_7_sharp,
-                              size: 24.0,
-                              color: (_isMorningEntryDone)
-                                  ? const Color(0x00FFC122).withOpacity(1.0)
-                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
-                        ),
+                        const SizedBox(height: 10),
                         Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(
@@ -301,18 +263,95 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                                 color: (_isAfternoonEntryDone && _isEveningEntryDone)
                                     ? const Color(0x00FFC122).withOpacity(1.0)
-                                    : const Color(0xFFACB2B4)
+                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                          ),
+                        ],
+                      ),
+                    )),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(20.0),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Your dailies for today',
+                            textAlign: TextAlign.left,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    color: const Color(0x004CA7FC)
                                         .withOpacity(1.0))),
-
-                        // EVENING
-                        CircleAvatar(
-                          radius: 24.0,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.brightness_2_sharp,
-                              size: 24.0,
-                              color: (_isEveningEntryDone)
-                                  ? const Color(0x00FFC122).withOpacity(1.0)
-                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
+                        const SizedBox(height: 10.0),
+                        Text('Start your journey to wellness!',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    color: const Color(0xff161818)
+                                        .withOpacity(1.0))),
+                        const Divider(
+                          color: Color(0xffF0F1F1),
+                          height: 25,
+                          thickness: 1,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            _dailyController
+                                .setDailyTaskToDone(DailyTask.Exercise);
+                            setState(() {
+                              _isDailyExerciseDone = true;
+                            });
+                            Get.toNamed('/wellnessScreen');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Do your daily exercise',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          color: const Color(0xff161818)
+                                              .withOpacity(1.0))),
+                              displayBasedOnTaskCompleteness(_isDailyExerciseDone)
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: Color(0xffF0F1F1),
+                          height: 25,
+                          thickness: 1,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (!_isDailyEntryDone) {
+                              _emotionController.updateIfAddingFromDaily(true);
+                              _emotionController.updateEditMode(false);
+                              Get.toNamed('/emotionStartScreen');
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Add today's entry",
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          color: const Color(0xff161818)
+                                              .withOpacity(1.0))),
+                              displayBasedOnTaskCompleteness(_isDailyEntryDone)
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -424,96 +463,74 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                    ],
+                      Container(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            direction: Axis.vertical,
+                            children: [
+                              Text('Adventure Mode',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 10.0),
+                              Text('Start your journey to wellness!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.apply(color: Colors.white)),
+                            ]),
+                      )
+                    ]),
                   ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  //Add navigation to the adventure page here
-                },
-                child: Container(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  height: 100,
-                  // padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff216CB2).withOpacity(0.55),
-                  ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed('/shakeScreen', arguments: {'initial?': false});
+                  },
                   child: Stack(children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 90),
+                      padding: const EdgeInsets.fromLTRB(290, 15, 0, 75),
                       child: SvgPicture.asset(
-                        'assets/images/bahag.svg',
+                        'assets/images/meditating.svg',
+                        height: 95,
                       ),
                     ),
                     Container(
                       alignment: Alignment.center,
+                      height: 100,
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xffFFC122).withOpacity(0.60),
+                      ),
                       child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          direction: Axis.vertical,
-                          children: [
-                            Text('Adventure Mode',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    ?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 10.0),
-                            Text('Start your journey to wellness!',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.apply(color: Colors.white)),
-                          ]),
-                    )
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        direction: Axis.vertical,
+                        children: [
+                          Text('Daily Wellness Exercise',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                          Text('Keep your mind and body in shape!',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.apply(color: Colors.white)),
+                        ],
+                      ),
+                    ),
                   ]),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  Get.toNamed('/shakeScreen', arguments: {'initial?': false});
-                },
-                child: Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(290, 15, 0, 75),
-                    child: SvgPicture.asset(
-                      'assets/images/meditating.svg',
-                      height: 95,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 100,
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xffFFC122).withOpacity(0.60),
-                    ),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      direction: Axis.vertical,
-                      children: [
-                        Text('Daily Wellness Exercise',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600)),
-                        Text('Keep your mind and body in shape!',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.apply(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ]),

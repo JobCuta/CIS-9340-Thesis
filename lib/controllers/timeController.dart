@@ -6,7 +6,7 @@ class TimeController extends GetxController {
   var afternoonTime = const TimeOfDay(hour: 12, minute: 30).obs;
   var eveningTime = const TimeOfDay(hour: 18, minute: 30).obs;
 
-  Future selectMorningTime(BuildContext context) async {
+  Future selectMorningTime({required BuildContext context, initialTime}) async {
     TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
       initialTime: morningTime.value,
@@ -19,7 +19,8 @@ class TimeController extends GetxController {
     update();
   }
 
-  Future selectAfternoonTime(BuildContext context) async {
+  Future selectAfternoonTime(
+      {required BuildContext context, initialTime}) async {
     TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
       initialTime: afternoonTime.value,
@@ -32,7 +33,7 @@ class TimeController extends GetxController {
     update();
   }
 
-  Future selectEveningTime(BuildContext context) async {
+  Future selectEveningTime({required BuildContext context, initialTime}) async {
     TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
       initialTime: eveningTime.value,

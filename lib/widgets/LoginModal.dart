@@ -308,17 +308,19 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               primary:
                                   Theme.of(context).colorScheme.intGreenMain,
                               onSurface:
-                                  Theme.of(context).colorScheme.neutralGray03,
+                                  Theme.of(context).colorScheme.neutralWhite04,
                             ),
                             child: isLoading
-                                ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
-                                )
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
                                 : Text(
                                     'Continue',
                                     style: Theme.of(context)
@@ -346,7 +348,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                           backgroundColor: Theme.of(context)
                                               .colorScheme
                                               .accentRed02,
-                                          colorText:  Colors.white
+                                          colorText: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
                                         );
                                         setState(() => isLoading = false);
                                       }

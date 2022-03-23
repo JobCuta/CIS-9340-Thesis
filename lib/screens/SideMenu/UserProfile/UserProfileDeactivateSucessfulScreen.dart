@@ -31,6 +31,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     var emotionEntryBox =
         await Hive.openBox<EmotionEntryDetail>('emotionEntry');
     var emotionObjBox = await Hive.openBox('emotionObj');
+    var settingsBox = await Hive.openBox('settings');
 
     // Gets the no. of entries in the HIVE boxes
     print('START');
@@ -40,6 +41,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     print(emotionBox.length);
     print(emotionEntryBox.length);
     print(emotionObjBox.length);
+    print(settingsBox.length);
 
     await phqBox.clear();
     await sidasBox.clear();
@@ -47,6 +49,7 @@ class _UserProfileDeactivateSuccessfulScreenState
     await emotionBox.clear();
     await emotionEntryBox.clear();
     await emotionObjBox.clear();
+    await settingsBox.clear();
 
     // Verifies that all entries have been removed from the HIVE boxes
     print('CLEARED');
@@ -56,11 +59,13 @@ class _UserProfileDeactivateSuccessfulScreenState
     print(emotionBox.length);
     print(emotionEntryBox.length);
     print(emotionObjBox.length);
+    print(settingsBox.length);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
         appBar: AppBar(
             elevation: 1,
             backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
@@ -72,22 +77,29 @@ class _UserProfileDeactivateSuccessfulScreenState
         body: Stack(
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
                 child: Wrap(
-                    runSpacing: 20,
+                    runSpacing: 25,
                     alignment: WrapAlignment.center,
                     children: [
-                      SvgPicture.asset('assets/images/deactivateWave.svg'),
+                      Container(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: SvgPicture.asset(
+                          'assets/images/deactivateWave.svg',
+                          height: 200,
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 25.0),
+                            vertical: 15.0, horizontal: 25),
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.neutralWhite04,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8))),
                         child: Text(
-                            'You have successfully deactivated your Kasiyanna account. Please note that it may take 7 days to complete the deactivation process. Thank you for using our app.',
+                            'You have successfully deactivated your Kasiyanna account. Please note that it may take 7 days to complete the deactivation process.\nThank you for using our app.',
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
@@ -100,7 +112,8 @@ class _UserProfileDeactivateSuccessfulScreenState
                       ),
                     ])),
             Container(
-                padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
