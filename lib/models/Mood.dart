@@ -19,7 +19,7 @@ Map<String, Mood> moodMap = {
   'BadNotSelected' : Mood(name: 'Bad', icon: const AssetImage('assets/images/face_bad.png')),
   'VeryBad' : Mood(name: 'VeryBad', icon: const AssetImage('assets/images/face_very_bad_selected.png')),
   'VeryBadNotSelected' : Mood(name: 'VeryBad', icon: const AssetImage('assets/images/face_very_bad.png')),
-  'NoData' : Mood(name: 'NoData', icon: const AssetImage('assets/images/face_very_bad.png')),
+  'NoData' : Mood(name: 'NoData', icon: const AssetImage('assets/images/face_empty.png')),
 
 };
 

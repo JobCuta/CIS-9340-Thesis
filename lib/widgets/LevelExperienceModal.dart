@@ -62,7 +62,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
+        padding: const EdgeInsets.fromLTRB(25, 25, 25, 50),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[

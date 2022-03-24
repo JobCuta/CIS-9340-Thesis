@@ -200,7 +200,6 @@ class EmotionController extends GetxController {
       else if (dateTime.hour > 17 && dateTime.hour < 24) {
         isEveningCheck.value = true;
       }              
-      update(); 
     }
 
     if (isMorningCheck.value) {
@@ -231,6 +230,8 @@ class EmotionController extends GetxController {
     }
 
     calculateOverallMood(emotionEntry);
+    emotionEntry.save();
+
 
     print("--------------- UPDATING ---------------");
     print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
@@ -239,7 +240,6 @@ class EmotionController extends GetxController {
     print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
     print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
     resetAllValues();
-    emotionEntry.save();
   }
 
   EmotionEntryHive getTodaysEmotionEntry() {
@@ -319,72 +319,77 @@ class EmotionController extends GetxController {
     if (emotionEntry.afternoonCheck.mood != 'NoData') moodCount++;
     if (emotionEntry.eveningCheck.mood != 'NoData') moodCount++;
 
-    int moodValue = 0;
-    if (emotionEntry.morningCheck.mood == 'VeryBad') {
-      moodValue++;
-    }
-    else if (emotionEntry.morningCheck.mood == 'Bad') {
-      moodValue += 2;
-    }
-    else if (emotionEntry.morningCheck.mood == 'Neutral') {
-      moodValue += 3;
-    }
-    else if (emotionEntry.morningCheck.mood == 'Happy') {
-      moodValue += 4;
-    }
-    else if (emotionEntry.morningCheck.mood == 'VeryHappy') {
-      moodValue += 5;
-    }
+    if (moodCount != 0) {
+      int moodValue = 0;
+      if (emotionEntry.morningCheck.mood == 'VeryBad') {
+        moodValue++;
+      }
+      else if (emotionEntry.morningCheck.mood == 'Bad') {
+        moodValue += 2;
+      }
+      else if (emotionEntry.morningCheck.mood == 'Neutral') {
+        moodValue += 3;
+      }
+      else if (emotionEntry.morningCheck.mood == 'Happy') {
+        moodValue += 4;
+      }
+      else if (emotionEntry.morningCheck.mood == 'VeryHappy') {
+        moodValue += 5;
+      }
 
-    if (emotionEntry.afternoonCheck.mood == 'VeryBad') {
-      moodValue++;
-    }
-    else if (emotionEntry.afternoonCheck.mood == 'Bad') {
-      moodValue += 2;
-    }
-    else if (emotionEntry.afternoonCheck.mood == 'Neutral') {
-      moodValue += 3;
-    }
-    else if (emotionEntry.afternoonCheck.mood == 'Happy') {
-      moodValue += 4;
-    }
-    else if (emotionEntry.afternoonCheck.mood == 'VeryHappy') {
-      moodValue += 5;
-    }
-
-
-    if (emotionEntry.eveningCheck.mood == 'VeryBad') {
-      moodValue++;
-    }
-    else if (emotionEntry.eveningCheck.mood == 'Bad') {
-      moodValue += 2;
-    }
-    else if (emotionEntry.eveningCheck.mood == 'Neutral') {
-      moodValue += 3;
-    }
-    else if (emotionEntry.eveningCheck.mood == 'Happy') {
-      moodValue += 4;
-    }
-    else if (emotionEntry.eveningCheck.mood == 'VeryHappy') {
-      moodValue += 5;
-    }
+      if (emotionEntry.afternoonCheck.mood == 'VeryBad') {
+        moodValue++;
+      }
+      else if (emotionEntry.afternoonCheck.mood == 'Bad') {
+        moodValue += 2;
+      }
+      else if (emotionEntry.afternoonCheck.mood == 'Neutral') {
+        moodValue += 3;
+      }
+      else if (emotionEntry.afternoonCheck.mood == 'Happy') {
+        moodValue += 4;
+      }
+      else if (emotionEntry.afternoonCheck.mood == 'VeryHappy') {
+        moodValue += 5;
+      }
 
 
-    num overallMood = moodValue / moodCount;
-    if (overallMood == 1) {
-      emotionEntry.overallMood = 'VeryBad';
+      if (emotionEntry.eveningCheck.mood == 'VeryBad') {
+        moodValue++;
+      }
+      else if (emotionEntry.eveningCheck.mood == 'Bad') {
+        moodValue += 2;
+      }
+      else if (emotionEntry.eveningCheck.mood == 'Neutral') {
+        moodValue += 3;
+      }
+      else if (emotionEntry.eveningCheck.mood == 'Happy') {
+        moodValue += 4;
+      }
+      else if (emotionEntry.eveningCheck.mood == 'VeryHappy') {
+        moodValue += 5;
+      }
+
+
+      num overallMood = moodValue / moodCount;
+      if (overallMood == 1) {
+        emotionEntry.overallMood = 'VeryBad';
+      }
+      else if (overallMood == 2) {
+        emotionEntry.overallMood = 'Bad';
+      }
+      else if (overallMood == 3) {
+        emotionEntry.overallMood = 'Neutral';
+      }
+      else if (overallMood == 4) {
+        emotionEntry.overallMood = 'Happy';
+      }
+      else if (overallMood == 5) {
+        emotionEntry.overallMood = 'VeryHappy';
+      }
+    } else {
+      emotionEntry.overallMood = 'NoData';
     }
-    else if (overallMood == 2) {
-      emotionEntry.overallMood = 'Bad';
-    }
-    else if (overallMood == 3) {
-      emotionEntry.overallMood = 'Neutral';
-    }
-    else if (overallMood == 4) {
-      emotionEntry.overallMood = 'Happy';
-    }
-    else if (overallMood == 5) {
-      emotionEntry.overallMood = 'VeryHappy';
-    }
+    
   }
 }

@@ -53,12 +53,12 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
           ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
           ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
           
-      isVeryHappy = emotionEntryDetail.mood == 'VeryHappy' ? true : false;
-      isHappy = emotionEntryDetail.mood == 'Happy' ? true : false;
-      isNeutral = emotionEntryDetail.mood == 'Neutral' ? true : false;
-      isBad = emotionEntryDetail.mood == 'Bad' ? true : false;
-      isVeryBad = emotionEntryDetail.mood == 'VeryBad' ? true : false;
-      isEditMode = _emotionController.isEditMode.value ? true : false;
+      // isVeryHappy = emotionEntryDetail.mood == 'VeryHappy';
+      // isHappy = emotionEntryDetail.mood == 'Happy';
+      // isNeutral = emotionEntryDetail.mood == 'Neutral';
+      // isBad = emotionEntryDetail.mood == 'Bad';
+      // isVeryBad = emotionEntryDetail.mood == 'VeryBad';
+      isEditMode = _emotionController.isEditMode.value;
       note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
     }
   }
@@ -127,7 +127,7 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
     return image;
   }  
 
-  Center _buildMoodComponent(String mood, EmotionController _emotionController) {
+  Center _buildMoodComponent(String mood) {
     return Center(
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -209,11 +209,11 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildMoodComponent('VeryBad', _emotionController),
-                  _buildMoodComponent('Bad', _emotionController),
-                  _buildMoodComponent('Neutral', _emotionController),
-                  _buildMoodComponent('Happy', _emotionController),
-                  _buildMoodComponent('VeryHappy', _emotionController),
+                  _buildMoodComponent('VeryBad'),
+                  _buildMoodComponent('Bad'),
+                  _buildMoodComponent('Neutral'),
+                  _buildMoodComponent('Happy'),
+                  _buildMoodComponent('VeryHappy'),
               ]),
 
               const SizedBox(height: 45.0),

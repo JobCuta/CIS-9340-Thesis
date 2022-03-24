@@ -30,8 +30,8 @@ final DailyController _dailyController = Get.put(DailyController());
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
     bool isEditMode = false;
-    List<Emotion> positiveEmotions = [];
-    List<Emotion> negativeEmotions = [];
+    List<dynamic> positiveEmotions = [];
+    List<dynamic> negativeEmotions = [];
 
     void checkIfEditMode() {
       if (_emotionController.isEditMode.value) {
@@ -40,9 +40,9 @@ class _EmotionalEvaluationEndScreenState
             ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
             ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
 
-        isEditMode = _emotionController.isEditMode.value ? true : false;
-        positiveEmotions = emotionEntryDetail.positiveEmotions as List<Emotion>;
-        negativeEmotions = emotionEntryDetail.negativeEmotions as List<Emotion>;
+        isEditMode = _emotionController.isEditMode.value;
+        positiveEmotions = emotionEntryDetail.positiveEmotions;
+        negativeEmotions = emotionEntryDetail.negativeEmotions;
      }
     }
 
@@ -220,7 +220,7 @@ class _EmotionalEvaluationEndScreenState
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.all(Radius.circular(24))),
-                                    child: MultiSelectBottomSheetField<Emotion?>(
+                                    child: MultiSelectBottomSheetField<dynamic>(
                                       initialChildSize: 0.3,
                                       listType: MultiSelectListType.CHIP,
                                       searchable: true,
@@ -258,7 +258,7 @@ class _EmotionalEvaluationEndScreenState
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.all(Radius.circular(24))),
-                                    child: MultiSelectBottomSheetField<Emotion?>(
+                                    child: MultiSelectBottomSheetField<dynamic>(
                                       initialChildSize: 0.3,
                                       listType: MultiSelectListType.CHIP,
                                       searchable: true,

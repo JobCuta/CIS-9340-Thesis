@@ -254,13 +254,15 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           // MORNING
                           CircleAvatar(
-                            radius: 24.0,
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.brightness_7_sharp,
-                                size: 24.0,
-                                color: (_isMorningEntryDone)
-                                    ? const Color(0x00FFC122).withOpacity(1.0)
-                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                            radius: 28.0,
+                            backgroundColor: (_isMorningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                : const Color(0xFFACB2B4).withOpacity(1.0)
+                            ),
+                            child: const CircleAvatar(
+                              radius: 24.0,
+                              backgroundColor: Colors.white,
+                              child: Image(image: AssetImage('assets/images/entry_morning.png'))
+                            ),
                           ),
                           Container(
                               alignment: Alignment.centerLeft,
@@ -269,20 +271,22 @@ class _HomePageState extends State<HomePage> {
                               width: 100,
                               height: 15,
                               decoration: BoxDecoration(
-                                  color: (_isAfternoonEntryDone)
+                                  color: (_isMorningEntryDone && _isAfternoonEntryDone)
                                       ? const Color(0x00FFC122).withOpacity(1.0)
                                       : const Color(0xFFACB2B4)
                                           .withOpacity(1.0))),
         
                           // AFTERNOON
                           CircleAvatar(
-                            radius: 24.0,
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.sunny,
-                                size: 24.0,
-                                color: (_isAfternoonEntryDone)
-                                    ? const Color(0x00FFC122).withOpacity(1.0)
-                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                            radius: 28.0,
+                            backgroundColor: (_isAfternoonEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                : const Color(0xFFACB2B4).withOpacity(1.0)
+                            ),
+                            child: const CircleAvatar(
+                              radius: 24.0,
+                              backgroundColor: Colors.white,
+                              child: Image(image: AssetImage('assets/images/entry_afternoon.png'))
+                            ),
                           ),
                           Container(
                               alignment: Alignment.centerRight,
@@ -291,20 +295,22 @@ class _HomePageState extends State<HomePage> {
                               width: 100,
                               height: 15,
                               decoration: BoxDecoration(
-                                  color: (_isEveningEntryDone)
+                                  color: (_isAfternoonEntryDone && _isEveningEntryDone)
                                       ? const Color(0x00FFC122).withOpacity(1.0)
                                       : const Color(0xFFACB2B4)
                                           .withOpacity(1.0))),
         
                           // EVENING
                           CircleAvatar(
-                            radius: 24.0,
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.brightness_2_sharp,
-                                size: 24.0,
-                                color: (_isEveningEntryDone)
-                                    ? const Color(0x00FFC122).withOpacity(1.0)
-                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                            radius: 28.0,
+                            backgroundColor: (_isEveningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                : const Color(0xFFACB2B4).withOpacity(1.0)
+                            ),
+                            child: const CircleAvatar(
+                              radius: 24.0,
+                              backgroundColor: Colors.white,
+                              child: Image(image: AssetImage('assets/images/entry_evening.png'))
+                            ),
                           ),
                         ],
                       ),

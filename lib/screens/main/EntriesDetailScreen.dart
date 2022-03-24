@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
 
@@ -43,6 +45,76 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
     if (emotionEntry.afternoonCheck.mood == 'NoData') missedEntries++;
     if (emotionEntry.eveningCheck.mood == 'NoData') missedEntries++;
   }
+
+  showDeleteConfirmation(PartOfTheDay part) {
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+            insetPadding: const EdgeInsets.all(50.0),
+            title: Text(
+              'Are you sure?',
+              style: Theme.of(context).textTheme.headline5?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralBlack02,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            content: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              child: Wrap(
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/images/delete_entry.svg'),
+                    Text("Every entry is essential in tracking your life's well-being, are you sure you want to delete this entry?",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralBlack02)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            child: Text(
+                              'Delete',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .accentRed02,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () async {
+                              _emotionController.deleteEmotionEntry(part);
+                              Get.offAllNamed('/homepage');
+                            },
+                          ),
+                          TextButton(
+                              child: Text(
+                                'Nevermind',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                              }),
+                        ])
+                  ]),
+          )));
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +188,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                               _emotionController.updateIfAddingFromDaily(false);
                                               Get.toNamed('/emotionStartScreen');
                                             } else if (value == 'Delete') {
-                                              _emotionController.deleteEmotionEntry(PartOfTheDay.Evening);
-                                              Get.toNamed('/entriesScreen');
+                                              showDeleteConfirmation(PartOfTheDay.Evening);
                                             }
                                           },
                                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -163,7 +234,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             _emotionController.updateEditMode(false);
                                             _emotionController.updateIfAddingFromDaily(false);
 
-                                            Get.offAllNamed('/homepage');
+                                            Get.to('/emotionStartScreen');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
                                     )                                                                    
@@ -273,8 +344,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
 
                                               Get.toNamed('/emotionStartScreen');
                                             }  else if (value == 'Delete') {
-                                              _emotionController.deleteEmotionEntry(PartOfTheDay.Afternoon);
-                                              Get.toNamed('/entriesScreen');
+                                              showDeleteConfirmation(PartOfTheDay.Afternoon);
                                             }
                                           },
                                           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -284,7 +354,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             ),
                                             PopupMenuItem(
                                               value: 'Delete',
-                                              child: Text('Delete', style: Theme.of(context).textTheme.bodyText2),
+                                              child: Text('Delete', 
+                                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xffB22428).withOpacity(1.0)),
+                                              ),
                                             ),
                                           ],
                                         )
@@ -318,7 +390,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                             _emotionController.updateEditMode(false);
                                             _emotionController.updateIfAddingFromDaily(false);
 
-                                            Get.offAllNamed('/homepage');
+                                            Get.toNamed('/emotionStartScreen');
                                           }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
                                       ],
                                     )                                                                    
@@ -426,8 +498,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
 
                                         Get.toNamed('/emotionStartScreen');
                                       }  else if (value == 'Delete') {
-                                          _emotionController.deleteEmotionEntry(PartOfTheDay.Morning);
-                                          Get.offAllNamed('/homepage');
+                                          showDeleteConfirmation(PartOfTheDay.Morning);
                                         }
                                     },
                                     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -437,7 +508,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                       ),
                                       PopupMenuItem(
                                         value: 'Delete',
-                                        child: Text('Delete', style: Theme.of(context).textTheme.bodyText2),
+                                        child: Text('Delete', 
+                                            style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0xffB22428).withOpacity(1.0)),
+                                        ),
                                       ),
                                     ],
                                   )
