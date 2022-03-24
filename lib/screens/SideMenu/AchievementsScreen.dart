@@ -20,14 +20,15 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       fit: BoxFit.cover))),
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 36, 10, 10),
+              padding: const EdgeInsets.fromLTRB(8, 36, 8, 10),
               child: Column(
                 children: [
+                  const SizedBox(height: 36),
                   const Image(
                     image: AssetImage('assets/images/user_avatar.png'), width: 328, height: 148,
                   ),
                   const SizedBox(height: 10),
-                  const Divider(height: 1.0),
+                  const Divider(height: 3.0, color: Colors.white),
                   const SizedBox(height: 10),
                   const Text('Achievements', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24.0, color: Color.fromRGBO(237, 172, 5, 1))),
                   const SizedBox(height: 10),
@@ -78,6 +79,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -106,7 +108,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       achievementContainers('assets/achievements/benguet_adventure_achievements.png', 'Benguet Adventure', '5', '10'),
-                      achievementContainers('assets/achievements/warrior_adventure_achievements.png', 'Mini Games Warrior', '3g', '10'),
+                      achievementContainers('assets/achievements/warrior_adventure_achievements.png', 'Mini Games Warrior', '3', '10'),
                     ],
                   )
                 ],
@@ -120,7 +122,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
 
   achievementContainers(path, String title, String noOfCurrAchievements, String noOfTotalAchievements) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2509, width: MediaQuery.of(context).size.width * 0.4611,
+      height: MediaQuery.of(context).size.height * 0.2509, width: MediaQuery.of(context).size.width * 0.4611 -5,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.0)
