@@ -70,7 +70,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Center(
                     child: Text('Congratulations',
-                        style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue03))),
+                        style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
               ),
               const SizedBox(
                 height: 15.0,
@@ -80,7 +80,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                   'Your just gained your first experience!',
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.neutralBlack03),
+                      color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
 
@@ -103,8 +103,12 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(key),
-                          Text(xp.toString() + ' ' + 'xp'),
+                          Text(key,
+                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack02),
+                          ),
+                          Text(xp.toString() + ' ' + 'xp',
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04),
+                          ),
                         ],
                       ),
 
@@ -117,9 +121,17 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                   );
                 }
               ),
-              Text(_levelController.currentLevel.value.toString()),
-              Text('LEVEL'),
-              Text(_levelController.currentXp.toString() + "/" + _levelController.xpForNextLevel().toString() + " till next level up"),
+              Text(_levelController.currentLevel.value.toString(),
+                  style: Theme.of(context).textTheme.headline1?.copyWith(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.accentBlue04),
+              ),
+              Text('LEVEL',
+                  style: Theme.of(context).textTheme.headline2?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentIndigo04),
+              ),
+              Text(
+                _levelController.currentXp.toString() + "/" + _levelController.xpForNextLevel().toString() + " till next level up",
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.accentBlue04),
+              ),
               Container(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Align(

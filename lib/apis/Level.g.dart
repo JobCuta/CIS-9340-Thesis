@@ -8,7 +8,7 @@ part of 'Level.dart';
 
 class LevelAdapter extends TypeAdapter<Level> {
   @override
-  final int typeId = 6;
+  final int typeId = 7;
 
   @override
   Level read(BinaryReader reader) {

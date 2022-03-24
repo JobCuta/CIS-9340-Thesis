@@ -8,8 +8,6 @@ import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
-import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -157,33 +155,6 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
-  // ENABLE THIS LATER
-  // @override
-  // void initState() {
-
-  //   if (_dailyController.showedAvailableTasks.value) {
-  //     Future.delayed(Duration(seconds: 0)).then((_) {
-  //       showModalBottomSheet(
-  //         context: context,
-  //         shape: const RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(4),
-  //               topRight: Radius.circular(4)),
-  //         ),
-  //         useRootNavigator: true,
-  //         isScrollControlled: true,
-  //         builder: (context) {
-  //           return SizedBox(
-  //               height:
-  //                   MediaQuery.of(context).size.height * 0.75,
-  //               child: const LevelTasksTodayWidgets());
-  //         });
-  //     });
-  //   }
-
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     _dailyController.checkIfEntriesDone();
@@ -233,35 +204,105 @@ class _HomePageState extends State<HomePage> {
                                 ?.copyWith(color: Colors.white)),
                         const SizedBox(height: 10),
                         Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 25.0),
-                            width: 100,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                color: (_isMorningEntryDone && _isAfternoonEntryDone)
-                                    ? const Color(0x00FFC122).withOpacity(1.0)
-                                    : const Color(0xFFACB2B4)
-                                        .withOpacity(1.0))),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 12.0),
+                          decoration: BoxDecoration(
+                              color: const Color(0xff216CB2).withOpacity(0.20),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10))),
+                          child: Text(
+                              'Remember, all is well and all will be well.',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(color: Colors.white)),
+                        )
+                      ])),
+                ),
 
-                        // AFTERNOON
-                        CircleAvatar(
-                          radius: 24.0,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.sunny,
-                              size: 24.0,
-                              color: (_isAfternoonEntryDone)
-                                  ? const Color(0x00FFC122).withOpacity(1.0)
-                                  : const Color(0xFFACB2B4).withOpacity(1.0)),
-                        ),
-                        Container(
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 25.0),
-                            width: 100,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                color: (_isAfternoonEntryDone && _isEveningEntryDone)
+                ElevatedButton(child: Text('Test LevelUp'),
+                  onPressed: () {
+                    _levelController.getLevelFromStorage();
+                    _levelController.addXp(150);
+
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(4),
+                            topRight: Radius.circular(4)),
+                      ),
+                      useRootNavigator: true,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 0.75,
+                            child: const LevelWidgets());
+                      });
+                  } 
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 15.0),
+                    child: Container(
+                      width: 500,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // MORNING
+                          CircleAvatar(
+                            radius: 24.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.brightness_7_sharp,
+                                size: 24.0,
+                                color: (_isMorningEntryDone)
+                                    ? const Color(0x00FFC122).withOpacity(1.0)
+                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                          ),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 25.0),
+                              width: 100,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                  color: (_isAfternoonEntryDone)
+                                      ? const Color(0x00FFC122).withOpacity(1.0)
+                                      : const Color(0xFFACB2B4)
+                                          .withOpacity(1.0))),
+        
+                          // AFTERNOON
+                          CircleAvatar(
+                            radius: 24.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.sunny,
+                                size: 24.0,
+                                color: (_isAfternoonEntryDone)
+                                    ? const Color(0x00FFC122).withOpacity(1.0)
+                                    : const Color(0xFFACB2B4).withOpacity(1.0)),
+                          ),
+                          Container(
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 25.0),
+                              width: 100,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                  color: (_isEveningEntryDone)
+                                      ? const Color(0x00FFC122).withOpacity(1.0)
+                                      : const Color(0xFFACB2B4)
+                                          .withOpacity(1.0))),
+        
+                          // EVENING
+                          CircleAvatar(
+                            radius: 24.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.brightness_2_sharp,
+                                size: 24.0,
+                                color: (_isEveningEntryDone)
                                     ? const Color(0x00FFC122).withOpacity(1.0)
                                     : const Color(0xFFACB2B4).withOpacity(1.0)),
                           ),
@@ -355,112 +396,25 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                  )),
-              ElevatedButton(child: Text('Test LevelUp'),
-                onPressed: () {
-                  _levelController.getLevelFromStorage();
-                  _levelController.addXp(150);
-
-                  showModalBottomSheet(
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          topRight: Radius.circular(4)),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    //Add navigation to the adventure page here
+                  },
+                  child: Container(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    height: 100,
+                    // padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff216CB2).withOpacity(0.55),
                     ),
-                    useRootNavigator: true,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return SizedBox(
-                          height:
-                              MediaQuery.of(context).size.height * 0.75,
-                          child: const LevelWidgets());
-                    });
-                } 
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Your dailies for today',
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(
-                                  color: const Color(0x004CA7FC)
-                                      .withOpacity(1.0))),
-                      const SizedBox(height: 10.0),
-                      Text('Start your journey to wellness!',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              ?.copyWith(
-                                  color: const Color(0xff161818)
-                                      .withOpacity(1.0))),
-                      const Divider(
-                        color: Color(0xffF0F1F1),
-                        height: 25,
-                        thickness: 1,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _dailyController
-                              .setDailyTaskToDone(DailyTask.Exercise);
-                          setState(() {
-                            _isDailyExerciseDone = true;
-                          });
-                          Get.toNamed('/wellnessScreen');
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Do your daily exercise',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        color: const Color(0xff161818)
-                                            .withOpacity(1.0))),
-                            displayBasedOnTaskCompleteness(_isDailyExerciseDone)
-                          ],
-                        ),
-                      ),
-                      const Divider(
-                        color: Color(0xffF0F1F1),
-                        height: 25,
-                        thickness: 1,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          if (!_isDailyEntryDone) {
-                            _emotionController.updateIfAddingFromDaily(true);
-                            _emotionController.updateEditMode(false);
-                            Get.toNamed('/emotionStartScreen');
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Add today's entry",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        color: const Color(0xff161818)
-                                            .withOpacity(1.0))),
-                            displayBasedOnTaskCompleteness(_isDailyEntryDone)
-                          ],
+                    child: Stack(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 90),
+                        child: SvgPicture.asset(
+                          'assets/images/bahag.svg',
                         ),
                       ),
                       Container(

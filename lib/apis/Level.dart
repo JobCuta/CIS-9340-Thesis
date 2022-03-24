@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'Level.g.dart';
 
-@HiveType(typeId: 6)
+@HiveType(typeId: 7)
 class Level extends HiveObject{
   @HiveField(0)
   int currentLevel;

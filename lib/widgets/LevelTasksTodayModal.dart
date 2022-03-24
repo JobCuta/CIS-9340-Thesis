@@ -63,7 +63,7 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Center(
                     child: Text('Congratulations',
-                        style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue03))),
+                        style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
               ),
               const SizedBox(
                 height: 15.0,
@@ -73,10 +73,9 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
                   'Your just gained your first experience!',
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.neutralBlack03),
+                      color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
-
               const Divider(
                 color: Color(0xffF0F1F1),
                 height: 25,
@@ -95,8 +94,12 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(key),
-                          Text(xp.toString() + ' ' + 'xp'),
+                          Text(key,
+                              style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack02),
+                          ),
+                          Text(xp.toString() + ' ' + 'xp',
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04),
+                          ),
                         ],
                       ),
 
