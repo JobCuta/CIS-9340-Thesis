@@ -42,6 +42,7 @@ import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
+import 'screens/SideMenu/AchievementsScreen.dart';
 import 'package:get/get.dart';
 import 'screens/onboarding/questionnaires/SIDASScreen.dart';
 import 'screens/onboarding/questionnaires/SetNotificationScreen.dart';
@@ -199,6 +200,9 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/userDeactivateSuccessScreen',
               page: () => const UserProfileDeactivateSuccessfulScreen()),
+          GetPage(
+              name: '/achievementsScreen',
+              page: () => const AchievementsScreen())
         ],
         theme: themeData,
         home:
