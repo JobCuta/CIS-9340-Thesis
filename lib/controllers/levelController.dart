@@ -8,6 +8,7 @@ class LevelController extends GetxController {
   var currentLevel = 0.obs;
   var currentXp = 0.obs;
   var xpForNextLevel = 0.obs;
+  var recentlyAddedXp = false.obs;
 
   void getLevelFromStorage() {
     Box box = Hive.box<Level>('level');
@@ -42,9 +43,15 @@ class LevelController extends GetxController {
     if (currentXp.value >= xpForNextLevel.value) {
       currentLevel.value++;
       currentXp.value = currentXp.value % xpForNextLevel.value;
+      recentlyAddedXp.value = true;
     }
 
     if (currentXp.value > xpForNextLevel.value) checkIfLevelUp();
+  }
+
+  void updateRecentlyAddedXp(bool addedXp) {
+    recentlyAddedXp.value = addedXp;
+    update();
   }
 
   // FOR ADMIN AND TESTING PURPOSES ONLY

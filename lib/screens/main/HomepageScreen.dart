@@ -8,6 +8,7 @@ import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
+import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -153,6 +154,59 @@ class _HomePageState extends State<HomePage> {
                       color: const Color(0xFF216CB2).withOpacity(1.0)))
             ]),
           );
+  }
+
+  @override
+  void initState() {
+
+    print("ENTERED INIT OF HOMEPAGE --------------------");
+    print("Level Controller (Recently added xp) = " + _levelController.recentlyAddedXp.value.toString());
+    print("Daily Controller (Showed available tasks) = " + _dailyController.showedAvailableTasks.value.toString());
+
+    if (_levelController.recentlyAddedXp.value) {
+      Future.delayed(Duration(seconds: 0)).then((_) {
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4),
+                topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          builder: (context) {
+            return SizedBox(
+                height:
+                    MediaQuery.of(context).size.height * 0.65,
+                child: const LevelExperienceModal());
+          });
+
+        _levelController.updateRecentlyAddedXp(false);
+      });
+    }
+    else if (!_dailyController.showedAvailableTasks.value) {
+      Future.delayed(Duration(seconds: 0)).then((_) {
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4),
+                topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          builder: (context) {
+            return SizedBox(
+                height:
+                    MediaQuery.of(context).size.height * 0.75,
+                child: const LevelTasksTodayWidgets());
+          });
+
+          _dailyController.updateShowedAvailableTasks(true);
+      });
+    }
+
+    super.initState();
   }
 
   @override

@@ -20,6 +20,12 @@ Map<String, Mood> moodMap = {
   'VeryBad' : Mood(name: 'VeryBad', icon: const AssetImage('assets/images/face_very_bad_selected.png')),
   'VeryBadNotSelected' : Mood(name: 'VeryBad', icon: const AssetImage('assets/images/face_very_bad.png')),
   'NoData' : Mood(name: 'NoData', icon: const AssetImage('assets/images/face_empty.png')),
-
 };
 
+Map<String, Color> moodColor = {
+  'VeryHappy' : const Color.fromRGBO(0, 191, 88, 1),
+  'Happy' : const Color.fromRGBO(255, 178, 89, 1),
+  'Neutral' : const Color.fromRGBO(17, 172, 221, 1),
+  'Bad' : const Color.fromRGBO(69, 69, 69, 1),
+  'VeryBad' : const Color.fromRGBO(78, 72, 146, 1)
+};

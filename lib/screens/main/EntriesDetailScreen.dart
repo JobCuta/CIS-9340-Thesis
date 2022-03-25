@@ -38,6 +38,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
     12: 'Dec'
   };
 
+
   int missedEntries = 0;
 
   void _checkForAnyMissedEntries() {
@@ -175,8 +176,20 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text('Overall Mood: ' + (emotionEntry.eveningCheck.mood != 'NoData' ? emotionEntry.eveningCheck.mood : 'Empty'),
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                        RichText(
+                                          text: TextSpan(
+                                              text: 'Overall Mood: ',
+                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: (emotionEntry.eveningCheck.mood == 'NoData' 
+                                                        ? 'Empty' : emotionEntry.eveningCheck.mood == 'VeryHappy' 
+                                                        ? 'Very Happy' : emotionEntry.eveningCheck.mood == 'VeryBad'
+                                                        ? 'Very Bad' : emotionEntry.eveningCheck.mood),
+                                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                        fontWeight: FontWeight.w600, color: moodColor[emotionEntry.eveningCheck.mood])),
+                                              ]
+                                            ),
                                         ),
 
                                         PopupMenuButton(
@@ -330,8 +343,20 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text('Overall Mood: ' + (emotionEntry.afternoonCheck.mood != 'NoData' ? emotionEntry.afternoonCheck.mood : 'Empty'),
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                        RichText(
+                                          text: TextSpan(
+                                              text: 'Overall Mood: ',
+                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: (emotionEntry.afternoonCheck.mood == 'NoData' 
+                                                        ? 'Empty' : emotionEntry.afternoonCheck.mood == 'VeryHappy' 
+                                                        ? 'Very Happy' : emotionEntry.afternoonCheck.mood == 'VeryBad'
+                                                        ? 'Very Bad' : emotionEntry.afternoonCheck.mood),
+                                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                        fontWeight: FontWeight.w600, color: moodColor[emotionEntry.afternoonCheck.mood])),
+                                              ]
+                                            ),
                                         ),
 
                                         PopupMenuButton(
@@ -484,8 +509,20 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Overall Mood: ' + (emotionEntry.morningCheck.mood != 'NoData' ? emotionEntry.morningCheck.mood : 'Empty'),
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: 'Overall Mood: ',
+                                        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: (emotionEntry.morningCheck.mood == 'NoData' 
+                                                  ? 'Empty' : emotionEntry.morningCheck.mood == 'VeryHappy' 
+                                                  ? 'Very Happy' : emotionEntry.morningCheck.mood == 'VeryBad'
+                                                  ? 'Very Bad' : emotionEntry.morningCheck.mood),
+                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                  fontWeight: FontWeight.w600, color: moodColor[emotionEntry.morningCheck.mood])),
+                                        ]
+                                      ),
                                   ),
 
                                   PopupMenuButton(

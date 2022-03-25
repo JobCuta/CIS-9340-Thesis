@@ -55,14 +55,14 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
+        padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Center(
-                    child: Text('Congratulations',
+                    child: Text('Hey there!',
                         style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
               ),
               const SizedBox(
@@ -70,7 +70,7 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
               ),
               Center(
                 child: Text(
-                  'Your just gained your first experience!',
+                  "Here's what we can do today!",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).colorScheme.accentBlue04),

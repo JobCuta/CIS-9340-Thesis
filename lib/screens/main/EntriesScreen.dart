@@ -124,8 +124,20 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                   Text((emotionEntries[index].weekday + " " + emotionEntries[index].month + " " + emotionEntries[index].day.toString()).toUpperCase(),
                                     style: Theme.of(context).textTheme.caption!.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
                                   ),
-                                  Text('Overall Mood: ' + (emotionEntries[index].overallMood != 'NoData' ? emotionEntries[index].overallMood : 'Empty'),
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: 'Overall Mood: ',
+                                        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: (emotionEntries[index].overallMood == 'NoData' 
+                                                  ? 'Empty' : emotionEntries[index].overallMood == 'VeryHappy' 
+                                                  ? 'Very Happy' : emotionEntries[index].overallMood == 'VeryBad'
+                                                  ? 'Very Bad' : emotionEntries[index].overallMood),
+                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                  fontWeight: FontWeight.w600, color: moodColor[emotionEntries[index].overallMood])),
+                                        ]
+                                    ),
                                   ),
                             
                                   const SizedBox(height: 10.0),
