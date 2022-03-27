@@ -10,8 +10,9 @@ class UserProfileController extends GetxController {
   var birthdayController = TextEditingController();
   var email = '';
   var gender = '';
+  var anon = '';
   var validate = true;
-
+  
   @override
   void onInit() {
     super.onInit();
@@ -72,6 +73,7 @@ class UserProfileController extends GetxController {
         firstNameController.text,
         lastNameController.text,
         birthdayController.text,
-        gender);
+        gender,
+        anon);
   }
 }

@@ -24,7 +24,7 @@ class UserProvider extends GetConnect {
   //POST
   Future login(LoginForm loginData) async {
     final response = await post(domain + paths["login"], loginData.form());
-    print('response ${response.body}');
+    print('login response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
     bool status = false;
@@ -106,6 +106,7 @@ class UserProvider extends GetConnect {
         .then((value) => key = value.toString());
     final response = await get(domain + paths["getUser"],
         headers: {"Authorization": "Token " + key});
+    print('get user response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
       if (initial) {
@@ -115,7 +116,9 @@ class UserProvider extends GetConnect {
             map["first_name"],
             map["last_name"],
             map["date_of_birth"],
-            map["gender"]);
+            map["gender"],
+            map["anon"].toString()
+            );
         return true;
       } else {
         return response;
