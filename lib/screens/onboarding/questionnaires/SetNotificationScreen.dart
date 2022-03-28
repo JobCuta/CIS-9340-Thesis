@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
 import '../../../constants/notificationService.dart';
+import '../../../controllers/settingsController.dart';
 import '../../../controllers/timeController.dart';
 
 void main() {
@@ -20,6 +21,58 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final TimeController _timeController = Get.put(TimeController());
+    final SettingsController _settingsController =
+        Get.put(SettingsController());
+
+    _timeController.morningTime.value = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsMorningTime[0]),
+        minute: int.parse(_settingsController.notificationsMorningTime[1]));
+    _timeController.afternoonTime.value = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsAfternoonTime[0]),
+        minute: int.parse(_settingsController.notificationsAfternoonTime[1]));
+    _timeController.eveningTime.value = TimeOfDay(
+        hour: int.parse(_settingsController.notificationsEveningTime[0]),
+        minute: int.parse(_settingsController.notificationsEveningTime[1]));
+
+    _buildFieldComponent(
+        {required label, required timeValue, required enabled, onPressed}) {
+      return InkWell(
+        splashColor: Theme.of(context).colorScheme.neutralGray02,
+        onTap: onPressed,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(label,
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.neutralWhite01)),
+            GetBuilder<TimeController>(
+                builder: (value) => RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: timeValue,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
+                        WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Icon(Icons.keyboard_arrow_right_sharp,
+                                size: 30,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01))
+                      ]),
+                    ))
+          ]),
+        ),
+      );
+    }
 
     return Scaffold(
         body: Stack(children: [
@@ -167,7 +220,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  primary: const Color(0xffFFC122),
+                  primary: Theme.of(context).colorScheme.sunflowerYellow01,
                 ),
                 child: Text(
                   'Done!',
@@ -185,7 +238,21 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                   NotificationService.showEveningNotification(
                       _timeController.eveningTime.value);
 
-                  Get.toNamed('/loadingScreen');
+                  _settingsController.updateNotificationSettings(
+                      newNotificationsEnabled: true,
+                      newNotificationsMorningTime: [
+                        _timeController.morningTime.value.hour.toString(),
+                        _timeController.morningTime.value.minute.toString()
+                      ],
+                      newNotificationsAfternoonTime: [
+                        _timeController.afternoonTime.value.hour.toString(),
+                        _timeController.afternoonTime.value.minute.toString()
+                      ],
+                      newNotificationsEveningTime: [
+                        _timeController.eveningTime.value.hour.toString(),
+                        _timeController.eveningTime.value.minute.toString()
+                      ]);
+                  Get.toNamed('/userProfileNotificationsScreen');
                 }),
           ),
         ),
