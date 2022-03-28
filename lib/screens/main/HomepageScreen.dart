@@ -5,6 +5,7 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
+import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
@@ -27,7 +28,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const EntriesScreen(),
     const CalendarScreen(),
     const HomePage(),
-    const Text('Adventure Mode'),
+    const AdventureHomeScreen(),
     const Text('Mini-games')
   ];
 

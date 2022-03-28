@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "36.0.0"
+    version: "38.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.1"
   animated_text_kit:
     dependency: "direct main"
     description:
@@ -84,7 +84,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   build_runner_core:
     dependency: transitive
     description:
@@ -133,7 +133,7 @@ packages:
       name: circular_countdown_timer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   clock:
     dependency: transitive
     description:
@@ -189,7 +189,7 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.1"
+    version: "0.7.2"
   email_validator:
     dependency: "direct dev"
     description:
@@ -365,7 +365,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.1.0"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -470,7 +470,7 @@ packages:
       name: multi_select_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.2"
   package_config:
     dependency: transitive
     description:
@@ -734,7 +734,7 @@ packages:
       name: table_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4"
+    version: "3.0.5"
   term_glyph:
     dependency: transitive
     description:
@@ -797,7 +797,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.0"
   xdg_directories:
     dependency: transitive
     description:
