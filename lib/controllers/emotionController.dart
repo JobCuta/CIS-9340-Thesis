@@ -7,6 +7,7 @@ import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 import '../apis/EmotionEntryDetail.dart';
 
@@ -27,7 +28,6 @@ class EmotionController extends GetxController {
   var isMorningCheck = false.obs;
   var isAfternoonCheck = false.obs;
   var isEveningCheck = false.obs;
-
 
   void addPositiveEmotion(emotion) {
     _selectedPositiveEmotions.add(emotion);
@@ -77,7 +77,7 @@ class EmotionController extends GetxController {
   }
 
   void updateNotes(String s) {
-    note.value = s;
+    note.value = s.trim();
     update();
   }
 
@@ -86,19 +86,22 @@ class EmotionController extends GetxController {
       isMorningCheck.value = true;
       isAfternoonCheck.value = false;
       isEveningCheck.value = false;
-    }
-    else if (part == PartOfTheDay.Afternoon) {
+    } else if (part == PartOfTheDay.Afternoon) {
       isAfternoonCheck.value = true;
       isMorningCheck.value = false;
       isEveningCheck.value = false;
-    }
-    else if (part == PartOfTheDay.Evening) {
+    } else if (part == PartOfTheDay.Evening) {
       isEveningCheck.value = true;
       isMorningCheck.value = false;
       isAfternoonCheck.value = false;
     }
 
-    print ("Part of the Day checks = " + isMorningCheck.value.toString() + ", " + isAfternoonCheck.value.toString() + ", " + isEveningCheck.value.toString());
+    print("Part of the Day checks = " +
+        isMorningCheck.value.toString() +
+        ", " +
+        isAfternoonCheck.value.toString() +
+        ", " +
+        isEveningCheck.value.toString());
     update();
   }
 
@@ -124,30 +127,6 @@ class EmotionController extends GetxController {
   // THIS METHOD WILL ONLY BE USED IN DAILYCONTROLLER
   void saveEntryToStorage() {
     // maybe store this somewhere else
-    Map<int, String> weekdayString = {
-      1 : 'Monday',
-      2 : 'Tuesday',
-      3 : 'Wednesday',
-      4 : 'Thursday',
-      5 : 'Friday',
-      6 : 'Saturday',
-      7 : 'Sunday'
-    }; 
-
-    Map<int, String> month = {
-      1: 'January',
-      2: 'Febuary',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December'
-    };
 
     DateTime dateTime = DateTime.now();
     String date = dateToString(dateTime);
@@ -158,14 +137,26 @@ class EmotionController extends GetxController {
 
     Box box = Hive.box<EmotionEntryHive>('emotion');
     EmotionEntryHive newEmotionEntry = EmotionEntryHive(
-      overallMood: mood.name, 
-      weekday: weekdayString[DateTime.now().weekday] as String, 
-      month: month[dateTime.month] as String,
+      overallMood: mood.name,
+      weekday: DateFormat.E().format(dateTime),
+      month: DateFormat.MMMM().format(dateTime),
       day: dateTime.day,
       year: dateTime.year,
-      morningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
-      afternoonCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
-      eveningCheck: EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []),
+      morningCheck: EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []),
+      afternoonCheck: EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []),
+      eveningCheck: EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []),
     );
 
     resetAllValues();
@@ -174,7 +165,8 @@ class EmotionController extends GetxController {
     print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
     print("[EEH] Weekday = " + newEmotionEntry.weekday);
     print("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-    print("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
+    print(
+        "[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
     print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
     box.put(date, newEmotionEntry);
@@ -190,16 +182,16 @@ class EmotionController extends GetxController {
     List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
     List<dynamic> negativeEmotions = _selectedNegativeEmotions.value;
 
-    if (!isMorningCheck.value && !isAfternoonCheck.value && !isEveningCheck.value) {
+    if (!isMorningCheck.value &&
+        !isAfternoonCheck.value &&
+        !isEveningCheck.value) {
       if (dateTime.hour < 12 && dateTime.hour > 23) {
         isMorningCheck.value = true;
-      }
-      else if (dateTime.hour > 11 && dateTime.hour < 18) {
+      } else if (dateTime.hour > 11 && dateTime.hour < 18) {
         isAfternoonCheck.value = true;
-      }
-      else if (dateTime.hour > 17 && dateTime.hour < 24) {
+      } else if (dateTime.hour > 17 && dateTime.hour < 24) {
         isEveningCheck.value = true;
-      }              
+      }
     }
 
     if (isMorningCheck.value) {
@@ -209,18 +201,14 @@ class EmotionController extends GetxController {
       emotionEntry.morningCheck.positiveEmotions = positiveEmotions;
       emotionEntry.morningCheck.negativeEmotions = negativeEmotions;
       emotionEntry.morningCheck.isEmpty = false;
-    }
-
-    else if (isAfternoonCheck.value) {
+    } else if (isAfternoonCheck.value) {
       emotionEntry.afternoonCheck.time = time;
       emotionEntry.afternoonCheck.note = note.value;
       emotionEntry.afternoonCheck.mood = mood.name;
       emotionEntry.afternoonCheck.positiveEmotions = positiveEmotions;
       emotionEntry.afternoonCheck.negativeEmotions = negativeEmotions;
       emotionEntry.afternoonCheck.isEmpty = false;
-    }
-
-    else if (isEveningCheck.value) {
+    } else if (isEveningCheck.value) {
       emotionEntry.eveningCheck.time = time;
       emotionEntry.eveningCheck.note = note.value;
       emotionEntry.eveningCheck.mood = mood.name;
@@ -231,7 +219,6 @@ class EmotionController extends GetxController {
 
     calculateOverallMood(emotionEntry);
     emotionEntry.save();
-
 
     print("--------------- UPDATING ---------------");
     print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
@@ -268,15 +255,25 @@ class EmotionController extends GetxController {
   void deleteEmotionEntry(PartOfTheDay part) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
-    
+
     if (part == PartOfTheDay.Morning) {
-      emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Afternoon) {
-      emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Evening) {
-      emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+      emotionEntry.morningCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
+    } else if (part == PartOfTheDay.Afternoon) {
+      emotionEntry.afternoonCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
+    } else if (part == PartOfTheDay.Evening) {
+      emotionEntry.eveningCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
     }
 
     calculateOverallMood(emotionEntry);
@@ -286,12 +283,15 @@ class EmotionController extends GetxController {
 
   // KEY FOR THE BOX
   String dateToString(DateTime dateTime) {
-    return dateTime.year.toString() + "-" + dateTime.month.toString() + "-" + dateTime.day.toString();
+    return dateTime.year.toString() +
+        "-" +
+        dateTime.month.toString() +
+        "-" +
+        dateTime.day.toString();
   }
 
-  
   String timeToString(DateTime dateTime) {
-    return dateTime.hour.toString() + ":" + dateTime.minute.toString();
+    return DateFormat.Hm().format(dateTime);
   }
 
   void updateIfAddingFromDaily(bool isFromDaily) {
@@ -323,73 +323,54 @@ class EmotionController extends GetxController {
       int moodValue = 0;
       if (emotionEntry.morningCheck.mood == 'VeryBad') {
         moodValue++;
-      }
-      else if (emotionEntry.morningCheck.mood == 'Bad') {
+      } else if (emotionEntry.morningCheck.mood == 'Bad') {
         moodValue += 2;
-      }
-      else if (emotionEntry.morningCheck.mood == 'Neutral') {
+      } else if (emotionEntry.morningCheck.mood == 'Neutral') {
         moodValue += 3;
-      }
-      else if (emotionEntry.morningCheck.mood == 'Happy') {
+      } else if (emotionEntry.morningCheck.mood == 'Happy') {
         moodValue += 4;
-      }
-      else if (emotionEntry.morningCheck.mood == 'VeryHappy') {
+      } else if (emotionEntry.morningCheck.mood == 'VeryHappy') {
         moodValue += 5;
       }
 
       if (emotionEntry.afternoonCheck.mood == 'VeryBad') {
         moodValue++;
-      }
-      else if (emotionEntry.afternoonCheck.mood == 'Bad') {
+      } else if (emotionEntry.afternoonCheck.mood == 'Bad') {
         moodValue += 2;
-      }
-      else if (emotionEntry.afternoonCheck.mood == 'Neutral') {
+      } else if (emotionEntry.afternoonCheck.mood == 'Neutral') {
         moodValue += 3;
-      }
-      else if (emotionEntry.afternoonCheck.mood == 'Happy') {
+      } else if (emotionEntry.afternoonCheck.mood == 'Happy') {
         moodValue += 4;
-      }
-      else if (emotionEntry.afternoonCheck.mood == 'VeryHappy') {
+      } else if (emotionEntry.afternoonCheck.mood == 'VeryHappy') {
         moodValue += 5;
       }
-
 
       if (emotionEntry.eveningCheck.mood == 'VeryBad') {
         moodValue++;
-      }
-      else if (emotionEntry.eveningCheck.mood == 'Bad') {
+      } else if (emotionEntry.eveningCheck.mood == 'Bad') {
         moodValue += 2;
-      }
-      else if (emotionEntry.eveningCheck.mood == 'Neutral') {
+      } else if (emotionEntry.eveningCheck.mood == 'Neutral') {
         moodValue += 3;
-      }
-      else if (emotionEntry.eveningCheck.mood == 'Happy') {
+      } else if (emotionEntry.eveningCheck.mood == 'Happy') {
         moodValue += 4;
-      }
-      else if (emotionEntry.eveningCheck.mood == 'VeryHappy') {
+      } else if (emotionEntry.eveningCheck.mood == 'VeryHappy') {
         moodValue += 5;
       }
-
 
       num overallMood = moodValue / moodCount;
       if (overallMood == 1) {
         emotionEntry.overallMood = 'VeryBad';
-      }
-      else if (overallMood == 2) {
+      } else if (overallMood == 2) {
         emotionEntry.overallMood = 'Bad';
-      }
-      else if (overallMood == 3) {
+      } else if (overallMood == 3) {
         emotionEntry.overallMood = 'Neutral';
-      }
-      else if (overallMood == 4) {
+      } else if (overallMood == 4) {
         emotionEntry.overallMood = 'Happy';
-      }
-      else if (overallMood == 5) {
+      } else if (overallMood == 5) {
         emotionEntry.overallMood = 'VeryHappy';
       }
     } else {
       emotionEntry.overallMood = 'NoData';
     }
-    
   }
 }

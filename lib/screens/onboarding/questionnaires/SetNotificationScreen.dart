@@ -252,7 +252,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                         _timeController.eveningTime.value.hour.toString(),
                         _timeController.eveningTime.value.minute.toString()
                       ]);
-                  Get.toNamed('/userProfileNotificationsScreen');
+                  Get.toNamed('/loadingScreen');
                 }),
           ),
         ),

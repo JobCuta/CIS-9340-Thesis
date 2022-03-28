@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/emotionController.dart';
-
 
 void main() {
   runApp(const GetMaterialApp(home: EmotionalEvaluationStartScreen()));
@@ -32,34 +32,40 @@ class EmotionalEvaluationStartScreen extends StatefulWidget {
       _EmotionalEvaluationStartScreenState();
 }
 
-
 final EmotionController _emotionController = Get.put(EmotionController());
 
-
-class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStartScreen> {
-
+class _EmotionalEvaluationStartScreenState
+    extends State<EmotionalEvaluationStartScreen> {
   bool isVeryHappy = false;
   bool isHappy = false;
   bool isNeutral = false;
   bool isBad = false;
   bool isVeryBad = false;
   bool isEditMode = false;
-  String note = ''; 
+  String note = '';
 
   void checkIfEditMode() {
     if (_emotionController.isEditMode.value) {
-      EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
-          ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
-          ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
-          ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
-          
+      EmotionEntryDetail emotionEntryDetail = (_emotionController
+              .isMorningCheck.value)
+          ? _emotionController.getSelectedEmotionEntry().morningCheck
+          : (_emotionController.isAfternoonCheck.value)
+              ? _emotionController.getSelectedEmotionEntry().afternoonCheck
+              : (_emotionController.isEveningCheck.value)
+                  ? _emotionController.getSelectedEmotionEntry().eveningCheck
+                  : EmotionEntryDetail(
+                      mood: '',
+                      positiveEmotions: [],
+                      negativeEmotions: [],
+                      isEmpty: true);
+
       // isVeryHappy = emotionEntryDetail.mood == 'VeryHappy';
       // isHappy = emotionEntryDetail.mood == 'Happy';
       // isNeutral = emotionEntryDetail.mood == 'Neutral';
       // isBad = emotionEntryDetail.mood == 'Bad';
       // isVeryBad = emotionEntryDetail.mood == 'VeryBad';
       isEditMode = _emotionController.isEditMode.value;
-      note = _emotionController.isEditMode.value ? emotionEntryDetail.note : ''; 
+      note = _emotionController.isEditMode.value ? emotionEntryDetail.note : '';
     }
   }
 
@@ -70,62 +76,57 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
       isNeutral = false;
       isBad = false;
       isVeryBad = false;
-    }
-
-    else if (mood == 'Happy') {
+    } else if (mood == 'Happy') {
       isVeryHappy = false;
       isHappy = true;
       isNeutral = false;
       isBad = false;
       isVeryBad = false;
-    }
-
-    else if (mood == 'Neutral') {
+    } else if (mood == 'Neutral') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = true;
       isBad = false;
       isVeryBad = false;
-    } 
-
-    else if (mood == 'Bad') {
+    } else if (mood == 'Bad') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = false;
       isBad = true;
       isVeryBad = false;
-    } 
-
-    else if (mood == 'VeryBad') {
+    } else if (mood == 'VeryBad') {
       isVeryHappy = false;
       isHappy = false;
       isNeutral = false;
       isBad = false;
       isVeryBad = true;
-    }  
+    }
   }
 
   AssetImage getImageOfMood(String mood) {
     AssetImage image = const AssetImage('placeholder');
 
     if (mood == 'VeryBad') {
-      image = (isVeryBad) ? moodMap[mood]!.icon : moodMap['VeryBadNotSelected']!.icon;
-    }
-    else if (mood == 'Bad') {
+      image = (isVeryBad)
+          ? moodMap[mood]!.icon
+          : moodMap['VeryBadNotSelected']!.icon;
+    } else if (mood == 'Bad') {
       image = (isBad) ? moodMap[mood]!.icon : moodMap['BadNotSelected']!.icon;
-    }
-    else if (mood == 'Neutral') {
-      image = (isNeutral) ? moodMap[mood]!.icon : moodMap['NeutralNotSelected']!.icon;
-    }
-    else if (mood == 'Happy') {
-      image = (isHappy) ? moodMap[mood]!.icon : moodMap['HappyNotSelected']!.icon;
-    }
-    else if (mood == 'VeryHappy') {
-      image = (isVeryHappy) ? moodMap[mood]!.icon : moodMap['VeryHappyNotSelected']!.icon;
+    } else if (mood == 'Neutral') {
+      image = (isNeutral)
+          ? moodMap[mood]!.icon
+          : moodMap['NeutralNotSelected']!.icon;
+    } else if (mood == 'Happy') {
+      image =
+          (isHappy) ? moodMap[mood]!.icon : moodMap['HappyNotSelected']!.icon;
+    } else if (mood == 'VeryHappy') {
+      image = (isVeryHappy)
+          ? moodMap[mood]!.icon
+          : moodMap['VeryHappyNotSelected']!.icon;
     }
 
     return image;
-  }  
+  }
 
   Center _buildMoodComponent(String mood) {
     return Center(
@@ -143,7 +144,9 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                   updateEmotionValues(mood);
                 });
               }, // Image tapped
-              splashColor: Colors.white12, // Splash color over image
+              splashColor: Theme.of(context)
+                  .colorScheme
+                  .neutralGray02, // Splash color over image
               child: Ink.image(
                 image: getImageOfMood(mood),
                 width: 42,
@@ -151,9 +154,15 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               ),
             ),
           ),
-          Text((mood == 'VeryHappy') ? 'Very\nHappy' : (mood == 'VeryBad') ? 'Very\nBad' : mood,
+          Text(
+              (mood == 'VeryHappy')
+                  ? 'Very\nHappy'
+                  : (mood == 'VeryBad')
+                      ? 'Very\nBad'
+                      : mood,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16, color: Colors.white))
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralWhite01))
         ],
       ),
     );
@@ -166,16 +175,18 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: Text(
-              'Add an Entry',
-              style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
-          ),
-
-          leading: BackButton(onPressed: () {Get.offAndToNamed('/homepage');}),
-          elevation: 0,
-          backgroundColor: Colors.transparent
+        title: Text(
+          'Add an Entry',
+          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              color: Theme.of(context).colorScheme.neutralWhite01,
+              fontWeight: FontWeight.w400),
+        ),
+        leading: BackButton(onPressed: () {
+          Get.offAndToNamed('/homepage');
+        }),
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
-
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(
@@ -184,75 +195,77 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                       'assets/background_images/blue_background.png',
                     ),
                     fit: BoxFit.cover))),
-
         Padding(
           padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
           child: ListView(
             children: [
               Container(
                 alignment: Alignment.center,
-                height: 66,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 12.0),
                 decoration: BoxDecoration(
                     color: const Color(0xff3290FF).withOpacity(0.60),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
                 child: Text('How do you feel in this moment?',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(fontSize: 20, color: Colors.white)),
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralWhite01)),
               ),
-
               const SizedBox(height: 30.0),
-
               Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildMoodComponent('VeryBad'),
-                  _buildMoodComponent('Bad'),
-                  _buildMoodComponent('Neutral'),
-                  _buildMoodComponent('Happy'),
-                  _buildMoodComponent('VeryHappy'),
-              ]),
-
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildMoodComponent('VeryBad'),
+                    _buildMoodComponent('Bad'),
+                    _buildMoodComponent('Neutral'),
+                    _buildMoodComponent('Happy'),
+                    _buildMoodComponent('VeryHappy'),
+                  ]),
               const SizedBox(height: 45.0),
-
               RichText(
                 text: TextSpan(
                   children: [
                     const WidgetSpan(child: Icon(Icons.description, size: 16)),
-                    TextSpan(text: " Notes", style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 14, color: Colors.white)),
+                    TextSpan(
+                        text: " Notes",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(fontSize: 14, color: Colors.white)),
                   ],
                 ),
               ),
-
               const SizedBox(height: 5.0),
-
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                 child: Material(
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   child: TextFormField(
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x005E6668).withOpacity(1.0)),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        color: const Color(0x005E6668).withOpacity(1.0)),
                     initialValue: note,
                     maxLines: null,
                     onChanged: _emotionController.updateNotes,
                     decoration: InputDecoration(
                       hintText: 'Write something you wanna mention here',
-                      hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(
+                              color: const Color(0x00C7CBCC).withOpacity(1.0)),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0),
-
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 13.0),
                     ),
                   ),
                 ),
               ),
-
             ],
           ),
         ),
-
         Container(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
           child: Align(
@@ -261,9 +274,12 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
               width: MediaQuery.of(context).size.width,
               height: 50,
               child: ElevatedButton(
-                  child: Text('Next',
+                  child: Text(
+                    'Next',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0xFFFFFFFF).withOpacity(1.0)),
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralWhite01,
+                        fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -276,8 +292,8 @@ class _EmotionalEvaluationStartScreenState extends State<EmotionalEvaluationStar
                             isNeutral ||
                             isBad ||
                             isVeryBad)
-                        ? const Color(0xffFFBE18)
-                        : const Color(0xffE2E4E4),
+                        ? Theme.of(context).colorScheme.sunflowerYellow01
+                        : Theme.of(context).colorScheme.neutralWhite04,
                   ),
                   onPressed: () {
                     (isVeryHappy || isHappy || isNeutral || isBad || isVeryBad)

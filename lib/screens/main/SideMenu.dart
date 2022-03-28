@@ -53,12 +53,15 @@ class _SideMenuState extends State<SideMenu> {
                   email: email,
                 ),
                 const Divider(color: Color(0xffC4C4C4)),
-                // fixed when svg file is fixed
+                buildMenuItem(
+                  text: 'Homepage',
+                  icon: 'assets/images/homepage_icon.svg',
+                  onClicked: () => Get.toNamed('/homepage'),
+                ),
                 buildMenuItem(
                   text: 'Check your statistics',
                   icon: 'assets/images/statistics_icon.svg',
-                  // temporarily leads to the homepage
-                  onClicked: () => Get.toNamed('/homepage'),
+                  // onClicked: () => Get.toNamed('/homepage'),
                 ),
                 buildMenuItem(
                   text: 'Achievements',
