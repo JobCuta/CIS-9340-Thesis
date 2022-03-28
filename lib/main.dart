@@ -11,6 +11,7 @@ import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScre
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
+import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
@@ -117,7 +118,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/hopeBox',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -153,6 +154,9 @@ class _MainState extends State<Main> {
 
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
+
+          GetPage(
+              name: '/adventureHome', page: () => const AdventureHomeScreen()),
 
           // wellness exercises
           GetPage(

@@ -39,8 +39,10 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                         ),
                         fit: BoxFit.cover))),
             Container(
-                padding: const EdgeInsets.only(top: 100, left: 30, right: 30),
-                child: Column(
+                padding: const EdgeInsets.only(top: 120, left: 30, right: 30),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: 20,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,6 +64,7 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                             })
                       ],
                     ),
+                    SizedBox(height: 150),
                     SvgPicture.asset('assets/images/basket.svg'),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -72,7 +75,7 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 30),
                       child: Text(
-                          'Add images, videos, and recordings of cherished moments you want to remember.',
+                          'Add images, videos, and recordings of cherished moments you want to\nremember.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme

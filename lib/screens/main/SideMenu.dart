@@ -71,6 +71,7 @@ class _SideMenuState extends State<SideMenu> {
                 buildMenuItem(
                   text: 'Hope Box',
                   icon: Icons.card_giftcard,
+                  onClicked: () => Get.toNamed('/hopeBox'),
                 ),
                 const SizedBox(height: 8),
                 const Divider(color: Colors.grey),
