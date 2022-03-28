@@ -106,26 +106,31 @@ class _SideMenuState extends State<SideMenu> {
   }) =>
       InkWell(
         child: Container(
+          width: MediaQuery.of(context).size.width,
           padding: padding.add(const EdgeInsets.only(top: 10)),
           child: Row(
             children: [
-              CircleAvatar(radius: 35, backgroundImage: AssetImage(userImage)),
-              const SizedBox(width: 10),
+              Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: CircleAvatar(
+                    radius: 35, backgroundImage: AssetImage(userImage)),
+              ),
               Wrap(
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.start,
                 spacing: 10,
                 children: [
-                  Text('Hey there, ${name}',
+                  Text('Hey there, $name',
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
                           color: Theme.of(context).colorScheme.accentIndigo02,
                           fontWeight: FontWeight.w600)),
                   FittedBox(
-                    child: Text(email,
+                    child: Text('$email ',
                         style: Theme.of(context).textTheme.caption!.copyWith(
                             color: Theme.of(context).colorScheme.accentIndigo02,
                             fontWeight: FontWeight.w400)),
                   ),
+                  // ),
                 ],
               ),
             ],
