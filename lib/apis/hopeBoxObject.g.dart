@@ -20,19 +20,22 @@ class HopeBoxObjectAdapter extends TypeAdapter<HopeBoxObject> {
       datetime: fields[0] as DateTime,
       description: fields[1] as String,
       path: fields[2] as String,
+      thumbnailPath: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HopeBoxObject obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.datetime)
       ..writeByte(1)
       ..write(obj.description)
       ..writeByte(2)
-      ..write(obj.path);
+      ..write(obj.path)
+      ..writeByte(3)
+      ..write(obj.thumbnailPath);
   }
 
   @override

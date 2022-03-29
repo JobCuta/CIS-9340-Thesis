@@ -89,6 +89,9 @@ dependencies:
   # select images or videos from the gallery, camera
   image_picker: ^0.8.4+11
 
+  # generates thumbnails for uploaded videos
+  video_thumbnail: ^0.4.3
+
   # access file storage for application 
   path_provider: ^2.0.9
   path: ^1.8.0

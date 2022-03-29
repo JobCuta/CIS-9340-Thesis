@@ -13,8 +13,14 @@ class HopeBoxObject extends HiveObject {
   @HiveField(2)
   String path;
 
+  @HiveField(3)
+  String thumbnailPath;
+
   HopeBoxObject(
-      {required this.datetime, required this.description, required this.path});
+      {required this.datetime,
+      required this.description,
+      required this.path,
+      required this.thumbnailPath});
 
   DateTime getDateTime() {
     return datetime;
@@ -26,6 +32,10 @@ class HopeBoxObject extends HiveObject {
 
   String getPath() {
     return path;
+  }
+
+  String getThumbnailPath() {
+    return thumbnailPath;
   }
 
   @override

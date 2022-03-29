@@ -45,7 +45,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                 child: IconButton(
                     iconSize: 30,
                     onPressed: () {
-                      addImagesDialog(context);
+                      AddEntry(context);
                     },
                     icon: Icon(Icons.add,
                         color: Theme.of(context).colorScheme.neutralBlack02)),
@@ -54,7 +54,9 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
         body: Container(
             color: Theme.of(context).colorScheme.neutralWhite01,
             padding: const EdgeInsets.only(top: 10),
-            // alignment: Alignment.center,
+            alignment: _hopeController.images.isEmpty
+                ? Alignment.center
+                : Alignment.topCenter,
             child: _hopeController.images.isNotEmpty
                 ? Obx(() {
                     return ListView.builder(
@@ -218,12 +220,10 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                             onPressed: () async {
                               final file =
                                   File(_hopeController.images[index].getPath());
-
                               await file.delete();
                               _hopeController.removeImage(index);
-
-                              Get.offNamed('/hopeBoxImages',
-                                  preventDuplicates: false);
+                              Get.back();
+                              Get.offAndToNamed('/hopeBoxImages');
                             },
                           ),
                           TextButton(
@@ -246,7 +246,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
             )));
   }
 
-  addImagesDialog(context) {
+  AddEntry(context) {
     _noteController.text = '';
     return showDialog<String>(
         context: context,
@@ -403,8 +403,8 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                     print(savedImage.path);
                                     _hopeController.addImage(
                                         _noteController.text, savedImage.path);
-                                    Get.offNamed('/hopeBoxImages',
-                                        preventDuplicates: false);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
                                   }
                                 }),
                           ),
@@ -572,8 +572,8 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                     print(savedImage.path);
                                     _hopeController.updateImage(index,
                                         _noteController.text, savedImage.path);
-                                    Get.offNamed('/hopeBoxImages',
-                                        preventDuplicates: false);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
                                   }
                                 }),
                           ),
