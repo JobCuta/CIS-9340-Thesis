@@ -4,6 +4,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
@@ -16,6 +17,8 @@ import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'apis/hopeBoxHive.dart';
+import 'apis/hopeBoxObject.dart';
 import 'apis/phqHive.dart';
 import 'apis/settingsHive.dart';
 import 'apis/sidasHive.dart';
@@ -67,6 +70,8 @@ Future<void> main() async {
   Hive.registerAdapter(EmotionAdapter());
   Hive.registerAdapter<Level>(LevelAdapter());
   Hive.registerAdapter(SettingsHiveAdapter());
+  Hive.registerAdapter(HopeBoxAdapter());
+  Hive.registerAdapter(HopeBoxObjectAdapter());
 
   await Hive.initFlutter();
 
@@ -78,12 +83,17 @@ Future<void> main() async {
   await Hive.openBox('emotionObj');
   await Hive.openBox<Level>('level');
   await Hive.openBox<SettingsHive>('settings');
+  await Hive.openBox<HopeBox>('hopeBox');
+  await Hive.openBox<HopeBoxObject>('hopeBoxObj');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
 
   final SettingsController _settingsController = Get.put(SettingsController());
   _settingsController.prepareTheObjects();
+
+  final HopeBoxController _hopeBoxController = Get.put(HopeBoxController());
+  _hopeBoxController.prepareTheObjects();
 
   runApp(const Main());
 }

@@ -26,8 +26,8 @@ class SettingsController extends GetxController {
           language: 'English');
       box.put('settings', settings);
     }
-    print('Settings');
-    print(box.toMap().length);
+    // print('Settings');
+    // print(box.toMap().length);
 
     SettingsHive settings = box.get('settings');
     notificationsEnabled.value = settings.notificationsEnabled;
