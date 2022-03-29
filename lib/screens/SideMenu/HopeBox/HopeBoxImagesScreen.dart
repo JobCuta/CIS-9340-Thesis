@@ -66,97 +66,106 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 25),
-                            child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray02),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(12))),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                                '${DateFormat.EEEE().format(_hopeController.images[index].getDateTime()).toString().toUpperCase()}, ${DateFormat.MMMMd().format(_hopeController.images[index].getDateTime()).toString().toUpperCase()}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .caption
-                                                    ?.copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .neutralGray02)),
-                                            PopupMenuButton(
-                                                onSelected: (value) {
-                                              if (value == 'Edit') {
-                                                editEntry(context, index);
-                                              } else if (value == 'Delete') {
-                                                DeleteEntry(context, index);
-                                              }
-                                            }, itemBuilder:
-                                                    (BuildContext context) {
-                                              return <PopupMenuEntry<String>>[
-                                                PopupMenuItem(
-                                                  value: 'Edit',
-                                                  child: Text('Edit',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2),
-                                                ),
-                                                PopupMenuItem(
-                                                  value: 'Delete',
-                                                  child: Text(
-                                                    'Delete',
+                            child: Card(
+                              elevation: 5,
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 15),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                    '${DateFormat.EEEE().format(_hopeController.images[index].getDateTime()).toString().toUpperCase()}, ${DateFormat.MMMMd().format(_hopeController.images[index].getDateTime()).toString().toUpperCase()}',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyText2
+                                                        .caption
                                                         ?.copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .accentRed02),
-                                                  ),
-                                                ),
-                                              ];
-                                            })
-                                          ]),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: Text(
-                                            _hopeController.images[index]
-                                                .getDescription(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .caption
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .neutralGray04)),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
+                                                                .neutralGray02)),
+                                                PopupMenuButton(
+                                                    icon: const Icon(
+                                                        Icons.more_horiz),
+                                                    onSelected: (value) {
+                                                      if (value == 'Edit') {
+                                                        editEntry(
+                                                            context, index);
+                                                      } else if (value ==
+                                                          'Delete') {
+                                                        DeleteEntry(
+                                                            context, index);
+                                                      }
+                                                    },
+                                                    itemBuilder:
+                                                        (BuildContext context) {
+                                                      return <
+                                                          PopupMenuEntry<
+                                                              String>>[
+                                                        PopupMenuItem(
+                                                          value: 'Edit',
+                                                          child: Text('Edit',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText2),
+                                                        ),
+                                                        PopupMenuItem(
+                                                          value: 'Delete',
+                                                          child: Text(
+                                                            'Delete',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2
+                                                                ?.copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .accentRed02),
+                                                          ),
+                                                        ),
+                                                      ];
+                                                    })
+                                              ]),
                                         ),
-                                        child: Image.file(File(_hopeController
-                                            .images[index]
-                                            .getPath())),
-                                      )
-                                    ])),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Text(
+                                              _hopeController.images[index]
+                                                  .getDescription(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .neutralGray04)),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Image.file(File(_hopeController
+                                              .images[index]
+                                              .getPath())),
+                                        )
+                                      ])),
+                            ),
                           );
                         });
                   })
@@ -198,6 +207,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                   children: [
                     SvgPicture.asset('assets/images/trash.svg'),
                     Text('Are you sure you want to delete this image?',
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontWeight: FontWeight.w400,
                             color:
@@ -545,7 +555,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                             width: MediaQuery.of(context).size.width,
                             child: ElevatedButton(
                                 child: Text(
-                                  'Add',
+                                  'Save',
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
@@ -563,7 +573,13 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                         .colorScheme
                                         .sunflowerYellow01),
                                 onPressed: () async {
-                                  if (_storedImage != null) {
+                                  if (_imagePath ==
+                                      _hopeController.images[index].getPath()) {
+                                    _hopeController.updateImageDesc(
+                                        index, _noteController.text);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
+                                  } else if (_storedImage != null) {
                                     final appDir =
                                         await getApplicationDocumentsDirectory();
 
@@ -574,7 +590,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                         _noteController.text, savedImage.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxImages');
-                                  }
+                                  } else {}
                                 }),
                           ),
                         ]),
