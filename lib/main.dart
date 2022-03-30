@@ -13,6 +13,7 @@ import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScre
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
+import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
@@ -250,6 +251,12 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/MentalHealthOnlineScreen',
               page: () => const MentalHealthOnlineScreen()),
+
+          // Statistics Page
+          GetPage(
+            name: '/statisticsScreen',
+            page: () => StatisticsScreen()),
+
         ],
         theme: themeData,
         home:
