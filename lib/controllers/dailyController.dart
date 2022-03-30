@@ -10,40 +10,46 @@ import 'package:hive/hive.dart';
 class DailyController extends GetxController {
   var isDailyEntryDone = false.obs;
   var isDailyExerciseDone = false.obs;
+  var showedAvailableTasks = false.obs;
   var isMorningEntryDone = false.obs;
   var isAfternoonEntryDone = false.obs;
   var isEveningEntryDone = false.obs;
-  var showedAvailableTasks = false.obs;
   final _emotionController = Get.put(EmotionController());
+
 
   void prepareTheObjects() {
     Box box = Hive.box<DailyHive>('daily');
     if (box.isEmpty) {
-      DailyHive newDaily =
-          DailyHive(currentWeekDay: DateTime.now().weekday, isDailyExerciseDone: false, isDailyEntryDone: false, showedAvailableTasks: false);
+      DailyHive newDaily = DailyHive(
+        currentWeekDay: DateTime.now().weekday, currentDate: DateTime.now(),
+        isDailyExerciseDone: false, isDailyEntryDone: false, showedAvailableTasks: false
+      );
       box.put('dailyStatus', newDaily);
+
+      _emotionController.createNewEntriesInStorage(0);
     }
 
-    
-
     DailyHive daily = box.get('dailyStatus'); 
-    int storedWeekDay = daily.currentWeekDay;
-    int currentWeekDay = DateTime.now().weekday;
+    DateTime storedDate = daily.currentDate;
+    DateTime currentDate = DateTime.now();
+    int differenceInDays = currentDate.difference(storedDate).inDays;
+    print("DIFFERENCE IN DAYS = $differenceInDays");
 
-    if (storedWeekDay != currentWeekDay) {
-      daily.currentWeekDay = DateTime.now().weekday;
+    if (differenceInDays > 0) {
+      daily.currentWeekDay = currentDate.weekday;
+      daily.currentDate = currentDate;
       daily.isDailyExerciseDone = false;
       daily.isDailyEntryDone = false;
       daily.showedAvailableTasks = false;
       daily.save();
 
-      _emotionController.saveEntryToStorage();
+      _emotionController.createNewEntriesInStorage(differenceInDays);
     }
     isDailyEntryDone.value = daily.isDailyEntryDone;
     isDailyExerciseDone.value = daily.isDailyExerciseDone;
     showedAvailableTasks.value = daily.showedAvailableTasks;
 
-    EmotionEntryHive emotionEntry =  _emotionController.getTodaysEmotionEntry();
+    // EmotionEntryHive emotionEntry =  _emotionController.getTodaysEmotionEntry();
 
     update();
   }
