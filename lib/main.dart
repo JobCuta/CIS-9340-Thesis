@@ -5,6 +5,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
@@ -98,6 +99,8 @@ Future<void> main() async {
   final SettingsController _settingsController = Get.put(SettingsController());
   _settingsController.prepareTheObjects();
 
+  final LevelController _levelController = Get.put(LevelController());
+  _levelController.prepareTheObjects();
   final HopeBoxController _hopeBoxController = Get.put(HopeBoxController());
   _hopeBoxController.prepareTheObjects();
 

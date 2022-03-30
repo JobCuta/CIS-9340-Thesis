@@ -82,6 +82,7 @@ dependencies:
 
   # sends email from the app
   flutter_email_sender: ^5.1.0
+  expandable: ^5.0.1
 
   # opens urls, opens calls, sends messages, and sends emails (not necessary)
   url_launcher: ^6.0.20

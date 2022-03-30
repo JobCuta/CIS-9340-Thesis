@@ -8,9 +8,12 @@ class LevelController extends GetxController {
   var currentLevel = 0.obs;
   var currentXp = 0.obs;
   var xpForNextLevel = 0.obs;
-  var recentlyAddedXp = false.obs;
 
-  void getLevelFromStorage() {
+  var recentlyAddedXp = false.obs;
+  var accomplishedWithXp = {}.obs;
+  var totalXpToAdd = 0.obs;
+
+  void prepareTheObjects() {
     Box box = Hive.box<Level>('level');
     if (box.get('userLevel') == null) {
       Level level = Level(currentLevel: 1, currentXp: 0, xpForNextLevel: 1000);
@@ -26,13 +29,38 @@ class LevelController extends GetxController {
     update();
   }
 
+  void getLevelFromStorage() {
+    Box box = Hive.box<Level>('level');
+    Level level = box.get('userLevel');
+
+    currentLevel.value = level.currentLevel;
+    currentXp.value = level.currentXp;
+    xpForNextLevel.value = level.xpForNextLevel;
+
+    update();
+  }
+
+  void initializeTaskWithXp(String task, int xp) {
+    accomplishedWithXp.putIfAbsent(task, () => xp);
+    print("EXPERIENCES = " + accomplishedWithXp.toString());
+
+    totalXpToAdd.value += xp;
+    update();
+  }
+
+  void finalizeAddingOfXp() {
+    addXp(totalXpToAdd.value);
+  }
+
   void addXp(int xp) {
     Box box = Hive.box<Level>('level');
     Level level = box.get('userLevel');
 
     currentXp.value += xp;
-    checkIfLevelUp();
+    recentlyAddedXp.value = true;
+    totalXpToAdd.value = 0;
     update();
+    checkIfLevelUp();
 
     level.currentLevel = currentLevel.value;
     level.currentXp = currentXp.value;
@@ -43,7 +71,6 @@ class LevelController extends GetxController {
     if (currentXp.value >= xpForNextLevel.value) {
       currentLevel.value++;
       currentXp.value = currentXp.value % xpForNextLevel.value;
-      recentlyAddedXp.value = true;
     }
 
     if (currentXp.value > xpForNextLevel.value) checkIfLevelUp();
@@ -51,6 +78,11 @@ class LevelController extends GetxController {
 
   void updateRecentlyAddedXp(bool addedXp) {
     recentlyAddedXp.value = addedXp;
+    update();
+  }
+
+  void clearMapOfAccomplishedWithXp() {
+    accomplishedWithXp.clear();
     update();
   }
 

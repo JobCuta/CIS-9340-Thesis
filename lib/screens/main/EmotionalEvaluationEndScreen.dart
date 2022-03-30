@@ -3,6 +3,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,7 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
 
 final EmotionController _emotionController = Get.put(EmotionController());
 final DailyController _dailyController = Get.put(DailyController());
+final LevelController _levelController = Get.put(LevelController());
 
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
@@ -381,10 +383,21 @@ class _EmotionalEvaluationEndScreenState
                                             .neutralWhite04,
                                   ),
                                   onPressed: () {
-                                    _emotionController.updateEntryInStorage();
-                                    _dailyController.setDailyTaskToDone(
-                                        DailyTask.EmotionEntry);
-                                    Get.offAllNamed('/homepage');
+                                    if (_emotionController.isValid.value) {
+                                      bool isAddingFromOnboarding = _emotionController.isAddingFromOnboarding.value;
+                                      _emotionController.updateEntryInStorage();
+
+                                      if (!_dailyController.isDailyEntryDone.value) {
+                                        _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
+                                        _levelController.initializeTaskWithXp('Daily Entry', 50);
+                                        _levelController.finalizeAddingOfXp();
+                                      }
+
+                                      (isAddingFromOnboarding)
+                                        ? Get.offAllNamed('/notifScreen')
+                                        : Get.offAllNamed('/homepage');
+                                    }
+
                                   }),
                             )),
                       ),
