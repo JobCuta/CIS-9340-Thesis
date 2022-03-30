@@ -167,10 +167,10 @@ class _UserProfileContactSupportScreenState
       print(error);
       platformResponse = error.toString();
     }
-    Get.snackbar(
-      'Contact Developers Email',
-      platformResponse,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    // Get.snackbar(
+    //   'Contact Developers Email',
+    //   platformResponse,
+    //   snackPosition: SnackPosition.BOTTOM,
+    // );
   }
 }

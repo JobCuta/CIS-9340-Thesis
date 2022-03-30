@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
@@ -7,8 +9,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/logoutDialog.dart';
-
-// import '../../../controllers/settingsController.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   // final SettingsController _settingsController = Get.put(SettingsController());
+  final LevelController _levelController = Get.put(LevelController());
 
   _buildLevelComponent(String value, String title) {
     return Wrap(
@@ -79,6 +80,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     final UserProfileController _userProfileController =
         Get.put(UserProfileController());
+    final EmotionController _emotionController = Get.put(EmotionController());
     bool _pinned = true;
     bool _snap = true;
     bool _floating = true;
@@ -94,9 +96,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             floating: _floating,
             collapsedHeight: 75,
             expandedHeight: 50,
-            // leading: BackButton(onPressed: () {
-            //   Get.toNamed('/homepage');
-            // }),
             title: Text('Settings and User Profile',
                 style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     color: Theme.of(context).colorScheme.neutralWhite01,
@@ -135,9 +134,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           children: [
                             _buildLevelComponent('24', 'Daily tasks finished'),
                             const SizedBox(width: 30),
-                            _buildLevelComponent('24', 'Levels'),
+                            _buildLevelComponent(
+                                _levelController.currentLevel.value.toString(),
+                                'Level'),
                             const SizedBox(width: 30),
-                            _buildLevelComponent('24', 'Entries'),
+                            _buildLevelComponent(
+                                _emotionController.noEntriesCount.value
+                                    .toString(),
+                                'Entries'),
                             const SizedBox(width: 30),
                             _buildLevelComponent('24', 'Achievements'),
                           ]),
