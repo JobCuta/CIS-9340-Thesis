@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:get/get.dart';
 
 class WellnessExercisesScreen extends StatefulWidget {
@@ -10,6 +12,9 @@ class WellnessExercisesScreen extends StatefulWidget {
 }
 
 class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
+  DailyController _dailyController = Get.put(DailyController());
+  LevelController _levelController = Get.put(LevelController());
+
   @override
   Widget build(BuildContext context) {
     var breathing = [

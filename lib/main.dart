@@ -4,6 +4,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
@@ -79,6 +80,9 @@ Future<void> main() async {
 
   final SettingsController _settingsController = Get.put(SettingsController());
   _settingsController.prepareTheObjects();
+
+  final LevelController _levelController = Get.put(LevelController());
+  _levelController.prepareTheObjects();
 
   runApp(const Main());
 }
