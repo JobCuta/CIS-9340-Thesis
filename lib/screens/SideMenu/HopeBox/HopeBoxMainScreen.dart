@@ -68,10 +68,9 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                         _buildHopeBoxComponent(
                             assetName: 'assets/images/hopebox_contact.svg',
                             onTap: () {
-                              // _hopeController.firstNameController.text == ''
-                              // ?
-                              showContactSetupConfirmation(context);
-                              // : Get.toNamed('/hopeBoxContact');
+                              _hopeController.firstNameController.text == ''
+                                  ? showContactSetupConfirmation(context)
+                                  : Get.toNamed('/hopeBoxContact');
                             })
                       ],
                     ),

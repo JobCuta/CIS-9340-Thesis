@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+final HopeBoxController _hopeController = Get.put(HopeBoxController());
+
 class HopeBoxContactEditScreen extends StatefulWidget {
   const HopeBoxContactEditScreen({Key? key}) : super(key: key);
 
@@ -18,13 +20,12 @@ class HopeBoxContactEditScreen extends StatefulWidget {
 
 class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
   final ImagePicker _picker = ImagePicker();
-  final HopeBoxController _hopeController = Get.put(HopeBoxController());
   final TextEditingController _noteController = TextEditingController();
 
+  var _storedImage = File(_hopeController.contactPerson.value.getPathImage());
+  var _imagePath = _hopeController.contactPerson.value.getPathImage();
   @override
   Widget build(BuildContext context) {
-    var _storedImage = File(_hopeController.contactPerson.value.getPathImage());
-    var _imagePath = _hopeController.contactPerson.value.getPathImage();
     InputDecoration textFormFieldDecoration(String hintText) {
       return InputDecoration(
         border: const OutlineInputBorder(),
@@ -119,10 +120,12 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
                           }
                           print(_imagePath);
                           setState(() {
+                            _storedImage = File('');
                             _storedImage = File(image.path);
                             _imagePath = basename(image.path);
                           });
-                          print(_imagePath);
+                          _storedImage = File(image.path);
+                          print(image.path);
                         },
                         child: (_storedImage != null)
                             ? CircleAvatar(
@@ -188,10 +191,10 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
                         elevation: 0,
                         primary: (_hopeController.firstNameController.text
                                         .trim() !=
-                                    '' ||
+                                    '' &&
                                 _hopeController.lastNameController.text
                                         .trim() !=
-                                    '' ||
+                                    '' &&
                                 _hopeController.mobileNumberController.text
                                         .trim() !=
                                     '')
@@ -199,9 +202,9 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
                             : Theme.of(context).colorScheme.neutralWhite04),
                     onPressed: () async {
                       if (_hopeController.firstNameController.text.trim() !=
-                              '' ||
+                              '' &&
                           _hopeController.lastNameController.text.trim() !=
-                              '' ||
+                              '' &&
                           _hopeController.mobileNumberController.text.trim() !=
                               '') {
                         if (_imagePath ==

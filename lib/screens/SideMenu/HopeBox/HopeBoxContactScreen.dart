@@ -59,18 +59,16 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: GetBuilder<HopeBoxController>(
-                        builder: (value) => Text(
-                            '${_hopeController.contactPerson.value.getFirstName()} ${_hopeController.contactPerson.value.getLastName()}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600)),
-                      ),
+                      child: Text(
+                          '${_hopeController.contactPerson.value.getFirstName()} ${_hopeController.contactPerson.value.getLastName()}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
                     ),
                   ]),
             ),
