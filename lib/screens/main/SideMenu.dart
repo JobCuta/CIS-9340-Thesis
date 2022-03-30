@@ -3,7 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+
+import '../../widgets/logoutDialog.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -13,7 +17,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  final padding = const EdgeInsets.symmetric(horizontal: 15);
+  final padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 5);
   static var usern = "";
   static var email = "";
 
@@ -39,7 +43,7 @@ class _SideMenuState extends State<SideMenu> {
     return SafeArea(
       child: Drawer(
         child: Material(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.neutralWhite01,
             child: ListView(
               padding: padding,
               children: <Widget>[
@@ -47,56 +51,49 @@ class _SideMenuState extends State<SideMenu> {
                   userImage: userImage,
                   name: usern,
                   email: email,
-                  //OnClicked: (),
                 ),
-                const SizedBox(height: 12),
-                const Divider(color: Colors.grey),
-                const SizedBox(height: 8),
+                const Divider(color: Color(0xffC4C4C4)),
+                buildMenuItem(
+                  text: 'Homepage',
+                  icon: 'assets/images/homepage_icon.svg',
+                  onClicked: () => Get.toNamed('/homepage'),
+                ),
                 buildMenuItem(
                   text: 'Check your statistics',
-                  icon: Icons.timeline,
-                  onClicked: () => selectedItem(context, 0),
+                  icon: 'assets/images/statistics_icon.svg',
+                  // onClicked: () => Get.toNamed('/homepage'),
                 ),
-                const SizedBox(height: 8),
                 buildMenuItem(
                   text: 'Achievements',
-                  icon: Icons.stars,
+                  icon: 'assets/images/achievement_icon.svg',
+                  onClicked: () => Get.toNamed('/achievementsScreen'),
                 ),
-                const SizedBox(height: 8),
                 buildMenuItem(
                   text: 'Daily Exercise',
-                  icon: Icons.sports_gymnastics,
+                  icon: 'assets/images/exercise_icon.svg',
+                  onClicked: () => Get.toNamed('/wellnessScreen'),
                 ),
-                const SizedBox(height: 8),
                 buildMenuItem(
                   text: 'Hope Box',
-                  icon: Icons.card_giftcard,
+                  icon: 'assets/images/hopebox_icon.svg',
+                  onClicked: () => Get.toNamed('/hopeBox'),
                 ),
-                const SizedBox(height: 8),
-                const Divider(color: Colors.grey),
-                const SizedBox(height: 8),
+                const Divider(color: Color(0xffC4C4C4)),
                 buildMenuItem(
                   text: 'Mental Health Hotline',
-                  icon: Icons.contact_phone,
+                  icon: 'assets/images/hotline_icon.svg',
                   onClicked: () => Get.toNamed('/MentalHealthOnlineScreen'),
                 ),
-                const SizedBox(height: 8),
                 buildMenuItem(
                   text: 'Settings and User Profile',
-                  icon: Icons.settings,
+                  icon: 'assets/images/settings_icon.svg',
                   onClicked: () => Get.toNamed('/userProfileScreen'),
                 ),
-                const SizedBox(height: 100),
-                TextButton(
-                  child: const Text('Logout',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold)),
-                  onPressed: () async {
-                    var response = await UserProvider().logout();
-                    print('logout $response');
-                    Get.offAndToNamed('/accountScreen');
+                buildMenuItem(
+                  text: 'Logout',
+                  icon: 'assets/images/logout_icon.svg',
+                  onClicked: () async {
+                    showLogoutConfirmation(context);
                   },
                 ),
               ],
@@ -112,27 +109,31 @@ class _SideMenuState extends State<SideMenu> {
   }) =>
       InkWell(
         child: Container(
-          padding: padding.add(const EdgeInsets.only(top: 30)),
+          width: MediaQuery.of(context).size.width,
+          padding: padding.add(const EdgeInsets.only(top: 10)),
           child: Row(
             children: [
-              CircleAvatar(radius: 35, backgroundImage: AssetImage(userImage)),
-              const SizedBox(width: 5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: CircleAvatar(
+                    radius: 35, backgroundImage: AssetImage(userImage)),
+              ),
+              Wrap(
+                direction: Axis.vertical,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 10,
                 children: [
-                  Text(name,
-                      style: TextStyle(
-                          color: const Color(0xff4ca7fc).withOpacity(1.0),
-                          fontSize: 14,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  Text(email,
-                      style: TextStyle(
-                          color: const Color(0xff4ca7fc).withOpacity(1.0),
-                          fontSize: 14,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w400)),
+                  Text('Hey there, $name',
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          color: Theme.of(context).colorScheme.accentIndigo02,
+                          fontWeight: FontWeight.w600)),
+                  FittedBox(
+                    child: Text('$email ',
+                        style: Theme.of(context).textTheme.caption!.copyWith(
+                            color: Theme.of(context).colorScheme.accentIndigo02,
+                            fontWeight: FontWeight.w400)),
+                  ),
+                  // ),
                 ],
               ),
             ],
@@ -142,31 +143,36 @@ class _SideMenuState extends State<SideMenu> {
 
   Widget buildMenuItem({
     required String text,
-    required IconData icon,
+    required icon,
     VoidCallback? onClicked,
   }) {
-    const color = Colors.grey;
-    const hoverColor = Colors.white70;
-
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(text,
-          style: TextStyle(
-              color: const Color(0x00acb2b4).withOpacity(1.0),
-              fontSize: 14,
-              fontFamily: 'Proxima Nova',
-              fontWeight: FontWeight.w400)),
-      hoverColor: hoverColor,
+    return InkWell(
       onTap: onClicked,
+      child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: SvgPicture.asset(icon),
+              ),
+              Text(text,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: text != 'Logout'
+                          ? Theme.of(context).colorScheme.neutralGray03
+                          : Theme.of(context).colorScheme.accentRed02,
+                      fontWeight: FontWeight.w400))
+            ],
+          )),
     );
   }
 
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
-    switch (index) {
-      case 0:
-        Get.toNamed('/homepage');
-        break;
-    }
-  }
+  // void selectedItem(BuildContext context, int index) {
+  //   Navigator.of(context).pop();
+  //   switch (index) {
+  //     case 0:
+  //       Get.toNamed('/homepage');
+  //       break;
+  //   }
+  // }
 }

@@ -1,18 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/ContactDetails.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
+import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
+import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'apis/hopeBoxHive.dart';
+import 'apis/hopeBoxObject.dart';
 import 'apis/phqHive.dart';
 import 'apis/settingsHive.dart';
 import 'apis/sidasHive.dart';
@@ -20,6 +29,9 @@ import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
 import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
+import 'screens/SideMenu/HopeBox/HopeBoxContactScreen.dart';
+import 'screens/SideMenu/HopeBox/HopeBoxContactSetupScreen.dart';
+import 'screens/SideMenu/HopeBox/HopeBoxMainScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileAccountScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileContactSupportScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileDeactivateAccountScreen.dart';
@@ -63,6 +75,9 @@ Future<void> main() async {
   Hive.registerAdapter(EmotionAdapter());
   Hive.registerAdapter<Level>(LevelAdapter());
   Hive.registerAdapter(SettingsHiveAdapter());
+  Hive.registerAdapter(HopeBoxAdapter());
+  Hive.registerAdapter(HopeBoxObjectAdapter());
+  Hive.registerAdapter(ContactDetailsAdapter());
 
   await Hive.initFlutter();
 
@@ -74,6 +89,9 @@ Future<void> main() async {
   await Hive.openBox('emotionObj');
   await Hive.openBox<Level>('level');
   await Hive.openBox<SettingsHive>('settings');
+  await Hive.openBox<HopeBox>('hopeBox');
+  await Hive.openBox<HopeBoxObject>('hopeBoxObj');
+  await Hive.openBox<ContactDetails>('contactPerson');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -83,6 +101,8 @@ Future<void> main() async {
 
   final LevelController _levelController = Get.put(LevelController());
   _levelController.prepareTheObjects();
+  final HopeBoxController _hopeBoxController = Get.put(HopeBoxController());
+  _hopeBoxController.prepareTheObjects();
 
   runApp(const Main());
 }
@@ -117,7 +137,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/homepage',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -154,10 +174,8 @@ class _MainState extends State<Main> {
           // main
           GetPage(name: '/homepage', page: () => const HomePageScreen()),
 
-          //SideMenu
           GetPage(
-              name: '/MentalHealthOnlineScreen',
-              page: () => const MentalHealthOnlineScreen()),
+              name: '/adventureHome', page: () => const AdventureHomeScreen()),
 
           // wellness exercises
           GetPage(
@@ -179,6 +197,7 @@ class _MainState extends State<Main> {
               name: '/entriesDetailScreen',
               page: () => const EntriesDetailScreen()),
 
+          // Side Menu Screens
           // Profile pages
           GetPage(
               name: '/userProfileScreen',
@@ -204,9 +223,33 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/userDeactivateSuccessScreen',
               page: () => const UserProfileDeactivateSuccessfulScreen()),
+          // Hope Box Pages
+          GetPage(name: '/hopeBox', page: () => const HopeBoxMainScreen()),
+          GetPage(
+              name: '/hopeBoxImages', page: () => const HopeBoxImagesScreen()),
+          GetPage(
+              name: '/hopeBoxVideos', page: () => const HopeBoxVideosScreen()),
+          GetPage(
+              name: '/hopeBoxRecordings',
+              page: () => const HopeBoxRecordingsScreen()),
+          GetPage(
+              name: '/hopeBoxContact',
+              page: () => const HopeBoxContactScreen()),
+          GetPage(
+              name: '/hopeBoxContactSetup',
+              page: () => const HopeBoxContactSetupScreen()),
+          GetPage(
+              name: '/hopeBoxContactEdit',
+              page: () => const HopeBoxContactEditScreen()),
+
+          // Achievements Page
           GetPage(
               name: '/achievementsScreen',
-              page: () => const AchievementsScreen())
+              page: () => const AchievementsScreen()),
+          // Hotline Page
+          GetPage(
+              name: '/MentalHealthOnlineScreen',
+              page: () => const MentalHealthOnlineScreen()),
         ],
         theme: themeData,
         home:

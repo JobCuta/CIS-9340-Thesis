@@ -8,7 +8,7 @@ import '../apis/userSecureStorage.dart';
 
 class SettingsController extends GetxController {
   var notificationsEnabled = false.obs;
-  var notificationsMorningTime = ['6', '30'].obs;
+  var notificationsMorningTime = ['9', '30'].obs;
   var notificationsAfternoonTime = ['12', '30'].obs;
   var notificationsEveningTime = ['18', '30'].obs;
   var language = 'English'.obs;
@@ -26,8 +26,8 @@ class SettingsController extends GetxController {
           language: 'English');
       box.put('settings', settings);
     }
-    print('Settings');
-    print(box.toMap().length);
+    // print('Settings');
+    // print(box.toMap().length);
 
     SettingsHive settings = box.get('settings');
     notificationsEnabled.value = settings.notificationsEnabled;

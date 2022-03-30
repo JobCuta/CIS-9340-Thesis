@@ -7,6 +7,7 @@ import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 import '../apis/EmotionEntryDetail.dart';
 
@@ -30,7 +31,6 @@ class EmotionController extends GetxController {
   var isAfternoonCheck = false.obs;
   var isEveningCheck = false.obs;
   var noEntriesCount = 0.obs;
-
 
   void addPositiveEmotion(emotion) {
     _selectedPositiveEmotions.add(emotion);
@@ -80,7 +80,7 @@ class EmotionController extends GetxController {
   }
 
   void updateNotes(String s) {
-    note.value = s;
+    note.value = s.trim();
     update();
   }
 
@@ -89,19 +89,22 @@ class EmotionController extends GetxController {
       isMorningCheck.value = true;
       isAfternoonCheck.value = false;
       isEveningCheck.value = false;
-    }
-    else if (part == PartOfTheDay.Afternoon) {
+    } else if (part == PartOfTheDay.Afternoon) {
       isAfternoonCheck.value = true;
       isMorningCheck.value = false;
       isEveningCheck.value = false;
-    }
-    else if (part == PartOfTheDay.Evening) {
+    } else if (part == PartOfTheDay.Evening) {
       isEveningCheck.value = true;
       isMorningCheck.value = false;
       isAfternoonCheck.value = false;
     }
 
-    print ("Part of the Day checks = " + isMorningCheck.value.toString() + ", " + isAfternoonCheck.value.toString() + ", " + isEveningCheck.value.toString());
+    print("Part of the Day checks = " +
+        isMorningCheck.value.toString() +
+        ", " +
+        isAfternoonCheck.value.toString() +
+        ", " +
+        isEveningCheck.value.toString());
     update();
   }
 
@@ -273,16 +276,16 @@ class EmotionController extends GetxController {
     List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
     List<dynamic> negativeEmotions = _selectedNegativeEmotions.value;
 
-    if (!isMorningCheck.value && !isAfternoonCheck.value && !isEveningCheck.value) {
+    if (!isMorningCheck.value &&
+        !isAfternoonCheck.value &&
+        !isEveningCheck.value) {
       if (dateTime.hour < 12 && dateTime.hour > 23) {
         isMorningCheck.value = true;
-      }
-      else if (dateTime.hour > 11 && dateTime.hour < 18) {
+      } else if (dateTime.hour > 11 && dateTime.hour < 18) {
         isAfternoonCheck.value = true;
-      }
-      else if (dateTime.hour > 17 && dateTime.hour < 24) {
+      } else if (dateTime.hour > 17 && dateTime.hour < 24) {
         isEveningCheck.value = true;
-      }              
+      }
     }
 
     if (isMorningCheck.value) {
@@ -292,18 +295,14 @@ class EmotionController extends GetxController {
       emotionEntry.morningCheck.positiveEmotions = positiveEmotions;
       emotionEntry.morningCheck.negativeEmotions = negativeEmotions;
       emotionEntry.morningCheck.isEmpty = false;
-    }
-
-    else if (isAfternoonCheck.value) {
+    } else if (isAfternoonCheck.value) {
       emotionEntry.afternoonCheck.time = time;
       emotionEntry.afternoonCheck.note = note.value;
       emotionEntry.afternoonCheck.mood = mood.name;
       emotionEntry.afternoonCheck.positiveEmotions = positiveEmotions;
       emotionEntry.afternoonCheck.negativeEmotions = negativeEmotions;
       emotionEntry.afternoonCheck.isEmpty = false;
-    }
-
-    else if (isEveningCheck.value) {
+    } else if (isEveningCheck.value) {
       emotionEntry.eveningCheck.time = time;
       emotionEntry.eveningCheck.note = note.value;
       emotionEntry.eveningCheck.mood = mood.name;
@@ -314,7 +313,6 @@ class EmotionController extends GetxController {
 
     calculateOverallMood(emotionEntry);
     emotionEntry.save();
-
 
     print("--------------- UPDATING ---------------");
     print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
@@ -367,15 +365,25 @@ class EmotionController extends GetxController {
   void deleteEmotionEntry(PartOfTheDay part) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
-    
+
     if (part == PartOfTheDay.Morning) {
-      emotionEntry.morningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Afternoon) {
-      emotionEntry.afternoonCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
-    }
-    else if (part == PartOfTheDay.Evening) {
-      emotionEntry.eveningCheck = EmotionEntryDetail(isEmpty: true, mood: moodMap['NoData']!.name, positiveEmotions: [], negativeEmotions: []);
+      emotionEntry.morningCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
+    } else if (part == PartOfTheDay.Afternoon) {
+      emotionEntry.afternoonCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
+    } else if (part == PartOfTheDay.Evening) {
+      emotionEntry.eveningCheck = EmotionEntryDetail(
+          isEmpty: true,
+          mood: moodMap['NoData']!.name,
+          positiveEmotions: [],
+          negativeEmotions: []);
     }
 
     calculateOverallMood(emotionEntry);
@@ -394,7 +402,7 @@ class EmotionController extends GetxController {
   }
   
   String timeToString(DateTime dateTime) {
-    return dateTime.hour.toString() + ":" + dateTime.minute.toString();
+    return DateFormat.Hm().format(dateTime);
   }
 
   void calculateOverallMood(EmotionEntryHive emotionEntry) {

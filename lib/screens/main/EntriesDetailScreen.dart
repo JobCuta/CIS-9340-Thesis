@@ -10,7 +10,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
 
-
 class EntriesDetailScreen extends StatefulWidget {
   const EntriesDetailScreen({Key? key}) : super(key: key);
 
@@ -18,10 +17,9 @@ class EntriesDetailScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _EntriesDetailScreenState();
 }
 
-
 final EmotionController _emotionController = Get.put(EmotionController());
 
-class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
+class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
   EmotionEntryHive emotionEntry = _emotionController.getSelectedEmotionEntry();
 
   Map<int, String> month = {
@@ -38,7 +36,6 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
     11: 'Nov',
     12: 'Dec'
   };
-
 
   int missedEntries = 0;
 
@@ -61,23 +58,19 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
               textAlign: TextAlign.center,
             ),
             content: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               child: Wrap(
                   runSpacing: 20,
                   alignment: WrapAlignment.center,
                   children: [
                     SvgPicture.asset('assets/images/delete_entry.svg'),
-                    Text("Every entry is essential in tracking your life's well-being, are you sure you want to delete this entry?",
+                    Text(
+                        "Every entry is essential in tracking your life's well-being, are you sure you want to delete this entry?",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralBlack02)),
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralBlack02)),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -115,8 +108,8 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                               }),
                         ])
                   ]),
-          )));
-    }
+            )));
+  }
 
 
   List<bool> _isOpen = [false];
@@ -125,18 +118,78 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
   Widget build(BuildContext context) {
     _checkForAnyMissedEntries();
 
+    PositiveEmotions(List positiveEmotions) {
+      return positiveEmotions.isNotEmpty
+          ? SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true, //just set this property
+                padding: const EdgeInsets.all(8.0),
+                itemCount: positiveEmotions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    width: 75,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(4),
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24)),
+                        color: Theme.of(context).colorScheme.accentBlue02),
+                    child: Text(positiveEmotions[index].toString(),
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
+                  );
+                },
+              ))
+          : Text('None', style: Theme.of(context).textTheme.bodyText2);
+    }
+
+    NegativeEmotions(List negativeEmotions) {
+      return negativeEmotions.isNotEmpty
+          ? SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true, //just set this property
+                padding: const EdgeInsets.all(8.0),
+                itemCount: negativeEmotions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    width: 100,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(4),
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24)),
+                        color: Theme.of(context).colorScheme.accentRed02),
+                    child: Text(negativeEmotions[index].toString(),
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
+                  );
+                },
+              ))
+          : Text('None', style: Theme.of(context).textTheme.bodyText2);
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: SideMenu(),
       appBar: AppBar(
-        primary: true,
-        elevation: 0,
-        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
-        title: Text(emotionEntry.month.substring(0, 3) + " " + emotionEntry.day.toString() + ", " + emotionEntry.year.toString())
-      ),
-      body: Stack(
-        children: [
-          Container(
+          primary: true,
+          elevation: 0,
+          backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+          title: Text(emotionEntry.month.substring(0, 3) +
+              " " +
+              emotionEntry.day.toString() +
+              ", " +
+              emotionEntry.year.toString())),
+      body: Stack(children: [
+        Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
@@ -361,8 +414,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+            Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: const BoxDecoration(
@@ -573,8 +627,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+            Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 25.0),
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: const BoxDecoration(
@@ -785,66 +840,70 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen>{
               ),
 
 
-              const SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
 
-              (missedEntries  > 0 && missedEntries < 3) 
-              ? Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 140,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 18.0),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff3290FF).withOpacity(0.60),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4))),
-                  child: Column(children: [
-                    Text('You missed some entries!',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
-                    const SizedBox(height: 10),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 12.0),
-                      decoration: BoxDecoration(
-                          color: const Color(0xff216CB2).withOpacity(0.20),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Text(
-                          'Make sure to add your missed entries to ensure that your wellness is being properly tracked by you and the app.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption?.copyWith(color: Colors.white)),
-                    )
-                  ])
-                ),
-              )
-
-              : (missedEntries == 3) 
-              ? Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 70,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 18.0),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff3290FF).withOpacity(0.60),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4))),
-                  child: Text('No entries found!',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
-                ),
-              )
-
-              : const SizedBox(height: 10.0),
-
-            ],
-          )
-        ),
-        
+            (missedEntries > 0 && missedEntries < 3)
+                ? Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Container(
+                        alignment: Alignment.center,
+                        height: 140,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 18.0),
+                        decoration: BoxDecoration(
+                            color: const Color(0xff3290FF).withOpacity(0.60),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4))),
+                        child: Column(children: [
+                          Text('You missed some entries!',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(color: Colors.white)),
+                          const SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 12.0),
+                            decoration: BoxDecoration(
+                                color:
+                                    const Color(0xff216CB2).withOpacity(0.20),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: Text(
+                                'Make sure to add your missed entries to ensure that your wellness is being properly tracked by you and the app.',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(color: Colors.white)),
+                          )
+                        ])),
+                  )
+                : (missedEntries == 3)
+                    ? Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 70,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4.0, horizontal: 18.0),
+                          decoration: BoxDecoration(
+                              color: const Color(0xff3290FF).withOpacity(0.60),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4))),
+                          child: Text('No entries found!',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(color: Colors.white)),
+                        ),
+                      )
+                    : const SizedBox(height: 10.0),
+          ],
+        )),
       ]),
     );
   }
