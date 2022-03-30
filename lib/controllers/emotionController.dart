@@ -18,6 +18,7 @@ class EmotionController extends GetxController {
   var _selectedNegativeEmotions = [].obs;
   var mainEmotion = ''.obs;
   var note = ''.obs;
+  var dateTime = DateTime.now().obs;
 
   var isPositiveNotEmpty = false.obs;
   var isNegativeNotEmpty = false.obs;
@@ -31,6 +32,10 @@ class EmotionController extends GetxController {
   var isAfternoonCheck = false.obs;
   var isEveningCheck = false.obs;
   var noEntriesCount = 0.obs;
+
+  var currentStreak = 0.obs;
+  var longestStreak = 0.obs;
+  var monthMoodCount = [0,0,0,0,0].obs;
 
   void addPositiveEmotion(emotion) {
     _selectedPositiveEmotions.add(emotion);
@@ -105,6 +110,26 @@ class EmotionController extends GetxController {
         isAfternoonCheck.value.toString() +
         ", " +
         isEveningCheck.value.toString());
+    update();
+  }
+
+  void updateDateTime(String month, int day, int year) {
+    Map<String, int> monthNameToMonthNumber = {
+      'January': 1,
+      'February': 2,
+      'March': 3,
+      'April': 4,
+      'May': 5,
+      'June': 6,
+      'July': 7,
+      'August': 8,
+      'September': 9,
+      'October': 10,
+      'November': 11,
+      'December': 12
+    };
+
+    dateTime.value = DateTime(year = year, monthNameToMonthNumber[month] as int, day);
     update();
   }
 
@@ -268,10 +293,9 @@ class EmotionController extends GetxController {
 
   void updateEntryInStorage() {
     Box box = Hive.box<EmotionEntryHive>('emotion');
-    DateTime dateTime = DateTime.now();
-    String time = timeToString(dateTime);
+    String time = timeToString(dateTime.value);
 
-    EmotionEntryHive emotionEntry = box.get(dateToString(dateTime));
+    EmotionEntryHive emotionEntry = box.get(dateToString(dateTime.value));
     Mood? mood = moodMap[mainEmotion.value] as Mood;
     List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
     List<dynamic> negativeEmotions = _selectedNegativeEmotions.value;
@@ -279,11 +303,11 @@ class EmotionController extends GetxController {
     if (!isMorningCheck.value &&
         !isAfternoonCheck.value &&
         !isEveningCheck.value) {
-      if (dateTime.hour < 12 && dateTime.hour > 23) {
+      if (dateTime.value.hour < 12 && dateTime.value.hour > 23) {
         isMorningCheck.value = true;
-      } else if (dateTime.hour > 11 && dateTime.hour < 18) {
+      } else if (dateTime.value.hour > 11 && dateTime.value.hour < 18) {
         isAfternoonCheck.value = true;
-      } else if (dateTime.hour > 17 && dateTime.hour < 24) {
+      } else if (dateTime.value.hour > 17 && dateTime.value.hour < 24) {
         isEveningCheck.value = true;
       }
     }
@@ -332,6 +356,60 @@ class EmotionController extends GetxController {
       createNewEntriesInStorage(0);
       return box.get(date);
     }
+  }
+
+  List<EmotionEntryHive> getEmotionEntriesForMonth(int month, int year) {
+    Map<int, String> monthStr = {
+      1: 'January',
+      2: 'Febuary',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    };
+
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+    List<EmotionEntryHive> emotionEntries = [];
+    currentStreak.value = 0;
+    longestStreak.value = 0;
+    monthMoodCount.value = [0,0,0,0,0];
+    update();
+
+    String selectedMonth = monthStr[month] as String;
+
+    for (var key in emotionEntryKeys) {
+      EmotionEntryHive emotionEntry = box.get(key);
+      if (emotionEntry.month == selectedMonth && emotionEntry.year == year) {
+        emotionEntries.add(emotionEntry);
+        if (emotionEntry.overallMood == 'VeryBad') monthMoodCount.value[0]++;
+        else if (emotionEntry.overallMood == 'Bad') monthMoodCount.value[1]++;
+        else if (emotionEntry.overallMood == 'Neutral') monthMoodCount.value[2]++;
+        else if (emotionEntry.overallMood == 'Happy') monthMoodCount.value[3]++;
+        else if (emotionEntry.overallMood == 'VeryHappy') monthMoodCount.value[4]++;
+      }
+
+      if (emotionEntry.overallMood != 'NoData') {
+        currentStreak.value++;
+        if (currentStreak.value > longestStreak.value) longestStreak.value = currentStreak.value;
+
+      } else {
+        currentStreak.value = 0;
+      }
+    }
+
+    print("CURRENT STREAK VALUE = $currentStreak");
+    print("LONGEST STREAK VALUE = $longestStreak");
+    print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
+
+    update();
+    return emotionEntries;
   }
 
   List<EmotionEntryHive> getAllEmotionEntries() {
