@@ -1,4 +1,6 @@
 // import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/ContactDetails.dart';
 import 'package:flutter_application_1/apis/hopeBoxHive.dart';
 import 'package:flutter_application_1/apis/hopeBoxObject.dart';
 import 'package:get/get.dart';
@@ -9,16 +11,31 @@ class HopeBoxController extends GetxController {
   RxList images = [].obs;
   RxList videos = [].obs;
   RxList recordings = [].obs;
+  var contactPerson = ContactDetails(
+          pathImage: '', firstName: '', lastName: '', mobileNumber: '')
+      .obs;
+
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
 
   void prepareTheObjects() {
     if (box.isEmpty) {
-      HopeBox hopeBox = HopeBox(images: [], videos: [], recordings: []);
+      ContactDetails person = ContactDetails(
+          pathImage: '', firstName: '', lastName: '', mobileNumber: '');
+      HopeBox hopeBox = HopeBox(
+          images: [], videos: [], recordings: [], contactPerson: person);
       box.put('hopebox', hopeBox);
     }
     HopeBox hopeBox = box.get('hopebox');
     images.value = hopeBox.images;
     videos.value = hopeBox.videos;
     recordings.value = hopeBox.recordings;
+    contactPerson.value = hopeBox.contactPerson;
+
+    firstNameController.text = hopeBox.contactPerson.getFirstName();
+    lastNameController.text = hopeBox.contactPerson.getLastName();
+    mobileNumberController.text = hopeBox.contactPerson.getMobileNumber();
 
     print('HopeBox');
     print(box.toMap().length);
@@ -164,6 +181,40 @@ class HopeBoxController extends GetxController {
     update();
   }
 
+  // contact person details methods
+  saveContactDetails(path) {
+    HopeBox hopeBox = box.get('hopebox');
+    ContactDetails newPerson = ContactDetails(
+      pathImage: path,
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      mobileNumber: mobileNumberController.text,
+    );
+    hopeBox.contactPerson = newPerson;
+    box.put('hopebox', hopeBox);
+    checkValues();
+    update();
+  }
+
+  deleteContactDetails() {
+    HopeBox hopeBox = box.get('hopebox');
+    ContactDetails newPerson = ContactDetails(
+      pathImage: '',
+      firstName: '',
+      lastName: '',
+      mobileNumber: '',
+    );
+    hopeBox.contactPerson = newPerson;
+
+    firstNameController.text = '';
+    lastNameController.text = '';
+    mobileNumberController.text = '';
+
+    box.put('hopebox', hopeBox);
+    checkValues();
+    update();
+  }
+
   void checkValues() {
     print('Settings in the box');
     print('-------------------------------------------------');
@@ -171,11 +222,20 @@ class HopeBoxController extends GetxController {
     print('${hopeBox.images}, ${hopeBox.images.length}');
     print('${hopeBox.videos}, ${hopeBox.videos.length}');
     print('${hopeBox.recordings}, ${hopeBox.recordings.length}');
+    print('${hopeBox.contactPerson}');
 
     print('Settings in the controller');
     print('-------------------------------------------------');
     print('$images, ${images.length}');
     print('$videos, ${videos.length}');
     print('$recordings, ${recordings.length}');
+    print('$contactPerson');
+  }
+
+  void resetContactValue() {
+    HopeBox hopeBox = box.get('hopebox');
+    firstNameController.text = hopeBox.contactPerson.getFirstName();
+    lastNameController.text = hopeBox.contactPerson.getLastName();
+    mobileNumberController.text = hopeBox.contactPerson.getMobileNumber();
   }
 }

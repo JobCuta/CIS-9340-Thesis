@@ -20,11 +20,10 @@ class HopeBoxImagesScreen extends StatefulWidget {
 
 class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
   final ImagePicker _picker = ImagePicker();
-  final HopeBoxController _hopeController = HopeBoxController();
+  final HopeBoxController _hopeController = Get.put(HopeBoxController());
   final TextEditingController _noteController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    _hopeController.prepareTheObjects();
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -590,7 +589,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                         _noteController.text, savedImage.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxImages');
-                                  } else {}
+                                  }
                                 }),
                           ),
                         ]),

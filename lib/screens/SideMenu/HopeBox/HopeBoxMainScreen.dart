@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -13,6 +14,8 @@ class HopeBoxMainScreen extends StatefulWidget {
 }
 
 class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
+  final HopeBoxController _hopeController = Get.put(HopeBoxController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +64,18 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                             assetName: 'assets/images/hopebox_recordings.svg',
                             onTap: () {
                               Get.toNamed('/hopeBoxRecordings');
+                            }),
+                        _buildHopeBoxComponent(
+                            assetName: 'assets/images/hopebox_contact.svg',
+                            onTap: () {
+                              // _hopeController.firstNameController.text == ''
+                              // ?
+                              showContactSetupConfirmation(context);
+                              // : Get.toNamed('/hopeBoxContact');
                             })
                       ],
                     ),
-                    SizedBox(height: 150),
+                    const SizedBox(height: 150),
                     SvgPicture.asset('assets/images/basket.svg'),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -98,4 +109,68 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
         color: Colors.transparent,
         child: InkWell(onTap: onTap, child: SvgPicture.asset(assetName)));
   }
+}
+
+showContactSetupConfirmation(context) {
+  return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+          insetPadding: const EdgeInsets.all(50.0),
+          title: Text(
+            'Add Emergency Contact Person',
+            style: Theme.of(context).textTheme.headline5?.copyWith(
+                color: Theme.of(context).colorScheme.neutralBlack02,
+                fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
+          ),
+          content: Container(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            child: Wrap(
+                runSpacing: 20,
+                alignment: WrapAlignment.center,
+                children: [
+                  Text(
+                      'You currently have no emergency contact set. Would you like to set one now?',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.neutralBlack02)),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          child: Text(
+                            'Yes',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .intGreenMain,
+                                    fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            Get.back();
+                            Get.toNamed('/hopeBoxContactSetup');
+                          },
+                        ),
+                        TextButton(
+                            child: Text(
+                              'Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralBlack02,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            }),
+                      ])
+                ]),
+          )));
 }

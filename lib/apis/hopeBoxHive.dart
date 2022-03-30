@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/apis/hopeBoxObject.dart';
+import 'package:flutter_application_1/apis/ContactDetails.dart';
+
 import 'package:hive/hive.dart';
 
 part 'hopeBoxHive.g.dart';
@@ -14,9 +16,13 @@ class HopeBox extends HiveObject {
   @HiveField(2)
   List<HopeBoxObject> recordings;
 
+  @HiveField(3)
+  ContactDetails contactPerson;
+
   HopeBox({
     required this.images,
     required this.videos,
     required this.recordings,
+    required this.contactPerson,
   });
 }

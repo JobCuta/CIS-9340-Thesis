@@ -1,41 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hopeBoxHive.dart';
+part of 'ContactDetails.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HopeBoxAdapter extends TypeAdapter<HopeBox> {
+class ContactDetailsAdapter extends TypeAdapter<ContactDetails> {
   @override
-  final int typeId = 8;
+  final int typeId = 10;
 
   @override
-  HopeBox read(BinaryReader reader) {
+  ContactDetails read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HopeBox(
-      images: (fields[0] as List).cast<HopeBoxObject>(),
-      videos: (fields[1] as List).cast<HopeBoxObject>(),
-      recordings: (fields[2] as List).cast<HopeBoxObject>(),
-      contactPerson: fields[3] as ContactDetails,
+    return ContactDetails(
+      pathImage: fields[0] as String,
+      firstName: fields[1] as String,
+      lastName: fields[2] as String,
+      mobileNumber: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, HopeBox obj) {
+  void write(BinaryWriter writer, ContactDetails obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.images)
+      ..write(obj.pathImage)
       ..writeByte(1)
-      ..write(obj.videos)
+      ..write(obj.firstName)
       ..writeByte(2)
-      ..write(obj.recordings)
+      ..write(obj.lastName)
       ..writeByte(3)
-      ..write(obj.contactPerson);
+      ..write(obj.mobileNumber);
   }
 
   @override
@@ -44,7 +44,7 @@ class HopeBoxAdapter extends TypeAdapter<HopeBox> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HopeBoxAdapter &&
+      other is ContactDetailsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
