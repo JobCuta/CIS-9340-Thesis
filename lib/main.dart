@@ -11,6 +11,7 @@ import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideoPlayer.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
@@ -229,6 +230,8 @@ class _MainState extends State<Main> {
               name: '/hopeBoxImages', page: () => const HopeBoxImagesScreen()),
           GetPage(
               name: '/hopeBoxVideos', page: () => const HopeBoxVideosScreen()),
+          GetPage(
+              name: '/hopeBoxVideoPlayer', page: () => HopeBoxVideoPlayer()),
           GetPage(
               name: '/hopeBoxRecordings',
               page: () => const HopeBoxRecordingsScreen()),

@@ -96,11 +96,12 @@ dependencies:
   # generates thumbnails for uploaded videos
   video_thumbnail: ^0.4.3
 
+  # plays videos
+  video_player: ^2.3.0
+
   # access file storage for application 
   path_provider: ^2.0.9
   path: ^1.8.0
-
-
 
 dev_dependencies:
   flutter_test:

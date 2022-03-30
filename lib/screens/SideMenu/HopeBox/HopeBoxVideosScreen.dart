@@ -156,14 +156,24 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                                           .colorScheme
                                                           .neutralGray04)),
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
+                                        InkWell(
+                                          onTap: () {
+                                            Get.toNamed('/hopeBoxVideoPlayer',
+                                                arguments: {
+                                                  "filePath": _hopeController
+                                                      .videos[index]
+                                                      .getPath()
+                                                });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: Image.file(File(
+                                                _hopeController.videos[index]
+                                                    .getThumbnailPath())),
                                           ),
-                                          child: Image.file(File(_hopeController
-                                              .videos[index]
-                                              .getThumbnailPath())),
                                         )
                                       ])),
                             ),
