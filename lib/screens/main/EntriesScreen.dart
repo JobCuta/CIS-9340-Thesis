@@ -106,7 +106,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                 itemCount: emotionEntries.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15),
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: const BoxDecoration(
@@ -190,6 +190,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
@@ -233,6 +234,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
@@ -276,6 +278,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
