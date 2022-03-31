@@ -142,19 +142,6 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
                             : SvgPicture.asset('assets/images/orange_plus.svg',
                                 width: 200),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Text('Add a photo',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04,
-                                    fontWeight: FontWeight.w600)),
-                      ),
                       _buildTextField(
                         fieldName: 'First Name',
                         hintText: 'Enter your first name',
@@ -216,12 +203,15 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
                           Get.back();
                           Get.offAndToNamed('/hopeBoxContact');
                         } else if (_storedImage != null) {
+                          File file = File(_hopeController.contactPerson.value
+                              .getPathImage());
+                          file.delete();
+
                           final appDir =
                               await getApplicationDocumentsDirectory();
 
                           final savedImage = await _storedImage
                               .copy('${appDir.path}/$_imagePath');
-                          print(savedImage.path);
                           _hopeController.saveContactDetails(savedImage.path);
                           Get.back();
                           Get.offAndToNamed('/hopeBoxContact');

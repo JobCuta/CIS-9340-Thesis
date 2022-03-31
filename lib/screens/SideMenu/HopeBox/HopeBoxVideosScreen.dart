@@ -46,7 +46,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                 child: IconButton(
                     iconSize: 30,
                     onPressed: () {
-                      AddEntry(context);
+                      addEntry(context);
                     },
                     icon: Icon(Icons.add,
                         color: Theme.of(context).colorScheme.neutralBlack02)),
@@ -106,7 +106,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                                             context, index);
                                                       } else if (value ==
                                                           'Delete') {
-                                                        DeleteEntry(
+                                                        deleteEntry(
                                                             context, index);
                                                       }
                                                     },
@@ -164,7 +164,11 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                                 arguments: {
                                                   "filePath": _hopeController
                                                       .videos[index]
-                                                      .getPath()
+                                                      .getPath(),
+                                                  "thumbnailPath":
+                                                      _hopeController
+                                                          .videos[index]
+                                                          .getThumbnailPath()
                                                 });
                                           },
                                           child: Container(
@@ -200,76 +204,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                   )));
   }
 
-  DeleteEntry(BuildContext context, int index) {
-    return showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-            insetPadding: const EdgeInsets.all(50.0),
-            title: Text(
-              'Are you sure?',
-              style: Theme.of(context).textTheme.headline5?.copyWith(
-                  color: Theme.of(context).colorScheme.neutralBlack02,
-                  fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            content: Container(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-              child: Wrap(
-                  runSpacing: 20,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/images/trash.svg'),
-                    Text('Are you sure you want to delete this video?',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color:
-                                Theme.of(context).colorScheme.neutralBlack02)),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            child: Text(
-                              'Delete',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .accentRed02,
-                                      fontWeight: FontWeight.w600),
-                            ),
-                            onPressed: () async {
-                              final file =
-                                  File(_hopeController.videos[index].getPath());
-                              await file.delete();
-                              _hopeController.removeVideo(index);
-                              Get.back();
-                              Get.offAndToNamed('/hopeBoxVideos');
-                            },
-                          ),
-                          TextButton(
-                              child: Text(
-                                'Nevermind',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralBlack02,
-                                        fontWeight: FontWeight.w600),
-                              ),
-                              onPressed: () {
-                                Get.back();
-                              }),
-                        ])
-                  ]),
-            )));
-  }
-
-  AddEntry(context) {
+  addEntry(context) {
     _noteController.text = '';
     var thumbnail;
     return showDialog<String>(
@@ -630,12 +565,15 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxVideos');
                                   } else if (_storedVideo != null) {
+                                    File file = File(_hopeController
+                                        .videos[index]
+                                        .getPath());
+                                    file.delete();
                                     final appDir =
                                         await getApplicationDocumentsDirectory();
 
                                     final savedVideo = await _storedVideo
                                         .copy('${appDir.path}/$_videoPath');
-                                    print(savedVideo.path);
                                     _hopeController.updateVideo(
                                         index,
                                         _noteController.text,
@@ -651,5 +589,74 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                 );
               }));
         });
+  }
+
+  deleteEntry(BuildContext context, int index) {
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+            insetPadding: const EdgeInsets.all(50.0),
+            title: Text(
+              'Are you sure?',
+              style: Theme.of(context).textTheme.headline5?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralBlack02,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            content: Container(
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              child: Wrap(
+                  runSpacing: 20,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/images/trash.svg'),
+                    Text('Are you sure you want to delete this video?',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralBlack02)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            child: Text(
+                              'Delete',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .accentRed02,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () async {
+                              final file =
+                                  File(_hopeController.videos[index].getPath());
+                              await file.delete();
+                              _hopeController.removeVideo(index);
+                              Get.back();
+                              Get.offAndToNamed('/hopeBoxVideos');
+                            },
+                          ),
+                          TextButton(
+                              child: Text(
+                                'Nevermind',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                              }),
+                        ])
+                  ]),
+            )));
   }
 }

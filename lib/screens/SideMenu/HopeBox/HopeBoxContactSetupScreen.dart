@@ -207,7 +207,6 @@ class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
                         final appDir = await getApplicationDocumentsDirectory();
                         final savedImage = await _storedImage
                             .copy('${appDir.path}/$_imagePath');
-                        print(savedImage.path);
                         _hopeController.saveContactDetails(savedImage.path);
 
                         Get.offAndToNamed('/hopeBoxContact');

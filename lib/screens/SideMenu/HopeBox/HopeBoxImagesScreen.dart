@@ -44,7 +44,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                 child: IconButton(
                     iconSize: 30,
                     onPressed: () {
-                      AddEntry(context);
+                      addEntry(context);
                     },
                     icon: Icon(Icons.add,
                         color: Theme.of(context).colorScheme.neutralBlack02)),
@@ -104,7 +104,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                                             context, index);
                                                       } else if (value ==
                                                           'Delete') {
-                                                        DeleteEntry(
+                                                        deleteEntry(
                                                             context, index);
                                                       }
                                                     },
@@ -188,7 +188,352 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                   )));
   }
 
-  DeleteEntry(BuildContext context, int index) {
+  addEntry(context) {
+    _noteController.text = '';
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          var _storedImage = null;
+          var _imagePath;
+          return AlertDialog(
+              insetPadding: const EdgeInsets.all(20.0),
+              title: Text(
+                'Add a Photo',
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                    color: Theme.of(context).colorScheme.neutralBlack02,
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              content:
+                  StatefulBuilder(builder: (context, StateSetter setState) {
+                return SingleChildScrollView(
+                  child: Container(
+                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Add photos that have inspired you for today!',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray04,
+                                      fontWeight: FontWeight.w400)),
+                          InkWell(
+                            onTap: () async {
+                              final image = await _picker.pickImage(
+                                  source: ImageSource.gallery);
+                              if (image == null) {
+                                return;
+                              }
+                              setState(() {
+                                _storedImage = File(image.path);
+                                _imagePath = basename(image.path);
+                              });
+                            },
+                            child: FittedBox(
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(10),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite04,
+                                          width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(4))),
+                                  child: (_storedImage != null)
+                                      ? Container(
+                                          height: 200,
+                                          margin: const EdgeInsets.all(10),
+                                          child: Image.file(
+                                            _storedImage,
+                                            fit: BoxFit.fitHeight,
+                                          ))
+                                      : SvgPicture.asset(
+                                          'assets/images/select_photo.svg')),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                  DateFormat.yMMMMd().format(
+                                    DateTime.now(),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray04,
+                                          fontWeight: FontWeight.w400)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: TextFormField(
+                              controller: _noteController,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack02,
+                                  ),
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.description),
+                                hintText: 'Add a note',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04),
+                                border: const OutlineInputBorder(),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 13.0),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                                child: Text(
+                                  'Add',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(3)),
+                                    elevation: 0,
+                                    primary: Theme.of(context)
+                                        .colorScheme
+                                        .sunflowerYellow01),
+                                onPressed: () async {
+                                  if (_storedImage != null) {
+                                    final appDir =
+                                        await getApplicationDocumentsDirectory();
+
+                                    final savedImage = await _storedImage
+                                        .copy('${appDir.path}/$_imagePath');
+                                    _hopeController.addImage(
+                                        _noteController.text, savedImage.path);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
+                                  }
+                                }),
+                          ),
+                        ]),
+                  ),
+                );
+              }));
+        });
+  }
+
+  void editEntry(context, int index) {
+    _noteController.text =
+        _hopeController.images[index].getDescription() != 'Default Placeholder'
+            ? _hopeController.images[index].getDescription()
+            : '';
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          var _storedImage = File(_hopeController.images[index].getPath());
+          var _imagePath = _hopeController.images[index].getPath();
+          return AlertDialog(
+              insetPadding: const EdgeInsets.all(20.0),
+              title: Text(
+                'Edit photo entry',
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                    color: Theme.of(context).colorScheme.neutralBlack02,
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              content:
+                  StatefulBuilder(builder: (context, StateSetter setState) {
+                return SingleChildScrollView(
+                  child: Container(
+                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Add photos that have inspired you for today!',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray04,
+                                      fontWeight: FontWeight.w400)),
+                          InkWell(
+                            onTap: () async {
+                              final image = await _picker.pickImage(
+                                  source: ImageSource.gallery);
+                              if (image == null) {
+                                return;
+                              }
+                              setState(() {
+                                _storedImage = File(image.path);
+                                _imagePath = basename(image.path);
+                              });
+                            },
+                            child: FittedBox(
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(10),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite04,
+                                          width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(4))),
+                                  child: (_storedImage != null)
+                                      ? Container(
+                                          height: 200,
+                                          margin: const EdgeInsets.all(10),
+                                          child: Image.file(
+                                            _storedImage,
+                                            fit: BoxFit.fitHeight,
+                                          ))
+                                      : SvgPicture.asset(
+                                          'assets/images/select_photo.svg')),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                  DateFormat.yMMMMd().format(
+                                    DateTime.now(),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray04,
+                                          fontWeight: FontWeight.w400)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: TextFormField(
+                              controller: _noteController,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack02,
+                                  ),
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.description),
+                                hintText: 'Add a note',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04),
+                                border: const OutlineInputBorder(),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 13.0),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                                child: Text(
+                                  'Save',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(3)),
+                                    elevation: 0,
+                                    primary: Theme.of(context)
+                                        .colorScheme
+                                        .sunflowerYellow01),
+                                onPressed: () async {
+                                  if (_imagePath ==
+                                      _hopeController.images[index].getPath()) {
+                                    _hopeController.updateImageDesc(
+                                        index, _noteController.text);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
+                                  } else if (_storedImage != null) {
+                                    File file = File(_hopeController
+                                        .images[index]
+                                        .getPath());
+                                    file.delete();
+                                    final appDir =
+                                        await getApplicationDocumentsDirectory();
+
+                                    final savedImage = await _storedImage
+                                        .copy('${appDir.path}/$_imagePath');
+                                    _hopeController.updateImage(index,
+                                        _noteController.text, savedImage.path);
+                                    Get.back();
+                                    Get.offAndToNamed('/hopeBoxImages');
+                                  }
+                                }),
+                          ),
+                        ]),
+                  ),
+                );
+              }));
+        });
+  }
+
+  deleteEntry(BuildContext context, int index) {
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -255,349 +600,5 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                         ])
                   ]),
             )));
-  }
-
-  AddEntry(context) {
-    _noteController.text = '';
-    return showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          var _storedImage = null;
-          var _imagePath;
-          return AlertDialog(
-              insetPadding: const EdgeInsets.all(20.0),
-              title: Text(
-                'Add a Photo',
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                    color: Theme.of(context).colorScheme.neutralBlack02,
-                    fontWeight: FontWeight.w600),
-                textAlign: TextAlign.center,
-              ),
-              content:
-                  StatefulBuilder(builder: (context, StateSetter setState) {
-                return SingleChildScrollView(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Add photos that have inspired you for today!',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray04,
-                                      fontWeight: FontWeight.w400)),
-                          InkWell(
-                            onTap: () async {
-                              final image = await _picker.pickImage(
-                                  source: ImageSource.gallery);
-                              if (image == null) {
-                                return;
-                              }
-                              setState(() {
-                                _storedImage = File(image.path);
-                                _imagePath = basename(image.path);
-                              });
-                            },
-                            child: FittedBox(
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(10),
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite04,
-                                          width: 1),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(4))),
-                                  child: (_storedImage != null)
-                                      ? Container(
-                                          height: 200,
-                                          // width: 200,
-                                          margin: const EdgeInsets.all(10),
-                                          child: Image.file(
-                                            _storedImage,
-                                            fit: BoxFit.fitHeight,
-                                          ))
-                                      : SvgPicture.asset(
-                                          'assets/images/select_photo.svg')),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                  DateFormat.yMMMMd().format(
-                                    DateTime.now(),
-                                  ),
-                                  textAlign: TextAlign.left,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray04,
-                                          fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 20),
-                            child: TextFormField(
-                              controller: _noteController,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02,
-                                  ),
-                              // initialValue: note,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.description),
-                                hintText: 'Add a note',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite04),
-                                border: const OutlineInputBorder(),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0, vertical: 13.0),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                                child: Text(
-                                  'Add',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01,
-                                          fontWeight: FontWeight.w600),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(3)),
-                                    elevation: 0,
-                                    primary: Theme.of(context)
-                                        .colorScheme
-                                        .sunflowerYellow01),
-                                onPressed: () async {
-                                  if (_storedImage != null) {
-                                    final appDir =
-                                        await getApplicationDocumentsDirectory();
-
-                                    final savedImage = await _storedImage
-                                        .copy('${appDir.path}/$_imagePath');
-                                    print(savedImage.path);
-                                    _hopeController.addImage(
-                                        _noteController.text, savedImage.path);
-                                    Get.back();
-                                    Get.offAndToNamed('/hopeBoxImages');
-                                  }
-                                }),
-                          ),
-                        ]),
-                  ),
-                );
-              }));
-        });
-  }
-
-  void editEntry(context, int index) {
-    _noteController.text = _hopeController.images[index].getDescription();
-    showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          var _storedImage = File(_hopeController.images[index].getPath());
-          var _imagePath = _hopeController.images[index].getPath();
-          return AlertDialog(
-              insetPadding: const EdgeInsets.all(20.0),
-              title: Text(
-                'Edit photo entry',
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                    color: Theme.of(context).colorScheme.neutralBlack02,
-                    fontWeight: FontWeight.w600),
-                textAlign: TextAlign.center,
-              ),
-              content:
-                  StatefulBuilder(builder: (context, StateSetter setState) {
-                return SingleChildScrollView(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Add photos that have inspired you for today!',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray04,
-                                      fontWeight: FontWeight.w400)),
-                          InkWell(
-                            onTap: () async {
-                              final image = await _picker.pickImage(
-                                  source: ImageSource.gallery);
-                              if (image == null) {
-                                return;
-                              }
-                              setState(() {
-                                _storedImage = File(image.path);
-                                _imagePath = basename(image.path);
-                              });
-                            },
-                            child: FittedBox(
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(10),
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite04,
-                                          width: 1),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(4))),
-                                  child: (_storedImage != null)
-                                      ? Container(
-                                          height: 200,
-                                          // width: 200,
-                                          margin: const EdgeInsets.all(10),
-                                          child: Image.file(
-                                            _storedImage,
-                                            fit: BoxFit.fitHeight,
-                                          ))
-                                      : SvgPicture.asset(
-                                          'assets/images/select_photo.svg')),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                  DateFormat.yMMMMd().format(
-                                    DateTime.now(),
-                                  ),
-                                  textAlign: TextAlign.left,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray04,
-                                          fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 20),
-                            child: TextFormField(
-                              controller: _noteController,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02,
-                                  ),
-                              // initialValue: note,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.description),
-                                hintText: 'Add a note',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite04),
-                                border: const OutlineInputBorder(),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0, vertical: 13.0),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                                child: Text(
-                                  'Save',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01,
-                                          fontWeight: FontWeight.w600),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(3)),
-                                    elevation: 0,
-                                    primary: Theme.of(context)
-                                        .colorScheme
-                                        .sunflowerYellow01),
-                                onPressed: () async {
-                                  if (_imagePath ==
-                                      _hopeController.images[index].getPath()) {
-                                    _hopeController.updateImageDesc(
-                                        index, _noteController.text);
-                                    Get.back();
-                                    Get.offAndToNamed('/hopeBoxImages');
-                                  } else if (_storedImage != null) {
-                                    final appDir =
-                                        await getApplicationDocumentsDirectory();
-
-                                    final savedImage = await _storedImage
-                                        .copy('${appDir.path}/$_imagePath');
-                                    print(savedImage.path);
-                                    _hopeController.updateImage(index,
-                                        _noteController.text, savedImage.path);
-                                    Get.back();
-                                    Get.offAndToNamed('/hopeBoxImages');
-                                  }
-                                }),
-                          ),
-                        ]),
-                  ),
-                );
-              }));
-        });
   }
 }

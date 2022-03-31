@@ -114,18 +114,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           backgroundImage: AssetImage(
                               'assets/images/default_user_image.png')),
                     ),
-                    GetBuilder<UserProfileController>(
-                      builder: (value) => Text(
-                          _userProfileController.nicknameController.text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
-                                  fontWeight: FontWeight.w600)),
-                    ),
+                    Text(_userProfileController.nicknameController.text,
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01,
+                            fontWeight: FontWeight.w600)),
                     Container(
                       padding: const EdgeInsets.only(
                           bottom: 20, left: 25, right: 25),

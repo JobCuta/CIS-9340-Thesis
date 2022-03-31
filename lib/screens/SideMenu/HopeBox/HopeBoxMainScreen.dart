@@ -20,11 +20,11 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
   // This key will be used to find the box's coordinates
   final GlobalKey _key = GlobalKey();
 
-  // Coordinates
-  double? _x, _y;
-
   @override
   Widget build(BuildContext context) {
+    // Coordinates
+    double _x = MediaQuery.of(context).size.width / 3 - 50,
+        _y = MediaQuery.of(context).size.height / 2 - 90;
     RenderBox? box = _key.currentContext?.findRenderObject() as RenderBox?;
     Offset? position = box?.localToGlobal(Offset.zero);
     if (position != null) {
@@ -65,10 +65,10 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                       onTap: () {
                         Get.toNamed('/hopeBoxImages');
                       }),
-                  left: boxOpen ? _x! - 60 : _x! + 70,
-                  top: boxOpen ? _y! - 140 : _y! + 20,
+                  left: boxOpen ? _x - 60 : _x + 70,
+                  top: boxOpen ? _y - 140 : _y + 20,
                   curve: Curves.linearToEaseOut,
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                 ),
                 AnimatedPositioned(
                   child: _buildHopeBoxComponent(
@@ -76,10 +76,10 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                       onTap: () {
                         Get.toNamed('/hopeBoxVideos');
                       }),
-                  left: boxOpen ? _x! + 40 : _x! + 70,
-                  top: boxOpen ? (_y! - 140) : _y! + 20,
+                  left: boxOpen ? _x + 40 : _x + 70,
+                  top: boxOpen ? (_y - 140) : _y + 20,
                   curve: Curves.linearToEaseOut,
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                 ),
                 AnimatedPositioned(
                   child: _buildHopeBoxComponent(
@@ -87,10 +87,10 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                       onTap: () {
                         Get.toNamed('/hopeBoxRecordings');
                       }),
-                  left: boxOpen ? _x! + 120 : _x! + 70,
-                  top: boxOpen ? (_y! - 140) : _y! + 20,
+                  left: boxOpen ? _x + 120 : _x + 70,
+                  top: boxOpen ? (_y - 140) : _y + 20,
                   curve: Curves.linearToEaseOut,
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                 ),
                 AnimatedPositioned(
                   child: _buildHopeBoxComponent(
@@ -100,10 +100,10 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                             ? showContactSetupConfirmation(context)
                             : Get.toNamed('/hopeBoxContact');
                       }),
-                  left: boxOpen ? _x! + 230 : _x! + 70,
-                  top: boxOpen ? (_y! - 140) : _y! + 20,
+                  left: boxOpen ? _x + 230 : _x + 70,
+                  top: boxOpen ? (_y - 140) : _y + 20,
                   curve: Curves.linearToEaseOut,
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                 )
               ],
             ),
@@ -122,7 +122,6 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
                             setState(() {
                               boxOpen = !boxOpen;
                             });
-                            print(boxOpen);
                           },
                           child: SvgPicture.asset('assets/images/basket.svg')),
                       Container(

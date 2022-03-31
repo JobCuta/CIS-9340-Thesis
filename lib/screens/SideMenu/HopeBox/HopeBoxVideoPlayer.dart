@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,24 +18,48 @@ class HopeBoxVideoPlayer extends StatefulWidget {
 }
 
 class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
-  late VideoPlayerController _controller;
+  late VideoPlayerController _videoPlayerController1;
+  ChewieController? _chewieController;
   final String filePath = Get.arguments["filePath"]!;
+  final String thumbnailPath = Get.arguments["thumbnailPath"]!;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(File(filePath))
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
-      });
-    _controller.setLooping(true);
+    initializePlayer();
   }
 
   @override
   void dispose() {
+    _videoPlayerController1.dispose();
+    _chewieController?.dispose();
     super.dispose();
-    _controller.dispose();
+  }
+
+  Future<void> initializePlayer() async {
+    _videoPlayerController1 = VideoPlayerController.file(File(filePath));
+    await Future.wait([_videoPlayerController1.initialize()]);
+    _createChewieController();
+    setState(() {});
+  }
+
+  void _createChewieController() {
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController1,
+      autoPlay: true,
+      looping: true,
+      materialProgressColors: ChewieProgressColors(
+        playedColor: Theme.of(context).colorScheme.accentBlue02,
+        handleColor: Theme.of(context).colorScheme.accentBlue02,
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+        bufferedColor: Theme.of(context).colorScheme.accentBlue02,
+      ),
+    );
+  }
+
+  Future<void> toggleVideo() async {
+    await _videoPlayerController1.pause();
+    await initializePlayer();
   }
 
   @override
@@ -55,105 +80,35 @@ class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           color: Theme.of(context).colorScheme.neutralWhite01,
-          child: SingleChildScrollView(
-              child: _controller.value.isInitialized
-                  ? Wrap(
-                      runSpacing: 20,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 300),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
-                            ),
-                          ),
-                        ),
-                        VideoProgressIndicator(
-                          _controller,
-                          allowScrubbing: true,
-                          colors: VideoProgressColors(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              bufferedColor:
-                                  Theme.of(context).colorScheme.accentBlue01,
-                              playedColor:
-                                  Theme.of(context).colorScheme.accentBlue02),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue02,
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: IconButton(
-                                    icon: Icon(Icons.fast_rewind,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite01),
-                                    onPressed: () {
-                                      _controller.seekTo(Duration(
-                                          seconds: _controller
-                                                  .value.position.inSeconds -
-                                              5));
-                                    })),
-                            Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue02,
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: IconButton(
-                                    icon: Icon(
-                                        _controller.value.isPlaying
-                                            ? Icons.pause
-                                            : Icons.play_arrow,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite01),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_controller.value.isPlaying) {
-                                          _controller.pause();
-                                        } else {
-                                          _controller.play();
-                                        }
-                                      });
-                                    })),
-                            Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue02,
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: IconButton(
-                                    icon: Icon(Icons.fast_forward,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite01),
-                                    onPressed: () {
-                                      _controller.seekTo(Duration(
-                                          seconds: _controller
-                                                  .value.position.inSeconds +
-                                              5));
-                                    }))
-                          ],
-                        )
-                      ],
+          child: Center(
+              child: _chewieController != null &&
+                      _chewieController!
+                          .videoPlayerController.value.isInitialized
+                  ? Chewie(
+                      controller: _chewieController!,
                     )
-                  : Center(
+                  : Container(
+                      alignment: Alignment.center,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
+                          CircularProgressIndicator(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite01),
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text('Loading...')
+                          Text('Loading...',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01))
                         ],
                       ),
                     )),
