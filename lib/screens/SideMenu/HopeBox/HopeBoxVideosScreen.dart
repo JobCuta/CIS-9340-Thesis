@@ -96,8 +96,10 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                                                 .colorScheme
                                                                 .neutralGray02)),
                                                 PopupMenuButton(
-                                                    icon: const Icon(
-                                                        Icons.more_horiz),
+                                                    icon: Icon(Icons.more_horiz,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .neutralGray02),
                                                     onSelected: (value) {
                                                       if (value == 'Edit') {
                                                         editEntry(

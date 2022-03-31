@@ -9,6 +9,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class HopeBoxRecordingsScreen extends StatefulWidget {
   const HopeBoxRecordingsScreen({Key? key}) : super(key: key);
@@ -19,11 +20,69 @@ class HopeBoxRecordingsScreen extends StatefulWidget {
 }
 
 class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
-  final HopeBoxController _hopeController = HopeBoxController();
+  final HopeBoxController _hopeController = Get.put(HopeBoxController());
   final TextEditingController _noteController = TextEditingController();
+  bool _isPlaying = false;
+  var current_file = '';
+  late AudioPlayer audioPlayer;
+  Duration _duration = new Duration();
+  Duration _position = new Duration();
+  Duration _slider = new Duration(seconds: 0);
+  // double durationvalue;
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer = AudioPlayer();
+    _position = _slider;
+    audioPlayer.onDurationChanged.listen((d) => setState(() {
+          _duration = d;
+        }));
+
+    audioPlayer.onAudioPositionChanged.listen((p) => setState(() {
+          _position = p;
+        }));
+
+    audioPlayer.onPlayerCompletion.listen((event) {
+      setState(() {
+        _position = Duration(seconds: 0);
+        _isPlaying = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.release();
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  playAudioFromLocalStorage(path) async {
+    await audioPlayer.play(path, isLocal: true);
+  }
+
+  pauseAudio() async {
+    await audioPlayer.pause();
+  }
+
+  stopAudio() async {
+    await audioPlayer.stop();
+  }
+
+  resumeAudio() async {
+    await audioPlayer.resume();
+  }
+
+  seekToSecond(int second) {
+    Duration newDuration = Duration(seconds: second);
+    audioPlayer.seek(newDuration);
+  }
+
   @override
   Widget build(BuildContext context) {
-    _hopeController.prepareTheObjects();
+    // _hopeController.prepareTheObjects();
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -95,10 +154,21 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                                                     .colorScheme
                                                                     .neutralGray02)),
                                                     PopupMenuButton(
-                                                        icon: const Icon(
-                                                            Icons.more_horiz),
+                                                        icon: Icon(
+                                                            Icons.more_horiz,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .neutralGray02),
                                                         onSelected: (value) {
                                                           if (value == 'Edit') {
+                                                            if (_isPlaying) {
+                                                              pauseAudio();
+                                                              setState(() {
+                                                                _isPlaying =
+                                                                    false;
+                                                              });
+                                                            }
                                                             editEntry(
                                                                 context, index);
                                                           } else if (value ==
@@ -141,32 +211,121 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                                   ]),
                                             ),
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SvgPicture.asset(
                                                   'assets/images/select_recording_display.svg',
-                                                  height: 50,
+                                                  height: 70,
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           top: 10, left: 15),
-                                                  child: Text(
-                                                      _hopeController
-                                                          .recordings[index]
-                                                          .getDescription(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2
-                                                          ?.copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .neutralGray04)),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                          _hopeController
+                                                              .recordings[index]
+                                                              .getDescription(),
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyText2
+                                                              ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .neutralGray04)),
+                                                      SizedBox(
+                                                        height: 50,
+                                                        width: 250,
+                                                        child: FittedBox(
+                                                          child: Row(
+                                                            children: [
+                                                              IconButton(
+                                                                  icon: Icon(
+                                                                      (_isPlaying && current_file == _hopeController.recordings[index].getPath())
+                                                                          ? Icons
+                                                                              .pause
+                                                                          : Icons
+                                                                              .play_arrow_outlined,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .accentBlue02),
+                                                                  onPressed:
+                                                                      () {
+                                                                    if (current_file ==
+                                                                            '' ||
+                                                                        current_file !=
+                                                                            _hopeController.recordings[index].getPath()) {
+                                                                      playAudioFromLocalStorage(_hopeController
+                                                                          .recordings[
+                                                                              index]
+                                                                          .getPath());
+                                                                      setState(
+                                                                          () {
+                                                                        current_file = _hopeController
+                                                                            .recordings[index]
+                                                                            .getPath();
+                                                                      });
+                                                                    }
+                                                                    if (_isPlaying) {
+                                                                      pauseAudio();
+                                                                      setState(
+                                                                          () {
+                                                                        _isPlaying =
+                                                                            false;
+                                                                      });
+                                                                    } else if (!_isPlaying) {
+                                                                      resumeAudio();
+                                                                      setState(
+                                                                          () {
+                                                                        _isPlaying =
+                                                                            true;
+                                                                      });
+                                                                    }
+                                                                  }),
+                                                              current_file ==
+                                                                      _hopeController
+                                                                          .recordings[
+                                                                              index]
+                                                                          .getPath()
+                                                                  ? Row(
+                                                                      children: [
+                                                                          Slider(
+                                                                            inactiveColor:
+                                                                                Theme.of(context).colorScheme.accentBlue01,
+                                                                            activeColor:
+                                                                                Theme.of(context).colorScheme.accentBlue02,
+                                                                            value:
+                                                                                _position.inSeconds.toDouble(),
+                                                                            max:
+                                                                                _duration.inSeconds.toDouble(),
+                                                                            onChanged:
+                                                                                (double value) {
+                                                                              setState(() {
+                                                                                seekToSecond(value.toInt());
+                                                                                value = value;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                          Text(
+                                                                              _duration.inSeconds.remainder(60) < 10 ? '${_duration.inMinutes.remainder(60)}:0${_duration.inSeconds.remainder(60)}' : '${_duration.inMinutes.remainder(60)}:${_duration.inSeconds.remainder(60)}',
+                                                                              style: Theme.of(context).textTheme.caption?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray02))
+                                                                        ])
+                                                                  : Container()
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -262,6 +421,8 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
 
   AddEntry(context) {
     _noteController.text = '';
+    // makes sure users cannot uploaded multiple copies of the same audio file (causes errors in the application)
+    bool fileExists = false;
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -310,12 +471,23 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                               if (result == null) {
                                 return;
                               }
-                              File file = File(result.files.single.path!);
-
                               setState(() {
                                 _storedFile = File(result.files.single.path!);
                                 _filePath = basename(result.files.single.path!);
                               });
+
+                              final appDir =
+                                  await getApplicationDocumentsDirectory();
+                              if (await File('${appDir.path}/$_filePath')
+                                  .exists()) {
+                                setState(() {
+                                  fileExists = true;
+                                });
+                              } else {
+                                setState(() {
+                                  fileExists = false;
+                                });
+                              }
                             },
                             child: FittedBox(
                               child: Container(
@@ -387,6 +559,19 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                               ),
                             ),
                           ),
+                          Visibility(
+                              visible: fileExists,
+                              child: Text(
+                                  'File cannot be uploaded, as a copy of it is already exists!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentRed02))),
                           SizedBox(
                             height: 50,
                             width: MediaQuery.of(context).size.width,
@@ -406,14 +591,17 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(3)),
                                     elevation: 0,
-                                    primary: Theme.of(context)
-                                        .colorScheme
-                                        .sunflowerYellow01),
+                                    primary: fileExists
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow01),
                                 onPressed: () async {
-                                  if (_storedFile != null) {
+                                  if (_storedFile != null && !fileExists) {
                                     final appDir =
                                         await getApplicationDocumentsDirectory();
-
                                     final savedFile = await _storedFile
                                         .copy('${appDir.path}/$_filePath');
                                     print(savedFile.path);
@@ -433,6 +621,8 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
 
   void editEntry(context, int index) {
     _noteController.text = _hopeController.recordings[index].getDescription();
+    bool fileExists = false;
+
     showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -481,12 +671,27 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                               if (result == null) {
                                 return;
                               }
-                              File file = File(result.files.single.path!);
 
                               setState(() {
                                 _storedFile = File(result.files.single.path!);
                                 _filePath = basename(result.files.single.path!);
                               });
+
+                              final appDir =
+                                  await getApplicationDocumentsDirectory();
+                              if (await File('${appDir.path}/$_filePath')
+                                      .exists() &&
+                                  '${appDir.path}/$_filePath' !=
+                                      _hopeController.recordings[index]
+                                          .getPath()) {
+                                setState(() {
+                                  fileExists = true;
+                                });
+                              } else {
+                                setState(() {
+                                  fileExists = false;
+                                });
+                              }
                             },
                             child: FittedBox(
                               child: Container(
@@ -558,6 +763,19 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                               ),
                             ),
                           ),
+                          Visibility(
+                              visible: fileExists,
+                              child: Text(
+                                  'File cannot be uploaded, as a copy of it is already exists!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentRed02))),
                           SizedBox(
                             height: 50,
                             width: MediaQuery.of(context).size.width,
@@ -577,9 +795,13 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(3)),
                                     elevation: 0,
-                                    primary: Theme.of(context)
-                                        .colorScheme
-                                        .sunflowerYellow01),
+                                    primary: fileExists
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow01),
                                 onPressed: () async {
                                   if (_filePath ==
                                       _hopeController.recordings[index]
@@ -588,7 +810,11 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                         index, _noteController.text);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxRecordings');
-                                  } else if (_storedFile != null) {
+                                  } else if (!fileExists) {
+                                    File file = File(_hopeController
+                                        .recordings[index]
+                                        .getPath());
+                                    file.delete();
                                     final appDir =
                                         await getApplicationDocumentsDirectory();
 

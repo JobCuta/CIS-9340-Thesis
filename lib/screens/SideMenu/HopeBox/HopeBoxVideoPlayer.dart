@@ -146,7 +146,17 @@ class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
                         )
                       ],
                     )
-                  : Container()),
+                  : Center(
+                      child: Column(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('Loading...')
+                        ],
+                      ),
+                    )),
         ));
   }
 }
