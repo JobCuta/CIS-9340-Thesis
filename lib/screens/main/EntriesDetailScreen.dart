@@ -197,14 +197,13 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                     ),
                     fit: BoxFit.cover))),
 
-          SingleChildScrollView(
-          child: Column(
+          SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // EMOTION CONTAINER
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
+                padding: const EdgeInsets.fromLTRB(25, 120, 25, 25),
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: const BoxDecoration(
@@ -255,6 +254,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                             _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                             _emotionController.updateEditMode(true);
                                             _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                             Get.toNamed('/emotionStartScreen');
                                           }  else if (value == 'Delete') {
@@ -303,6 +303,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                           Get.toNamed('/emotionStartScreen');
                                         }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
@@ -315,7 +316,13 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                         )
                       ]
                     ),
-                    collapsed: Text(''),
+                    collapsed: const Divider(
+                          color: Color(0xffF0F1F1),
+                          height: 20.0,
+                          thickness: 4,
+                          indent: 35.0,
+                          endIndent: 35.0,
+                        ),
                     expanded: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -467,6 +474,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                             _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                             _emotionController.updateEditMode(true);
                                             _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                             Get.toNamed('/emotionStartScreen');
                                           }  else if (value == 'Delete') {
@@ -515,6 +523,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                           Get.toNamed('/emotionStartScreen');
                                         }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
@@ -527,7 +536,13 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                         )
                       ]
                     ),
-                    collapsed: Text(''),
+                    collapsed: const Divider(
+                          color: Color(0xffF0F1F1),
+                          height: 20.0,
+                          thickness: 4,
+                          indent: 35.0,
+                          endIndent: 35.0,
+                        ),
                     expanded: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -680,6 +695,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                             _emotionController.updateSelectedEmotionEntry(emotionEntry);
                                             _emotionController.updateEditMode(true);
                                             _emotionController.updateIfAddingFromDaily(false);
+                                            _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                             Get.toNamed('/emotionStartScreen');
                                           }  else if (value == 'Delete') {
@@ -728,6 +744,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                           _emotionController.updateIfAddingFromDaily(false);
                                           _emotionController.updateEditMode(false);
                                           _emotionController.updateIfAddingFromDaily(false);
+                                          _emotionController.updateDateTime(emotionEntry.month, emotionEntry.day, emotionEntry.year);
 
                                           Get.toNamed('/emotionStartScreen');
                                         }, icon: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0)))
@@ -740,7 +757,13 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                         )
                       ]
                     ),
-                    collapsed: Text(''),
+                    collapsed: const Divider(
+                          color: Color(0xffF0F1F1),
+                          height: 20.0,
+                          thickness: 4,
+                          indent: 35.0,
+                          endIndent: 35.0,
+                        ),
                     expanded: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(

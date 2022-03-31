@@ -61,7 +61,7 @@ class _SideMenuState extends State<SideMenu> {
                 buildMenuItem(
                   text: 'Check your statistics',
                   icon: 'assets/images/statistics_icon.svg',
-                  // onClicked: () => Get.toNamed('/homepage'),
+                  onClicked: () => Get.toNamed('/statisticsScreen'),
                 ),
                 buildMenuItem(
                   text: 'Achievements',

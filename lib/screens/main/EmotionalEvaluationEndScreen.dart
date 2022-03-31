@@ -91,7 +91,7 @@ class _EmotionalEvaluationEndScreenState
         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
         .toList();
 
-    DateTime dateTime = DateTime.now();
+    DateTime dateTime = _emotionController.dateTime.value;
     String partOfDay = (dateTime.hour < 12 && dateTime.hour > 23)
         ? 'Morning'
         : dateTime.hour > 11 && dateTime.hour < 18
@@ -390,6 +390,11 @@ class _EmotionalEvaluationEndScreenState
                                       if (!_dailyController.isDailyEntryDone.value) {
                                         _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                                         _levelController.initializeTaskWithXp('Daily Entry', 50);
+                                        
+                                        if (isAddingFromOnboarding) {
+                                          _levelController.initializeTaskWithXp('Exercise', 100);
+                                        }
+                                        
                                         _levelController.finalizeAddingOfXp();
                                       }
 
