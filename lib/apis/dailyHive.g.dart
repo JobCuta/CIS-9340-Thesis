@@ -18,23 +18,26 @@ class DailyHiveAdapter extends TypeAdapter<DailyHive> {
     };
     return DailyHive(
       currentWeekDay: fields[0] as int,
-      isDailyExerciseDone: fields[1] as bool,
-      isDailyEntryDone: fields[2] as bool,
-      showedAvailableTasks: fields[3] as bool,
+      currentDate: fields[1] as DateTime,
+      isDailyExerciseDone: fields[2] as bool,
+      isDailyEntryDone: fields[3] as bool,
+      showedAvailableTasks: fields[4] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, DailyHive obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.currentWeekDay)
       ..writeByte(1)
-      ..write(obj.isDailyExerciseDone)
+      ..write(obj.currentDate)
       ..writeByte(2)
-      ..write(obj.isDailyEntryDone)
+      ..write(obj.isDailyExerciseDone)
       ..writeByte(3)
+      ..write(obj.isDailyEntryDone)
+      ..writeByte(4)
       ..write(obj.showedAvailableTasks);
   }
 

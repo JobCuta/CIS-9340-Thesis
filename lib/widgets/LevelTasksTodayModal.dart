@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:get/get.dart';
 
@@ -29,13 +30,15 @@ class LevelTasksTodayWidgets extends StatefulWidget {
 
 class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
   final LevelController _levelController = Get.put(LevelController());
-  Map<String, int> experiences = {
-    'Daily Entry' : 50,
-    'Exercise' : 100
-  };
+  final DailyController _dailyController = Get.put(DailyController());
+  Map<String, int> experiences = {};
 
   @override
   Widget build(BuildContext context) {
+    if (!_dailyController.isDailyEntryDone.value) experiences.putIfAbsent('Daily Entry', () => 50);
+    if (!_dailyController.isDailyExerciseDone.value) experiences.putIfAbsent('Exercise', () => 100);
+    print("SHOW AVAILABLE TASKS = " + experiences.toString());
+    print("AVILABLE TASKS SIZE = " + experiences.length.toString());
     List<String> experienceKeys = experiences.keys.toList();
 
     return Scaffold(
@@ -55,16 +58,13 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
+        padding: const EdgeInsets.fromLTRB(25, 0, 25, 25),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Center(
-                    child: Text('Hey there!',
-                        style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
-              ),
+              Center(
+                  child: Text('Hey there!',
+                      style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
               const SizedBox(
                 height: 15.0,
               ),
@@ -114,7 +114,7 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
               ),
             
               Container(
-                padding: const EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 25.0),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
 
 class WellnessExercisesScreen extends StatefulWidget {
@@ -10,6 +13,9 @@ class WellnessExercisesScreen extends StatefulWidget {
 }
 
 class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
+  DailyController _dailyController = Get.put(DailyController());
+  LevelController _levelController = Get.put(LevelController());
+
   @override
   Widget build(BuildContext context) {
     var breathing = [
@@ -43,6 +49,7 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
           primary: true,
           backgroundColor: Colors.transparent,
           elevation: 0),
+      drawer: const SideMenu(),
       body: Stack(children: [
         Container(
             decoration: const BoxDecoration(
@@ -63,7 +70,10 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
               runSpacing: 5,
               children: [
                 Text('Choose an exercise you want',
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: const Color(0xffF8A13C))),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        ?.copyWith(color: const Color(0xffF8A13C))),
                 Text('Open your mind, relieve your body',
                     style: Theme.of(context).textTheme.bodyText2),
                 const Divider(
@@ -94,14 +104,20 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                             Text('Breathing Exercise',
                                 style: Theme.of(context).textTheme.bodyText2),
                             Text("Relax and lower your body's stress",
-                                style: Theme.of(context).textTheme.caption?.copyWith(color: const Color(0xffACB2B4))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
                           text: TextSpan(children: [
                             TextSpan(
                                 text: 'Go',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                             const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
@@ -138,14 +154,20 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                             Text('Walking Meditation',
                                 style: Theme.of(context).textTheme.bodyText2),
                             Text("Match your breathing with a steady pace",
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
                           text: TextSpan(children: [
                             TextSpan(
                                 text: 'Go',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                             const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
@@ -182,19 +204,25 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                             Row(
                               children: [
                                 Text('Grounding Exercise',
-                                    style: Theme.of(context).textTheme.bodyText2),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2),
                               ],
                             ),
-                            Text(
-                                "Pull away from all the noise in your mind",
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                            Text("Pull away from all the noise in your mind",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                           ],
                         ),
                         RichText(
-                          text:TextSpan(children: <InlineSpan>[
+                          text: TextSpan(children: <InlineSpan>[
                             TextSpan(
                                 text: 'Go',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: const Color(0xffACB2B4))),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(color: const Color(0xffACB2B4))),
                             const WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,

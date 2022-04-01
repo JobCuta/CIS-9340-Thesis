@@ -30,10 +30,6 @@ class _EntriesScreenState extends State<EntriesScreen>{
     7 : 'Sunday'
   }; 
 
-  int noEntryCount = 0;
-  bool isCountingForNoEntry = false;
-
-
   Container _checkIfMonthLabelToDisplay(int index) {
     if (emotionEntries[index].month != emotionEntries[index--].month) {
       return Container(
@@ -53,13 +49,14 @@ class _EntriesScreenState extends State<EntriesScreen>{
     return Container();
   }
 
-  void _checkAnyPreviousNoEntry(index) {
-    if (emotionEntries[index].overallMood == 'NoData' && isCountingForNoEntry) noEntryCount++;
-    if (!isCountingForNoEntry) isCountingForNoEntry = true;
-  }
-
   @override
   Widget build(BuildContext context) {
+    int noEntriesCount = _emotionController.noEntriesCount.value;
+    if (noEntriesCount > 0) {
+      _emotionController.checkNoEntriesCount();
+      noEntriesCount = _emotionController.noEntriesCount.value;
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: SideMenu(),
@@ -83,16 +80,33 @@ class _EntriesScreenState extends State<EntriesScreen>{
           child: Column(
             children: [
               // EMOTION CONTAINER
+              
+              (noEntriesCount > 0) 
+              ? Padding(
+                padding: const EdgeInsets.fromLTRB(15, 100, 15, 15),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 12.0),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff216CB2).withOpacity(1.00),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  child: Text(
+                      (noEntriesCount == 1) ? '1 Day Missing' : '$noEntriesCount Days Missing',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)),
+                ),
+              ) 
+              : const SizedBox(height: 10.0),
 
               ListView.builder(
                 reverse: true,
                 shrinkWrap: true,
                 itemCount: emotionEntries.length,
                 itemBuilder: (context, index) {
-                  _checkAnyPreviousNoEntry(index);
-
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15),
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: const BoxDecoration(
@@ -176,6 +190,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
@@ -219,6 +234,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
@@ -262,6 +278,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                                 _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
                                                 _emotionController.updateIfAddingFromDaily(false);
                                                 _emotionController.updateEditMode(false);
+                                                _emotionController.updateDateTime(emotionEntries[index].month, emotionEntries[index].day, emotionEntries[index].year);
                                                 Get.toNamed('/emotionStartScreen');
                                               }, 
                                             child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
@@ -285,24 +302,6 @@ class _EntriesScreenState extends State<EntriesScreen>{
         
               const SizedBox(height: 10.0),
 
-              (noEntryCount > 0) 
-              ? Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 12.0),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff216CB2).withOpacity(1.00),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: Text(
-                      '1 Day Missing',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)),
-                ),
-              ) 
-              : const SizedBox(height: 10.0),
             ],
           )
         ),

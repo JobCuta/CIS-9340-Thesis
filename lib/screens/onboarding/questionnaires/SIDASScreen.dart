@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
   ];
 
   final SIDASController _sidasController = Get.put(SIDASController());
+  final EmotionController _emotionController = Get.put(EmotionController());
 
   @override
   Widget build(BuildContext context) {
@@ -225,10 +227,14 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                 primary: const Color(0xffFFBE18),
                               ),
                               onPressed: () {
-                                (position == questions.length - 1)
-                                    ? Get.toNamed('/loadingScreen')
-                                    // Checks if the user selected a valid value
-                                    : _pageController.jumpToPage(position + 1);
+                                if (position == questions.length - 1) {
+                                  _emotionController.updateIfAddingFromOnboarding(true);
+                                  Get.toNamed('/emotionStartScreen');
+                                } else {
+                                  // Checks if the user selected a valid value
+                                  _pageController.jumpToPage(position + 1);
+                                }
+                                    
                               }),
                         ),
                       ),

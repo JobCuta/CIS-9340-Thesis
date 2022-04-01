@@ -10,6 +10,7 @@ import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -136,11 +137,11 @@ class _HomePageState extends State<HomePage> {
               TextSpan(
                   text: 'Completed ',
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: const Color(0xFFACB2B4).withOpacity(1.0))),
+                      color: Theme.of(context).colorScheme.neutralGray02)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: Icon(Icons.check_circle,
-                      color: const Color(0xFF87E54C).withOpacity(1.0)))
+                      color: Theme.of(context).colorScheme.accentGreen02))
             ]),
           )
         : RichText(
@@ -148,11 +149,11 @@ class _HomePageState extends State<HomePage> {
               TextSpan(
                   text: 'Go',
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: const Color(0xFF216CB2).withOpacity(1.0))),
+                      color: Theme.of(context).colorScheme.accentBlue04)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                      color: const Color(0xFF216CB2).withOpacity(1.0)))
+                      color: Theme.of(context).colorScheme.accentBlue04))
             ]),
           );
   }
@@ -178,14 +179,14 @@ class _HomePageState extends State<HomePage> {
           builder: (context) {
             return SizedBox(
                 height:
-                    MediaQuery.of(context).size.height * 0.65,
-                child: const LevelExperienceModal());
+                    MediaQuery.of(context).size.height * 0.75,
+                child: const LevelWidgets());
           });
 
         _levelController.updateRecentlyAddedXp(false);
       });
     }
-    else if (!_dailyController.showedAvailableTasks.value) {
+    else if (!_dailyController.showedAvailableTasks.value && (!_dailyController.isDailyEntryDone.value || !_dailyController.isDailyExerciseDone.value)) {
       Future.delayed(Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
           context: context,
@@ -263,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 12.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                              color: const Color(0xff216CB2).withOpacity(0.20),
+                              color: Theme.of(context).colorScheme.accentBlue04.withOpacity(0.20),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10))),
                           child: Text(
@@ -299,77 +300,106 @@ class _HomePageState extends State<HomePage> {
                       });
                   } 
                 ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 15.0),
-                    child: Container(
-                      width: 500,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // MORNING
-                          CircleAvatar(
-                            radius: 28.0,
-                            backgroundColor: (_isMorningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
-                                : const Color(0xFFACB2B4).withOpacity(1.0)
-                            ),
-                            child: const CircleAvatar(
-                              radius: 24.0,
-                              backgroundColor: Colors.white,
-                              child: Image(image: AssetImage('assets/images/entry_morning.png'))
-                            ),
-                          ),
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 25.0),
-                              width: 100,
-                              height: 15,
-                              decoration: BoxDecoration(
-                                  color: (_isMorningEntryDone && _isAfternoonEntryDone)
-                                      ? const Color(0x00FFC122).withOpacity(1.0)
-                                      : const Color(0xFFACB2B4)
-                                          .withOpacity(1.0))),
-        
-                          // AFTERNOON
-                          CircleAvatar(
-                            radius: 28.0,
-                            backgroundColor: (_isAfternoonEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
-                                : const Color(0xFFACB2B4).withOpacity(1.0)
-                            ),
-                            child: const CircleAvatar(
-                              radius: 24.0,
-                              backgroundColor: Colors.white,
-                              child: Image(image: AssetImage('assets/images/entry_afternoon.png'))
-                            ),
-                          ),
-                          Container(
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 25.0),
-                              width: 100,
-                              height: 15,
-                              decoration: BoxDecoration(
-                                  color: (_isAfternoonEntryDone && _isEveningEntryDone)
-                                      ? const Color(0x00FFC122).withOpacity(1.0)
-                                      : const Color(0xFFACB2B4)
-                                          .withOpacity(1.0))),
-        
-                          // EVENING
-                          CircleAvatar(
-                            radius: 28.0,
-                            backgroundColor: (_isEveningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
-                                : const Color(0xFFACB2B4).withOpacity(1.0)
-                            ),
-                            child: const CircleAvatar(
-                              radius: 24.0,
-                              backgroundColor: Colors.white,
-                              child: Image(image: AssetImage('assets/images/entry_evening.png'))
-                            ),
-                          ),
-                        ],
+
+                ElevatedButton(child: Text("Test Today's Task"),
+                  onPressed: () {
+                    _levelController.getLevelFromStorage();
+                    _levelController.addXp(150);
+
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(4),
+                            topRight: Radius.circular(4)),
                       ),
-                    )),
+                      useRootNavigator: true,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 0.65,
+                            child: const LevelTasksTodayWidgets());
+                      });
+                  } 
+                ),
+                Center(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 15.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // MORNING
+                            CircleAvatar(
+                              radius: 28.0,
+                              backgroundColor: (_isMorningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)
+                              ),
+                              child: CircleAvatar(
+                                radius: 24.0,
+                                backgroundColor: Colors.white,
+                                child: Image(image: AssetImage('assets/images/entry_morning.png'),
+                                  color: !_isMorningEntryDone ? Colors.grey : null,
+                                )
+                              ),
+                            ),
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 25.0),
+                                width: 80,
+                                height: 15,
+                                decoration: BoxDecoration(
+                                    color: (_isMorningEntryDone && _isAfternoonEntryDone)
+                                        ? const Color(0x00FFC122).withOpacity(1.0)
+                                        : Theme.of(context).colorScheme.neutralGray02)),
+        
+                            // AFTERNOON
+                            CircleAvatar(
+                              radius: 28.0,
+                              backgroundColor: (_isAfternoonEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)
+                              ),
+                              child: CircleAvatar(
+                                radius: 24.0,
+                                backgroundColor: Colors.white,
+                                child: Image(image: AssetImage('assets/images/entry_afternoon.png'),
+                                  color: !_isAfternoonEntryDone ? Colors.grey : null,
+                                )
+                              ),
+                            ),
+                            Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 25.0),
+                                width: 80,
+                                height: 15,
+                                decoration: BoxDecoration(
+                                    color: (_isAfternoonEntryDone && _isEveningEntryDone)
+                                        ? const Color(0x00FFC122).withOpacity(1.0)
+                                        : Theme.of(context).colorScheme.neutralGray02)),
+        
+                            // EVENING
+                            CircleAvatar(
+                              radius: 28.0,
+                              backgroundColor: (_isEveningEntryDone ? const Color(0x00FFC122).withOpacity(1.0)
+                                  : const Color(0xFFACB2B4).withOpacity(1.0)
+                              ),
+                              child: CircleAvatar(
+                                radius: 24.0,
+                                backgroundColor: Colors.white,
+                                child: Image(image: AssetImage('assets/images/entry_evening.png'),
+                                  color: !_isEveningEntryDone ? Colors.grey : null,
+                                )
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -11,8 +14,7 @@ import '../../../controllers/emotionController.dart';
 import '../../enums/DailyTask.dart';
 
 void main() {
-  runApp(
-      const GetMaterialApp(home: EmotionalEvaluationEndScreen()));
+  runApp(const GetMaterialApp(home: EmotionalEvaluationEndScreen()));
 }
 
 class EmotionalEvaluationEndScreen extends StatefulWidget {
@@ -23,28 +25,36 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
       _EmotionalEvaluationEndScreenState();
 }
 
-
 final EmotionController _emotionController = Get.put(EmotionController());
 final DailyController _dailyController = Get.put(DailyController());
+final LevelController _levelController = Get.put(LevelController());
 
 class _EmotionalEvaluationEndScreenState
     extends State<EmotionalEvaluationEndScreen> {
-    bool isEditMode = false;
-    List<dynamic> positiveEmotions = [];
-    List<dynamic> negativeEmotions = [];
+  bool isEditMode = false;
+  List<dynamic> positiveEmotions = [];
+  List<dynamic> negativeEmotions = [];
 
-    void checkIfEditMode() {
-      if (_emotionController.isEditMode.value) {
-        EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value) 
-            ? _emotionController.getSelectedEmotionEntry().morningCheck : (_emotionController.isAfternoonCheck.value)
-            ? _emotionController.getSelectedEmotionEntry().afternoonCheck : (_emotionController.isEveningCheck.value) 
-            ? _emotionController.getSelectedEmotionEntry().eveningCheck : EmotionEntryDetail(mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true);
+  void checkIfEditMode() {
+    if (_emotionController.isEditMode.value) {
+      EmotionEntryDetail emotionEntryDetail = (_emotionController
+              .isMorningCheck.value)
+          ? _emotionController.getSelectedEmotionEntry().morningCheck
+          : (_emotionController.isAfternoonCheck.value)
+              ? _emotionController.getSelectedEmotionEntry().afternoonCheck
+              : (_emotionController.isEveningCheck.value)
+                  ? _emotionController.getSelectedEmotionEntry().eveningCheck
+                  : EmotionEntryDetail(
+                      mood: '',
+                      positiveEmotions: [],
+                      negativeEmotions: [],
+                      isEmpty: true);
 
-        isEditMode = _emotionController.isEditMode.value;
-        positiveEmotions = emotionEntryDetail.positiveEmotions;
-        negativeEmotions = emotionEntryDetail.negativeEmotions;
-     }
+      isEditMode = _emotionController.isEditMode.value;
+      positiveEmotions = emotionEntryDetail.positiveEmotions;
+      negativeEmotions = emotionEntryDetail.negativeEmotions;
     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,54 +91,27 @@ class _EmotionalEvaluationEndScreenState
         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
         .toList();
 
-    
-        Map<int, String> weekdayString = {
-      1 : 'Monday',
-      2 : 'Tuesday',
-      3 : 'Wednesday',
-      4 : 'Thursday',
-      5 : 'Friday',
-      6 : 'Saturday',
-      7 : 'Sunday'
-    }; 
-
-    Map<int, String> monthString = {
-      1: 'January',
-      2: 'Febuary',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December'
-    };
-
-    DateTime dateTime = DateTime.now();
-    String weekday = weekdayString[dateTime.weekday] as String;
-    String month = monthString[dateTime.month] as String;
-    String partOfDay = '';
-    partOfDay = (dateTime.hour < 12 && dateTime.hour > 23) ? 'Morning' 
-      : dateTime.hour > 11 && dateTime.hour < 18 ? 'Afternoon' 
-      : 'Evening'; 
+    DateTime dateTime = _emotionController.dateTime.value;
+    String partOfDay = (dateTime.hour < 12 && dateTime.hour > 23)
+        ? 'Morning'
+        : dateTime.hour > 11 && dateTime.hour < 18
+            ? 'Afternoon'
+            : 'Evening';
 
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
             title: Text(
-                'Add an Entry',
-                style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+              'Add an Entry',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralWhite01,
+                  fontWeight: FontWeight.w400),
             ),
-
-            leading: BackButton(onPressed: () {Get.toNamed('/homepage');}),
+            leading: BackButton(onPressed: () {
+              Get.back();
+            }),
             elevation: 0,
-            backgroundColor: Colors.transparent
-        ),
-
-
+            backgroundColor: const Color(0xff216CB2).withOpacity(0.40)),
         body: Stack(children: [
           Container(
               decoration: const BoxDecoration(
@@ -136,116 +119,169 @@ class _EmotionalEvaluationEndScreenState
                       image: AssetImage(
                         'assets/background_images/blue_background.png',
                       ),
-                      fit: BoxFit.cover))
-          ),
-
-
+                      fit: BoxFit.cover))),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
               child: Container(
                 alignment: Alignment.center,
                 child: ListView(
                   children: [
-                    Text('Date & Time',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
+                    Text(
+                      'Date & Time',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralWhite01,
+                          fontWeight: FontWeight.w600),
                     ),
-
                     const SizedBox(height: 35.0),
-
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Date',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+                          Text(
+                            'Date',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w400),
                           ),
-
-                          Text(weekday.substring(0, 3) + ', ' +  dateTime.day.toString() + ' ' + month,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
+                          Text(
+                            DateFormat.E().format(dateTime) +
+                                ', ' +
+                                DateFormat.MMMMd().format(dateTime),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ]),
-
                     const SizedBox(height: 25.0),
-
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Time',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+                          Text(
+                            'Time',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w400),
                           ),
-
-                          Text(dateTime.hour.toString() + ":" + dateTime.minute.toString() + ", " + partOfDay,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
+                          Text(
+                            DateFormat.Hm().format(dateTime) + ", " + partOfDay,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ]),
-
                     const SizedBox(height: 20.0),
-
-                    const Divider(
-                      color: Colors.white,
-                      thickness: 2,
+                    Divider(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      thickness: 1,
                     ),
-
                     const SizedBox(height: 20.0),
-
                     Container(
                       alignment: Alignment.center,
-                      height: 100,
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 18.0),
                       decoration: BoxDecoration(
                           color: const Color(0xff3290FF).withOpacity(0.60),
-                          borderRadius: const BorderRadius.all(Radius.circular(4))),
-                      child:Text('Which emotion best apply to you now?',
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: Text('Which emotion best apply to you now?',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white, fontWeight: FontWeight.w400)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w400)),
                     ),
-
-
-                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Container(
-                        child:
-                        Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
+                    Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 20,
+                        children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 0),
                             width: double.infinity,
                             child: Wrap(runSpacing: 10, children: [
                               // DROPDOWNS
                               GetBuilder<EmotionController>(
                                 builder: (value) => Container(
                                     padding: const EdgeInsets.all(15.0),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(24))),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(24))),
                                     child: MultiSelectBottomSheetField<dynamic>(
                                       initialChildSize: 0.3,
                                       listType: MultiSelectListType.CHIP,
                                       searchable: true,
                                       buttonText: Text("Positive Emotions",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova',
-                                              color: (_emotionController
-                                                  .isPositiveNotEmpty.value)
-                                                  ? const Color(0xff4CA7FC)
-                                                  : const Color(0xff778083))),
-                                      title: const Text("Search for your emotion",
-                                          style: TextStyle(fontSize: 16)),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: (_emotionController
+                                                          .isPositiveNotEmpty
+                                                          .value)
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .accentBlue02
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .neutralGray03)),
+                                      title: Text("Search for your emotion",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1),
                                       items: _positiveEmotionsItems,
-                                      initialValue: isEditMode ? positiveEmotions : [],
+                                      initialValue:
+                                          isEditMode ? positiveEmotions : [],
                                       onConfirm: (values) {
-                                        _emotionController.updatePositiveEmotion(values);
+                                        _emotionController
+                                            .updatePositiveEmotion(values);
                                       },
                                       chipDisplay: MultiSelectChipDisplay(
-                                        chipColor: const Color(0xff4CA7FC),
-                                        textStyle: const TextStyle(color: Colors.white),
+                                        chipColor: Theme.of(context)
+                                            .colorScheme
+                                            .accentBlue02,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralWhite01),
                                         onTap: (item) {
                                           setState(() {
-                                            _emotionController.removePositive(item);
+                                            _emotionController
+                                                .removePositive(item);
                                           });
                                         },
                                       ),
@@ -255,34 +291,56 @@ class _EmotionalEvaluationEndScreenState
                               GetBuilder<EmotionController>(
                                 builder: (value) => Container(
                                     padding: const EdgeInsets.all(15.0),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(24))),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(24))),
                                     child: MultiSelectBottomSheetField<dynamic>(
                                       initialChildSize: 0.3,
                                       listType: MultiSelectListType.CHIP,
                                       searchable: true,
                                       buttonText: Text("Negative Emotions",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Proxima Nova',
-                                              color: (_emotionController
-                                                  .isNegativeNotEmpty.value)
-                                                  ? const Color(0xffB22428)
-                                                  : const Color(0xff778083))),
-                                      title: const Text("Search for your emotion",
-                                          style: TextStyle(fontSize: 16)),
-                                      initialValue: isEditMode ? negativeEmotions : [],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: (_emotionController
+                                                          .isNegativeNotEmpty
+                                                          .value)
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .accentRed02
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .neutralGray03)),
+                                      title: Text("Search for your emotion",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1),
+                                      initialValue:
+                                          isEditMode ? negativeEmotions : [],
                                       items: _negativeEmotionsItems,
                                       onConfirm: (values) {
-                                        _emotionController.updateNegativeEmotion(values);
+                                        _emotionController
+                                            .updateNegativeEmotion(values);
                                       },
                                       chipDisplay: MultiSelectChipDisplay(
-                                        chipColor: const Color(0xffB22428),
-                                        textStyle: const TextStyle(color: Colors.white),
+                                        chipColor: Theme.of(context)
+                                            .colorScheme
+                                            .accentRed02,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralWhite01),
                                         onTap: (item) {
-                                          _emotionController.removeNegative(item);
+                                          _emotionController
+                                              .removeNegative(item);
                                         },
                                       ),
                                     )),
@@ -290,9 +348,6 @@ class _EmotionalEvaluationEndScreenState
                             ]),
                           )
                         ]),
-                      )
-                    ]),
-
                     Container(
                       padding: const EdgeInsets.only(top: 50.0),
                       child: Align(
@@ -304,7 +359,14 @@ class _EmotionalEvaluationEndScreenState
                               builder: (value) => ElevatedButton(
                                   child: Text(
                                     'Save',
-                                    style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01),
                                   ),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
@@ -313,22 +375,41 @@ class _EmotionalEvaluationEndScreenState
                                     ),
                                     padding: const EdgeInsets.all(10),
                                     primary: (_emotionController.isValid.value)
-                                        ? const Color(0xffFFBE18)
-                                        : const Color(0xffE2E4E4),
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow01
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04,
                                   ),
                                   onPressed: () {
-                                    _emotionController.updateEntryInStorage();
-                                    _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
-                                    Get.offAllNamed('/homepage');
+                                    if (_emotionController.isValid.value) {
+                                      bool isAddingFromOnboarding = _emotionController.isAddingFromOnboarding.value;
+                                      _emotionController.updateEntryInStorage();
+
+                                      if (!_dailyController.isDailyEntryDone.value) {
+                                        _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
+                                        _levelController.initializeTaskWithXp('Daily Entry', 50);
+                                        
+                                        if (isAddingFromOnboarding) {
+                                          _levelController.initializeTaskWithXp('Exercise', 100);
+                                        }
+                                        
+                                        _levelController.finalizeAddingOfXp();
+                                      }
+
+                                      (isAddingFromOnboarding)
+                                        ? Get.offAllNamed('/notifScreen')
+                                        : Get.offAllNamed('/homepage');
+                                    }
+
                                   }),
                             )),
                       ),
                     ),
                   ],
                 ),
-              )
-          ),
-
+              )),
         ]));
   }
 }

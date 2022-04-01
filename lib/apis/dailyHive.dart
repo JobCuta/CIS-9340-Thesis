@@ -9,16 +9,20 @@ class DailyHive extends HiveObject{
   int currentWeekDay;
 
   @HiveField(1)
-  bool isDailyExerciseDone;
+  DateTime currentDate;
 
   @HiveField(2)
-  bool isDailyEntryDone;
+  bool isDailyExerciseDone;
 
   @HiveField(3)
+  bool isDailyEntryDone;
+
+  @HiveField(4)
   bool showedAvailableTasks;
 
   DailyHive({
     required this.currentWeekDay,
+    required this.currentDate,
     required this.isDailyExerciseDone,
     required this.isDailyEntryDone,
     required this.showedAvailableTasks
