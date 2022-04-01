@@ -1,4 +1,7 @@
 
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -25,17 +28,18 @@ class _CalendarScreenState extends State<CalendarScreen>{
   DateTime focusedDay = DateTime.now();
   String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
+  EmotionController _emotionCounterController = Get.put(EmotionController());
 
   TextEditingController missedDays = TextEditingController();
   TextEditingController emotionCounter = TextEditingController();
   TextEditingController moodController = TextEditingController();
 
   //Emotion colors
-  Color color1 = const Color.fromRGBO(78, 72, 146, 1);
-  Color color2 = const Color.fromRGBO(69, 69, 69, 1);
-  Color color3 = const Color.fromRGBO(17, 172, 221, 1);
-  Color color4 = const Color.fromRGBO(255, 178, 89, 1);
-  Color color5 = const Color.fromRGBO(0, 191, 88, 1);
+  Color veryBadColor = const Color.fromRGBO(78, 72, 146, 1);
+  Color badColor = const Color.fromRGBO(69, 69, 69, 1);
+  Color neutralColor = const Color.fromRGBO(17, 172, 221, 1);
+  Color goodColor = const Color.fromRGBO(255, 178, 89, 1);
+  Color veryGoodColor = const Color.fromRGBO(0, 191, 88, 1);
 
   //Status colors
   Color? filled = Colors.grey[700];
@@ -48,8 +52,59 @@ class _CalendarScreenState extends State<CalendarScreen>{
   String neutralPath = 'assets/images/face_neutral_selected.png';
   Image happy = Image.asset('assets/images/face_happy_selected.png', height: 60, width: 60);
 
+  //Calendar Carousel
+  Widget _veryBad(String day) => CircleAvatar(
+    backgroundColor: badColor,
+    child: Text(
+      day,
+    ),
+  );
+
+  Widget _neutral(String day) => CircleAvatar(
+    backgroundColor: neutralColor,
+    child: Text(
+      day,
+    ),
+  );
+
+  Widget _bad(String day) => CircleAvatar(
+    backgroundColor: veryBadColor,
+    child: Text(
+      day,
+    ),
+  );
+
+  Widget _good(String day) => CircleAvatar(
+    backgroundColor: goodColor,
+    child: Text(
+      day,
+    ),
+  );
+
+  Widget _veryGood(String day) => CircleAvatar(
+    backgroundColor: veryGoodColor,
+    child: Text(
+      day,
+    ),
+  );
+
+  EventList<Event> _markedDateMap = new EventList<Event>(
+    events: {}
+  );
+
+  CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
+    height: 400,
+    weekendTextStyle: const TextStyle(fontSize: 11),
+    weekdayTextStyle: const TextStyle(fontSize: 11),
+    selectedDateTime: DateTime.now(),
+    markedDateShowIcon: true,
+    markedDateMoreShowTotal: null,
+    dayPadding: 0,
+  );
+
   @override
   Widget build(BuildContext context) {
+    List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(focusedDay.month, focusedDay.year);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
@@ -73,11 +128,14 @@ class _CalendarScreenState extends State<CalendarScreen>{
                     padding: const EdgeInsets.only(left: 16.0, right: 16, top: 100, bottom: 16),
                     child: Container(
                       decoration: containerDecoration(),
-                      height: 330.0,
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 222,
+                            child: _calendarCarouselNoHeader,
+                            height: 200,
+                          ),
+                          /*SizedBox(
+                            height: 200,
                             child: Column(
                               children: [
                                 TableCalendar(
@@ -129,7 +187,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                 ),
                               ],
                             ),
-                          ),
+                          ),*/
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15.0),
                             child: Divider(
@@ -144,38 +202,38 @@ class _CalendarScreenState extends State<CalendarScreen>{
                               children: [
                                 Container(
                                   height: 50.0, width: 50.0,
-                                  decoration: emotionCounterStyle(color1),
+                                  decoration: emotionCounterStyle(veryBadColor),
                                   child: Container(
                                       height: 39, width: 39, decoration: emotionBorder(),
-                                      child: Center(child: Text('0', style: emotionCounterTextStyle()),)),
+                                      child: Center(child: Text('${_emotionCounterController.monthMoodCount[0]}', style: emotionCounterTextStyle()),)),
                                 ),
                                 Container(
                                   height: 50.0, width: 50.0,
-                                  decoration: emotionCounterStyle(color2),
+                                  decoration: emotionCounterStyle(badColor),
                                   child: Container(
                                       height: 39, width: 39, decoration: emotionBorder(),
-                                      child: Center(child: Text('0', style: emotionCounterTextStyle()))),
+                                      child: Center(child: Text('${_emotionCounterController.monthMoodCount[1]}', style: emotionCounterTextStyle()))),
                                 ),
                                 Container(
                                   height: 50.0, width: 50.0,
-                                  decoration: emotionCounterStyle(color3),
+                                  decoration: emotionCounterStyle(neutralColor),
                                   child: Container(
                                       height: 39, width: 39, decoration: emotionBorder(),
-                                      child: Center(child: Text('0', style: emotionCounterTextStyle()))),
+                                      child: Center(child: Text('${_emotionCounterController.monthMoodCount[2]}', style: emotionCounterTextStyle()))),
                                 ),
                                 Container(
                                   height: 50.0, width: 50.0,
-                                  decoration: emotionCounterStyle(color4),
+                                  decoration: emotionCounterStyle(goodColor),
                                   child: Container(
                                       height: 39, width: 39, decoration: emotionBorder(),
-                                      child: Center(child: Text('0', style: emotionCounterTextStyle()))),
+                                      child: Center(child: Text('${_emotionCounterController.monthMoodCount[3]}', style: emotionCounterTextStyle()))),
                                 ),
                                 Container(
                                   height: 50.0, width: 50.0,
-                                  decoration: emotionCounterStyle(color5),
+                                  decoration: emotionCounterStyle(veryGoodColor),
                                   child: Container(
                                       height: 39, width: 39, decoration: emotionBorder(),
-                                      child: Center(child: Text('0', style: emotionCounterTextStyle()))),
+                                      child: Center(child: Text('${_emotionCounterController.monthMoodCount[4]}', style: emotionCounterTextStyle()))),
                                 ),
                               ],
                             ),
