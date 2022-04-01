@@ -554,7 +554,7 @@ packages:
       name: percent_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.0"
+    version: "4.0.0"
   petitparser:
     dependency: transitive
     description:
@@ -568,7 +568,7 @@ packages:
       name: pinput
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "2.2.5"
   platform:
     dependency: transitive
     description:
@@ -665,6 +665,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smart_auth:
+    dependency: transitive
+    description:
+      name: smart_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   source_gen:
     dependency: transitive
     description:
