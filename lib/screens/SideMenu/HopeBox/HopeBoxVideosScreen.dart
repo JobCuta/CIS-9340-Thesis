@@ -395,7 +395,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
   void editEntry(context, int index) {
     _noteController.text = _noteController.text =
         _hopeController.videos[index].getDescription() != 'Default Placeholder'
-            ? _hopeController.images[index].getDescription()
+            ? _hopeController.videos[index].getDescription()
             : '';
     var thumbnail = _hopeController.videos[index].getThumbnailPath();
     showDialog<String>(
@@ -520,7 +520,6 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                         .colorScheme
                                         .neutralBlack02,
                                   ),
-                              // initialValue: note,
                               maxLines: 1,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.description),
