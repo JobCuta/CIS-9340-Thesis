@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
@@ -20,6 +21,7 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   // final SettingsController _settingsController = Get.put(SettingsController());
   final LevelController _levelController = Get.put(LevelController());
+  int dailyTaskCount = 0;
 
   _buildLevelComponent(String value, String title) {
     return Wrap(
@@ -81,9 +83,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final UserProfileController _userProfileController =
         Get.put(UserProfileController());
     final EmotionController _emotionController = Get.put(EmotionController());
+    final DailyController _dailyController = Get.put(DailyController());
     bool _pinned = true;
     bool _snap = true;
     bool _floating = true;
+
+    if (_dailyController.isDailyEntryDone.value) {
+      dailyTaskCount++;
+    }
+    if (_dailyController.isDailyExerciseDone.value) {
+      dailyTaskCount++;
+    }
+
+    _emotionController.checkValidEntriesCount();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
@@ -124,14 +136,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            _buildLevelComponent('24', 'Daily tasks finished'),
+                            _buildLevelComponent(dailyTaskCount.toString(),
+                                'Daily tasks finished'),
                             const SizedBox(width: 30),
                             _buildLevelComponent(
                                 _levelController.currentLevel.value.toString(),
                                 'Level'),
                             const SizedBox(width: 30),
                             _buildLevelComponent(
-                                _emotionController.noEntriesCount.value
+                                _emotionController.validEntriesCount.value
                                     .toString(),
                                 'Entries'),
                             const SizedBox(width: 30),

@@ -552,7 +552,10 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
   }
 
   void editEntry(context, int index) {
-    _noteController.text = _hopeController.recordings[index].getDescription();
+    _noteController.text = _hopeController.recordings[index].getDescription() !=
+            'Default Placeholder'
+        ? _hopeController.images[index].getDescription()
+        : '';
     bool fileExists = false;
 
     showDialog<String>(

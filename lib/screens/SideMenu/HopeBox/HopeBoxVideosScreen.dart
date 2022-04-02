@@ -393,7 +393,10 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
   }
 
   void editEntry(context, int index) {
-    _noteController.text = _hopeController.videos[index].getDescription();
+    _noteController.text = _noteController.text =
+        _hopeController.videos[index].getDescription() != 'Default Placeholder'
+            ? _hopeController.images[index].getDescription()
+            : '';
     var thumbnail = _hopeController.videos[index].getThumbnailPath();
     showDialog<String>(
         context: context,
