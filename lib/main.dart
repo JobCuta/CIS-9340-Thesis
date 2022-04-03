@@ -16,10 +16,10 @@ import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScre
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
-import 'package:flutter_application_1/screens/debug/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/hopeBoxHive.dart';
@@ -257,9 +257,7 @@ class _MainState extends State<Main> {
 
           // Statistics Page
           GetPage(
-            name: '/statisticsScreen',
-            page: () => StatisticsScreen()),
-
+              name: '/statisticsScreen', page: () => const StatisticsScreen()),
         ],
         theme: themeData,
         home:

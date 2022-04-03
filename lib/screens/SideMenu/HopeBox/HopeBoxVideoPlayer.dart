@@ -96,7 +96,7 @@ class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
                         children: [
                           CircularProgressIndicator(
                               color:
-                                  Theme.of(context).colorScheme.neutralWhite01),
+                                  Theme.of(context).colorScheme.accentBlue02),
                           const SizedBox(
                             height: 20,
                           ),
@@ -108,7 +108,7 @@ class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
                                   ?.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .neutralWhite01))
+                                          .accentBlue02))
                         ],
                       ),
                     )),
