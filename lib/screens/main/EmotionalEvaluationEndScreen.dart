@@ -390,11 +390,6 @@ class _EmotionalEvaluationEndScreenState
                                       if (!_dailyController.isDailyEntryDone.value) {
                                         _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                                         _levelController.initializeTaskWithXp('Daily Entry', 50);
-                                        
-                                        if (isAddingFromOnboarding) {
-                                          _levelController.initializeTaskWithXp('Exercise', 100);
-                                        }
-                                        
                                         _levelController.finalizeAddingOfXp();
                                       }
 

@@ -80,34 +80,37 @@ class _EntriesScreenState extends State<EntriesScreen> {
           children: [
             // EMOTION CONTAINER
 
-            (noEntriesCount > 0)
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 100, 15, 15),
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 12.0),
-                      decoration: BoxDecoration(
-                          color: const Color(0xff216CB2).withOpacity(1.00),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Text(
-                          (noEntriesCount == 1)
-                              ? '1 Day Missing'
-                              : '$noEntriesCount Days Missing',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              ?.copyWith(color: Colors.white)),
-                    ),
-                  )
-                : const SizedBox(height: 10.0),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+              // EMOTION CONTAINER
+              
+              (noEntriesCount > 0) 
+              ? Padding(
+                padding: const EdgeInsets.fromLTRB(15, 100, 15, 0),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 12.0),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff216CB2).withOpacity(1.00),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  child: Text(
+                      (noEntriesCount == 1) ? '1 Day Missing' : '$noEntriesCount Days Missing',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white)),
+                ),
+              ) 
+              : const SizedBox(height: 10.0),
 
             ListView.builder(
                 reverse: true,
                 shrinkWrap: true,
                 itemCount: emotionEntries.length,
+                physics: const NeverScrollableScrollPhysics(),      // so that it won't conflict with SingleChildScrollView
                 itemBuilder: (context, index) {
                   return Padding(
                     padding:
@@ -518,19 +521,21 @@ class _EntriesScreenState extends State<EntriesScreen> {
                                       ),
                                     ),
                                     _checkIfMonthLabelToDisplay(index)
-                                  ],
-                                ),
+                                  ]),
                               ),
                             ]),
                       ),
                     ),
                   );
-                }),
-
-            const SizedBox(height: 10.0),
+                }
+              ),
+              const SizedBox(height: 100.0),
           ],
         )),
       ]),
+      )
+    ]
+    )
     );
   }
 }

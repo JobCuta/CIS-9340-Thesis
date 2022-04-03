@@ -130,8 +130,12 @@ class EmotionController extends GetxController {
       'December': 12
     };
 
-    dateTime.value =
-        DateTime(year = year, monthNameToMonthNumber[month] as int, day);
+    dateTime.value = (DateTime.now().year != year || (DateTime.now().month != monthNameToMonthNumber[month] && DateTime.now().day != day)) 
+        ? DateTime(year = year, monthNameToMonthNumber[month] as int, day)
+        : DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
+    
+    DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
+
     update();
   }
 
@@ -385,6 +389,26 @@ class EmotionController extends GetxController {
     } else {
       createNewEntriesInStorage(0);
       return box.get(date);
+    }
+  }
+
+  List<EmotionEntryHive> getEmotionEntriesInTheLastDays(int days) {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+
+    if (emotionEntryKeys.length <= days) {
+      return box.values.toList() as List<EmotionEntryHive>;
+    } 
+    
+    else {
+      List<EmotionEntryHive> emotionEntries = [];
+      int index = box.length;
+
+      for (int i = 1; i <= days; i++) {
+        EmotionEntryHive emotionEntry = box.getAt(index-i);
+        emotionEntries.add(emotionEntry);
+      }
+      return emotionEntries;
     }
   }
 
