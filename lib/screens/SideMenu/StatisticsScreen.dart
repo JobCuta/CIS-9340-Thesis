@@ -4,8 +4,8 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/models/Mood.dart';
+import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
-
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);
@@ -167,7 +167,26 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).colorScheme.neutralBlack03, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: Text(
+                          _emotionController.currentStreak.value.toString() +
+                              ' ' +
+                              ((_emotionController.currentStreak.value > 1)
+                                  ? 'days'
+                                  : 'day') +
+                              ' in a row',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralBlack03,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                      ),
                       const Divider(
                         color: Color(0xffF0F1F1),
                         height: 25,
@@ -271,7 +290,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ],
             ),
           ),
-        ), 
-    ]));
+    )]));
   }
 }

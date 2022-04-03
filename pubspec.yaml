@@ -96,11 +96,16 @@ dependencies:
   # generates thumbnails for uploaded videos
   video_thumbnail: ^0.4.3
 
+  # plays videos (downgraded to 2.1.12 and 1.2.2 respectively because of conflict with audioplayers)
+  video_player: 2.1.12
+  chewie: 1.2.1
+
+  # plays audio files
+  audioplayers: ^0.20.1
+
   # access file storage for application 
   path_provider: ^2.0.9
   path: ^1.8.0
-
-
 
 dev_dependencies:
   flutter_test:

@@ -52,6 +52,9 @@ class _ShakeScreenState extends State<ShakeScreen> {
 
     // function for the detector (only starts after initialization)
     timer = Timer(const Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {});
+      }
       Get.toNamed('/exerciseScreen', arguments: {
         "assetImage": randomExercise[0],
         "prompt": randomExercise[1],
@@ -64,8 +67,9 @@ class _ShakeScreenState extends State<ShakeScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     timer?.cancel();
+    timer = null;
+    super.dispose();
   }
 
   @override
@@ -151,7 +155,6 @@ class _ShakeScreenState extends State<ShakeScreen> {
                     primary: Theme.of(context).colorScheme.accentBlue02,
                   ),
                   onPressed: () {
-                    dispose();
                     Get.toNamed('/wellnessScreen');
                   },
                   child: Text('I want to pick the exercise',

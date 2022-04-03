@@ -44,33 +44,37 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 20),
-                      child: CircleAvatar(
-                          radius: 70,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(80),
-                            child: Image.file(
-                              File(_hopeController.contactPerson.value
-                                  .getPathImage()),
-                              width: 200.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                          )),
+                      child:
+                          _hopeController.contactPerson.value.getPathImage() !=
+                                  ''
+                              ? CircleAvatar(
+                                  radius: 70,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(80),
+                                    child: Image.file(
+                                      File(_hopeController.contactPerson.value
+                                          .getPathImage()),
+                                      width: 200.0,
+                                      height: 200.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))
+                              : SvgPicture.asset(
+                                  'assets/images/default_user_image.svg',
+                                  width: 140),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: GetBuilder<HopeBoxController>(
-                        builder: (value) => Text(
-                            '${_hopeController.contactPerson.value.getFirstName()} ${_hopeController.contactPerson.value.getLastName()}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600)),
-                      ),
+                      child: Text(
+                          '${_hopeController.contactPerson.value.getFirstName()} ${_hopeController.contactPerson.value.getLastName()}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
                     ),
                   ]),
             ),
@@ -95,7 +99,6 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(8))),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  // crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -310,13 +313,21 @@ showDeleteContactConfirmationDialog(context) {
                                     fontWeight: FontWeight.w600),
                           ),
                           onPressed: () async {
-                            final file = File(_hopeController
-                                .contactPerson.value
-                                .getPathImage());
-                            await file.delete();
-                            _hopeController.deleteContactDetails();
-                            Get.back();
-                            Get.offAndToNamed('/hopeBox');
+                            if (_hopeController.contactPerson.value
+                                    .getPathImage() !=
+                                '') {
+                              final file = File(_hopeController
+                                  .contactPerson.value
+                                  .getPathImage());
+                              await file.delete();
+                              _hopeController.deleteContactDetails();
+                              Get.back();
+                              Get.offAndToNamed('/hopeBox');
+                            } else {
+                              _hopeController.deleteContactDetails();
+                              Get.back();
+                              Get.offAndToNamed('/hopeBox');
+                            }
                           },
                         ),
                         TextButton(
