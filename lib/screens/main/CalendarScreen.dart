@@ -1,7 +1,6 @@
 
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +32,8 @@ class _CalendarScreenState extends State<CalendarScreen>{
   DateTime focusedDay = DateTime.now();
   String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
+  List<EmotionEntryHive> veryBadDates = _emotionController.getVeryBadDates();
+  List<EmotionEntryHive> badDates = _emotionController.getVeryBadDates();
   EmotionController _emotionCounterController = Get.put(EmotionController());
 
   TextEditingController missedDays = TextEditingController();
@@ -91,84 +92,20 @@ class _CalendarScreenState extends State<CalendarScreen>{
   Widget build(BuildContext context) {
     List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(focusedDay.month, focusedDay.year);
 
-    //Marking Very Bad Dates
-    for (int i = 0; i < emotionEntries.length; i++) {
-      if(emotionEntries[i].overallMood == 'VeryBad') {
-        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
-        veryBadDates.add(date);
+    for (int i = 0; i < emotionEntry.length; i++) {
+      var date = DateTime(emotionEntry[i].year, convertMonth(emotionEntry[i].month), emotionEntry[i].day);
+      if (emotionEntry[i].overallMood == 'VeryBad') {
+        markedDateMap.add(date, Event(date: date, icon: _veryBadIcon(date.day.toString())));
+      } else if (emotionEntry[i].overallMood == 'Bad') {
+        markedDateMap.add(date, Event(date: date, icon: _badIcon(date.day.toString())));
+      } else if (emotionEntry[i].overallMood == 'Neutral') {
+        markedDateMap.add(date, Event(date: date, icon: _neutralIcon(date.day.toString())));
+      } else if (emotionEntry[i].overallMood == 'Good') {
+        markedDateMap.add(date, Event(date: date, icon: _goodIcon(date.day.toString())));
+      } else {
+        markedDateMap.add(date, Event(date: date, icon: _veryGoodIcon(date.day.toString())));
       }
     }
-    for (int i = 0; i < veryBadDates.length; i++) {
-      markedDateMap.add(veryBadDates[i], Event(date: veryBadDates[i], icon: _veryBadIcon(veryBadDates[i].day.toString())));
-    }
-
-    //Marking Bad Dates
-    for (int i = 0; i < emotionEntries.length; i++) {
-      if(emotionEntries[i].overallMood == 'Bad') {
-        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
-        badDates.add(date);
-      }
-    }
-    for (int i = 0; i < badDates.length; i++) {
-      markedDateMap.add(badDates[i], Event(date: badDates[i], icon: _badIcon(badDates[i].day.toString())));
-    }
-
-    //Marking Neutral Dates
-    for (int i = 0; i < emotionEntries.length; i++) {
-      if(emotionEntries[i].overallMood == 'Neutral') {
-        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
-        neutralDates.add(date);
-      }
-    }
-    for (int i = 0; i < neutralDates.length; i++) {
-      markedDateMap.add(neutralDates[i], Event(date: neutralDates[i], icon: _neutralIcon(neutralDates[i].day.toString())));
-    }
-
-    //Marking Good Dates
-    for (int i = 0; i < emotionEntries.length; i++) {
-      if(emotionEntries[i].overallMood == 'Good') {
-        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
-        goodDates.add(date);
-      }
-    }
-    for (int i = 0; i < goodDates.length; i++) {
-      markedDateMap.add(goodDates[i], Event(date: goodDates[i], icon: _goodIcon(goodDates[i].day.toString())));
-    }
-
-    //Marking Very Good Dates
-    for (int i = 0; i < emotionEntries.length; i++) {
-      if(emotionEntries[i].overallMood == 'VeryGood') {
-        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
-        veryGoodDates.add(date);
-      }
-    }
-    for (int i = 0; i < veryGoodDates.length; i++) {
-      markedDateMap.add(veryGoodDates[i], Event(date: veryGoodDates[i], icon: _veryGoodIcon(veryGoodDates[i].day.toString())));
-    }
-
-    CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      height: 400,
-      weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      daysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      nextDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      prevDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      selectedDateTime: selectedDay,
-      todayButtonColor: Colors.transparent,
-      todayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-      selectedDayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
-      markedDateShowIcon: true,
-      markedDateMoreShowTotal: null,
-      markedDatesMap: markedDateMap,
-      markedDateIconBuilder: (event) {
-        return event.icon;
-      },
-      onDayPressed: (date, event) {
-        setState(() {
-          selectedDay = date;
-        });
-      },
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -196,7 +133,27 @@ class _CalendarScreenState extends State<CalendarScreen>{
                       child: Column(
                         children: [
                           SizedBox(
-                            child: _calendarCarouselNoHeader,
+                            child: CalendarCarousel<Event>(
+                              height: 400,
+                              weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              daysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              nextDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              prevDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              selectedDateTime: selectedDay,
+                              todayButtonColor: Colors.transparent,
+                              todayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              selectedDayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              markedDateShowIcon: true,
+                              markedDateMoreShowTotal: null,
+                              markedDatesMap: markedDateMap,
+                              markedDateIconBuilder: (event) {
+                                  return event.icon;},
+                              onDayPressed: (date, event) {
+                                setState(() {
+                                  selectedDay = date;
+                                });},
+                              ),
                             height: 420,
                           ),
                             /*SizedBox(
