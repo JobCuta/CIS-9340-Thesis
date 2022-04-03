@@ -32,8 +32,8 @@ class _CalendarScreenState extends State<CalendarScreen>{
   DateTime focusedDay = DateTime.now();
   String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
-  List<EmotionEntryHive> veryBadDates = _emotionController.getVeryBadDates();
-  List<EmotionEntryHive> badDates = _emotionController.getVeryBadDates();
+  // List<EmotionEntryHive> veryBadDates = _emotionController.getVeryBadDates();
+  // List<EmotionEntryHive> badDates = _emotionController.getVeryBadDates();
   EmotionController _emotionCounterController = Get.put(EmotionController());
 
   TextEditingController missedDays = TextEditingController();

@@ -4,10 +4,13 @@ import 'package:flutter_application_1/apis/ContactDetails.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
+import 'package:flutter_application_1/apis/SudokuSettings.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
+import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/screens/MIniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
@@ -81,6 +84,7 @@ Future<void> main() async {
   Hive.registerAdapter(HopeBoxAdapter());
   Hive.registerAdapter(HopeBoxObjectAdapter());
   Hive.registerAdapter(ContactDetailsAdapter());
+  Hive.registerAdapter(SudokuSettingsAdapter());
 
   await Hive.initFlutter();
 
@@ -95,6 +99,7 @@ Future<void> main() async {
   await Hive.openBox<HopeBox>('hopeBox');
   await Hive.openBox<HopeBoxObject>('hopeBoxObj');
   await Hive.openBox<ContactDetails>('contactPerson');
+  await Hive.openBox<SudokuSettings>('sudokuBox');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -106,6 +111,9 @@ Future<void> main() async {
   _levelController.prepareTheObjects();
   final HopeBoxController _hopeBoxController = Get.put(HopeBoxController());
   _hopeBoxController.prepareTheObjects();
+
+  final SudokuController _sudokuController = Get.put(SudokuController());
+  _sudokuController.prepareTheObjects();
 
   runApp(const Main());
 }
@@ -140,7 +148,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/homepage',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -179,8 +187,7 @@ class _MainState extends State<Main> {
 
           GetPage(
               name: '/adventureHome', page: () => const AdventureHomeScreen()),
-          GetPage(
-              name: '/userJourney', page: () => const UserJourneyScreen()),
+          GetPage(name: '/userJourney', page: () => const UserJourneyScreen()),
 
           // wellness exercises
           GetPage(
@@ -261,6 +268,9 @@ class _MainState extends State<Main> {
           // Statistics Page
           GetPage(
               name: '/statisticsScreen', page: () => const StatisticsScreen()),
+
+          // Minigames Screens
+          GetPage(name: '/sudoku', page: () => SudokuScreen()),
         ],
         theme: themeData,
         home:
