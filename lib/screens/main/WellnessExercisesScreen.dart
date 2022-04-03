@@ -40,11 +40,6 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Get.toNamed('/homepage');
-            },
-          ),
           title: const Text('Wellness Exercises'),
           primary: true,
           backgroundColor: Colors.transparent,
