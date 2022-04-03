@@ -77,13 +77,15 @@ class _EntriesScreenState extends State<EntriesScreen>{
                     fit: BoxFit.cover))),
 
           SingleChildScrollView(
-          child: Column(
-            children: [
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
               // EMOTION CONTAINER
               
               (noEntriesCount > 0) 
               ? Padding(
-                padding: const EdgeInsets.fromLTRB(15, 100, 15, 15),
+                padding: const EdgeInsets.fromLTRB(15, 100, 15, 0),
                 child: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(
@@ -104,6 +106,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                 reverse: true,
                 shrinkWrap: true,
                 itemCount: emotionEntries.length,
+                physics: const NeverScrollableScrollPhysics(),      // so that it won't conflict with SingleChildScrollView
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25, bottom: 15),
@@ -287,7 +290,6 @@ class _EntriesScreenState extends State<EntriesScreen>{
                                       ],
                                     ),
                                   ),
-
                                   _checkIfMonthLabelToDisplay(index)
                                 ],
                               ),
@@ -300,7 +302,7 @@ class _EntriesScreenState extends State<EntriesScreen>{
                 }
               ),
         
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 100.0),
 
             ],
           )
