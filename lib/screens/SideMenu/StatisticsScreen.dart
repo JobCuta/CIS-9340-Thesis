@@ -160,14 +160,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       // ),
         
                       const SizedBox(height: 10.0),
-                      
-                      Center(
-                        child: Text(_emotionController.currentStreak.value.toString() + ' ' + ((_emotionController.currentStreak.value > 1) ? 'days' : 'day') + ' in a row',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).colorScheme.neutralBlack03, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
                       Center(
                         child: Text(
                           _emotionController.currentStreak.value.toString() +
