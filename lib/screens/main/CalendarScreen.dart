@@ -21,6 +21,11 @@ class CalendarScreen extends StatefulWidget {
 }
 
 final EmotionController _emotionController = Get.put(EmotionController());
+List<DateTime> veryBadDates = [];
+List<DateTime> badDates = [];
+List<DateTime> neutralDates = [];
+List<DateTime> goodDates = [];
+List<DateTime> veryGoodDates = [];
 
 class _CalendarScreenState extends State<CalendarScreen>{
   CalendarFormat format = CalendarFormat.month;
@@ -53,58 +58,118 @@ class _CalendarScreenState extends State<CalendarScreen>{
   Image happy = Image.asset('assets/images/face_happy_selected.png', height: 60, width: 60);
 
   //Calendar Carousel
-  Widget _veryBad(String day) => CircleAvatar(
-    backgroundColor: badColor,
-    child: Text(
-      day,
-    ),
-  );
-
-  Widget _neutral(String day) => CircleAvatar(
-    backgroundColor: neutralColor,
-    child: Text(
-      day,
-    ),
-  );
-
-  Widget _bad(String day) => CircleAvatar(
+  Widget _veryBadIcon(String day) => CircleAvatar(
     backgroundColor: veryBadColor,
-    child: Text(
-      day,
-    ),
+    child: Text(day, style: const TextStyle(fontSize: 11, color: Colors.white),),
   );
 
-  Widget _good(String day) => CircleAvatar(
+  Widget _neutralIcon(String day) => CircleAvatar(
+    backgroundColor: neutralColor,
+    child: Text(day, style: const TextStyle(fontSize: 11, color: Colors.black),),
+  );
+
+  Widget _badIcon(String day) => CircleAvatar(
+    backgroundColor: badColor,
+    child: Text(day, style: const TextStyle(fontSize: 11, color: Colors.white),),
+  );
+
+  Widget _goodIcon(String day) => CircleAvatar(
     backgroundColor: goodColor,
-    child: Text(
-      day,
-    ),
+    child: Text(day, style: const TextStyle(fontSize: 11, color: Colors.black),),
   );
 
-  Widget _veryGood(String day) => CircleAvatar(
+  Widget _veryGoodIcon(String day) => CircleAvatar(
     backgroundColor: veryGoodColor,
-    child: Text(
-      day,
-    ),
+    child: Text(day, style: const TextStyle(fontSize: 11, color: Colors.black),),
   );
 
-  EventList<Event> _markedDateMap = new EventList<Event>(
-    events: {}
-  );
-
-  CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
-    height: 400,
-    weekendTextStyle: const TextStyle(fontSize: 11),
-    weekdayTextStyle: const TextStyle(fontSize: 11),
-    selectedDateTime: DateTime.now(),
-    markedDateShowIcon: true,
-    markedDateMoreShowTotal: null,
-    dayPadding: 0,
+  EventList<Event> markedDateMap = EventList<Event>(
+      events: {}
   );
 
   @override
   Widget build(BuildContext context) {
     List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(focusedDay.month, focusedDay.year);
+
+    //Marking Very Bad Dates
+    for (int i = 0; i < emotionEntries.length; i++) {
+      if(emotionEntries[i].overallMood == 'VeryBad') {
+        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
+        veryBadDates.add(date);
+      }
+    }
+    for (int i = 0; i < veryBadDates.length; i++) {
+      markedDateMap.add(veryBadDates[i], Event(date: veryBadDates[i], icon: _veryBadIcon(veryBadDates[i].day.toString())));
+    }
+
+    //Marking Bad Dates
+    for (int i = 0; i < emotionEntries.length; i++) {
+      if(emotionEntries[i].overallMood == 'Bad') {
+        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
+        badDates.add(date);
+      }
+    }
+    for (int i = 0; i < badDates.length; i++) {
+      markedDateMap.add(badDates[i], Event(date: badDates[i], icon: _badIcon(badDates[i].day.toString())));
+    }
+
+    //Marking Neutral Dates
+    for (int i = 0; i < emotionEntries.length; i++) {
+      if(emotionEntries[i].overallMood == 'Neutral') {
+        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
+        neutralDates.add(date);
+      }
+    }
+    for (int i = 0; i < neutralDates.length; i++) {
+      markedDateMap.add(neutralDates[i], Event(date: neutralDates[i], icon: _neutralIcon(neutralDates[i].day.toString())));
+    }
+
+    //Marking Good Dates
+    for (int i = 0; i < emotionEntries.length; i++) {
+      if(emotionEntries[i].overallMood == 'Good') {
+        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
+        goodDates.add(date);
+      }
+    }
+    for (int i = 0; i < goodDates.length; i++) {
+      markedDateMap.add(goodDates[i], Event(date: goodDates[i], icon: _goodIcon(goodDates[i].day.toString())));
+    }
+
+    //Marking Very Good Dates
+    for (int i = 0; i < emotionEntries.length; i++) {
+      if(emotionEntries[i].overallMood == 'VeryGood') {
+        var date = DateTime(emotionEntries[i].year, convertMonth(emotionEntries[i].month), emotionEntries[i].day);
+        veryGoodDates.add(date);
+      }
+    }
+    for (int i = 0; i < veryGoodDates.length; i++) {
+      markedDateMap.add(veryGoodDates[i], Event(date: veryGoodDates[i], icon: _veryGoodIcon(veryGoodDates[i].day.toString())));
+    }
+
+    CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
+      height: 400,
+      weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      daysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      nextDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      prevDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      selectedDateTime: selectedDay,
+      todayButtonColor: Colors.transparent,
+      todayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+      selectedDayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+      markedDateShowIcon: true,
+      markedDateMoreShowTotal: null,
+      markedDatesMap: markedDateMap,
+      markedDateIconBuilder: (event) {
+        return event.icon;
+      },
+      onDayPressed: (date, event) {
+        setState(() {
+          selectedDay = date;
+        });
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
@@ -132,9 +197,9 @@ class _CalendarScreenState extends State<CalendarScreen>{
                         children: [
                           SizedBox(
                             child: _calendarCarouselNoHeader,
-                            height: 200,
+                            height: 420,
                           ),
-                          /*SizedBox(
+                            /*SizedBox(
                             height: 200,
                             child: Column(
                               children: [
@@ -541,5 +606,20 @@ class _CalendarScreenState extends State<CalendarScreen>{
     } else {
       return check;
     }
+  }
+
+  convertMonth(String month) {
+    if (month == 'January') {return 1;}
+    else if (month == 'February') {return 2;}
+    else if (month == 'March') {return 3;}
+    else if (month == 'April') {return 4;}
+    else if (month == 'May') {return 5;}
+    else if (month == 'June') {return 6;}
+    else if (month == 'July') {return 7;}
+    else if (month == 'August') {return 8;}
+    else if (month == 'September') {return 9;}
+    else if (month == 'October') {return 10;}
+    else if (month == 'November') {return 11;}
+    else if (month == 'December') {return 12;}
   }
 }
