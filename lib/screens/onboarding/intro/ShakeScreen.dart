@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/dailyController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -201,6 +204,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   final PageController _pageController = PageController();
   final CountDownController _timerController = CountDownController();
+  final _dailyController = Get.put(DailyController());
+  final _levelController = Get.put(LevelController());
 
   @override
   Widget build(BuildContext context) {
@@ -369,9 +374,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                             .accentBlue02,
                                       ),
                                       onPressed: () {
-                                        (widget.initialAssessment)
-                                            ? Get.toNamed('/accountScreen')
-                                            : Get.toNamed('/homepage');
+                                        _dailyController.setDailyTaskToDone(DailyTask.Exercise);
+                                        _levelController.initializeTaskWithXp('Exercise', 100);
+
+                                        if (widget.initialAssessment) {
+                                          Get.toNamed('/accountScreen');
+                                        } else {
+                                        _levelController.finalizeAddingOfXp();
+                                          Get.toNamed('/homepage');
+                                        }
+
                                         // Get.toNamed('/accountScreen');
                                       },
                                       child: Text(
