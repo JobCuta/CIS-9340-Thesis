@@ -65,7 +65,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                       const SizedBox(height: 10.0),
                       InkWell(
                         onTap: () {
-                          Get.offAndToNamed('/NewAdventure');
+                          Get.offAndToNamed('/userJourney');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,7 +95,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                       ),
                       InkWell(
                         onTap: () {
-                          Get.offAndToNamed('/ContinueAdventure');
+                          Get.offAndToNamed('/userJourney');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

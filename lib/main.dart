@@ -19,6 +19,7 @@ import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -178,6 +179,8 @@ class _MainState extends State<Main> {
 
           GetPage(
               name: '/adventureHome', page: () => const AdventureHomeScreen()),
+          GetPage(
+              name: '/userJourney', page: () => const UserJourneyScreen()),
 
           // wellness exercises
           GetPage(
