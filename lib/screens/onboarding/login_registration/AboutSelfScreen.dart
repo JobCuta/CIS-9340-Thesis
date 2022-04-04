@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -411,6 +412,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         if (response["status"]) {
                           registeredDialog(context);
                           loginAccount();
+                          UserSecureStorage.setLoginDetails(email, nickName,
+                              firstName, lastName, birthDate, gender!, 'false');
                         } else {
                           errorDialog(response["message"]);
                         }

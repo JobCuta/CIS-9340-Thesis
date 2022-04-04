@@ -228,13 +228,13 @@ class _SIDASScreenState extends State<SIDASScreen> {
                               ),
                               onPressed: () {
                                 if (position == questions.length - 1) {
-                                  _emotionController.updateIfAddingFromOnboarding(true);
+                                  _emotionController
+                                      .updateIfAddingFromOnboarding(true);
                                   Get.toNamed('/emotionStartScreen');
                                 } else {
                                   // Checks if the user selected a valid value
                                   _pageController.jumpToPage(position + 1);
                                 }
-                                    
                               }),
                         ),
                       ),

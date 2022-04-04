@@ -13,8 +13,8 @@ class SudokuController extends GetxController {
     if (box.isEmpty) {
       SudokuSettings sudokuBox = SudokuSettings(
           currentDifficultyLevel: 'beginner',
-          currentTheme: 'light',
-          currentAccentColor: 'blue');
+          currentTheme: 'Green',
+          currentAccentColor: 'darkGrey');
       box.put('sudokuBox', sudokuBox);
     }
     SudokuSettings sudoku = box.get('sudokuBox');

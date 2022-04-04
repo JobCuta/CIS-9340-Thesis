@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Styles {
   // #FFFFFF
-  static MaterialColor white = MaterialColor(4294967295, {
+  static MaterialColor white = const MaterialColor(4294967295, {
     50: Color(0xffffffff),
     100: Color(0xffffffff),
     200: Color(0xffffffff),
@@ -16,7 +16,7 @@ class Styles {
   });
 
   // 303030
-  static MaterialColor grey = MaterialColor(4281348144, {
+  static MaterialColor grey = const MaterialColor(4281348144, {
     50: Color(0xff8d8d8d),
     100: Color(0xff838383),
     200: Color(0xff6e6e6e),
@@ -30,7 +30,7 @@ class Styles {
   });
 
   // #121212
-  static MaterialColor darkGrey = MaterialColor(4279374354, {
+  static MaterialColor darkGrey = const MaterialColor(4279374354, {
     50: Color(0xff7d7d7d),
     100: Color(0xff717171),
     200: Color(0xff595959),
@@ -44,7 +44,7 @@ class Styles {
   });
 
   // 3DC2FF
-  static MaterialColor ionicCyan = MaterialColor(4282237695, {
+  static MaterialColor ionicCyan = const MaterialColor(4282237695, {
     50: Color(0xff94ddff),
     100: Color(0xff8bdaff),
     200: Color(0xff77d4ff),
@@ -58,7 +58,7 @@ class Styles {
   });
 
   // #3880FF
-  static MaterialColor ionicBlue = MaterialColor(4281893119, {
+  static MaterialColor ionicBlue = const MaterialColor(4281893119, {
     50: Color(0xff92b9ff),
     100: Color(0xff88b3ff),
     200: Color(0xff74a6ff),
@@ -72,7 +72,7 @@ class Styles {
   });
 
   // #5260FF
-  static MaterialColor ionicIndigo = MaterialColor(4283588863, {
+  static MaterialColor ionicIndigo = const MaterialColor(4283588863, {
     50: Color(0xffa0a8ff),
     100: Color(0xff97a0ff),
     200: Color(0xff8690ff),
@@ -86,7 +86,7 @@ class Styles {
   });
 
   // 7C4DFF
-  static MaterialColor violet = MaterialColor(4286336511, {
+  static MaterialColor violet = const MaterialColor(4286336511, {
     50: Color(0xffb79dff),
     100: Color(0xffb094ff),
     200: Color(0xffa382ff),
@@ -99,22 +99,22 @@ class Styles {
     900: Color(0xff4a2e99)
   });
 
-  // E040FB
-  static MaterialColor purple = MaterialColor(4292886779, {
-    50: Color(0xffee96fd),
-    100: Color(0xffec8cfd),
-    200: Color(0xffe979fc),
-    300: Color(0xffe666fc),
-    400: Color(0xffe353fb),
-    500: Color(0xffe040fb),
-    600: Color(0xffca3ae2),
-    700: Color(0xffb333c9),
-    800: Color(0xff9d2db0),
-    900: Color(0xff862697)
-  });
+  // // E040FB
+  // static MaterialColor purple = const MaterialColor(4292886779, {
+  //   50: Color(0xffee96fd),
+  //   100: Color(0xffec8cfd),
+  //   200: Color(0xffe979fc),
+  //   300: Color(0xffe666fc),
+  //   400: Color(0xffe353fb),
+  //   500: Color(0xffe040fb),
+  //   600: Color(0xffca3ae2),
+  //   700: Color(0xffb333c9),
+  //   800: Color(0xff9d2db0),
+  //   900: Color(0xff862697)
+  // });
 
   // F00075
-  static MaterialColor pink = MaterialColor(4293918837, {
+  static MaterialColor pink = const MaterialColor(4293918837, {
     50: Color(0xfff773b3),
     100: Color(0xfff666ac),
     200: Color(0xfff54d9e),
@@ -128,7 +128,7 @@ class Styles {
   });
 
   // EB0028
-  static MaterialColor oneplusRed = MaterialColor(4293591080, {
+  static MaterialColor oneplusRed = const MaterialColor(4293591080, {
     50: Color(0xfff47389),
     100: Color(0xfff3667e),
     200: Color(0xfff14d69),
@@ -142,7 +142,7 @@ class Styles {
   });
 
   // #EB445A
-  static MaterialColor lightRed = MaterialColor(4293608538, {
+  static MaterialColor lightRed = const MaterialColor(4293608538, {
     50: Color(0xfff498a4),
     100: Color(0xfff38f9c),
     200: Color(0xfff17c8c),
@@ -156,7 +156,7 @@ class Styles {
   });
 
   // FF5722
-  static MaterialColor orange = MaterialColor(4294924066, {
+  static MaterialColor orange = const MaterialColor(4294924066, {
     50: Color(0xffffa385),
     100: Color(0xffff9a7a),
     200: Color(0xffff8964),
@@ -170,7 +170,7 @@ class Styles {
   });
 
   // 21EF8B
-  static MaterialColor aospExtendedGreen = MaterialColor(4280414091, {
+  static MaterialColor aospExtendedGreen = const MaterialColor(4280414091, {
     50: Color(0xff85f6bf),
     100: Color(0xff7af5b9),
     200: Color(0xff64f4ae),
@@ -183,11 +183,35 @@ class Styles {
     900: Color(0xff148f53)
   });
 
-  static MaterialColor primaryBackgroundColor = darkGrey;
-  static MaterialColor secondaryBackgroundColor = grey;
-  static MaterialColor foregroundColor = white;
-  static MaterialColor primaryColor = ionicBlue;
-  static MaterialColor secondaryColor = lightRed;
+  // 0E8955
+  static MaterialColor darkGreen = const MaterialColor(4279142741, {});
+
+  // 1AAD43
+  static MaterialColor green = const MaterialColor(4279938371, {});
+
+  // 229995
+  static MaterialColor darkBlue = const MaterialColor(4280457621, {});
+
+  // 1BBCB6
+  static MaterialColor blue = const MaterialColor(4280007862, {});
+
+  // D89512
+  static MaterialColor darkYellow = const MaterialColor(4292384018, {});
+
+  // FFC122
+  static MaterialColor yellow = const MaterialColor(4294951202, {});
+
+  // A67BB6
+  static MaterialColor darkPurple = const MaterialColor(4289100726, {});
+
+  // B377BE
+  static MaterialColor purple = const MaterialColor(4289951678, {});
+
+  static MaterialColor primaryBackgroundColor = darkGreen;
+  static MaterialColor secondaryBackgroundColor = green;
+  static MaterialColor foregroundColor = darkGrey;
+  static MaterialColor primaryColor = white;
+  static MaterialColor secondaryColor = darkGrey;
 
   static final Map<String, MaterialColor> accentColors = {
     'Cyan': ionicCyan,
@@ -199,5 +223,12 @@ class Styles {
     'Red': oneplusRed,
     'Orange': orange,
     'Green': aospExtendedGreen,
+  };
+
+  static final Map<String, MaterialColor> themeColors = {
+    'Green': green,
+    'Purple': purple,
+    'Yellow': yellow,
+    'Blue': blue,
   };
 }

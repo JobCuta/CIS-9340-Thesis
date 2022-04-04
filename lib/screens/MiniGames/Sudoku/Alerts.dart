@@ -12,7 +12,7 @@ class AlertGameOver extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: Styles.secondaryBackgroundColor,
+      backgroundColor: Colors.white,
       title: Text(
         'Game Over',
         style: TextStyle(color: Styles.foregroundColor),
@@ -25,7 +25,7 @@ class AlertGameOver extends StatelessWidget {
         TextButton(
           style: ButtonStyle(
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Styles.primaryColor)),
+                  MaterialStateProperty.all<Color>(Styles.foregroundColor)),
           onPressed: () {
             Get.back();
             restartGame = true;
@@ -34,8 +34,8 @@ class AlertGameOver extends StatelessWidget {
         ),
         TextButton(
           style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all<Color>(Styles.primaryColor)),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Styles.primaryBackgroundColor)),
           onPressed: () {
             Get.back();
             newGame = true;
@@ -88,7 +88,7 @@ class AlertDifficulty extends State<AlertDifficultyState> {
         'Select Difficulty Level',
         style: TextStyle(color: Styles.foregroundColor),
       )),
-      backgroundColor: Styles.secondaryBackgroundColor,
+      backgroundColor: Colors.white,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       children: <Widget>[
         for (String level in difficulties)
@@ -119,7 +119,7 @@ class AlertExit extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: Styles.secondaryBackgroundColor,
+      backgroundColor: Colors.white,
       title: Text(
         'Exit Game',
         style: TextStyle(color: Styles.foregroundColor),
@@ -134,7 +134,7 @@ class AlertExit extends StatelessWidget {
               foregroundColor:
                   MaterialStateProperty.all<Color>(Styles.primaryColor)),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Text('No'),
         ),
@@ -183,12 +183,11 @@ class AlertNumbers extends State<AlertNumbersState> {
               setState(() {
                 numberSelected = numbers;
                 number = numberSelected;
-                Navigator.pop(context);
+                Get.back();
               })
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Styles.secondaryBackgroundColor),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
               foregroundColor:
                   MaterialStateProperty.all<Color>(Styles.primaryColor),
               shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -204,7 +203,7 @@ class AlertNumbers extends State<AlertNumbersState> {
             child: Text(
               numbers.toString(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: Styles.foregroundColor),
             ),
           ),
         )
@@ -231,7 +230,7 @@ class AlertNumbers extends State<AlertNumbersState> {
   Widget build(BuildContext context) {
     return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor: Styles.secondaryBackgroundColor,
+        backgroundColor: Colors.white,
         title: Center(
             child: Text(
           'Choose a Number',
@@ -243,6 +242,83 @@ class AlertNumbers extends State<AlertNumbersState> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: createRows(),
         ));
+  }
+}
+
+class AlertThemeColor extends StatefulWidget {
+  late String currentThemeColor;
+
+  AlertThemeColor(String currentThemeColor) {
+    this.currentThemeColor = currentThemeColor;
+  }
+
+  static String get themeColor {
+    return _AlertThemeColorState.themeColor;
+  }
+
+  static set themeColor(String color) {
+    _AlertThemeColorState.themeColor = color;
+  }
+
+  @override
+  State<AlertThemeColor> createState() =>
+      _AlertThemeColorState(this.currentThemeColor);
+}
+
+class _AlertThemeColorState extends State<AlertThemeColor> {
+  static String themeColor = '';
+  static final List<String> theme = [...Styles.themeColors.keys];
+  static final List<MaterialColor> colors = [...Styles.themeColors.values];
+  late String color;
+
+  _AlertThemeColorState(String themeColor) {
+    this.color = themeColor;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: Center(
+          child: Text(
+        'Select Color',
+        style: TextStyle(color: Styles.foregroundColor),
+      )),
+      backgroundColor: Colors.white,
+      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      children: <Widget>[
+        for (String color in theme)
+          SimpleDialogOption(
+            onPressed: () {
+              if (color != this.color) {
+                setState(() {
+                  themeColor = color;
+                });
+              }
+              Get.back();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    backgroundColor: Styles.themeColors[color],
+                    maxRadius: 10,
+                  ),
+                ),
+                Text(color,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: color == this.color
+                            ? Styles.themeColors[color]
+                            : Styles.foregroundColor)),
+              ],
+            ),
+          ),
+      ],
+    );
   }
 }
 
@@ -281,10 +357,10 @@ class AlertAccentColors extends State<AlertAccentColorsState> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
           child: Text(
-        'Select Accent Color',
+        'Select Color',
         style: TextStyle(color: Styles.foregroundColor),
       )),
-      backgroundColor: Styles.secondaryBackgroundColor,
+      backgroundColor: Colors.white,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       children: <Widget>[
         for (String color in accentColors)
@@ -295,7 +371,7 @@ class AlertAccentColors extends State<AlertAccentColorsState> {
                   accentColor = color;
                 });
               }
-              Navigator.pop(context);
+              Get.back();
             },
             child: Text(color,
                 textAlign: TextAlign.center,
@@ -323,7 +399,7 @@ class AlertAbout extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: Styles.secondaryBackgroundColor,
+      backgroundColor: Colors.white,
       title: Center(
         child: Text(
           'About',
@@ -338,10 +414,8 @@ class AlertAbout extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/icon/icon_round.png',
-                  height: 48.0, width: 48.0, fit: BoxFit.contain),
               Text(
-                '   Sudoku',
+                'Sudoku Source Code',
                 style: TextStyle(
                     color: Styles.foregroundColor,
                     fontFamily: 'roboto',
@@ -391,7 +465,7 @@ class AlertAbout extends StatelessWidget {
                 child: Text(
                   'VarunS2002',
                   style: TextStyle(
-                      color: Styles.primaryColor,
+                      color: Styles.primaryBackgroundColor,
                       fontFamily: 'roboto',
                       fontSize: 15),
                 ),
@@ -427,7 +501,7 @@ class AlertAbout extends StatelessWidget {
                 child: Text(
                   'GNU GPLv3',
                   style: TextStyle(
-                      color: Styles.primaryColor,
+                      color: Styles.primaryBackgroundColor,
                       fontFamily: 'roboto',
                       fontSize: 15),
                 ),
@@ -456,7 +530,7 @@ class AlertAbout extends StatelessWidget {
                 child: Text(
                   'Source Code',
                   style: TextStyle(
-                      color: Styles.primaryColor,
+                      color: Styles.primaryBackgroundColor,
                       fontFamily: 'roboto',
                       fontSize: 15),
                 ),

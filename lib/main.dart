@@ -10,7 +10,7 @@ import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
-import 'package:flutter_application_1/screens/MIniGames/Sudoku/SudokuScreen.dart';
+import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxRecordingsScreen.dart';
