@@ -100,9 +100,9 @@ class _CalendarScreenState extends State<CalendarScreen>{
         markedDateMap.add(date, Event(date: date, icon: _badIcon(date.day.toString())));
       } else if (emotionEntry[i].overallMood == 'Neutral') {
         markedDateMap.add(date, Event(date: date, icon: _neutralIcon(date.day.toString())));
-      } else if (emotionEntry[i].overallMood == 'Good') {
+      } else if (emotionEntry[i].overallMood == 'Happy') {
         markedDateMap.add(date, Event(date: date, icon: _goodIcon(date.day.toString())));
-      } else {
+      } else if (emotionEntry[i].overallMood == 'VeryHappy'){
         markedDateMap.add(date, Event(date: date, icon: _veryGoodIcon(date.day.toString())));
       }
     }
@@ -135,15 +135,21 @@ class _CalendarScreenState extends State<CalendarScreen>{
                           SizedBox(
                             child: CalendarCarousel<Event>(
                               height: 400,
-                              weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-                              daysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              maxSelectedDate: DateTime.now(),
+                              weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              daysTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
                               nextDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
                               prevDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-                              weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              inactiveDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              inactiveWeekendTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
                               selectedDateTime: selectedDay,
                               todayButtonColor: Colors.transparent,
-                              todayTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
-                              selectedDayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              todayBorderColor: Colors.grey,
+                              daysHaveCircularBorder: true,
+                              todayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              selectedDayBorderColor: Colors.black,
+                              selectedDayButtonColor: Colors.transparent,
                               markedDateShowIcon: true,
                               markedDateMoreShowTotal: null,
                               markedDatesMap: markedDateMap,
@@ -154,7 +160,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                   selectedDay = date;
                                 });},
                               ),
-                            height: 420,
+                            height: 425,
                           ),
                             /*SizedBox(
                             height: 200,
