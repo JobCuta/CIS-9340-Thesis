@@ -392,6 +392,16 @@ class EmotionController extends GetxController {
     }
   }
 
+  EmotionEntryHive getEmotionEntryForDate(DateTime dateTime) {
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    String date = dateToString(dateTime);
+    if (box.containsKey(date)) {
+      return box.get(date);
+    } else {
+      throw Exception("Entry with this date doesn't exist");
+    }
+  }
+
   List<EmotionEntryHive> getEmotionEntriesInTheLastDays(int days) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     final emotionEntryKeys = box.keys;
