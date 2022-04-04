@@ -11,6 +11,7 @@ import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
+import 'package:app_install_date/app_install_date.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -27,9 +28,9 @@ List<DateTime> goodDates = [];
 List<DateTime> veryGoodDates = [];
 
 class _CalendarScreenState extends State<CalendarScreen>{
+  DateTime installedDate = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
-  DateTime focusedDay = DateTime.now();
   String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
   EmotionController _emotionCounterController = Get.put(EmotionController());
@@ -86,10 +87,36 @@ class _CalendarScreenState extends State<CalendarScreen>{
   );
 
   @override
-  Widget build(BuildContext context) {
-    List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(focusedDay.month, focusedDay.year);
-    EmotionEntryHive selectedDayEntry = _emotionController.getEmotionEntryForDate(selectedDay);
+  void initState() {
+    super.initState();
+    _initPlatformState();
+  }
 
+  Future<void> _initPlatformState() async {
+    late String installDate;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      final DateTime date = await AppInstallDate().installDate;
+      installDate = date.toString();
+    } catch (e, st) {
+      print('Failed to load install date due to $e\n$st');
+      installDate = 'Failed to load install date';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      installedDate = installDate as DateTime;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(selectedDay.month, selectedDay.year);
+    EmotionEntryHive selectedDayEntry = _emotionController.getEmotionEntryForDate(selectedDay);
     for (int i = 0; i < emotionEntry.length; i++) {
       var date = DateTime(emotionEntry[i].year, convertMonth(emotionEntry[i].month), emotionEntry[i].day);
       if (emotionEntry[i].overallMood == 'VeryBad') {
@@ -133,15 +160,17 @@ class _CalendarScreenState extends State<CalendarScreen>{
                           SizedBox(
                             child: CalendarCarousel<Event>(
                               height: 400,
+                              minSelectedDate: installedDate,
                               maxSelectedDate: DateTime.now(),
                               weekendTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
                               daysTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
                               nextDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
                               prevDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
                               weekdayTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
-                              inactiveDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
-                              inactiveWeekendTextStyle: const TextStyle(fontSize: 11, color: Colors.black),
+                              inactiveDaysTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
+                              inactiveWeekendTextStyle: const TextStyle(fontSize: 11, color: Colors.grey),
                               selectedDateTime: selectedDay,
+                              customGridViewPhysics: const NeverScrollableScrollPhysics(),
                               todayButtonColor: Colors.transparent,
                               todayBorderColor: Colors.grey,
                               daysHaveCircularBorder: true,
@@ -149,6 +178,9 @@ class _CalendarScreenState extends State<CalendarScreen>{
                               selectedDayBorderColor: Colors.black,
                               selectedDayButtonColor: Colors.transparent,
                               markedDateShowIcon: true,
+                              headerTextStyle: const TextStyle(fontSize: 12.0, color: Colors.black),
+                              leftButtonIcon: const Icon(Icons.chevron_left, color: Colors.black),
+                              rightButtonIcon: const Icon(Icons.chevron_right, color: Colors.black),
                               markedDateMoreShowTotal: null,
                               markedDatesMap: markedDateMap,
                               markedDateIconBuilder: (event) {
@@ -229,7 +261,6 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                     )
                                   ]
                                 )
-
                               ),
                             ),
                           )
