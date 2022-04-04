@@ -157,7 +157,35 @@ class SudokuScreenState extends State<SudokuScreen> {
   }
 
   static List<List<List<int>>> getNewGame([String difficulty = 'easy']) {
-    SudokuGenerator generator = SudokuGenerator(emptySquares: 27);
+    int emptySquares = 0;
+    switch (difficulty) {
+      case 'test':
+        {
+          emptySquares = 2;
+        }
+        break;
+      case 'beginner':
+        {
+          emptySquares = 18;
+        }
+        break;
+      case 'easy':
+        {
+          emptySquares = 27;
+        }
+        break;
+      case 'medium':
+        {
+          emptySquares = 36;
+        }
+        break;
+      case 'hard':
+        {
+          emptySquares = 54;
+        }
+        break;
+    }
+    SudokuGenerator generator = SudokuGenerator(emptySquares: emptySquares);
     return [generator.newSudoku, generator.newSudokuSolved];
   }
 
@@ -384,34 +412,33 @@ class SudokuScreenState extends State<SudokuScreen> {
                       const Duration(milliseconds: 200), () => showSolution());
                 },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.color_lens_outlined,
-              //       color: Styles.secondaryBackgroundColor),
-              //   title: Text('Change Color', style: customStyle),
-              //   onTap: () {
-              //     Get.back();
-              //     Timer(
-              //         const Duration(milliseconds: 200),
-              //         () => showAnimatedDialog<void>(
-              //                 animationType: DialogTransitionType.fadeScale,
-              //                 barrierDismissible: true,
-              //                 duration: const Duration(milliseconds: 350),
-              //                 context: outerContext,
-              //                 builder: (_) => AlertAccentColorsState(
-              //                     currentAccentColor)).whenComplete(() {
-              //               if (AlertAccentColorsState.accentColor != null) {
-              //                 Timer(const Duration(milliseconds: 300), () {
-              //                   currentAccentColor =
-              //                       AlertAccentColorsState.accentColor;
-              //                   changeAccentColor(
-              //                       currentAccentColor.toString());
-              //                   AlertAccentColorsState.accentColor = '';
-              //                   setPrefs('currentAccentColor');
-              //                 });
-              //               }
-              //             }));
-              //   },
-              // ),
+              ListTile(
+                leading: Icon(Icons.build_outlined,
+                    color: Styles.secondaryBackgroundColor),
+                title: Text('Set Difficulty', style: customStyle),
+                onTap: () {
+                  Navigator.pop(context);
+                  Timer(
+                      const Duration(milliseconds: 300),
+                      () => showAnimatedDialog<void>(
+                              animationType: DialogTransitionType.fadeScale,
+                              barrierDismissible: true,
+                              duration: const Duration(milliseconds: 350),
+                              context: outerContext,
+                              builder: (_) => AlertDifficultyState(
+                                  currentDifficultyLevel)).whenComplete(() {
+                            if (AlertDifficultyState.difficulty != null) {
+                              Timer(const Duration(milliseconds: 300), () {
+                                newGame(AlertDifficultyState.difficulty);
+                                currentDifficultyLevel =
+                                    AlertDifficultyState.difficulty;
+                                AlertDifficultyState.difficulty = '';
+                                setPrefs('currentDifficultyLevel');
+                              });
+                            }
+                          }));
+                },
+              ),
               ListTile(
                 leading: Icon(Icons.color_lens_outlined,
                     color: Styles.secondaryBackgroundColor),

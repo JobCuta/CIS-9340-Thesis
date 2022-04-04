@@ -33,15 +33,15 @@ class _LevelWidgetsState extends State<LevelWidgets> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.close,
+        //     color: Colors.black,
+        //   ),
+        //   onPressed: () {
+        //     Get.back();
+        //   },
+        // ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
@@ -52,7 +52,9 @@ class _LevelWidgetsState extends State<LevelWidgets> {
             children: <Widget>[
               Center(
                   child: Text('Congratulations',
-                      style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04))),
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.accentBlue02))),
               const SizedBox(
                 height: 15.0,
               ),
@@ -64,65 +66,81 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                       color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
-
-              const Divider(
-                color: Color(0xffF0F1F1),
+              Divider(
+                color: Theme.of(context).colorScheme.neutralWhite03,
                 height: 25,
                 thickness: 1,
               ),
-
               ListView.builder(
-                shrinkWrap: true,
-                itemCount: experiences.length,
-                itemBuilder: (context, index) {
-                  String key = experienceKeys[index].toString();
-                  int xp = experiences[key] as int;
-                  print ("KEY = $key && XP = $xp");
+                  shrinkWrap: true,
+                  itemCount: experiences.length,
+                  itemBuilder: (context, index) {
+                    String key = experienceKeys[index].toString();
+                    int xp = experiences[key] as int;
+                    print("KEY = $key && XP = $xp");
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(key,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack02),
-                            ),
-                            Text(xp.toString() + ' ' + 'xp',
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04),
-                            ),
-                          ],
-                        ),
-
-                        const Divider(
-                          color: Color(0xffF0F1F1),
-                          height: 25,
-                          thickness: 1,
-                        ),
-                      ],
-                    ),
-                  );
-                }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                key,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02),
+                              ),
+                              Text(
+                                xp.toString() + ' ' + 'xp',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .accentBlue04),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            color: Theme.of(context).colorScheme.neutralWhite03,
+                            height: 25,
+                            thickness: 1,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+              Text(
+                _levelController.currentLevel.value.toString(),
+                style: Theme.of(context).textTheme.headline1?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).colorScheme.accentBlue04),
               ),
-
-              Text(_levelController.currentLevel.value.toString(),
-                  style: Theme.of(context).textTheme.headline1?.copyWith(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.accentBlue04),
-              ),
-              Text('LEVEL',
-                  style: Theme.of(context).textTheme.headline2?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentIndigo04),
+              Text(
+                'LEVEL',
+                style: Theme.of(context).textTheme.headline2?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.accentIndigo04),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: LinearPercentIndicator(
-                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  barRadius: const Radius.circular(24),
                   curve: Curves.easeIn,
-                  lineHeight: 35,
+                  lineHeight: 30,
                   percent: _levelController.currentXp / 1000,
-                  progressColor:
-                      Theme.of(context).colorScheme.accentBlue02,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.neutralWhite03,
+                  progressColor: Theme.of(context).colorScheme.accentBlue02,
+                  backgroundColor: Theme.of(context).colorScheme.neutralWhite04,
                   animation: true,
                   animationDuration: 1000,
                   animateFromLastPercent: true,
@@ -131,37 +149,43 @@ class _LevelWidgetsState extends State<LevelWidgets> {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  _levelController.currentXp.toString() + "/" + _levelController.xpForNextLevel().toString() + " till next level up",
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.accentBlue04),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Text(
+                    _levelController.currentXp.toString() +
+                        "/" +
+                        _levelController.xpForNextLevel().toString() +
+                        " till next level up",
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.accentBlue04),
+                  ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 50.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      child: GetBuilder<LevelController>(
-                        builder: (value) => ElevatedButton(
-                            child: Text(
-                              'Great!',
-                              style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: GetBuilder<LevelController>(
+                      builder: (value) => ElevatedButton(
+                          child: Text(
+                            'Great!',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
                               padding: const EdgeInsets.all(10),
-                              primary:const Color(0xffFFBE18)
-                            ),
-                            onPressed: () {
-                              Get.back();
-                            }),
-                      )),
-                ),
+                              primary: const Color(0xffFFBE18)),
+                          onPressed: () {
+                            Get.back();
+                          }),
+                    )),
               ),
             ],
           ),

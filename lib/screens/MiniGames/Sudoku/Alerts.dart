@@ -106,7 +106,7 @@ class AlertDifficulty extends State<AlertDifficultyState> {
                 style: TextStyle(
                     fontSize: 15,
                     color: level == this.currentDifficultyLevel
-                        ? Styles.primaryColor
+                        ? Styles.secondaryBackgroundColor
                         : Styles.foregroundColor)),
           ),
       ],
