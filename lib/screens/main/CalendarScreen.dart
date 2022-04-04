@@ -32,10 +32,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
   DateTime focusedDay = DateTime.now();
   String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
-  // List<EmotionEntryHive> veryBadDates = _emotionController.getVeryBadDates();
-  // List<EmotionEntryHive> badDates = _emotionController.getVeryBadDates();
   EmotionController _emotionCounterController = Get.put(EmotionController());
-
   TextEditingController missedDays = TextEditingController();
   TextEditingController emotionCounter = TextEditingController();
   TextEditingController moodController = TextEditingController();
@@ -91,6 +88,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
   @override
   Widget build(BuildContext context) {
     List<EmotionEntryHive> emotionEntry = _emotionCounterController.getEmotionEntriesForMonth(focusedDay.month, focusedDay.year);
+    EmotionEntryHive selectedDayEntry = _emotionController.getEmotionEntryForDate(selectedDay);
 
     for (int i = 0; i < emotionEntry.length; i++) {
       var date = DateTime(emotionEntry[i].year, convertMonth(emotionEntry[i].month), emotionEntry[i].day);
@@ -162,60 +160,6 @@ class _CalendarScreenState extends State<CalendarScreen>{
                               ),
                             height: 425,
                           ),
-                            /*SizedBox(
-                            height: 200,
-                            child: Column(
-                              children: [
-                                TableCalendar(
-                                  focusedDay: selectedDay,
-                                  firstDay: DateTime(1, 1, 2022),
-                                  lastDay: DateTime.now(),
-                                  onFormatChanged: (CalendarFormat _format) {
-                                    setState(() {
-                                      format = _format;
-                                    });
-                                  },
-                                  rowHeight: 25.0,
-
-                                  //Day Changed
-                                  onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                                    setState(() {
-                                      selectedDay = selectDay;
-                                      focusedDay = focusDay;
-                                    });
-                                  },
-                                  selectedDayPredicate: (DateTime date) {
-                                    return isSameDay(selectedDay, date);
-                                  },
-
-                                  //Header Design
-                                  headerStyle: HeaderStyle(
-                                    formatButtonVisible: false,
-                                    titleCentered: true,
-                                    titleTextStyle: const TextStyle(fontSize: 12.0),
-                                    titleTextFormatter: (date, locale) => DateFormat.yMMM(locale).format(date),
-                                    headerPadding: const EdgeInsets.all(0)
-                                  ),
-
-                                  daysOfWeekStyle: DaysOfWeekStyle(
-                                    dowTextFormatter: (date, locale) => DateFormat.E(locale).format(date),
-                                    weekendStyle: const TextStyle(fontSize: 11),
-                                    weekdayStyle: const TextStyle(fontSize: 11),
-                                  ),
-
-                                  //Calendar Design
-                                  calendarStyle: const CalendarStyle(
-                                    defaultTextStyle: TextStyle(fontSize: 11),
-                                    weekendTextStyle: TextStyle(fontSize: 11),
-                                    todayTextStyle: TextStyle(fontSize: 11),
-                                    selectedTextStyle: TextStyle(fontSize: 11),
-                                    disabledTextStyle: TextStyle(fontSize: 11),
-                                    outsideTextStyle: TextStyle(fontSize: 11),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),*/
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15.0),
                             child: Divider(
@@ -310,198 +254,197 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                   ),
                                 ),
                                 const SizedBox(height: 15),
-                                ListView.builder(
-                                    reverse: true,
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemCount: emotionEntries.length,
-                                    itemBuilder: (context, index) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: containerDecoration(),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 20),
-                                        child: InkWell(
-                                          onTap: () {
-                                            _emotionController.updateSelectedEmotionEntry(emotionEntries[index]);
-                                            Get.toNamed('/entriesDetailScreen');
-                                          },
-                                          child: Row(
+                                Container(
+                                  decoration: containerDecoration(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: InkWell(
+                                      onTap: () {
+                                        _emotionController.updateSelectedEmotionEntry(selectedDayEntry);
+                                        Get.toNamed('/entriesDetailScreen');
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Image(image: moodMap[selectedDayEntry.overallMood]!.icon, width: 61, height: 61,),
+
+                                          const SizedBox(width: 10.0,),
+
+                                          Expanded(
+                                            child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
-                                                Image(
-                                                  image: moodMap[emotionEntries[index].overallMood]!.icon,
-                                                  width: 62,
-                                                  height: 62,
+                                                //For Date and Overall Mood
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text((selectedDayEntry.weekday.toUpperCase() + ', ' + selectedDayEntry.month.toUpperCase() + ' ' + selectedDayEntry.day.toString().toUpperCase()),
+                                                          style: TextStyle(fontSize: 12.0, color: const Color(0x00C7CBCC).withOpacity(1.0)),
+                                                        ),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: 'Overall Mood: ', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.grey[800]),
+                                                            children: <TextSpan> [TextSpan(text: (selectedDayEntry.overallMood != 'NoData' ? selectedDayEntry.overallMood : 'Empty'),
+                                                                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: overallMoodFontColor(selectedDayEntry.overallMood)))
+                                                            ]
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Icon(Icons.more_horiz, color: Colors.grey[600],)
+                                                  ],
                                                 ),
 
-                                                const SizedBox(width: 10.0),
+                                                const SizedBox(height: 8.0),
 
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                //For Evening Check
+                                                SizedBox(
+                                                  height: 30,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text((emotionEntries[index].weekday + " " + emotionEntries[index].month + " " + emotionEntries[index].day.toString()).toUpperCase(),
-                                                                style: Theme.of(context).textTheme.caption!.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0)),
+                                                      SizedBox(
+                                                        width: 170,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Evening Check ',
+                                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (selectedDayEntry.eveningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                                            children: <TextSpan> [
+                                                              TextSpan(text: (selectedDayEntry.eveningCheck.mood != 'NoData') ? selectedDayEntry.eveningCheck.time : 'missed',
+                                                                style: TextStyle(fontSize: 12, color: const Color(0x00C7CBCC).withOpacity(1.0))
                                                               ),
-                                                              Text('Overall Mood: ' + (emotionEntries[index].overallMood != 'NoData' ? emotionEntries[index].overallMood : 'Empty'),
-                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
-                                                              ),
-                                                            ],
+                                                            ]
                                                           ),
-                                                          Icon(Icons.more_horiz, color: Colors.grey[600],)
-                                                        ],
-                                                      ),
-
-                                                      const SizedBox(height: 10.0),
-
-                                                      SizedBox(
-                                                        height: 35,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 170,
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                    text: 'Evening check ',
-                                                                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntries[index].eveningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
-                                                                    children: <TextSpan>[
-                                                                      TextSpan(text: (emotionEntries[index].eveningCheck.mood != 'NoData') ? emotionEntries[index].eveningCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
-                                                                      )]
-                                                                ),
-                                                              ),
-                                                            ),
-
-                                                            (emotionEntries[index].eveningCheck.mood != 'NoData')
-                                                                ? Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0),
-                                                              child: Image(
-                                                                  image: moodMap[emotionEntries[index].eveningCheck.mood]!.icon,
-                                                                  width: 24,
-                                                                  height: 24
-                                                              ),
-                                                            )
-                                                                : Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0),
-                                                                child: InkWell(
-                                                                    onTap: () {
-                                                                      _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
-                                                                      _emotionController.updateIfAddingFromDaily(false);
-                                                                      _emotionController.updateEditMode(false);
-                                                                      Get.toNamed('/emotionStartScreen');
-                                                                    },
-                                                                    child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
-                                                                )
-                                                            )
-                                                          ],
                                                         ),
                                                       ),
-
-                                                      SizedBox(
-                                                        height: 35,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 170,
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                    text: 'Afternoon check ',
-                                                                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntries[index].afternoonCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
-                                                                    children: <TextSpan>[
-                                                                      TextSpan(text: (emotionEntries[index].afternoonCheck.mood != 'NoData') ? emotionEntries[index].afternoonCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
-                                                                      )]
-                                                                ),
-                                                              ),
-                                                            ),
-
-                                                            (emotionEntries[index].afternoonCheck.mood != 'NoData')
-                                                                ? Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0),
-                                                                child: Image(
-                                                                  image: moodMap[emotionEntries[index].afternoonCheck.mood]!.icon,
-                                                                  width: 24,
-                                                                  height: 24
-                                                              ),
-                                                            )
-                                                                : Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0),
-                                                                  child: InkWell(
-                                                                    onTap: () {
-                                                                      _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
-                                                                      _emotionController.updateIfAddingFromDaily(false);
-                                                                      _emotionController.updateEditMode(false);
-                                                                      Get.toNamed('/emotionStartScreen');
-                                                                    },
-                                                                    child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
-                                                                )
-                                                            )
-                                                          ],
+                                                      (selectedDayEntry.eveningCheck.mood != 'NoData') ? Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Image(
+                                                            image: moodMap[selectedDayEntry.eveningCheck.mood]!.icon,
+                                                            width: 24,
+                                                            height: 24
                                                         ),
-                                                      ),
-
-                                                      SizedBox(
-                                                        height: 35,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 150,
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                    text: 'Morning check ',
-                                                                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (emotionEntries[index].morningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
-                                                                    children: <TextSpan>[
-                                                                      TextSpan(text: (emotionEntries[index].morningCheck.mood != 'NoData') ? emotionEntries[index].morningCheck.time : 'missed', style: Theme.of(context).textTheme.bodyText2?.copyWith(color: const Color(0x00C7CBCC).withOpacity(1.0))
-                                                                      )]
-                                                                ),
-                                                              ),
-                                                            ),
-
-                                                            (emotionEntries[index].morningCheck.mood != 'NoData')
-                                                                ? Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0),
-                                                                child: Image(
-                                                                  image: moodMap[emotionEntries[index].morningCheck.mood]!.icon,
-                                                                  width: 24,
-                                                                  height: 24
-                                                              ),
-                                                            )
-                                                                : Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0),
-                                                                child: InkWell(
-                                                                    onTap: () {
-                                                                      _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
-                                                                      _emotionController.updateIfAddingFromDaily(false);
-                                                                      _emotionController.updateEditMode(false);
-                                                                      Get.toNamed('/emotionStartScreen');
-                                                                    },
-                                                                    child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
-                                                                )
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
+                                                      )
+                                                          : Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Evening);
+                                                                _emotionController.updateIfAddingFromDaily(false);
+                                                                _emotionController.updateEditMode(false);
+                                                                Get.toNamed('/emotionStartScreen');
+                                                              },
+                                                              child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
+                                                          )
+                                                      )
                                                     ],
                                                   ),
                                                 ),
-                                              ]
-                                          ),
-                                        ),
+
+                                                const SizedBox(height: 8.0),
+
+                                                //For Afternoon Check
+                                                SizedBox(
+                                                  height: 30,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 170,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                              text: 'Afternoon Check ',
+                                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (selectedDayEntry.afternoonCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                                              children: <TextSpan> [
+                                                                TextSpan(text: (selectedDayEntry.afternoonCheck.mood != 'NoData') ? selectedDayEntry.afternoonCheck.time : 'missed',
+                                                                    style: TextStyle(fontSize: 12, color: const Color(0x00C7CBCC).withOpacity(1.0))
+                                                                ),
+                                                              ]
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      (selectedDayEntry.afternoonCheck.mood != 'NoData') ? Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Image(
+                                                            image: moodMap[selectedDayEntry.afternoonCheck.mood]!.icon,
+                                                            width: 24,
+                                                            height: 24
+                                                        ),
+                                                      )
+                                                          : Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                          child: InkWell(
+                                                              onTap: () {
+                                                                _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Afternoon);
+                                                                _emotionController.updateIfAddingFromDaily(false);
+                                                                _emotionController.updateEditMode(false);
+                                                                Get.toNamed('/emotionStartScreen');
+                                                              },
+                                                              child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
+                                                          )
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                const SizedBox(height: 8.0),
+
+                                                //For Morning Check
+                                                SizedBox(
+                                                  height: 30,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 170,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                              text: 'Morning Check ',
+                                                              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: (selectedDayEntry.morningCheck.mood != 'NoData') ? const Color(0xff161818).withOpacity(1.0) : const Color(0x00C7CBCC).withOpacity(1.0)),
+                                                              children: <TextSpan> [
+                                                                TextSpan(text: (selectedDayEntry.morningCheck.mood != 'NoData') ? selectedDayEntry.morningCheck.time : 'missed',
+                                                                    style: TextStyle(fontSize: 12, color: const Color(0x00C7CBCC).withOpacity(1.0))
+                                                                ),
+                                                              ]
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      (selectedDayEntry.morningCheck.mood != 'NoData') ? Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Image(
+                                                            image: moodMap[selectedDayEntry.morningCheck.mood]!.icon,
+                                                            width: 24,
+                                                            height: 24
+                                                        ),
+                                                      )
+                                                          : Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                          child: InkWell(
+                                                              onTap: () {
+                                                                _emotionController.updatePartOfTheDayCheck(PartOfTheDay.Morning);
+                                                                _emotionController.updateIfAddingFromDaily(false);
+                                                                _emotionController.updateEditMode(false);
+                                                                Get.toNamed('/emotionStartScreen');
+                                                              },
+                                                              child: Icon(Icons.add_circle, color: const Color(0x004CA7FC).withOpacity(1.0))
+                                                          )
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    );
-                                  }
+                                    ),
                                   ),
+                                ),
                                 const SizedBox(height: 100.0),
                               ],
                             ),
@@ -584,5 +527,21 @@ class _CalendarScreenState extends State<CalendarScreen>{
     else if (month == 'October') {return 10;}
     else if (month == 'November') {return 11;}
     else if (month == 'December') {return 12;}
+  }
+
+  overallMoodFontColor(String mood) {
+    if (mood == 'VeryBad') {
+      return veryBadColor;
+    } else if (mood == 'Bad') {
+      return badColor;
+    } else if (mood == 'Neutral') {
+      return neutralColor;
+    } else if (mood == 'Good') {
+      return goodColor;
+    } else if (mood == 'VeryGood') {
+      return veryGoodColor;
+    } else {
+      return Colors.black;
+    }
   }
 }
