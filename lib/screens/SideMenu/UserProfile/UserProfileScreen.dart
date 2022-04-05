@@ -9,7 +9,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widgets/logoutDialog.dart';
+import '../../../widgets/LogoutDialog.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -96,7 +96,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
 
     _emotionController.checkValidEntriesCount();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
       drawer: const SideMenu(),
@@ -126,10 +125,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           backgroundImage: AssetImage(
                               'assets/images/default_user_image.png')),
                     ),
-                    Text(_userProfileController.nicknameController.text,
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Theme.of(context).colorScheme.neutralWhite01,
-                            fontWeight: FontWeight.w600)),
+                    GetBuilder<UserProfileController>(
+                      builder: (value) => Text(
+                          _userProfileController.nicknameController.text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
+                    ),
                     Container(
                       padding: const EdgeInsets.only(
                           bottom: 20, left: 25, right: 25),

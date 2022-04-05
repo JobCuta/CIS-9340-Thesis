@@ -171,6 +171,7 @@ class _EmotionalEvaluationStartScreenState
   @override
   Widget build(BuildContext context) {
     checkIfEditMode();
+    print(_emotionController.isAddingFromOnboarding.value);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -181,9 +182,11 @@ class _EmotionalEvaluationStartScreenState
               color: Theme.of(context).colorScheme.neutralWhite01,
               fontWeight: FontWeight.w400),
         ),
-        leading: BackButton(onPressed: () {
-          Get.offAndToNamed('/homepage');
-        }),
+        leading: (_emotionController.isAddingFromOnboarding.value)
+            ? null
+            : BackButton(onPressed: () {
+                Get.offAndToNamed('/homepage');
+              }),
         elevation: 0,
         backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),

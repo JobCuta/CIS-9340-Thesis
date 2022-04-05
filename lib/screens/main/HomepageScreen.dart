@@ -5,13 +5,14 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
-import 'package:flutter_application_1/screens/MIniGames/Sudoku/SudokuScreen.dart';
+import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -37,83 +38,79 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, //change to confirm exit modal
-      child: Scaffold(
-        body: PageTransitionSwitcher(
-          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
-                  Animation<double> secondaryAnimation) =>
-              SharedAxisTransition(
-            animation: primaryAnimation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            child: child,
-          ),
-          child: _widgetOptions.elementAt(_selectedIndex),
+    return
+        // WillPopScope(
+        // onWillPop: () async => false, //change to confirm exit modal
+        // child:
+        Scaffold(
+      body: PageTransitionSwitcher(
+        transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+                Animation<double> secondaryAnimation) =>
+            SharedAxisTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.horizontal,
+          child: child,
         ),
-        bottomSheet: bottomNavigationBar(),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-    );
-  }
-
-  //Bottom Navigation Bar
-  bottomNavigationBar() {
-    return BottomNavigationBar(
-      elevation: 0.0,
-      backgroundColor: _selectedIndex < 3
-          ? Theme.of(context).colorScheme.accentBlue02
-          : Theme.of(context).colorScheme.sunflowerYellow01,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
-            child: Icon(Icons.notes),
-          ),
-          label: 'Entries',
-        ),
-        BottomNavigationBarItem(
-          icon: Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
-            child: Icon(Icons.calendar_today_outlined),
-          ),
-          label: 'Calendar',
-        ),
-        BottomNavigationBarItem(
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0.0,
+        backgroundColor: _selectedIndex < 3
+            ? Theme.of(context).colorScheme.accentBlue02
+            : Theme.of(context).colorScheme.sunflowerYellow01,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(bottom: 10.0),
-              child: Icon(Icons.home),
+              child: Icon(Icons.notes),
             ),
-            label: 'Home'),
-        BottomNavigationBarItem(
+            label: 'Entries',
+          ),
+          BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(bottom: 10.0),
-              child: Icon(Icons.directions_walk),
+              child: Icon(Icons.calendar_today_outlined),
             ),
-            label: 'Adventure Mode'),
-        BottomNavigationBarItem(
-          icon: Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
-            child: Icon(Icons.widgets_outlined),
+            label: 'Calendar',
           ),
-          label: 'Mini-games',
-        )
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-      unselectedItemColor: _selectedIndex < 3
-          ? Theme.of(context).colorScheme.accentBlue04
-          : const Color(0xffA36508),
-      iconSize: 32.0,
-      type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: Theme.of(context)
-          .textTheme
-          .caption
-          ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: Theme.of(context)
-          .textTheme
-          .caption
-          ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-      onTap: _onItemTapped,
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Icon(Icons.home),
+              ),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Icon(Icons.directions_walk),
+              ),
+              label: 'Adventure Mode'),
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Icon(Icons.widgets_outlined),
+            ),
+            label: 'Mini-games',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
+        unselectedItemColor: _selectedIndex < 3
+            ? Theme.of(context).colorScheme.accentBlue04
+            : const Color(0xffA36508),
+        iconSize: 32.0,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: Theme.of(context)
+            .textTheme
+            .caption
+            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+        unselectedLabelStyle: Theme.of(context)
+            .textTheme
+            .caption
+            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -293,6 +290,19 @@ class _HomePageState extends State<HomePage> {
                       ])),
                 ),
                 ElevatedButton(
+                    child: const Text('Test transparent'),
+                    onPressed: () {
+                      // Sample of how to use the talking person alert dialog
+                      // use then after the function to run code (redirect user, show another dialog like this, etc)
+                      showTalkingPerson(
+                        context: context,
+                        dialog:
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                      ).then((value) {
+                        Get.toNamed('/introScreen');
+                      });
+                    }),
+                ElevatedButton(
                     child: const Text('Test LevelUp'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
@@ -306,11 +316,10 @@ class _HomePageState extends State<HomePage> {
                                 topRight: Radius.circular(4)),
                           ),
                           useRootNavigator: true,
-                          isScrollControlled: true,
+                          // isScrollControlled: true,
                           builder: (context) {
                             return SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.75,
+                                height: MediaQuery.of(context).size.height,
                                 child: const LevelWidgets());
                           });
                     }),
@@ -328,11 +337,10 @@ class _HomePageState extends State<HomePage> {
                                 topRight: Radius.circular(4)),
                           ),
                           useRootNavigator: true,
-                          isScrollControlled: true,
+                          // isScrollControlled: true,
                           builder: (context) {
                             return SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.65,
+                                height: MediaQuery.of(context).size.height,
                                 child: const LevelTasksTodayWidgets());
                           });
                     }),
@@ -548,7 +556,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Stack(children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 90),
+                        padding: const EdgeInsets.only(left: 100),
                         child: SvgPicture.asset(
                           'assets/images/bahag.svg',
                         ),
@@ -596,7 +604,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Stack(children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(290, 15, 0, 75),
+                      padding: const EdgeInsets.fromLTRB(290, 15, 0, 10),
                       child: SvgPicture.asset(
                         'assets/images/meditating.svg',
                         height: 95,

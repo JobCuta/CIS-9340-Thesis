@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
@@ -65,14 +66,15 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
               runSpacing: 5,
               children: [
                 Text('Choose an exercise you want',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2
-                        ?.copyWith(color: const Color(0xffF8A13C))),
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xffF8A13C))),
                 Text('Open your mind, relieve your body',
-                    style: Theme.of(context).textTheme.bodyText2),
-                const Divider(
-                  color: Color(0xffF0F1F1),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.neutralBlack02)),
+                Divider(
+                  color: Theme.of(context).colorScheme.neutralWhite03,
                   height: 25,
                   thickness: 1,
                 ),
@@ -97,12 +99,23 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                           direction: Axis.vertical,
                           children: [
                             Text('Breathing Exercise',
-                                style: Theme.of(context).textTheme.bodyText2),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02)),
                             Text("Relax and lower your body's stress",
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
                           ],
                         ),
                         RichText(
@@ -112,17 +125,23 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
-                            const WidgetSpan(
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
+                            WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
-                                    color: Color(0xffACB2B4)))
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray02))
                           ]),
                         )
                       ]),
                 ),
-                const Divider(
-                  color: Color(0xffF0F1F1),
+                Divider(
+                  color: Theme.of(context).colorScheme.neutralWhite03,
                   height: 25,
                   thickness: 1,
                 ),
@@ -147,12 +166,23 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                           direction: Axis.vertical,
                           children: [
                             Text('Walking Meditation',
-                                style: Theme.of(context).textTheme.bodyText2),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02)),
                             Text("Match your breathing with a steady pace",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
+                                    .caption
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
                           ],
                         ),
                         RichText(
@@ -162,17 +192,23 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
-                            const WidgetSpan(
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
+                            WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
-                                    color: Color(0xffACB2B4)))
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray02))
                           ]),
                         )
                       ]),
                 ),
-                const Divider(
-                  color: Color(0xffF0F1F1),
+                Divider(
+                  color: Theme.of(context).colorScheme.neutralWhite03,
                   height: 25,
                   thickness: 1,
                 ),
@@ -199,15 +235,25 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                             Row(
                               children: [
                                 Text('Grounding Exercise',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02)),
                               ],
                             ),
                             Text("Pull away from all the noise in your mind",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
+                                    .caption
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
                           ],
                         ),
                         RichText(
@@ -217,11 +263,17 @@ class _WellnessExercisesScreenState extends State<WellnessExercisesScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    ?.copyWith(color: const Color(0xffACB2B4))),
-                            const WidgetSpan(
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
+                            WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(Icons.keyboard_arrow_right_sharp,
-                                    color: Color(0xffACB2B4)))
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray02))
                           ]),
                         )
                       ]),

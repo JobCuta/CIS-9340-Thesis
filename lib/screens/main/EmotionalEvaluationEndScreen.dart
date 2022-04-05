@@ -4,6 +4,7 @@ import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/widgets/SetNotifsDialog.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -384,20 +385,24 @@ class _EmotionalEvaluationEndScreenState
                                   ),
                                   onPressed: () {
                                     if (_emotionController.isValid.value) {
-                                      bool isAddingFromOnboarding = _emotionController.isAddingFromOnboarding.value;
+                                      bool isAddingFromOnboarding =
+                                          _emotionController
+                                              .isAddingFromOnboarding.value;
                                       _emotionController.updateEntryInStorage();
 
-                                      if (!_dailyController.isDailyEntryDone.value) {
-                                        _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
-                                        _levelController.initializeTaskWithXp('Daily Entry', 50);
+                                      if (!_dailyController
+                                          .isDailyEntryDone.value) {
+                                        _dailyController.setDailyTaskToDone(
+                                            DailyTask.EmotionEntry);
+                                        _levelController.initializeTaskWithXp(
+                                            'Daily Entry', 50);
                                         _levelController.finalizeAddingOfXp();
                                       }
 
                                       (isAddingFromOnboarding)
-                                        ? Get.offAllNamed('/notifScreen')
-                                        : Get.offAllNamed('/homepage');
+                                          ? setNotificationsAlert(context)
+                                          : Get.offAllNamed('/homepage');
                                     }
-
                                   }),
                             )),
                       ),

@@ -60,7 +60,7 @@ class HopeBoxController extends GetxController {
   void updateImage(index, desc, path) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newImage = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.images[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: path,
         thumbnailPath: '');
@@ -72,7 +72,7 @@ class HopeBoxController extends GetxController {
   void updateImageDesc(index, desc) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newImage = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.images[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: hopeBox.images[index].getPath(),
         thumbnailPath: '');
@@ -106,7 +106,7 @@ class HopeBoxController extends GetxController {
   void updateVideo(index, desc, path, thumbnailPath) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newVideo = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.videos[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: path,
         thumbnailPath: thumbnailPath);
@@ -118,7 +118,7 @@ class HopeBoxController extends GetxController {
   void updateVideoDesc(index, desc) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newVideo = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.videos[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: hopeBox.videos[index].getPath(),
         thumbnailPath: hopeBox.videos[index].getThumbnailPath());
@@ -152,7 +152,7 @@ class HopeBoxController extends GetxController {
   void updateRecording(index, desc, path) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newRecording = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.recordings[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: path,
         thumbnailPath: '');
@@ -164,7 +164,7 @@ class HopeBoxController extends GetxController {
   void updateRecordingDesc(index, desc) {
     HopeBox hopeBox = box.get('hopebox');
     HopeBoxObject newRecording = HopeBoxObject(
-        datetime: DateTime.now(),
+        datetime: hopeBox.recordings[index].getDateTime(),
         description: desc != '' ? desc : 'Default Placeholder',
         path: hopeBox.recordings[index].getPath(),
         thumbnailPath: '');

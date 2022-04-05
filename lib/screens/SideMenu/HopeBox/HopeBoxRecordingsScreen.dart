@@ -229,22 +229,33 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                          _hopeController
-                                                              .recordings[index]
-                                                              .getDescription(),
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodyText2
-                                                              ?.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .neutralGray04)),
+                                                      Container(
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxWidth: 200),
+                                                        child: Text(
+                                                            _hopeController
+                                                                    .recordings[
+                                                                        index]
+                                                                    .getDescription() +
+                                                                '',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .fade,
+                                                            softWrap: false,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyText2
+                                                                ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .neutralGray04)),
+                                                      ),
                                                       SizedBox(
                                                         height: 50,
                                                         width: 250,
@@ -538,7 +549,10 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                     final savedFile = await _storedFile
                                         .copy('${appDir.path}/$_filePath');
                                     _hopeController.addRecording(
-                                        _noteController.text, savedFile.path);
+                                        _noteController.text.trim() != ''
+                                            ? _noteController.text.trim()
+                                            : _filePath,
+                                        savedFile.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxRecordings');
                                   }
@@ -552,8 +566,9 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
   }
 
   void editEntry(context, int index) {
+    var path = _hopeController.recordings[index].getPath().split('/');
     _noteController.text = _hopeController.recordings[index].getDescription() !=
-            'Default Placeholder'
+            path[path.length - 1]
         ? _hopeController.recordings[index].getDescription()
         : '';
     bool fileExists = false;
@@ -652,7 +667,8 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
                                   DateFormat.yMMMMd().format(
-                                    DateTime.now(),
+                                    _hopeController.recordings[index]
+                                        .getDateTime(),
                                   ),
                                   textAlign: TextAlign.left,
                                   style: Theme.of(context)
@@ -738,7 +754,7 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
                                       _hopeController.recordings[index]
                                           .getPath()) {
                                     _hopeController.updateRecordingDesc(
-                                        index, _noteController.text);
+                                        index, _noteController.text.trim());
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxRecordings');
                                   } else if (!fileExists) {
@@ -751,8 +767,10 @@ class _HopeBoxRecordingsScreenState extends State<HopeBoxRecordingsScreen> {
 
                                     final savedImage = await _storedFile
                                         .copy('${appDir.path}/$_filePath');
-                                    _hopeController.updateRecording(index,
-                                        _noteController.text, savedImage.path);
+                                    _hopeController.updateRecording(
+                                        index,
+                                        _noteController.text.trim(),
+                                        savedImage.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxRecordings');
                                   }

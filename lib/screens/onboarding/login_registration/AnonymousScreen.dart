@@ -5,7 +5,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import '../../../apis/apis.dart';
 import '../../../constants/forms.dart';
 import '../../../widgets/AccountCreationPopOut.dart';
-import '../../../widgets/errorDialog.dart';
+import '../../../widgets/ErrorDialog.dart';
 
 void main() {
   runApp(const AnonymousScreen());
@@ -195,7 +195,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                         if (response["status"]) {
                           registeredDialog(context);
                         } else {
-                          errorDialog(response["message"]);
+                          errorDialog(context, response["message"]);
                         }
                       }
                     },

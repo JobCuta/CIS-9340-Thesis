@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../widgets/AccountCreationPopOut.dart';
-import '../../../widgets/errorDialog.dart';
+import '../../../widgets/ErrorDialog.dart';
 
 void main() {
   runApp(const AboutSelfScreen());
@@ -43,6 +44,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
   final TextEditingController birthDateController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   CalendarFormat format = CalendarFormat.month;
+  bool isLoading = false;
 
   handleUserInfo() async {
     print('arguments ${Get.arguments}');
@@ -162,21 +164,18 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Form(
                       key: _form,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: [
-                              Text(
-                                'First name',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600),
-                              )
-                            ],
+                          Text(
+                            'First name',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04,
+                                    fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(
                             height: 5.0,
@@ -201,20 +200,16 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(
                             height: 20.0,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'Last name',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                          Text(
+                            'Last name',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04,
+                                    fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(
                             height: 5.0,
@@ -239,19 +234,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                           ),
                           const SizedBox(height: 20.0),
-                          Row(
-                            children: [
-                              Text('Nickname (optional)',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray04,
-                                          fontWeight: FontWeight.w600)),
-                            ],
-                          ),
+                          Text('Nickname (optional)',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray04,
+                                      fontWeight: FontWeight.w600)),
                           const SizedBox(height: 5.0),
                           SizedBox(
                             child: TextFormField(
@@ -264,28 +255,48 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                           ),
                           const SizedBox(height: 20.0),
-                          Row(
-                            children: [
-                              Text(
-                                'Gender',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                          Text(
+                            'Gender',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04,
+                                    fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 5.0),
                           SizedBox(
                             height: 50,
                             child: DropdownButtonFormField(
+                              dropdownColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
                               style: const TextStyle(fontSize: 14.0),
-                              decoration:
-                                  textFormFieldDecoration('Enter your gender'),
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                hintText: 'Select your gender',
+                                fillColor: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
+                                filled: true,
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray03),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 15.0),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralGray01,
+                                )),
+                              ),
                               value: gender,
                               icon: const Icon(Icons.arrow_drop_down),
                               items: [
@@ -340,20 +351,16 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             ),
                           ),
                           const SizedBox(height: 20.0),
-                          Row(
-                            children: [
-                              Text(
-                                'Birthday',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                          Text(
+                            'Birthday',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04,
+                                    fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 5.0),
                           Container(
@@ -393,6 +400,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
             ),
           ),
           bottomSheet: Container(
+            color: Theme.of(context).colorScheme.neutralWhite01,
             width: MediaQuery.of(context).size.width,
             height: 110,
             margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
@@ -406,22 +414,47 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         elevation: 0,
                         primary: Theme.of(context).colorScheme.intGreenMain),
                     onPressed: () async {
+                      setState(() => isLoading = true);
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
                         if (response["status"]) {
                           registeredDialog(context);
                           loginAccount();
+                          UserSecureStorage.setLoginDetails(
+                              email,
+                              nickName != '' ? nickName : firstName,
+                              firstName,
+                              lastName,
+                              birthDate,
+                              gender!,
+                              'false');
                         } else {
-                          errorDialog(response["message"]);
+                          errorDialog(context, response["message"]);
                         }
+                        setState(() => isLoading = false);
                       }
                     },
-                    child: Text(
-                      'Continue',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color: Theme.of(context).colorScheme.neutralWhite01,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -436,7 +469,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         side: BorderSide(
                             color:
                                 Theme.of(context).colorScheme.neutralWhite04),
-                        primary: Colors.white,
+                        primary: Theme.of(context).colorScheme.neutralWhite01,
                       ),
                       onPressed: () {
                         //navigate to next page
@@ -467,27 +500,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       hintText: hintText,
       fillColor: Theme.of(context).colorScheme.neutralWhite01,
       filled: true,
-      hintStyle: TextStyle(
-          fontSize: 14,
+      hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
           fontWeight: FontWeight.w400,
-          color: Theme.of(context).colorScheme.neutralGray03,
-          fontFamily: 'Proxima Nova'),
+          color: Theme.of(context).colorScheme.neutralGray03),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-        color: Colors.grey.shade300,
+        color: Theme.of(context).colorScheme.neutralGray01,
       )),
     );
   }
-
-  /**TextStyle daysTextStyle() {
-    return TextStyle(
-      fontFamily: 'IBM Plex Sans',
-      fontSize: 10.0,
-      fontWeight: FontWeight.bold,
-      color: Colors.grey[400],
-      letterSpacing: 1.5,
-    );
-  } **/
 }

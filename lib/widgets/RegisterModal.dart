@@ -181,6 +181,9 @@ class _RegisterState extends State<RegisterWidget> {
                             style: const TextStyle(fontSize: 14.0),
                             decoration: InputDecoration(
                               isDense: true,
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              filled: true,
                               border: const OutlineInputBorder(),
                               hintText: 'Enter your password',
                               hintStyle: Theme.of(context)

@@ -1,8 +1,17 @@
+// Source Code taken from Github, modified to suit the needs of our project.
+// Author: VarunS2002
+// Title: Flutter-Sudoku
+// Code Version: e0449ec
+// Type: Source Code
+// URL: https://github.com/VarunS2002/Flutter-Sudoku
+// GitHub - VarunS2002/Flutter-Sudoku: This is a fully fledged Sudoku game written in Dart using Flutter. (2022). Retrieved 2 April 2022, from https://github.com/VarunS2002/Flutter-Sudoku
+
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -39,22 +48,16 @@ class SudokuScreenState extends State<SudokuScreen> {
         setPrefs('currentDifficultyLevel');
       }
       if (currentTheme == '') {
-        if (MediaQuery.maybeOf(context)?.platformBrightness != null) {
-          currentTheme =
-              MediaQuery.of(context).platformBrightness == Brightness.light
-                  ? 'light'
-                  : 'dark';
-        } else {
-          currentTheme = 'dark';
-        }
+        currentTheme = 'Green';
         setPrefs('currentTheme');
       }
       if (currentAccentColor == '') {
-        currentAccentColor = 'Blue';
+        currentAccentColor = 'darkGrey';
         setPrefs('currentAccentColor');
       }
+      print(currentTheme);
       newGame(currentDifficultyLevel);
-      changeTheme('set');
+      changeTheme(currentTheme);
       changeAccentColor(currentAccentColor, true);
     });
   }
@@ -66,45 +69,47 @@ class SudokuScreenState extends State<SudokuScreen> {
       currentTheme = _sudokuController.currentTheme.value;
       currentAccentColor = _sudokuController.currentAccentColor.value;
     });
+    print(currentTheme);
   }
 
   setPrefs(String property) async {
     if (property == 'currentDifficultyLevel') {
       _sudokuController.updateDifficulty(currentDifficultyLevel);
     } else if (property == 'currentTheme') {
+      print(currentTheme);
       _sudokuController.updateTheme(currentTheme);
     } else if (property == 'currentAccentColor') {
       _sudokuController.updateAccent(currentAccentColor);
     }
   }
 
-  void changeTheme(String mode) {
-    setState(() {
-      if (currentTheme == 'light') {
-        if (mode == 'switch') {
-          Styles.primaryBackgroundColor = Styles.darkGrey;
-          Styles.secondaryBackgroundColor = Styles.grey;
-          Styles.foregroundColor = Styles.white;
-          currentTheme = 'dark';
-        } else if (mode == 'set') {
-          Styles.primaryBackgroundColor = Styles.white;
-          Styles.secondaryBackgroundColor = Styles.white;
-          Styles.foregroundColor = Styles.darkGrey;
-        }
-      } else if (currentTheme == 'dark') {
-        if (mode == 'switch') {
-          Styles.primaryBackgroundColor = Styles.white;
-          Styles.secondaryBackgroundColor = Styles.white;
-          Styles.foregroundColor = Styles.darkGrey;
-          currentTheme = 'light';
-        } else if (mode == 'set') {
-          Styles.primaryBackgroundColor = Styles.darkGrey;
-          Styles.secondaryBackgroundColor = Styles.grey;
-          Styles.foregroundColor = Styles.white;
-        }
-      }
-      setPrefs('currentTheme');
-    });
+  void changeTheme(String theme) {
+    if (theme == 'Green') {
+      setState(() {
+        Styles.primaryBackgroundColor = Styles.darkGreen;
+        Styles.secondaryBackgroundColor = Styles.green;
+        Styles.foregroundColor = Styles.darkGrey;
+      });
+    } else if (theme == 'Purple') {
+      setState(() {
+        Styles.primaryBackgroundColor = Styles.darkPurple;
+        Styles.secondaryBackgroundColor = Styles.purple;
+        Styles.foregroundColor = Styles.darkGrey;
+      });
+    } else if (theme == 'Yellow') {
+      setState(() {
+        Styles.primaryBackgroundColor = Styles.darkYellow;
+        Styles.secondaryBackgroundColor = Styles.yellow;
+        Styles.foregroundColor = Styles.darkGrey;
+      });
+    } else if (theme == 'Blue') {
+      setState(() {
+        Styles.primaryBackgroundColor = Styles.darkBlue;
+        Styles.secondaryBackgroundColor = Styles.blue;
+        Styles.foregroundColor = Styles.darkGrey;
+      });
+    }
+    setPrefs('currentTheme');
   }
 
   void changeAccentColor(String color, [bool firstRun = false]) {
@@ -118,7 +123,7 @@ class SudokuScreenState extends State<SudokuScreen> {
       if (color == 'Red') {
         Styles.secondaryColor = Styles.orange;
       } else {
-        Styles.secondaryColor = Styles.lightRed;
+        Styles.secondaryColor = Styles.darkGrey;
       }
       if (!firstRun) {
         setPrefs('currentAccentColor');
@@ -132,20 +137,27 @@ class SudokuScreenState extends State<SudokuScreen> {
         isButtonDisabled = !isButtonDisabled;
         gameOver = true;
         Timer(const Duration(milliseconds: 500), () {
-          showAnimatedDialog<void>(
-              animationType: DialogTransitionType.fadeScale,
-              barrierDismissible: true,
-              duration: const Duration(milliseconds: 350),
-              context: context,
-              builder: (_) => AlertGameOver()).whenComplete(() {
-            if (AlertGameOver.newGame) {
-              newGame();
-              AlertGameOver.newGame = false;
-            } else if (AlertGameOver.restartGame) {
-              restartGame();
-              AlertGameOver.restartGame = false;
-            }
-          });
+          // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
+          showTalkingPerson(
+            context: context,
+            dialog:
+                'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
+          );
+          // showAnimatedDialog<void>(
+          //     animationType: DialogTransitionType.fadeScale,
+          //     barrierDismissible: true,
+          //     duration: const Duration(milliseconds: 350),
+          //     context: context,
+          //     builder: (_) => AlertGameOver()).whenComplete(() {
+          //   if (AlertGameOver.newGame) {
+          //     newGame();
+          //     AlertGameOver.newGame = false;
+          //   } else if (AlertGameOver.restartGame) {
+          //     restartGame();
+          //     AlertGameOver.restartGame = false;
+          //   }
+          // });
+          // }
         });
       }
     } on InvalidSudokuConfigurationException {
@@ -231,10 +243,16 @@ class SudokuScreenState extends State<SudokuScreen> {
     if (([0, 1, 2].contains(k) && [3, 4, 5].contains(i)) ||
         ([3, 4, 5].contains(k) && [0, 1, 2, 6, 7, 8].contains(i)) ||
         ([6, 7, 8].contains(k) && [3, 4, 5].contains(i))) {
-      if (Styles.primaryBackgroundColor == Styles.darkGrey) {
-        color = Styles.grey;
+      if (Styles.primaryBackgroundColor == Styles.darkGreen) {
+        color = Styles.green;
+      } else if (Styles.primaryBackgroundColor == Styles.darkBlue) {
+        color = Styles.blue;
+      } else if (Styles.primaryBackgroundColor == Styles.darkYellow) {
+        color = Styles.yellow;
+      } else if (Styles.primaryBackgroundColor == Styles.darkPurple) {
+        color = Styles.purple;
       } else {
-        color = Colors.grey[300]!;
+        color = Styles.primaryBackgroundColor;
       }
     } else {
       color = Styles.primaryBackgroundColor;
@@ -243,22 +261,13 @@ class SudokuScreenState extends State<SudokuScreen> {
     return color;
   }
 
-  // double buttonFontSize() {
-  //   double size = 20;
-  //   if (SudokuScreenState.platform.contains('android') ||
-  //       SudokuScreenState.platform.contains('ios')) {
-  //     size = 16;
-  //   }
-  //   return size;
-  // }
-
   BorderRadiusGeometry buttonEdgeRadius(int k, int i) {
     if (k == 0 && i == 0) {
       return const BorderRadius.only(topLeft: Radius.circular(5));
     } else if (k == 0 && i == 8) {
       return const BorderRadius.only(topRight: Radius.circular(5));
     } else if (k == 8 && i == 0) {
-      return const BorderRadius.only(bottomLeft: const Radius.circular(5));
+      return const BorderRadius.only(bottomLeft: Radius.circular(5));
     } else if (k == 8 && i == 8) {
       return const BorderRadius.only(bottomRight: Radius.circular(5));
     }
@@ -292,8 +301,10 @@ class SudokuScreenState extends State<SudokuScreen> {
                       duration: const Duration(milliseconds: 300),
                       context: context,
                       builder: (_) => AlertNumbersState()).whenComplete(() {
-                    callback([k, i], AlertNumbersState.number);
-                    // AlertNumbersState.number = null;
+                    if (AlertNumbersState.number != null) {
+                      callback([k, i], AlertNumbersState.number);
+                      AlertNumbersState.number = 0;
+                    }
                   });
                 },
           onLongPress: isButtonDisabled || gameCopy[k][i] != 0
@@ -305,9 +316,7 @@ class SudokuScreenState extends State<SudokuScreen> {
             foregroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) {
-                return gameCopy[k][i] == 0
-                    ? emptyColor
-                    : Styles.foregroundColor;
+                return gameCopy[k][i] == 0 ? emptyColor : Styles.white;
               }
               return game[k][i] == 0
                   ? buttonColor(k, i)
@@ -326,7 +335,7 @@ class SudokuScreenState extends State<SudokuScreen> {
           child: Text(
             game[k][i] != 0 ? game[k][i].toString() : ' ',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
         ),
       );
@@ -370,48 +379,71 @@ class SudokuScreenState extends State<SudokuScreen> {
     BuildContext outerContext = context;
     showModalBottomSheet(
         context: context,
-        backgroundColor: Styles.secondaryBackgroundColor,
+        backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.vertical(
-            top: const Radius.circular(10),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(10),
           ),
         ),
         builder: (context) {
-          final TextStyle customStyle =
-              TextStyle(inherit: false, color: Styles.foregroundColor);
           return Wrap(
             children: [
               ListTile(
-                leading: Icon(Icons.refresh, color: Styles.foregroundColor),
-                title: Text('Restart Game', style: customStyle),
+                title: Text('Settings',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Styles.primaryBackgroundColor)),
+              ),
+              ListTile(
+                leading:
+                    Icon(Icons.refresh, color: Styles.primaryBackgroundColor),
+                title: Text('Restart Game',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   Timer(const Duration(milliseconds: 200), () => restartGame());
                 },
               ),
               ListTile(
-                leading: Icon(Icons.add_rounded, color: Styles.foregroundColor),
-                title: Text('New Game', style: customStyle),
+                leading: Icon(Icons.add_rounded,
+                    color: Styles.primaryBackgroundColor),
+                title: Text('New Game',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   Timer(const Duration(milliseconds: 200),
                       () => newGame(currentDifficultyLevel));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.lightbulb_outline_rounded,
-                    color: Styles.foregroundColor),
-                title: Text('Show Solution', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Show Solution',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   Timer(
                       const Duration(milliseconds: 200), () => showSolution());
                 },
               ),
               ListTile(
-                leading:
-                    Icon(Icons.build_outlined, color: Styles.foregroundColor),
-                title: Text('Set Difficulty', style: customStyle),
+                leading: Icon(Icons.build_outlined,
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Set Difficulty',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Navigator.pop(context);
                   Timer(
@@ -436,39 +468,30 @@ class SudokuScreenState extends State<SudokuScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.invert_colors_on_rounded,
-                    color: Styles.foregroundColor),
-                title: Text('Switch Theme', style: customStyle),
-                onTap: () {
-                  Navigator.pop(context);
-                  Timer(const Duration(milliseconds: 200), () {
-                    changeTheme('switch');
-                  });
-                },
-              ),
-              ListTile(
                 leading: Icon(Icons.color_lens_outlined,
-                    color: Styles.foregroundColor),
-                title: Text('Change Accent Color', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Change Theme Color',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   Timer(
                       const Duration(milliseconds: 200),
                       () => showAnimatedDialog<void>(
-                              animationType: DialogTransitionType.fadeScale,
-                              barrierDismissible: true,
-                              duration: const Duration(milliseconds: 350),
-                              context: outerContext,
-                              builder: (_) => AlertAccentColorsState(
-                                  currentAccentColor)).whenComplete(() {
-                            if (AlertAccentColorsState.accentColor != null) {
+                                  animationType: DialogTransitionType.fadeScale,
+                                  barrierDismissible: true,
+                                  duration: const Duration(milliseconds: 350),
+                                  context: outerContext,
+                                  builder: (_) => AlertThemeColor(currentTheme))
+                              .whenComplete(() {
+                            if (AlertThemeColor.themeColor != '') {
                               Timer(const Duration(milliseconds: 300), () {
-                                currentAccentColor =
-                                    AlertAccentColorsState.accentColor;
-                                changeAccentColor(
-                                    currentAccentColor.toString());
-                                AlertAccentColorsState.accentColor = '';
-                                setPrefs('currentAccentColor');
+                                changeTheme(AlertThemeColor.themeColor);
+                                currentTheme = AlertThemeColor.themeColor;
+                                AlertThemeColor.themeColor = '';
+                                setPrefs('currentTheme');
                               });
                             }
                           }));
@@ -476,10 +499,14 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.info_outline_rounded,
-                    color: Styles.foregroundColor),
-                title: Text('About', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('About',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   Timer(
                       const Duration(milliseconds: 200),
                       () => showAnimatedDialog<void>(
@@ -499,38 +526,47 @@ class SudokuScreenState extends State<SudokuScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (kIsWeb) {
-            return false;
-          } else {
-            showAnimatedDialog<void>(
-                animationType: DialogTransitionType.fadeScale,
-                barrierDismissible: true,
-                duration: const Duration(milliseconds: 350),
-                context: context,
-                builder: (_) => AlertExit());
-          }
+          showAnimatedDialog<void>(
+              animationType: DialogTransitionType.fadeScale,
+              barrierDismissible: true,
+              duration: const Duration(milliseconds: 350),
+              context: context,
+              builder: (_) => AlertExit());
+
           return true;
         },
         child: Scaffold(
-            backgroundColor: Styles.primaryBackgroundColor,
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(56.0),
                 child: AppBar(
-                  centerTitle: true,
-                  title: const Text('Sudoku'),
-                  backgroundColor: Styles.primaryColor,
-                )),
-            body: Builder(builder: (builder) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: createRows(),
-                ),
-              );
-            }),
+                    title: Text('Sudoku',
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0)),
+            extendBodyBehindAppBar: true,
+            body: Stack(children: [
+              Container(
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(
+                            'assets/background_images/adventure_background.png',
+                          ),
+                          fit: BoxFit.cover))),
+              Builder(builder: (builder) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: createRows(),
+                  ),
+                );
+              }),
+            ]),
             floatingActionButton: FloatingActionButton(
-              foregroundColor: Styles.primaryBackgroundColor,
-              backgroundColor: Styles.primaryColor,
+              foregroundColor: Colors.black,
+              backgroundColor: Styles.primaryBackgroundColor,
               onPressed: () => showOptionModalSheet(context),
               child: const Icon(Icons.menu_rounded),
             )));
