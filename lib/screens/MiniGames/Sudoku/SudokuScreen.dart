@@ -9,7 +9,9 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -135,20 +137,27 @@ class SudokuScreenState extends State<SudokuScreen> {
         isButtonDisabled = !isButtonDisabled;
         gameOver = true;
         Timer(const Duration(milliseconds: 500), () {
-          showAnimatedDialog<void>(
-              animationType: DialogTransitionType.fadeScale,
-              barrierDismissible: true,
-              duration: const Duration(milliseconds: 350),
-              context: context,
-              builder: (_) => AlertGameOver()).whenComplete(() {
-            if (AlertGameOver.newGame) {
-              newGame();
-              AlertGameOver.newGame = false;
-            } else if (AlertGameOver.restartGame) {
-              restartGame();
-              AlertGameOver.restartGame = false;
-            }
-          });
+          // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
+          showTalkingPerson(
+            context: context,
+            dialog:
+                'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
+          );
+          // showAnimatedDialog<void>(
+          //     animationType: DialogTransitionType.fadeScale,
+          //     barrierDismissible: true,
+          //     duration: const Duration(milliseconds: 350),
+          //     context: context,
+          //     builder: (_) => AlertGameOver()).whenComplete(() {
+          //   if (AlertGameOver.newGame) {
+          //     newGame();
+          //     AlertGameOver.newGame = false;
+          //   } else if (AlertGameOver.restartGame) {
+          //     restartGame();
+          //     AlertGameOver.restartGame = false;
+          //   }
+          // });
+          // }
         });
       }
     } on InvalidSudokuConfigurationException {
@@ -292,8 +301,10 @@ class SudokuScreenState extends State<SudokuScreen> {
                       duration: const Duration(milliseconds: 300),
                       context: context,
                       builder: (_) => AlertNumbersState()).whenComplete(() {
-                    callback([k, i], AlertNumbersState.number);
-                    // AlertNumbersState.number = null;
+                    if (AlertNumbersState.number != null) {
+                      callback([k, i], AlertNumbersState.number);
+                      AlertNumbersState.number = 0;
+                    }
                   });
                 },
           onLongPress: isButtonDisabled || gameCopy[k][i] != 0
@@ -324,7 +335,7 @@ class SudokuScreenState extends State<SudokuScreen> {
           child: Text(
             game[k][i] != 0 ? game[k][i].toString() : ' ',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
         ),
       );
@@ -375,18 +386,23 @@ class SudokuScreenState extends State<SudokuScreen> {
           ),
         ),
         builder: (context) {
-          final TextStyle customStyle =
-              TextStyle(inherit: false, color: Styles.foregroundColor);
           return Wrap(
             children: [
               ListTile(
-                title:
-                    Text('Settings', style: customStyle.copyWith(fontSize: 20)),
+                title: Text('Settings',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Styles.primaryBackgroundColor)),
               ),
               ListTile(
                 leading:
-                    Icon(Icons.refresh, color: Styles.secondaryBackgroundColor),
-                title: Text('Restart Game', style: customStyle),
+                    Icon(Icons.refresh, color: Styles.primaryBackgroundColor),
+                title: Text('Restart Game',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Get.back();
                   Timer(const Duration(milliseconds: 200), () => restartGame());
@@ -394,8 +410,12 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.add_rounded,
-                    color: Styles.secondaryBackgroundColor),
-                title: Text('New Game', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('New Game',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Get.back();
                   Timer(const Duration(milliseconds: 200),
@@ -404,8 +424,12 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.lightbulb_outline_rounded,
-                    color: Styles.secondaryBackgroundColor),
-                title: Text('Show Solution', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Show Solution',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Get.back();
                   Timer(
@@ -414,8 +438,12 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.build_outlined,
-                    color: Styles.secondaryBackgroundColor),
-                title: Text('Set Difficulty', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Set Difficulty',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Navigator.pop(context);
                   Timer(
@@ -441,8 +469,12 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.color_lens_outlined,
-                    color: Styles.secondaryBackgroundColor),
-                title: Text('Change Theme Color', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('Change Theme Color',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Get.back();
                   Timer(
@@ -467,8 +499,12 @@ class SudokuScreenState extends State<SudokuScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.info_outline_rounded,
-                    color: Styles.secondaryBackgroundColor),
-                title: Text('About', style: customStyle),
+                    color: Styles.primaryBackgroundColor),
+                title: Text('About',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400)),
                 onTap: () {
                   Get.back();
                   Timer(
@@ -490,23 +526,24 @@ class SudokuScreenState extends State<SudokuScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (kIsWeb) {
-            return false;
-          } else {
-            showAnimatedDialog<void>(
-                animationType: DialogTransitionType.fadeScale,
-                barrierDismissible: true,
-                duration: const Duration(milliseconds: 350),
-                context: context,
-                builder: (_) => AlertExit());
-          }
+          showAnimatedDialog<void>(
+              animationType: DialogTransitionType.fadeScale,
+              barrierDismissible: true,
+              duration: const Duration(milliseconds: 350),
+              context: context,
+              builder: (_) => AlertExit());
+
           return true;
         },
         child: Scaffold(
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(56.0),
                 child: AppBar(
-                    title: const Text('Sudoku'),
+                    title: Text('Sudoku',
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
                     backgroundColor: Colors.transparent,
                     elevation: 0)),
             extendBodyBehindAppBar: true,

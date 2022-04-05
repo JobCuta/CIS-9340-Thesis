@@ -292,10 +292,11 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Test transparent'),
                     onPressed: () {
                       // Sample of how to use the talking person alert dialog
+                      // use then after the function to run code (redirect user, show another dialog like this, etc)
                       showTalkingPerson(
                         context: context,
                         dialog:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id elit eget enim efficitur pellentesque in eget urna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean in vestibulum quam. Integer tincidunt purus nec nulla accumsan rutrum. Etiam dictum commodo diam, in facilisis mi dictum ac.',
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                       ).then((value) {
                         Get.toNamed('/introScreen');
                       });

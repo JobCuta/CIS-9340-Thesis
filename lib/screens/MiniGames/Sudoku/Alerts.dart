@@ -13,14 +13,13 @@ class AlertGameOver extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: Colors.white,
-      title: Text(
-        'Game Over',
-        style: TextStyle(color: Styles.foregroundColor),
-      ),
-      content: Text(
-        'You successfully solved the Sudoku',
-        style: TextStyle(color: Styles.foregroundColor),
-      ),
+      title: Text('Game Over',
+          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Styles.primaryBackgroundColor)),
+      content: Text('You successfully solved the Sudoku',
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              fontWeight: FontWeight.w400, color: Styles.foregroundColor)),
       actions: [
         TextButton(
           style: ButtonStyle(
@@ -30,7 +29,9 @@ class AlertGameOver extends StatelessWidget {
             Get.back();
             restartGame = true;
           },
-          child: const Text('Restart Game'),
+          child: Text('Restart Game',
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  fontWeight: FontWeight.w400, color: Styles.foregroundColor)),
         ),
         TextButton(
           style: ButtonStyle(
@@ -40,7 +41,10 @@ class AlertGameOver extends StatelessWidget {
             Get.back();
             newGame = true;
           },
-          child: const Text('New Game'),
+          child: Text('New Game',
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: Styles.primaryBackgroundColor)),
         ),
       ],
     );
@@ -86,10 +90,11 @@ class AlertDifficulty extends State<AlertDifficultyState> {
       title: Center(
           child: Text(
         'Select Difficulty Level',
-        style: TextStyle(color: Styles.foregroundColor),
+        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+            fontWeight: FontWeight.w600, color: Styles.primaryBackgroundColor),
       )),
       backgroundColor: Colors.white,
-      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      contentPadding: const EdgeInsets.all(10),
       children: <Widget>[
         for (String level in difficulties)
           SimpleDialogOption(
@@ -103,8 +108,8 @@ class AlertDifficulty extends State<AlertDifficultyState> {
             },
             child: Text(level[0].toUpperCase() + level.substring(1),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 15,
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                    fontWeight: FontWeight.w400,
                     color: level == this.currentDifficultyLevel
                         ? Styles.secondaryBackgroundColor
                         : Styles.foregroundColor)),
@@ -120,32 +125,38 @@ class AlertExit extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: Colors.white,
-      title: Text(
-        'Exit Game',
-        style: TextStyle(color: Styles.foregroundColor),
-      ),
+      title: Text('Exit Game',
+          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Styles.primaryBackgroundColor)),
       content: Text(
         'Are you sure you want to exit the game ?',
-        style: TextStyle(color: Styles.foregroundColor),
+        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            fontWeight: FontWeight.w400, color: Styles.foregroundColor),
       ),
       actions: [
         TextButton(
           style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all<Color>(Styles.primaryColor)),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Styles.primaryBackgroundColor)),
           onPressed: () {
             Get.back();
           },
-          child: const Text('No'),
+          child: Text('No',
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  fontWeight: FontWeight.w400, color: Styles.foregroundColor)),
         ),
         TextButton(
           style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all<Color>(Styles.primaryColor)),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Styles.primaryBackgroundColor)),
           onPressed: () {
             Get.back();
           },
-          child: const Text('Yes'),
+          child: Text('Yes',
+              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: Styles.primaryBackgroundColor)),
         ),
       ],
     );
@@ -234,7 +245,9 @@ class AlertNumbers extends State<AlertNumbersState> {
         title: Center(
             child: Text(
           'Choose a Number',
-          style: TextStyle(color: Styles.foregroundColor),
+          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Styles.primaryBackgroundColor),
         )),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -280,10 +293,10 @@ class _AlertThemeColorState extends State<AlertThemeColor> {
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
-          child: Text(
-        'Select Color',
-        style: TextStyle(color: Styles.foregroundColor),
-      )),
+          child: Text('Select Color',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Styles.primaryBackgroundColor))),
       backgroundColor: Colors.white,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       children: <Widget>[
@@ -309,11 +322,11 @@ class _AlertThemeColorState extends State<AlertThemeColor> {
                 ),
                 Text(color,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 15,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
                         color: color == this.color
                             ? Styles.themeColors[color]
-                            : Styles.foregroundColor)),
+                            : Styles.foregroundColor))
               ],
             ),
           ),
@@ -358,7 +371,7 @@ class AlertAccentColors extends State<AlertAccentColorsState> {
       title: Center(
           child: Text(
         'Select Color',
-        style: TextStyle(color: Styles.foregroundColor),
+        style: TextStyle(color: Styles.primaryBackgroundColor),
       )),
       backgroundColor: Colors.white,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -378,7 +391,7 @@ class AlertAccentColors extends State<AlertAccentColorsState> {
                 style: TextStyle(
                     fontSize: 15,
                     color: color == this.currentAccentColor
-                        ? Styles.primaryColor
+                        ? Styles.primaryBackgroundColor
                         : Styles.foregroundColor)),
           ),
       ],
@@ -403,7 +416,10 @@ class AlertAbout extends StatelessWidget {
       title: Center(
         child: Text(
           'About',
-          style: TextStyle(color: Styles.foregroundColor),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle2
+              ?.copyWith(color: Styles.primaryBackgroundColor),
         ),
       ),
       content: Column(
@@ -416,126 +432,86 @@ class AlertAbout extends StatelessWidget {
             children: [
               Text(
                 'Sudoku Source Code',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     color: Styles.foregroundColor,
                     fontFamily: 'roboto',
-                    fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '                ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '                ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Author: ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-              InkWell(
-                onTap: () async {
-                  await launch(AlertAbout.authorURL);
-                },
-                child: Text(
-                  'VarunS2002',
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Author: ',
                   style: TextStyle(
-                      color: Styles.primaryBackgroundColor,
+                      color: Styles.foregroundColor,
                       fontFamily: 'roboto',
                       fontSize: 15),
                 ),
-              )
-            ],
+                InkWell(
+                  onTap: () async {
+                    await launch(AlertAbout.authorURL);
+                  },
+                  child: Text(
+                    'VarunS2002',
+                    style: TextStyle(
+                        color: Styles.primaryBackgroundColor,
+                        fontFamily: 'roboto',
+                        fontSize: 15),
+                  ),
+                )
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '                ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'License: ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-              InkWell(
-                onTap: () async {
-                  await launch(AlertAbout.licenseURL);
-                },
-                child: Text(
-                  'GNU GPLv3',
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'License: ',
                   style: TextStyle(
-                      color: Styles.primaryBackgroundColor,
+                      color: Styles.foregroundColor,
                       fontFamily: 'roboto',
                       fontSize: 15),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '                ',
-                style: TextStyle(
-                    color: Styles.foregroundColor,
-                    fontFamily: 'roboto',
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () async {
-                  await launch(AlertAbout.sourceURL);
-                },
-                child: Text(
-                  'Source Code',
-                  style: TextStyle(
-                      color: Styles.primaryBackgroundColor,
-                      fontFamily: 'roboto',
-                      fontSize: 15),
+                InkWell(
+                  onTap: () async {
+                    await launch(AlertAbout.licenseURL);
+                  },
+                  child: Text(
+                    'GNU GPLv3',
+                    style: TextStyle(
+                        color: Styles.primaryBackgroundColor,
+                        fontFamily: 'roboto',
+                        fontSize: 15),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await launch(AlertAbout.sourceURL);
+                  },
+                  child: Text(
+                    'Source Code',
+                    style: TextStyle(
+                        color: Styles.primaryBackgroundColor,
+                        fontFamily: 'roboto',
+                        fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
