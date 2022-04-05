@@ -377,7 +377,9 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                         .copy('${appDir.path}/$_videoPath');
                                     print(savedVideo.path);
                                     _hopeController.addVideo(
-                                        _noteController.text,
+                                        _noteController.text.trim() != ''
+                                            ? _noteController.text.trim()
+                                            : _videoPath,
                                         savedVideo.path,
                                         thumbnail.toString());
                                     Get.back();
@@ -393,8 +395,9 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
   }
 
   void editEntry(context, int index) {
-    _noteController.text = _noteController.text =
-        _hopeController.videos[index].getDescription() != 'Default Placeholder'
+    var path = _hopeController.videos[index].getPath().split('/');
+    _noteController.text =
+        _hopeController.videos[index].getDescription() != path[path.length - 1]
             ? _hopeController.videos[index].getDescription()
             : '';
     var thumbnail = _hopeController.videos[index].getThumbnailPath();
@@ -495,7 +498,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
                                   DateFormat.yMMMMd().format(
-                                    DateTime.now(),
+                                    _hopeController.videos[index].getDateTime(),
                                   ),
                                   textAlign: TextAlign.left,
                                   style: Theme.of(context)
@@ -563,7 +566,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                   if (_videoPath ==
                                       _hopeController.videos[index].getPath()) {
                                     _hopeController.updateVideoDesc(
-                                        index, _noteController.text);
+                                        index, _noteController.text.trim());
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxVideos');
                                   } else if (_storedVideo != null) {
@@ -578,7 +581,7 @@ class _HopeBoxVideosScreenState extends State<HopeBoxVideosScreen> {
                                         .copy('${appDir.path}/$_videoPath');
                                     _hopeController.updateVideo(
                                         index,
-                                        _noteController.text,
+                                        _noteController.text.trim(),
                                         savedVideo.path,
                                         thumbnail.toString());
                                     Get.back();

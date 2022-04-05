@@ -355,7 +355,10 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                     final savedImage = await _storedImage
                                         .copy('${appDir.path}/$_imagePath');
                                     _hopeController.addImage(
-                                        _noteController.text, savedImage.path);
+                                        _noteController.text.trim() != ''
+                                            ? _noteController.text.trim()
+                                            : _imagePath,
+                                        savedImage.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxImages');
                                   }
@@ -369,8 +372,9 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
   }
 
   void editEntry(context, int index) {
+    var path = _hopeController.images[index].getPath().split('/');
     _noteController.text =
-        _hopeController.images[index].getDescription() != 'Default Placeholder'
+        _hopeController.images[index].getDescription() != path[path.length - 1]
             ? _hopeController.images[index].getDescription()
             : '';
     showDialog<String>(
@@ -452,7 +456,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
                                   DateFormat.yMMMMd().format(
-                                    DateTime.now(),
+                                    _hopeController.images[index].getDateTime(),
                                   ),
                                   textAlign: TextAlign.left,
                                   style: Theme.of(context)
@@ -520,7 +524,7 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                   if (_imagePath ==
                                       _hopeController.images[index].getPath()) {
                                     _hopeController.updateImageDesc(
-                                        index, _noteController.text);
+                                        index, _noteController.text.trim());
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxImages');
                                   } else if (_storedImage != null) {
@@ -533,8 +537,10 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
 
                                     final savedImage = await _storedImage
                                         .copy('${appDir.path}/$_imagePath');
-                                    _hopeController.updateImage(index,
-                                        _noteController.text, savedImage.path);
+                                    _hopeController.updateImage(
+                                        index,
+                                        _noteController.text.trim(),
+                                        savedImage.path);
                                     Get.back();
                                     Get.offAndToNamed('/hopeBoxImages');
                                   }
