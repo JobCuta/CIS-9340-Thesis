@@ -9,10 +9,15 @@ import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
+import 'package:flutter_application_1/widgets/AccountCreationPopOut.dart';
+import 'package:flutter_application_1/widgets/ErrorDialog.dart';
+import 'package:flutter_application_1/widgets/ForgotPasswordDialog.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:flutter_application_1/widgets/SetNotifsDialog.dart';
+import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
+import 'package:flutter_application_1/widgets/logoutDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';

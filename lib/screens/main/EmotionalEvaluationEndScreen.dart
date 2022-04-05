@@ -4,7 +4,7 @@ import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
-import 'package:flutter_application_1/widgets/setNotifsDialog.dart';
+import 'package:flutter_application_1/widgets/SetNotifsDialog.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

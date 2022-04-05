@@ -1,48 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 
-Future errorDialog(String message) {
+Future errorDialog(context, String message) {
   return Get.defaultDialog(
       title: "An error occured",
       barrierDismissible: true,
-      titleStyle: const TextStyle(
-          fontSize: 30,
-          fontFamily: 'Proxima Nova',
-          fontWeight: FontWeight.w600),
-      titlePadding: const EdgeInsets.only(top: 20, bottom: 20),
-      content: Column(children: [
-        SvgPicture.asset('assets/images/exclamation.svg'),
-        Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-            ))
-      ]),
-      radius: 8,
-      confirm: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
+      titleStyle: Theme.of(context).textTheme.headline5?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: Theme.of(context).colorScheme.neutralBlack02),
+      titlePadding: const EdgeInsets.only(top: 20),
+      contentPadding: const EdgeInsets.all(20),
+      content: Container(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
+        child: Column(children: [
+          SvgPicture.asset('assets/images/exclamation.svg'),
+          Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: Text(message,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.neutralBlack02)))
+        ]),
+      ),
+      confirm: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: 50,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            primary: const Color(0xff3FCD67),
-            minimumSize: const Size(double.infinity, 50),
+            primary: Theme.of(context).colorScheme.intGreenMain,
           ),
           onPressed: () {
             Navigator.of(Get.context!).pop();
           },
-          child: const Text(
+          child: Text(
             'Okay',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-              color: Colors.white,
-              fontFamily: 'Proxima Nova',
-            ),
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).colorScheme.neutralWhite01),
           ),
         ),
       ));

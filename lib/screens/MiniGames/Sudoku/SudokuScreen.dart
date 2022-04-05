@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
-import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';

@@ -164,7 +164,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           height: 5.0,
                         ),
                         SizedBox(
-                          child: TextField(
+                          child: TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(
                               fontSize: 14.0,
@@ -174,6 +174,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               errorText:
                                   _validate ? 'This field is required' : null,
                               border: const OutlineInputBorder(),
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              filled: true,
                               hintText: 'Enter your email',
                               hintStyle: Theme.of(context)
                                   .textTheme
@@ -223,7 +226,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           height: 5.0,
                         ),
                         SizedBox(
-                          child: TextField(
+                          child: TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             controller: passwordController,
                             obscureText: _isObscure,
@@ -232,6 +235,9 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              filled: true,
                               hintText: 'Enter your password',
                               hintStyle: Theme.of(context)
                                   .textTheme
@@ -305,10 +311,11 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              primary:
-                                  Theme.of(context).colorScheme.intGreenMain,
-                              onSurface:
-                                  Theme.of(context).colorScheme.neutralWhite04,
+                              primary: isButtonActive
+                                  ? Theme.of(context).colorScheme.intGreenMain
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite04,
                             ),
                             child: isLoading
                                 ? SizedBox(

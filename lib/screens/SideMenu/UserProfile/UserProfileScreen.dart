@@ -9,7 +9,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widgets/logoutDialog.dart';
+import '../../../widgets/LogoutDialog.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);

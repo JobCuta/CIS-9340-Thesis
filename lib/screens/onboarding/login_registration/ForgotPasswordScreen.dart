@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/ForgotPasswordDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -25,6 +26,7 @@ class ForgotPasswordWidgets extends StatefulWidget {
 class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
   final TextEditingController _emailController = TextEditingController();
   bool isButtonActive = false;
+  bool isLoading = false;
 
   var result = {};
 
@@ -169,124 +171,35 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                               onSurface:
                                   Theme.of(context).colorScheme.neutralGray03,
                             ),
-                            child: Text(
-                              'Confirm',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
+                            child: isLoading
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .neutralWhite01),
-                            ),
+                                          .neutralWhite01,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    'Confirm',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01),
+                                  ),
                             onPressed: () async => {
                                   if (isButtonActive)
                                     {
+                                      setState(() => isLoading = true),
                                       result = await handleForgot(),
                                       if (result["status"])
-                                        {
-                                          showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              insetPadding:
-                                                  const EdgeInsets.all(50.0),
-                                              title: Text(
-                                                'Enter the verification code we sent',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1
-                                                    ?.copyWith(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .neutralBlack02,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Divider(
-                                                    height: 1.0,
-                                                    thickness: 1.0,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .neutralWhite04,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10.0,
-                                                  ),
-                                                  Text(
-                                                    'Check your email and open the link given to reset your password',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .neutralBlack02),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10.0,
-                                                  ),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height: 50,
-                                                    margin: const EdgeInsets
-                                                            .fromLTRB(
-                                                        15, 10, 15, 10),
-                                                    decoration: const BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    30))),
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        elevation: 0,
-                                                        primary:
-                                                            Theme.of(context)
-                                                                .colorScheme
-                                                                .intGreenMain,
-                                                        onSurface:
-                                                            Theme.of(context)
-                                                                .colorScheme
-                                                                .neutralGray03,
-                                                      ),
-                                                      child: Text(
-                                                        'Confirm',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .subtitle1
-                                                            ?.copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .neutralWhite01),
-                                                      ),
-                                                      onPressed: isButtonActive
-                                                          ? () {
-                                                              //Navigation and account validation
-                                                              Get.offAllNamed(
-                                                                  '/accountScreen');
-                                                            }
-                                                          : null,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        }
+                                        {verificationDialog(context)}
                                       else
                                         {
                                           Get.snackbar(
@@ -296,11 +209,12 @@ class _ForgotPasswordWidgetsState extends State<ForgotPasswordWidgets> {
                                             backgroundColor: Theme.of(context)
                                                 .colorScheme
                                                 .neutralWhite01,
-                                          )
+                                          ),
+                                          setState(() => isLoading = false)
                                         }
                                     }
                                   else
-                                    {null}
+                                    {}
                                 }),
                       ),
                     ],
