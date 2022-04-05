@@ -58,11 +58,12 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         1,
         "Kasiyanna",
-        "This notification is a scheduled reminder (Morning)",
+        "Hey there! It's time for your morning entry",
         _nextInstanceOfMorningTime(time),
         const NotificationDetails(
-            android: AndroidNotificationDetails('1', 'Kasiyanna',
-                channelDescription: 'To remind you about stuff, scheduled')),
+            android: AndroidNotificationDetails('1', 'Morning Reminder',
+                channelDescription:
+                    'Reminds the user to do their morning entry.')),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
@@ -83,11 +84,12 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         2,
         "Kasiyanna",
-        "This notification is a scheduled reminder (Afternoon)",
+        "Hey there! It's time for your afternoon entry",
         _nextInstanceOfAfternoonTime(time),
         const NotificationDetails(
-            android: AndroidNotificationDetails('2', 'Kasiyanna',
-                channelDescription: 'To remind you about stuff, scheduled')),
+            android: AndroidNotificationDetails('2', 'Afternoon Reminder',
+                channelDescription:
+                    'Reminds the user to do their afternoon entry.')),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
@@ -108,11 +110,12 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         3,
         "Kasiyanna",
-        "This notification is a scheduled reminder (Evening)",
+        "Hey there! It's time for your evening entry",
         _nextInstanceOfEveningTime(time),
         const NotificationDetails(
-            android: AndroidNotificationDetails('3', 'Kasiyanna',
-                channelDescription: 'To remind you about stuff, scheduled')),
+            android: AndroidNotificationDetails('3', 'Evening Reminder',
+                channelDescription:
+                    'Reminds the user to do their evening entry.')),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,

@@ -188,12 +188,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         onTap: (() {
                           Get.toNamed('/userProfileEditScreen');
                         })),
-                    _buildFieldComponent(
-                        fieldName: 'Edit Avatar',
-                        isEditable: true,
-                        onTap: (() {
-                          // Get.toNamed('/userProfileEditScreen');
-                        })),
                     Divider(
                       color: Theme.of(context).colorScheme.neutralWhite03,
                       height: 25,
