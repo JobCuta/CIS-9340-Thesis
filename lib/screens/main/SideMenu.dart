@@ -40,21 +40,8 @@ class _SideMenuState extends State<SideMenu> {
     });
   }
 
-  // This key will be used to find the circle's coordinates
-  final GlobalKey _key = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
-    // Coordinates
-    double _x = 20, _y = 20;
-    RenderBox? box = _key.currentContext?.findRenderObject() as RenderBox?;
-    Offset? position = box?.localToGlobal(Offset.zero);
-    if (position != null) {
-      setState(() {
-        _x = position.dx;
-        _y = position.dy;
-      });
-    }
     return SafeArea(
       child: Drawer(
         child: Material(
@@ -63,13 +50,13 @@ class _SideMenuState extends State<SideMenu> {
               padding: padding,
               children: <Widget>[
                 buildHeader(
-                  userLevel: _levelController.currentLevel.value.toString(),
-                  name: usern,
-                  email: email,
-                  x: _x,
-                  y: _y,
+                    userLevel: _levelController.currentLevel.value,
+                    name: usern,
+                    email: email),
+                const Divider(
+                  color: Color(0xffC4C4C4),
+                  thickness: 1.5,
                 ),
-                const Divider(color: Color(0xffC4C4C4)),
                 buildMenuItem(
                   text: 'Homepage',
                   icon: 'assets/images/homepage_icon.svg',
@@ -95,7 +82,10 @@ class _SideMenuState extends State<SideMenu> {
                   icon: 'assets/images/hopebox_icon.svg',
                   onClicked: () => Get.toNamed('/hopeBox'),
                 ),
-                const Divider(color: Color(0xffC4C4C4)),
+                const Divider(
+                  color: Color(0xffC4C4C4),
+                  thickness: 1.5,
+                ),
                 buildMenuItem(
                   text: 'Mental Health Hotline',
                   icon: 'assets/images/hotline_icon.svg',
@@ -120,11 +110,9 @@ class _SideMenuState extends State<SideMenu> {
   }
 
   Widget buildHeader(
-          {required String userLevel,
+          {required int userLevel,
           required String name,
-          required String email,
-          x,
-          y}) =>
+          required String email}) =>
       InkWell(
         child: Container(
           alignment: Alignment.center,
@@ -134,23 +122,12 @@ class _SideMenuState extends State<SideMenu> {
             children: [
               Padding(
                   padding: const EdgeInsets.only(right: 15),
-                  child: Stack(children: [
-                    SvgPicture.asset('assets/images/empty_circle.svg',
-                        key: _key, width: 50),
-                    Positioned(
-                      left: x - 12,
-                      top: y - 30,
-                      child: Text(userLevel,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01)),
-                    )
-                  ])),
+                  child: SvgPicture.asset(
+                      // Stops on level 6 because this is the expected limit for the prototype
+                      userLevel <= 6
+                          ? 'assets/images/user_level_$userLevel.svg'
+                          : 'assets/images/default_user_image.svg',
+                      width: 50)),
               Wrap(
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.start,
