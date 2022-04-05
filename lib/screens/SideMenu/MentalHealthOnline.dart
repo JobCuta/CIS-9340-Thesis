@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,7 +20,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
   _buildNumberField(number, value) {
     return Container(
         height: 40,
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -27,14 +28,12 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     color: Theme.of(context).colorScheme.neutralWhite01,
                     fontWeight: FontWeight.w400)),
-            IconButton(
-                icon: Icon(Icons.content_copy,
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    size: 20),
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: value));
+            GestureDetector(
+                onTap: () {
+                  //  Clipboard.setData(ClipboardData(text: value));
                   launch('tel:$value');
-                })
+                },
+                child: SvgPicture.asset('assets/images/copy_icon.svg')),
           ],
         ));
   }
@@ -70,7 +69,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 18.0),
+                    vertical: 15.0, horizontal: 20.0),
                 decoration: BoxDecoration(
                     color: const Color(0xff3290FF).withOpacity(0.60),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
@@ -85,7 +84,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           decoration: BoxDecoration(
                               color: const Color(0xff216CB2).withOpacity(0.20),
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(4))),
+                                  const BorderRadius.all(Radius.circular(12))),
                           child: Text(
                               'Speak with someone from your area’s mental health or crisis hotline service. Although we encourage you to use the hotline, we cannot guarantee its availability or the quality of its service.',
                               textAlign: TextAlign.center,
