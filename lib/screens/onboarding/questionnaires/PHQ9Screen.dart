@@ -144,6 +144,8 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                           padding:
                               const EdgeInsets.only(left: 30.0, right: 30.0),
                           child: DropdownButton(
+                            dropdownColor:
+                                Theme.of(context).colorScheme.neutralWhite01,
                             isExpanded: true,
                             underline: Container(),
                             hint: const Text('Pick an option'),

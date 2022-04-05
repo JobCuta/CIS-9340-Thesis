@@ -9,15 +9,10 @@ import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
-import 'package:flutter_application_1/widgets/AccountCreationPopOut.dart';
-import 'package:flutter_application_1/widgets/ErrorDialog.dart';
-import 'package:flutter_application_1/widgets/ForgotPasswordDialog.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/widgets/SetNotifsDialog.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
-import 'package:flutter_application_1/widgets/logoutDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -43,77 +38,78 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, //change to confirm exit modal
-      child: Scaffold(
-        body: PageTransitionSwitcher(
-          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
-                  Animation<double> secondaryAnimation) =>
-              SharedAxisTransition(
-            animation: primaryAnimation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            child: child,
+    return
+        // WillPopScope(
+        // onWillPop: () async => false, //change to confirm exit modal
+        // child:
+        Scaffold(
+      body: PageTransitionSwitcher(
+        transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+                Animation<double> secondaryAnimation) =>
+            SharedAxisTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.horizontal,
+          child: child,
+        ),
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0.0,
+        backgroundColor: _selectedIndex < 3
+            ? Theme.of(context).colorScheme.accentBlue02
+            : Theme.of(context).colorScheme.sunflowerYellow01,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Icon(Icons.notes),
+            ),
+            label: 'Entries',
           ),
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0.0,
-          backgroundColor: _selectedIndex < 3
-              ? Theme.of(context).colorScheme.accentBlue02
-              : Theme.of(context).colorScheme.sunflowerYellow01,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.notes),
-              ),
-              label: 'Entries',
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Icon(Icons.calendar_today_outlined),
             ),
-            BottomNavigationBarItem(
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.calendar_today_outlined),
+                child: Icon(Icons.home),
               ),
-              label: 'Calendar',
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Icon(Icons.directions_walk),
+              ),
+              label: 'Adventure Mode'),
+          BottomNavigationBarItem(
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Icon(Icons.widgets_outlined),
             ),
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  child: Icon(Icons.home),
-                ),
-                label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  child: Icon(Icons.directions_walk),
-                ),
-                label: 'Adventure Mode'),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.widgets_outlined),
-              ),
-              label: 'Mini-games',
-            )
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-          unselectedItemColor: _selectedIndex < 3
-              ? Theme.of(context).colorScheme.accentBlue04
-              : const Color(0xffA36508),
-          iconSize: 32.0,
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: Theme.of(context)
-              .textTheme
-              .caption
-              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: Theme.of(context)
-              .textTheme
-              .caption
-              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-          onTap: _onItemTapped,
-        ),
+            label: 'Mini-games',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
+        unselectedItemColor: _selectedIndex < 3
+            ? Theme.of(context).colorScheme.accentBlue04
+            : const Color(0xffA36508),
+        iconSize: 32.0,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: Theme.of(context)
+            .textTheme
+            .caption
+            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+        unselectedLabelStyle: Theme.of(context)
+            .textTheme
+            .caption
+            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+        onTap: _onItemTapped,
       ),
     );
   }

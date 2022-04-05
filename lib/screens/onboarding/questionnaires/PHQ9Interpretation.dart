@@ -83,7 +83,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                           color: Theme.of(context).colorScheme.neutralWhite01)),
                 ),
                 Container(
-                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Wrap(
                       runSpacing: 10,
                       alignment: WrapAlignment.center,
@@ -106,14 +106,17 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                       .colorScheme
                                       .sunflowerYellow04))
                         ])),
-                        LinearPercentIndicator(
-                          linearStrokeCap: LinearStrokeCap.butt,
-                          lineHeight: 20,
-                          percent: _phqController.sum / 27,
-                          progressColor:
-                              Theme.of(context).colorScheme.neutralWhite01,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.sunflowerYellow03,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: LinearPercentIndicator(
+                            barRadius: const Radius.circular(4),
+                            lineHeight: 20,
+                            percent: _phqController.sum / 27,
+                            progressColor:
+                                Theme.of(context).colorScheme.neutralWhite01,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.sunflowerYellow03,
+                          ),
                         ),
                         Text(
                             _phqController.sum >= 20
@@ -134,7 +137,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                         .colorScheme
                                         .neutralWhite01)),
                         Container(
-                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Wrap(
                               runSpacing: 10,
                               alignment: WrapAlignment.center,
@@ -157,16 +160,19 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
                                               .colorScheme
                                               .sunflowerYellow04))
                                 ])),
-                                LinearPercentIndicator(
-                                  linearStrokeCap: LinearStrokeCap.butt,
-                                  lineHeight: 20,
-                                  percent: _sidasController.sum / 50,
-                                  progressColor: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .sunflowerYellow03,
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: LinearPercentIndicator(
+                                    barRadius: const Radius.circular(4),
+                                    lineHeight: 20,
+                                    percent: _sidasController.sum / 50,
+                                    progressColor: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .sunflowerYellow03,
+                                  ),
                                 ),
                                 Text(
                                     _sidasController.sum >= 21

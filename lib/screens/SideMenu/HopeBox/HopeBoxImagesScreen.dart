@@ -156,15 +156,29 @@ class _HopeBoxImagesScreenState extends State<HopeBoxImagesScreen> {
                                                           .colorScheme
                                                           .neutralGray04)),
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Image.file(File(_hopeController
-                                              .images[index]
-                                              .getPath())),
-                                        )
+                                        InkWell(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                              child: Image.file(File(
+                                                  _hopeController.images[index]
+                                                      .getPath())),
+                                            ),
+                                            onTap: () {
+                                              showDialog<String>(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Dialog(
+                                                      child: Image.file(File(
+                                                          _hopeController
+                                                              .images[index]
+                                                              .getPath())),
+                                                    );
+                                                  });
+                                            })
                                       ])),
                             ),
                           );
