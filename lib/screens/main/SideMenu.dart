@@ -122,12 +122,38 @@ class _SideMenuState extends State<SideMenu> {
             children: [
               Padding(
                   padding: const EdgeInsets.only(right: 15),
-                  child: SvgPicture.asset(
-                      // Stops on level 6 because this is the expected limit for the prototype
-                      userLevel <= 6
-                          ? 'assets/images/user_level_$userLevel.svg'
-                          : 'assets/images/default_user_image.svg',
-                      width: 50)),
+                  child: Container(
+                      height: 50.0,
+                      width: 50.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color:
+                              Theme.of(context).colorScheme.sunflowerYellow01,
+                          border: Border.all(
+                              width: 2.0,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .sunflowerYellow01)),
+                      child: Container(
+                          height: 39,
+                          width: 39,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                  width: 2.0,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01)),
+                          child: Center(
+                              child: Text(userLevel.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)))))),
               Wrap(
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.start,

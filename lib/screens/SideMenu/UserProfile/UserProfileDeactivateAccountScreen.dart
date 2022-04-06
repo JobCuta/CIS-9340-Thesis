@@ -1,7 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/controllers/userProfileController.dart';
+import 'package:flutter_application_1/apis/ContactDetails.dart';
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/Level.dart';
+import 'package:flutter_application_1/apis/SudokuSettings.dart';
+import 'package:flutter_application_1/apis/dailyHive.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/apis/hopeBoxHive.dart';
+import 'package:flutter_application_1/apis/hopeBoxObject.dart';
+import 'package:flutter_application_1/apis/settingsHive.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
+import 'package:hive/hive.dart';
 
 class UserProfileDeactivateAccountScreen extends StatefulWidget {
   const UserProfileDeactivateAccountScreen({Key? key}) : super(key: key);
@@ -26,6 +38,8 @@ class _UserProfileDeactivateAccountScreenState
     'not be able to recover your account information.'
   ];
   var selectedIndexes = [];
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,24 +144,102 @@ class _UserProfileDeactivateAccountScreenState
                           primary: selectedIndexes.length == 4
                               ? Theme.of(context).colorScheme.accentBlue02
                               : Theme.of(context).colorScheme.neutralWhite04),
-                      onPressed: () {
-                        selectedIndexes.length == 4
-                            ? Get.offAllNamed('/userDeactivateSuccessScreen')
-                            : null;
+                      onPressed: () async {
+                        if (selectedIndexes.length == 4) {
+                          setState(() => isLoading = true);
+                          // API CALL TO DELETE ACCOUNT FROM BACKEND
+                          // CLEAR HIVE DATA
+                          await clearBoxes();
+                          // DELETE LOGIN Key
+                          UserSecureStorage.removeLoginKey();
+                          Timer(const Duration(seconds: 2), () {
+                            Get.offAllNamed('/userDeactivateSuccessScreen');
+                          });
+                        }
                       },
-                      child: Text('Agree',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
-                                  fontWeight: FontWeight.w600)),
+                      child: isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text('Agree',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01,
+                                      fontWeight: FontWeight.w600)),
                     ),
                   ),
                 )),
           ],
         ));
+  }
+
+  clearBoxes() async {
+    var phqBox = await Hive.openBox('phq');
+    var sidasBox = await Hive.openBox('sidas');
+    var dailyBox = await Hive.openBox<DailyHive>('daily');
+    var emotionBox = await Hive.openBox<EmotionEntryHive>('emotion');
+    var emotionEntryBox =
+        await Hive.openBox<EmotionEntryDetail>('emotionEntry');
+    var emotionObjBox = await Hive.openBox('emotionObj');
+    var settingsBox = await Hive.openBox<SettingsHive>('settings');
+    var levelsBox = await Hive.openBox<Level>('level');
+    var hopeBox = await Hive.openBox<HopeBox>('hopeBox');
+    var hopeBoxObj = await Hive.openBox<HopeBoxObject>('hopeBoxObj');
+    var contactBox = await Hive.openBox<ContactDetails>('contactPerson');
+    var sudokuBox = await Hive.openBox<SudokuSettings>('sudokuBox');
+
+    // Gets the no. of entries in the HIVE boxes
+    print('START');
+    print(phqBox.length);
+    print(sidasBox.length);
+    print(dailyBox.length);
+    print(emotionBox.length);
+    print(emotionEntryBox.length);
+    print(emotionObjBox.length);
+    print(settingsBox.length);
+    print(levelsBox.length);
+    print(hopeBox.length);
+    print(hopeBoxObj.length);
+    print(contactBox.length);
+    print(sudokuBox.length);
+
+    await phqBox.clear();
+    await sidasBox.clear();
+    await dailyBox.clear();
+    await emotionBox.clear();
+    await emotionEntryBox.clear();
+    await emotionObjBox.clear();
+    await settingsBox.clear();
+    await levelsBox.clear();
+    await hopeBox.clear();
+    await hopeBoxObj.clear();
+    await contactBox.clear();
+    await sudokuBox.clear();
+
+    // Verifies that all entries have been removed from the HIVE boxes
+    print('CLEARED');
+    print(phqBox.length);
+    print(sidasBox.length);
+    print(dailyBox.length);
+    print(emotionBox.length);
+    print(emotionEntryBox.length);
+    print(emotionObjBox.length);
+    print(settingsBox.length);
+    print(levelsBox.length);
+    print(hopeBox.length);
+    print(hopeBoxObj.length);
+    print(contactBox.length);
+    print(sudokuBox.length);
   }
 }
