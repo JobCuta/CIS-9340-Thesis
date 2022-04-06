@@ -141,7 +141,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
@@ -395,98 +395,109 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          bottomSheet: Container(
-            color: Theme.of(context).colorScheme.neutralWhite01,
-            width: MediaQuery.of(context).size.width,
-            height: 110,
-            margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
-            child: ListView(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: Theme.of(context).colorScheme.intGreenMain),
-                    onPressed: () async {
-                      setState(() => isLoading = true);
-                      if (_form.currentState!.validate()) {
-                        var response = await handleUserInfo();
-                        if (response["status"]) {
-                          registeredDialog(context);
-                          loginAccount();
-                          UserSecureStorage.setLoginDetails(
-                              email,
-                              nickName != '' ? nickName : firstName,
-                              firstName,
-                              lastName,
-                              birthDate,
-                              gender!,
-                              'false');
-                        } else {
-                          errorDialog(context, response["message"]);
-                        }
-                        setState(() => isLoading = false);
-                      }
-                    },
-                    child: isLoading
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            'Continue',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
+                  Container(
+                    color: Theme.of(context).colorScheme.neutralWhite01,
+                    width: MediaQuery.of(context).size.width,
+                    height: 110,
+                    margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary:
+                                    Theme.of(context).colorScheme.intGreenMain),
+                            onPressed: () async {
+                              setState(() => isLoading = true);
+                              if (_form.currentState!.validate()) {
+                                var response = await handleUserInfo();
+                                if (response["status"]) {
+                                  registeredDialog(context);
+                                  loginAccount();
+                                  UserSecureStorage.setLoginDetails(
+                                      email,
+                                      nickName != '' ? nickName : firstName,
+                                      firstName,
+                                      lastName,
+                                      birthDate,
+                                      gender!,
+                                      'false');
+                                } else {
+                                  errorDialog(context, response["message"]);
+                                }
+                                setState(() => isLoading = false);
+                              }
+                              setState(() => isLoading = false);
+                            },
+                            child: isLoading
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    'Continue',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01,
+                                            fontWeight: FontWeight.w600),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                side: BorderSide(
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
-                          ),
+                                        .neutralWhite04),
+                                primary: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
+                              ),
+                              onPressed: () {
+                                //navigate to next page
+                                Get.toNamed('/anonScreen', arguments: {
+                                  "email": Get.arguments["email"],
+                                  "pass1": Get.arguments["pass1"],
+                                  "pass2": Get.arguments["pass2"]
+                                });
+                              },
+                              child: Text(
+                                'Stay Anonymous',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .intGreenMain,
+                                        fontWeight: FontWeight.w600),
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        side: BorderSide(
-                            color:
-                                Theme.of(context).colorScheme.neutralWhite04),
-                        primary: Theme.of(context).colorScheme.neutralWhite01,
-                      ),
-                      onPressed: () {
-                        //navigate to next page
-                        Get.toNamed('/anonScreen', arguments: {
-                          "email": Get.arguments["email"],
-                          "pass1": Get.arguments["pass1"],
-                          "pass2": Get.arguments["pass2"]
-                        });
-                      },
-                      child: Text(
-                        'Stay Anonymous',
-                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                            color: Theme.of(context).colorScheme.intGreenMain,
-                            fontWeight: FontWeight.w600),
-                      )),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -55,7 +55,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
       if (mounted) {
         setState(() {});
       }
-      Get.toNamed('/exerciseScreen', arguments: {
+      Get.offAndToNamed('/exerciseScreen', arguments: {
         "assetImage": randomExercise[0],
         "prompt": randomExercise[1],
         "reason": randomExercise[2],
@@ -155,7 +155,7 @@ class _ShakeScreenState extends State<ShakeScreen> {
                     primary: Theme.of(context).colorScheme.accentBlue02,
                   ),
                   onPressed: () {
-                    Get.toNamed('/wellnessScreen');
+                    Get.offAndToNamed('/wellnessScreen');
                   },
                   child: Text('I want to pick the exercise',
                       style: Theme.of(context).textTheme.subtitle2?.copyWith(
@@ -377,13 +377,15 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                             .accentBlue02,
                                       ),
                                       onPressed: () {
-                                        _dailyController.setDailyTaskToDone(DailyTask.Exercise);
-                                        _levelController.initializeTaskWithXp('Exercise', 100);
+                                        _dailyController.setDailyTaskToDone(
+                                            DailyTask.Exercise);
+                                        _levelController.initializeTaskWithXp(
+                                            'Exercise', 100);
 
                                         if (widget.initialAssessment) {
-                                          Get.toNamed('/accountScreen');
+                                          Get.offAndToNamed('/accountScreen');
                                         } else {
-                                        _levelController.finalizeAddingOfXp();
+                                          _levelController.finalizeAddingOfXp();
                                           Get.toNamed('/homepage');
                                         }
 
@@ -413,7 +415,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           visible: position <= 1,
                           child: TextButton(
                             onPressed: () {
-                              Get.toNamed('/accountScreen');
+                              Get.offAndToNamed('/accountScreen');
                             },
                             child: Text('Skip',
                                 style: Theme.of(context)

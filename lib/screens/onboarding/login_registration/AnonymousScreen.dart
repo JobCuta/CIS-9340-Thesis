@@ -64,7 +64,7 @@ class _AnonymousState extends State<AnonymousWidget> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.grey[850],
+                color: Theme.of(context).colorScheme.neutralGray04,
               ),
               onPressed: () {
                 Get.back();
