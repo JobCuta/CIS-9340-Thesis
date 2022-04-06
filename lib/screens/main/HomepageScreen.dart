@@ -38,78 +38,77 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // WillPopScope(
-        // onWillPop: () async => false, //change to confirm exit modal
-        // child:
-        Scaffold(
-      body: PageTransitionSwitcher(
-        transitionBuilder: (Widget child, Animation<double> primaryAnimation,
-                Animation<double> secondaryAnimation) =>
-            SharedAxisTransition(
-          animation: primaryAnimation,
-          secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.horizontal,
-          child: child,
+    return WillPopScope(
+      onWillPop: () async => false, //change to confirm exit modal
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+                  Animation<double> secondaryAnimation) =>
+              SharedAxisTransition(
+            animation: primaryAnimation,
+            secondaryAnimation: secondaryAnimation,
+            transitionType: SharedAxisTransitionType.horizontal,
+            child: child,
+          ),
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0.0,
-        backgroundColor: _selectedIndex < 3
-            ? Theme.of(context).colorScheme.accentBlue02
-            : Theme.of(context).colorScheme.sunflowerYellow01,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Icon(Icons.notes),
-            ),
-            label: 'Entries',
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Icon(Icons.calendar_today_outlined),
-            ),
-            label: 'Calendar',
-          ),
-          BottomNavigationBarItem(
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 0.0,
+          backgroundColor: _selectedIndex < 3
+              ? Theme.of(context).colorScheme.accentBlue02
+              : Theme.of(context).colorScheme.sunflowerYellow01,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.home),
+                child: Icon(Icons.notes),
               ),
-              label: 'Home'),
-          BottomNavigationBarItem(
+              label: 'Entries',
+            ),
+            BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.directions_walk),
+                child: Icon(Icons.calendar_today_outlined),
               ),
-              label: 'Adventure Mode'),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Icon(Icons.widgets_outlined),
+              label: 'Calendar',
             ),
-            label: 'Mini-games',
-          )
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-        unselectedItemColor: _selectedIndex < 3
-            ? Theme.of(context).colorScheme.accentBlue04
-            : const Color(0xffA36508),
-        iconSize: 32.0,
-        type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: Theme.of(context)
-            .textTheme
-            .caption
-            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-        unselectedLabelStyle: Theme.of(context)
-            .textTheme
-            .caption
-            ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-        onTap: _onItemTapped,
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Icon(Icons.home),
+                ),
+                label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Icon(Icons.directions_walk),
+                ),
+                label: 'Adventure Mode'),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Icon(Icons.widgets_outlined),
+              ),
+              label: 'Mini-games',
+            )
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
+          unselectedItemColor: _selectedIndex < 3
+              ? Theme.of(context).colorScheme.accentBlue04
+              : const Color(0xffA36508),
+          iconSize: 32.0,
+          type: BottomNavigationBarType.fixed,
+          selectedLabelStyle: Theme.of(context)
+              .textTheme
+              .caption
+              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: Theme.of(context)
+              .textTheme
+              .caption
+              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

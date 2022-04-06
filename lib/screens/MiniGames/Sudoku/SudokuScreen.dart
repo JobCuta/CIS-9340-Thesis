@@ -335,7 +335,14 @@ class SudokuScreenState extends State<SudokuScreen> {
           child: Text(
             game[k][i] != 0 ? game[k][i].toString() : ' ',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: isButtonDisabled || gameCopy[k][i] != 0
+                    ? Theme.of(context).colorScheme.neutralWhite01
+                    : verifyInput([k, i])
+                        ? Theme.of(context).colorScheme.neutralBlack02
+                        : Theme.of(context).colorScheme.accentRed02),
           ),
         ),
       );
@@ -345,6 +352,10 @@ class SudokuScreenState extends State<SudokuScreen> {
       timesCalled = 0;
     }
     return buttonList;
+  }
+
+  verifyInput(List<int> index) {
+    return game[index[0]][index[1]] == gameSolved[index[0]][index[1]];
   }
 
   Row oneRow() {
