@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/ContactDetails.dart';
+import 'package:flutter_application_1/apis/CopingGame.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
+import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/screens/MiniGames/CopingGame/CopingGameScreen.dart';
 import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
@@ -85,6 +88,7 @@ Future<void> main() async {
   Hive.registerAdapter(HopeBoxObjectAdapter());
   Hive.registerAdapter(ContactDetailsAdapter());
   Hive.registerAdapter(SudokuSettingsAdapter());
+  Hive.registerAdapter(CopingGameAdapter());
 
   await Hive.initFlutter();
 
@@ -100,6 +104,7 @@ Future<void> main() async {
   await Hive.openBox<HopeBoxObject>('hopeBoxObj');
   await Hive.openBox<ContactDetails>('contactPerson');
   await Hive.openBox<SudokuSettings>('sudokuBox');
+  await Hive.openBox<CopingGame>('copingGame');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -114,6 +119,9 @@ Future<void> main() async {
 
   final SudokuController _sudokuController = Get.put(SudokuController());
   _sudokuController.prepareTheObjects();
+
+  final CopingController _copingController = Get.put(CopingController());
+  _copingController.prepareTheObjects();
 
   runApp(const Main());
 }
@@ -271,6 +279,7 @@ class _MainState extends State<Main> {
 
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
+          GetPage(name: '/copingGame', page: () => CopingGameScreen()),
         ],
         theme: themeData,
         home:
