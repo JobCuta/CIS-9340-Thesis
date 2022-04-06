@@ -13,6 +13,7 @@ import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/CopingGameScreen.dart';
+import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
 import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxContactEditScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxImagesScreen.dart';
@@ -280,6 +281,7 @@ class _MainState extends State<Main> {
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
+          GetPage(name: '/memoryGameScreen', page: () => const MemoryGameScreen())
         ],
         theme: themeData,
         home:
