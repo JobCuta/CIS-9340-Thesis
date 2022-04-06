@@ -155,7 +155,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
     NegativeEmotions(List negativeEmotions) {
       return negativeEmotions.isNotEmpty
           ? SizedBox(
-              height: 60,
+              height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true, //just set this property
@@ -320,9 +320,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                                 .textTheme
                                                 .bodyText2
                                                 ?.copyWith(
-                                                    color:
-                                                        const Color(0xffB22428)
-                                                            .withOpacity(1.0)),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .accentRed02),
                                           ),
                                         ),
                                       ],
@@ -455,35 +455,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                 ?.copyWith(
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
-                        SizedBox(
-                          height: 50.0,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: emotionEntry
-                                  .eveningCheck.positiveEmotions.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xff216CB2),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(24))),
-                                    child: Text(
-                                        emotionEntry.eveningCheck
-                                            .positiveEmotions[index]
-                                            .toString(),
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            ?.copyWith(color: Colors.white)),
-                                  ),
-                                );
-                              }),
-                        ),
+                        PositiveEmotions(emotionEntry
+                            .eveningCheck.positiveEmotions
+                            .toSet()
+                            .toList()),
                         const SizedBox(height: 10.0),
                         Text('Negative',
                             textAlign: TextAlign.left,
@@ -493,37 +468,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                 ?.copyWith(
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
-                        SizedBox(
-                          height: 50.0,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: emotionEntry
-                                  .eveningCheck.negativeEmotions.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed02,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(24))),
-                                    child: Text(
-                                        emotionEntry.eveningCheck
-                                            .negativeEmotions[index]
-                                            .toString(),
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            ?.copyWith(color: Colors.white)),
-                                  ),
-                                );
-                              }),
-                        ),
+                        NegativeEmotions(emotionEntry
+                            .eveningCheck.negativeEmotions
+                            .toSet()
+                            .toList()),
                       ],
                     ),
                   ),
@@ -641,9 +589,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                                 .textTheme
                                                 .bodyText2
                                                 ?.copyWith(
-                                                    color:
-                                                        const Color(0xffB22428)
-                                                            .withOpacity(1.0)),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .accentRed02),
                                           ),
                                         ),
                                       ],
@@ -779,7 +727,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
                         PositiveEmotions(
-                            emotionEntry.afternoonCheck.positiveEmotions),
+                            // removes duplicates
+                            emotionEntry.afternoonCheck.positiveEmotions
+                                .toSet()
+                                .toList()),
                         const SizedBox(height: 10.0),
                         Text('Negative',
                             textAlign: TextAlign.left,
@@ -789,8 +740,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                 ?.copyWith(
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
-                        NegativeEmotions(
-                            emotionEntry.afternoonCheck.negativeEmotions),
+                        NegativeEmotions(emotionEntry
+                            .afternoonCheck.negativeEmotions
+                            .toSet()
+                            .toList()),
                       ],
                     ),
                   ),
@@ -906,9 +859,9 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                                 .textTheme
                                                 .bodyText2
                                                 ?.copyWith(
-                                                    color:
-                                                        const Color(0xffB22428)
-                                                            .withOpacity(1.0)),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .accentRed02),
                                           ),
                                         ),
                                       ],
@@ -1041,35 +994,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                 ?.copyWith(
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
-                        SizedBox(
-                          height: 50.0,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: emotionEntry
-                                  .morningCheck.positiveEmotions.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xff216CB2),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(24))),
-                                    child: Text(
-                                        emotionEntry.morningCheck
-                                            .positiveEmotions[index]
-                                            .toString(),
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            ?.copyWith(color: Colors.white)),
-                                  ),
-                                );
-                              }),
-                        ),
+                        PositiveEmotions(emotionEntry
+                            .morningCheck.positiveEmotions
+                            .toSet()
+                            .toList()),
                         const SizedBox(height: 10.0),
                         Text('Negative',
                             textAlign: TextAlign.left,
@@ -1079,37 +1007,10 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                 ?.copyWith(
                                     color: const Color(0xff161818)
                                         .withOpacity(1.0))),
-                        SizedBox(
-                          height: 50.0,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: emotionEntry
-                                  .morningCheck.negativeEmotions.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed02,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(24))),
-                                    child: Text(
-                                        emotionEntry.morningCheck
-                                            .negativeEmotions[index]
-                                            .toString(),
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            ?.copyWith(color: Colors.white)),
-                                  ),
-                                );
-                              }),
-                        ),
+                        NegativeEmotions(emotionEntry
+                            .morningCheck.negativeEmotions
+                            .toSet()
+                            .toList()),
                       ],
                     ),
                   ),
