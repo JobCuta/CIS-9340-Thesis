@@ -4,7 +4,6 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
@@ -21,22 +20,18 @@ class CalendarScreen extends StatefulWidget {
 }
 
 final EmotionController _emotionController = Get.put(EmotionController());
-List<DateTime> veryBadDates = [];
-List<DateTime> badDates = [];
-List<DateTime> neutralDates = [];
-List<DateTime> goodDates = [];
-List<DateTime> veryGoodDates = [];
 
 class _CalendarScreenState extends State<CalendarScreen>{
   DateTime installedDate = DateTime.now();
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
-  String displayedDate = DateFormat('EEEE, MMMM d').format(DateTime.now());
+
   List<EmotionEntryHive> emotionEntries = _emotionController.getAllEmotionEntries();
   EmotionController _emotionCounterController = Get.put(EmotionController());
   TextEditingController missedDays = TextEditingController();
   TextEditingController emotionCounter = TextEditingController();
   TextEditingController moodController = TextEditingController();
+  int noEntriesCount = _emotionController.noEntriesCount.value;
 
   //Emotion colors
   Color veryBadColor = const Color.fromRGBO(78, 72, 146, 1);
@@ -98,8 +93,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
     try {
       final DateTime date = await AppInstallDate().installDate;
       installDate = date.toString();
-    } catch (e, st) {
-      print('Failed to load install date due to $e\n$st');
+    } catch (e) {
       installDate = 'Failed to load install date';
     }
 
@@ -139,7 +133,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
         elevation: 0,
         backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
       ),
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -247,7 +241,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                             child: Center(
                               child: RichText(
                                 text: TextSpan(
-                                  text: 'You missed ',
+                                  text: (noEntriesCount == 1) ? 'You missed 1 day' : 'You missed $noEntriesCount',
                                   style: const TextStyle(fontSize: 14.0, color: Colors.grey),
                                   children: <TextSpan>[
                                     TextSpan(text: missedDays.text, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -257,6 +251,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                                       style: TextStyle(color: Colors.blue[300]),
                                       recognizer: TapGestureRecognizer()..onTap = () {
                                         //navigation
+                                        Get.toNamed('/entriesScreen');
                                       }
                                     )
                                   ]
