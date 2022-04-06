@@ -395,7 +395,12 @@ class _EmotionalEvaluationEndScreenState
                                         _dailyController.setDailyTaskToDone(
                                             DailyTask.EmotionEntry);
                                         _levelController.initializeTaskWithXp(
-                                            'Daily Entry', 50);
+                                            'Daily Entry', 5);
+                                        _levelController.finalizeAddingOfXp();
+                                      }
+
+                                      if (_dailyController.isMorningEntryDone.value && _dailyController.isAfternoonEntryDone.value && _dailyController.isEveningEntryDone.value) {
+                                        _levelController.initializeTaskWithXp('All 3 Entries', 20);
                                         _levelController.finalizeAddingOfXp();
                                       }
 

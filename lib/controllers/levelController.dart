@@ -3,6 +3,14 @@ import 'package:flutter_application_1/apis/Level.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
+/* CURRENT EXPERIENCE GAINS
+      1. Daily Entry - 5xp            - EmotionalEvaluationEndScreen
+      2. All 3 Entries - 20xp         - EmotionalEvaluationEndScreen
+      3. Daily Exercise - 10xp        - ShakeScreen
+
+      4. One Game - 50xp                - not yet added
+      5. All Games in a Region - 250xp  - not yet added
+*/
 
 class LevelController extends GetxController {
   var currentLevel = 0.obs;
@@ -40,6 +48,7 @@ class LevelController extends GetxController {
     update();
   }
 
+  // initialize first to add task and its xp to a map of task name -> xp
   void initializeTaskWithXp(String task, int xp) {
     accomplishedWithXp.putIfAbsent(task, () => xp);
     print("EXPERIENCES = " + accomplishedWithXp.toString());
@@ -48,9 +57,11 @@ class LevelController extends GetxController {
     update();
   }
 
+  // call this to add all the xp initialized above to the user's experience
   void finalizeAddingOfXp() {
     addXp(totalXpToAdd.value);
   }
+
 
   void addXp(int xp) {
     Box box = Hive.box<Level>('level');
