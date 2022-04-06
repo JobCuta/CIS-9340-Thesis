@@ -106,10 +106,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                             ? SvgPicture.asset(
                                                 'assets/images/blue_checkmark.svg',
                                                 width: 30)
-                                            // need to fix the asset itself (edges clipping)
                                             : SvgPicture.asset(
                                                 'assets/images/gray_x.svg',
-                                                width: 30),
+                                                width: 32),
                                         Text(
                                             (latestEmotionEntries[index]
                                                     .weekday)

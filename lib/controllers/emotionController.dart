@@ -130,11 +130,15 @@ class EmotionController extends GetxController {
       'December': 12
     };
 
-    dateTime.value = (DateTime.now().year != year || (DateTime.now().month != monthNameToMonthNumber[month] && DateTime.now().day != day)) 
+    dateTime.value = (DateTime.now().year != year ||
+            (DateTime.now().month != monthNameToMonthNumber[month] &&
+                DateTime.now().day != day))
         ? DateTime(year = year, monthNameToMonthNumber[month] as int, day)
-        : DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
-    
-    DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
+        : DateTime(year = year, monthNameToMonthNumber[month] as int, day,
+            DateTime.now().hour, DateTime.now().minute);
+
+    DateTime(year = year, monthNameToMonthNumber[month] as int, day,
+        DateTime.now().hour, DateTime.now().minute);
 
     update();
   }
@@ -408,14 +412,12 @@ class EmotionController extends GetxController {
 
     if (emotionEntryKeys.length <= days) {
       return box.values.toList() as List<EmotionEntryHive>;
-    } 
-    
-    else {
+    } else {
       List<EmotionEntryHive> emotionEntries = [];
       int index = box.length;
 
       for (int i = 1; i <= days; i++) {
-        EmotionEntryHive emotionEntry = box.getAt(index-i);
+        EmotionEntryHive emotionEntry = box.getAt(index - i);
         emotionEntries.add(emotionEntry);
       }
       return emotionEntries;
@@ -511,7 +513,7 @@ class EmotionController extends GetxController {
   }
 
   void checkValidEntriesCount() {
-    noEntriesCount.value = 0;
+    validEntriesCount.value = 0;
     Box box = Hive.box<EmotionEntryHive>('emotion');
     final emotionEntryKeys = box.keys;
     for (var key in emotionEntryKeys) {
