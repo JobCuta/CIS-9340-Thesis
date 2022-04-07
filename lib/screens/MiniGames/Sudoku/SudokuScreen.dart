@@ -342,7 +342,7 @@ class SudokuScreenState extends State<SudokuScreen> {
                     ? Theme.of(context).colorScheme.neutralWhite01
                     : verifyInput([k, i])
                         ? Theme.of(context).colorScheme.neutralBlack02
-                        : Theme.of(context).colorScheme.accentRed02),
+                        : Theme.of(context).colorScheme.accentRed04),
           ),
         ),
       );
