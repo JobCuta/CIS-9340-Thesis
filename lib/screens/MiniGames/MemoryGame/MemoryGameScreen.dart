@@ -1,6 +1,6 @@
 
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameCards.dart';
 
 class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({Key? key}) : super(key: key);
@@ -9,67 +9,71 @@ class MemoryGameScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _MemoryGameState();
 }
 
-class _MemoryGameState extends State<MemoryGameScreen> {
-  final MemoryGameCards _memoryGameCards = MemoryGameCards();
+List<Image> benguetImages = [
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_bark_beater.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_bark_beater.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_kalsa.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_kalsa.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_kayabang_basket.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_kayabang_basket.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_kiyag.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_kiyag.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_lions_head.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_lions_head.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_obukay.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_obukay.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_shield.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_shield.png')),
+  const Image(image: AssetImage('assets/coping_game/benguet/benguet_solibao.png')), const Image(image: AssetImage('assets/coping_game/benguet/benguet_solibao.png')),
+];
 
+class _MemoryGameState extends State<MemoryGameScreen> {
   @override
   void initState() {
     super.initState();
-    _memoryGameCards.initMemoryGameCards();
+    benguetImages.shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.width,
-            width: MediaQuery.of(context).size.height,
-            child: GridView.builder(
-              itemCount: _memoryGameCards.benguetCardsList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: MediaQuery.of(context).size.height * 0.01388,
-                mainAxisSpacing: MediaQuery.of(context).size.height * 0.01388,
-              ),
-              itemBuilder: (content, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _memoryGameCards.cardImages![index] =
-                      _memoryGameCards.benguetCardsList[index];
-                      _memoryGameCards.matchCheck;
-                    });
-                    if (_memoryGameCards.matchCheck.length == 2) {
-                      if (_memoryGameCards.matchCheck[0].values.first == _memoryGameCards.matchCheck[1].values.first) {
-                        _memoryGameCards.matchCheck.clear();
-                      }
-                    } else {
-                      Future.delayed(const Duration(microseconds: 500), () {
-                        setState(() {
-                          _memoryGameCards.cardImages![_memoryGameCards.matchCheck[0].keys.first] = _memoryGameCards.hiddenCardPath;
-                          _memoryGameCards.cardImages![_memoryGameCards.matchCheck[1].keys.first] = _memoryGameCards.hiddenCardPath;
-                          _memoryGameCards.matchCheck.clear();
-                        });
-                      });
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFB46A),
-                      image: DecorationImage(
-                        image: AssetImage(_memoryGameCards.cardImages![index]),
-                        fit: BoxFit.cover
-                      )
-                    ),
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/background_images/adventure_background.png'),
+                  fit: BoxFit.cover)),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+                  itemBuilder: (context, index) => FlipCard(
+                    onFlip: () {
+
+                    },
+                    flipOnTouch: true,
+                    back: SizedBox(
+                      height: 120,
+                      child: Card(
+                        color: const Color(0xffe9a4f6),
+                        child: Center(
+                          child: benguetImages[index],
+                          ),
+                        ),
+                      ),
+                    front: const SizedBox(
+                      height: 120,
+                      child: Card(
+                        child: Center(
+                          child: Image(image: AssetImage('assets/images/hidden_card.png')),
+                        ),
+                      ),
+                    )
                   ),
-                );
-              },
-            ),
+                  itemCount: benguetImages.length,
+                ),
+              )
+            ],
           )
         ],
       ),
