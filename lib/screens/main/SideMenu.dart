@@ -60,27 +60,42 @@ class _SideMenuState extends State<SideMenu> {
                 buildMenuItem(
                   text: 'Homepage',
                   icon: 'assets/images/homepage_icon.svg',
-                  onClicked: () => Get.toNamed('/homepage'),
+                  onClicked: () =>
+                      ModalRoute.of(context)!.settings.name != '/homepage'
+                          ? Get.offAndToNamed('/homepage')
+                          : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Check your statistics',
                   icon: 'assets/images/statistics_icon.svg',
-                  onClicked: () => Get.toNamed('/statisticsScreen'),
+                  onClicked: () => ModalRoute.of(context)!.settings.name !=
+                          '/statisticsScreen'
+                      ? Get.offAndToNamed('/statisticsScreen')
+                      : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Achievements',
                   icon: 'assets/images/achievement_icon.svg',
-                  onClicked: () => Get.toNamed('/achievementsScreen'),
+                  onClicked: () => ModalRoute.of(context)!.settings.name !=
+                          '/achievementsScreen'
+                      ? Get.offAndToNamed('/achievementsScreen')
+                      : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Daily Exercise',
                   icon: 'assets/images/exercise_icon.svg',
-                  onClicked: () => Get.toNamed('/wellnessScreen'),
+                  onClicked: () =>
+                      ModalRoute.of(context)!.settings.name != '/wellnessScreen'
+                          ? Get.offAndToNamed('/wellnessScreen')
+                          : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Hope Box',
                   icon: 'assets/images/hopebox_icon.svg',
-                  onClicked: () => Get.toNamed('/hopeBox'),
+                  onClicked: () =>
+                      ModalRoute.of(context)!.settings.name != '/hopeBox'
+                          ? Get.offAndToNamed('/hopeBox')
+                          : Get.back(),
                 ),
                 const Divider(
                   color: Color(0xffC4C4C4),
@@ -89,12 +104,18 @@ class _SideMenuState extends State<SideMenu> {
                 buildMenuItem(
                   text: 'Mental Health Hotline',
                   icon: 'assets/images/hotline_icon.svg',
-                  onClicked: () => Get.toNamed('/MentalHealthOnlineScreen'),
+                  onClicked: () => ModalRoute.of(context)!.settings.name !=
+                          '/MentalHealthOnlineScreen'
+                      ? Get.offAndToNamed('/MentalHealthOnlineScreen')
+                      : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Settings and User Profile',
                   icon: 'assets/images/settings_icon.svg',
-                  onClicked: () => Get.toNamed('/userProfileScreen'),
+                  onClicked: () => ModalRoute.of(context)!.settings.name !=
+                          '/userProfileScreen'
+                      ? Get.offAndToNamed('/userProfileScreen')
+                      : Get.back(),
                 ),
                 buildMenuItem(
                   text: 'Logout',
