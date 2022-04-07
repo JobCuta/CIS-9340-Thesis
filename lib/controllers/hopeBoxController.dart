@@ -12,17 +12,26 @@ class HopeBoxController extends GetxController {
   RxList videos = [].obs;
   RxList recordings = [].obs;
   var contactPerson = ContactDetails(
-          pathImage: '', firstName: '', lastName: '', mobileNumber: '')
+          pathImage: '',
+          firstName: '',
+          lastName: '',
+          mobileNumber: '',
+          message: '')
       .obs;
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   void prepareTheObjects() {
     if (box.isEmpty) {
       ContactDetails person = ContactDetails(
-          pathImage: '', firstName: '', lastName: '', mobileNumber: '');
+          pathImage: '',
+          firstName: '',
+          lastName: '',
+          mobileNumber: '',
+          message: '');
       HopeBox hopeBox = HopeBox(
           images: [], videos: [], recordings: [], contactPerson: person);
       box.put('hopebox', hopeBox);
@@ -36,6 +45,7 @@ class HopeBoxController extends GetxController {
     firstNameController.text = hopeBox.contactPerson.getFirstName();
     lastNameController.text = hopeBox.contactPerson.getLastName();
     mobileNumberController.text = hopeBox.contactPerson.getMobileNumber();
+    messageController.text = hopeBox.contactPerson.getMessage();
 
     print('HopeBox');
     print(box.toMap().length);
@@ -189,9 +199,37 @@ class HopeBoxController extends GetxController {
       firstName: firstNameController.text,
       lastName: lastNameController.text,
       mobileNumber: mobileNumberController.text,
+      message: messageController.text != ''
+          ? messageController.text
+          : 'Hey ${firstNameController.text}, I really need your help right now. I feel like I am at risk of harming myself or others. Please contact me as soon as you can.',
     );
+
+    firstNameController.text = newPerson.firstName;
+    lastNameController.text = newPerson.lastName;
+    mobileNumberController.text = newPerson.mobileNumber;
+    if (messageController.text == '') {
+      messageController.text = newPerson.message;
+    }
+
+    hopeBox.contactPerson = newPerson;
+    contactPerson.value = newPerson;
+    box.put('hopebox', hopeBox);
+    checkValues();
+    update();
+  }
+
+  updateMessage(message) {
+    HopeBox hopeBox = box.get('hopebox');
+    ContactDetails newPerson = ContactDetails(
+        pathImage: hopeBox.contactPerson.pathImage,
+        firstName: hopeBox.contactPerson.firstName,
+        lastName: hopeBox.contactPerson.lastName,
+        mobileNumber: hopeBox.contactPerson.mobileNumber,
+        message: message);
     hopeBox.contactPerson = newPerson;
     box.put('hopebox', hopeBox);
+    contactPerson.value = newPerson;
+    messageController.text = message;
     checkValues();
     update();
   }
@@ -203,12 +241,15 @@ class HopeBoxController extends GetxController {
       firstName: '',
       lastName: '',
       mobileNumber: '',
+      message: '',
     );
     hopeBox.contactPerson = newPerson;
+    contactPerson.value = newPerson;
 
     firstNameController.text = '';
     lastNameController.text = '';
     mobileNumberController.text = '';
+    messageController.text = '';
 
     box.put('hopebox', hopeBox);
     checkValues();
@@ -237,5 +278,6 @@ class HopeBoxController extends GetxController {
     firstNameController.text = hopeBox.contactPerson.getFirstName();
     lastNameController.text = hopeBox.contactPerson.getLastName();
     mobileNumberController.text = hopeBox.contactPerson.getMobileNumber();
+    messageController.text = hopeBox.contactPerson.getMessage();
   }
 }

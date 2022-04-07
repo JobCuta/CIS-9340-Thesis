@@ -16,10 +16,10 @@ class HopeBoxContactScreen extends StatefulWidget {
 
 class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
   final HopeBoxController _hopeController = Get.put(HopeBoxController());
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    _hopeController.prepareTheObjects();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
       body: CustomScrollView(
@@ -65,7 +65,7 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
-                          '${_hopeController.contactPerson.value.getFirstName()} ${_hopeController.contactPerson.value.getLastName()}',
+                          '${_hopeController.firstNameController.text} ${_hopeController.lastNameController.text}',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle2!
@@ -158,10 +158,8 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                               splashColor:
                                   Theme.of(context).colorScheme.neutralGray02,
                               onTap: () {
-                                final message =
-                                    'Hey ${_hopeController.contactPerson.value.getFirstName()}, I really need your help right now. I feel like I am at risk o harming myself or others. Please contact me as soon as you can.';
                                 launch(
-                                    'sms:${_hopeController.contactPerson.value.getMobileNumber()}?body=$message');
+                                    'sms:${_hopeController.mobileNumberController.text}?body=${_hopeController.messageController.text.trim()}');
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -192,6 +190,139 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                       color: Theme.of(context).colorScheme.neutralWhite03,
                       height: 30,
                       thickness: 1,
+                    ),
+                    InkWell(
+                      splashColor: Theme.of(context).colorScheme.neutralGray02,
+                      onTap: () {
+                        Get.defaultDialog(
+                            title: 'Alert Message',
+                            titleStyle: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack02),
+                            titlePadding: const EdgeInsets.only(top: 20),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            content: Column(
+                              children: [
+                                Form(
+                                  key: _formKey,
+                                  child: TextFormField(
+                                    maxLines: 5,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    controller:
+                                        _hopeController.messageController,
+                                    validator: (input) {
+                                      if (input == null || input.isEmpty) {
+                                        return 'The message cannot be empty.';
+                                      }
+                                    },
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02),
+                                    decoration: InputDecoration(
+                                      border: const OutlineInputBorder(),
+                                      hintText:
+                                          'Enter a message to send to your support person',
+                                      fillColor: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01,
+                                      filled: true,
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray03),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 15.0),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite04,
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: SizedBox(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                        child: Text(
+                                          'Add',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2
+                                              ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralWhite01,
+                                                  fontWeight: FontWeight.w600),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(3)),
+                                            elevation: 0,
+                                            primary: Theme.of(context)
+                                                .colorScheme
+                                                .sunflowerYellow01),
+                                        onPressed: () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            _hopeController.updateMessage(
+                                                _hopeController
+                                                    .messageController.text
+                                                    .trim());
+                                            Get.back();
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ],
+                            ));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Customize alert message',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralBlack02)),
+                              RichText(
+                                text: TextSpan(children: <InlineSpan>[
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                          Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray01))
+                                ]),
+                              )
+                            ]),
+                      ),
                     ),
                     InkWell(
                       splashColor: Theme.of(context).colorScheme.neutralGray02,

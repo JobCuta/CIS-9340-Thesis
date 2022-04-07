@@ -16,12 +16,15 @@ class ContactDetails extends HiveObject {
   @HiveField(3)
   String mobileNumber;
 
-  ContactDetails({
-    required this.pathImage,
-    required this.firstName,
-    required this.lastName,
-    required this.mobileNumber,
-  });
+  @HiveField(4)
+  String message;
+
+  ContactDetails(
+      {required this.pathImage,
+      required this.firstName,
+      required this.lastName,
+      required this.mobileNumber,
+      required this.message});
 
   String getPathImage() {
     return pathImage;
@@ -39,8 +42,20 @@ class ContactDetails extends HiveObject {
     return mobileNumber;
   }
 
+  String getMessage() {
+    return message;
+  }
+
   @override
   String toString() {
-    return firstName + ", " + lastName + ", " + mobileNumber + ", " + pathImage;
+    return firstName +
+        ", " +
+        lastName +
+        ", " +
+        mobileNumber +
+        ", " +
+        pathImage +
+        ', ' +
+        message;
   }
 }
