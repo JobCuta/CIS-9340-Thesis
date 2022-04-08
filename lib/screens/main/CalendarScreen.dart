@@ -28,11 +28,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   List<EmotionEntryHive> emotionEntries =
       _emotionController.getAllEmotionEntries();
-  EmotionController _emotionCounterController = Get.put(EmotionController());
   TextEditingController missedDays = TextEditingController();
   TextEditingController emotionCounter = TextEditingController();
   TextEditingController moodController = TextEditingController();
-  int noEntriesCount = _emotionController.noEntriesCount.value;
 
   //Emotion colors
   Color veryBadColor = const Color.fromRGBO(78, 72, 146, 1);
@@ -124,7 +122,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<EmotionEntryHive> emotionEntry = _emotionCounterController
+    List<EmotionEntryHive> emotionEntry = _emotionController
         .getEmotionEntriesForMonth(selectedDay.month, selectedDay.year);
     EmotionEntryHive selectedDayEntry =
         _emotionController.getEmotionEntryForDate(selectedDay);
@@ -148,6 +146,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             date, Event(date: date, icon: _veryGoodIcon(date.day.toString())));
       }
     }
+
+    _emotionController.checkNoEntriesCount();
+    int noEntriesCount = _emotionController.noEntriesCount.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -246,7 +247,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     decoration: emotionBorder(),
                                     child: Center(
                                       child: Text(
-                                          '${_emotionCounterController.monthMoodCount[0]}',
+                                          '${_emotionController.monthMoodCount[0]}',
                                           style: emotionCounterTextStyle()),
                                     )),
                               ),
@@ -260,7 +261,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     decoration: emotionBorder(),
                                     child: Center(
                                         child: Text(
-                                            '${_emotionCounterController.monthMoodCount[1]}',
+                                            '${_emotionController.monthMoodCount[1]}',
                                             style: emotionCounterTextStyle()))),
                               ),
                               Container(
@@ -273,7 +274,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     decoration: emotionBorder(),
                                     child: Center(
                                         child: Text(
-                                            '${_emotionCounterController.monthMoodCount[2]}',
+                                            '${_emotionController.monthMoodCount[2]}',
                                             style: emotionCounterTextStyle()))),
                               ),
                               Container(
@@ -286,7 +287,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     decoration: emotionBorder(),
                                     child: Center(
                                         child: Text(
-                                            '${_emotionCounterController.monthMoodCount[3]}',
+                                            '${_emotionController.monthMoodCount[3]}',
                                             style: emotionCounterTextStyle()))),
                               ),
                               Container(
@@ -299,7 +300,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     decoration: emotionBorder(),
                                     child: Center(
                                         child: Text(
-                                            '${_emotionCounterController.monthMoodCount[4]}',
+                                            '${_emotionController.monthMoodCount[4]}',
                                             style: emotionCounterTextStyle()))),
                               ),
                             ],
