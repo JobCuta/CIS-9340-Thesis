@@ -19,7 +19,6 @@ class HopeBoxContactSetupScreen extends StatefulWidget {
 class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
   final ImagePicker _picker = ImagePicker();
   final HopeBoxController _hopeController = Get.put(HopeBoxController());
-  final TextEditingController _noteController = TextEditingController();
 
   var _storedImage = null;
   var _imagePath;

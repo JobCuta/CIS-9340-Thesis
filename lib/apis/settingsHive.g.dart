@@ -22,13 +22,14 @@ class SettingsHiveAdapter extends TypeAdapter<SettingsHive> {
       notificationsAfternoonTime: (fields[2] as List).cast<String>(),
       notificationsEveningTime: (fields[3] as List).cast<String>(),
       language: fields[4] as String,
+      imagePath: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsHive obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.notificationsEnabled)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class SettingsHiveAdapter extends TypeAdapter<SettingsHive> {
       ..writeByte(3)
       ..write(obj.notificationsEveningTime)
       ..writeByte(4)
-      ..write(obj.language);
+      ..write(obj.language)
+      ..writeByte(5)
+      ..write(obj.imagePath);
   }
 
   @override

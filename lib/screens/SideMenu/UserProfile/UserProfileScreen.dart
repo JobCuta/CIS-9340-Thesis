@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:get/get.dart';
@@ -19,9 +22,27 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  // final SettingsController _settingsController = Get.put(SettingsController());
+  final SettingsController _settingsController = Get.put(SettingsController());
   final LevelController _levelController = Get.put(LevelController());
+  final UserProfileController _userProfileController =
+      Get.put(UserProfileController());
+  final EmotionController _emotionController = Get.put(EmotionController());
+  final DailyController _dailyController = Get.put(DailyController());
   int dailyTaskCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _settingsController.resetAllValues();
+    if (_dailyController.isDailyEntryDone.value) {
+      dailyTaskCount++;
+    }
+    if (_dailyController.isDailyExerciseDone.value) {
+      dailyTaskCount++;
+    }
+
+    _emotionController.checkValidEntriesCount();
+  }
 
   _buildLevelComponent(String value, String title) {
     return Wrap(
@@ -80,22 +101,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserProfileController _userProfileController =
-        Get.put(UserProfileController());
-    final EmotionController _emotionController = Get.put(EmotionController());
-    final DailyController _dailyController = Get.put(DailyController());
     bool _pinned = true;
     bool _snap = true;
     bool _floating = true;
-
-    if (_dailyController.isDailyEntryDone.value) {
-      dailyTaskCount++;
-    }
-    if (_dailyController.isDailyExerciseDone.value) {
-      dailyTaskCount++;
-    }
-
-    _emotionController.checkValidEntriesCount();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
       drawer: const SideMenu(),
@@ -120,10 +128,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 20),
-                      child: const CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage(
-                              'assets/images/default_user_image.png')),
+                      child: (_settingsController.imagePath.value != '')
+                          ? CircleAvatar(
+                              radius: 50,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.file(
+                                  File(_settingsController.imagePath.value),
+                                  width: 100.0,
+                                  height: 100.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ))
+                          : SvgPicture.asset(
+                              'assets/images/default_user_image.svg',
+                              width: 100),
                     ),
                     GetBuilder<UserProfileController>(
                       builder: (value) => Text(

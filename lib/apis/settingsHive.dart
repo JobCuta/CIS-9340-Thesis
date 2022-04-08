@@ -21,12 +21,16 @@ class SettingsHive extends HiveObject {
   @HiveField(4)
   String language;
 
+  @HiveField(5)
+  String imagePath;
+
   SettingsHive(
       {required this.notificationsEnabled,
       required this.notificationsMorningTime,
       required this.notificationsAfternoonTime,
       required this.notificationsEveningTime,
-      required this.language});
+      required this.language,
+      required this.imagePath});
 
   @override
   Future<void> init() async {
@@ -37,6 +41,7 @@ class SettingsHive extends HiveObject {
         notificationsMorningTime: ['9', '30'],
         notificationsAfternoonTime: ['12', '30'],
         notificationsEveningTime: ['18', '30'],
-        language: 'English'));
+        language: 'English',
+        imagePath: ''));
   }
 }

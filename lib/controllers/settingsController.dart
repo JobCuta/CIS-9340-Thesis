@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/timeController.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter_application_1/apis/settingsHive.dart';
-
-import '../apis/userSecureStorage.dart';
 
 class SettingsController extends GetxController {
   var notificationsEnabled = false.obs;
@@ -12,6 +9,7 @@ class SettingsController extends GetxController {
   var notificationsAfternoonTime = ['12', '30'].obs;
   var notificationsEveningTime = ['18', '30'].obs;
   var language = 'English'.obs;
+  var imagePath = ''.obs;
   TimeController timeController = TimeController();
 
   Box box = Hive.box<SettingsHive>('settings');
@@ -23,7 +21,8 @@ class SettingsController extends GetxController {
           notificationsMorningTime: ['9', '30'],
           notificationsAfternoonTime: ['12', '30'],
           notificationsEveningTime: ['18', '30'],
-          language: 'English');
+          language: 'English',
+          imagePath: '');
       box.put('settings', settings);
     }
     // print('Settings');
@@ -35,6 +34,8 @@ class SettingsController extends GetxController {
     notificationsAfternoonTime.value = settings.notificationsAfternoonTime;
     notificationsEveningTime.value = settings.notificationsEveningTime;
     language.value = settings.language;
+    imagePath.value = settings.imagePath;
+    checkValues();
   }
 
   void updateNotificationSettings(
@@ -47,7 +48,8 @@ class SettingsController extends GetxController {
         notificationsMorningTime: newNotificationsMorningTime,
         notificationsAfternoonTime: newNotificationsAfternoonTime,
         notificationsEveningTime: newNotificationsEveningTime,
-        language: language.value);
+        language: language.value,
+        imagePath: imagePath.value);
     box.putAt(0, newSettings);
 
     notificationsEnabled.value = newSettings.notificationsEnabled;
@@ -65,11 +67,29 @@ class SettingsController extends GetxController {
         notificationsMorningTime: notificationsMorningTime.value,
         notificationsAfternoonTime: notificationsAfternoonTime.value,
         notificationsEveningTime: notificationsEveningTime.value,
-        language: newLanguage);
+        language: newLanguage,
+        imagePath: imagePath.value);
     box.putAt(0, newSettings);
 
     language.value = newLanguage;
     // checkValues();
+  }
+
+  void updateImagePathSettings({
+    required newImage,
+  }) {
+    SettingsHive newSettings = SettingsHive(
+        notificationsEnabled: notificationsEnabled.value,
+        notificationsMorningTime: notificationsMorningTime.value,
+        notificationsAfternoonTime: notificationsAfternoonTime.value,
+        notificationsEveningTime: notificationsEveningTime.value,
+        language: language.value,
+        imagePath: newImage);
+    box.putAt(0, newSettings);
+
+    imagePath.value = newImage;
+    update();
+    checkValues();
   }
 
   void resetAllValues() {
@@ -79,25 +99,28 @@ class SettingsController extends GetxController {
     notificationsAfternoonTime.value = settings.notificationsAfternoonTime;
     notificationsEveningTime.value = settings.notificationsEveningTime;
     language.value = settings.language;
-    // checkValues();
+    imagePath.value = settings.imagePath;
+    checkValues();
   }
 
   void checkValues() {
-    print('Settings in the controller');
+    print('Settings in the controller (Settings)');
     print('-------------------------------------------------');
     print(notificationsEnabled.value);
     print(notificationsMorningTime.value);
     print(notificationsAfternoonTime.value);
     print(notificationsEveningTime.value);
     print(language.value);
+    print(imagePath.value);
 
     SettingsHive settings = box.get('settings');
-    print('Settings in the box');
+    print('Settings in the box (Settings)');
     print('-------------------------------------------------');
     print(settings.notificationsEnabled);
     print(settings.notificationsMorningTime);
     print(settings.notificationsAfternoonTime);
     print(settings.notificationsEveningTime);
     print(settings.language);
+    print(settings.imagePath);
   }
 }
