@@ -152,17 +152,17 @@ class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
                       ),
                       _buildTextField(
                         fieldName: 'First Name',
-                        hintText: 'Enter your first name',
+                        hintText: 'Enter their first name',
                         controller: _hopeController.firstNameController,
                       ),
                       _buildTextField(
                         fieldName: 'Last Name',
-                        hintText: 'Enter your last name',
+                        hintText: 'Enter their last name',
                         controller: _hopeController.lastNameController,
                       ),
                       _buildTextField(
                         fieldName: 'Mobile Number',
-                        hintText: 'Enter your mobile number',
+                        hintText: 'Enter their mobile number',
                         controller: _hopeController.mobileNumberController,
                       ),
                       const SizedBox(

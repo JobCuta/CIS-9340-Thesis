@@ -97,7 +97,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                               progressColor: Theme.of(context)
                                   .colorScheme
                                   .sunflowerYellow01,
-                              backgroundColor: const Color(0xffFF9B26),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.neutralWhite04,
                               animation: true,
                               animationDuration: 200,
                               animateFromLastPercent: true,

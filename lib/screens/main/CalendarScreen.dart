@@ -313,16 +313,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: RichText(
                                   text: TextSpan(
                                       text: (noEntriesCount == 1)
-                                          ? 'You missed 1 day'
-                                          : 'You missed $noEntriesCount',
+                                          ? 'You missed 1 day! '
+                                          : 'You missed $noEntriesCount days! ',
                                       style: const TextStyle(
                                           fontSize: 14.0, color: Colors.grey),
                                       children: <TextSpan>[
-                                    TextSpan(
-                                        text: missedDays.text,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    const TextSpan(text: ' days! '),
                                     TextSpan(
                                         text: 'Add an entry',
                                         style:
