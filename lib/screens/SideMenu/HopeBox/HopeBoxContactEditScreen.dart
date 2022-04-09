@@ -56,7 +56,7 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
           padding: const EdgeInsets.only(bottom: 15.0),
           child: TextFormField(
             keyboardType: fieldName == 'Mobile Number'
-                ? TextInputType.number
+                ? TextInputType.phone
                 : TextInputType.text,
             textCapitalization: TextCapitalization.sentences,
             onTap: onTap,

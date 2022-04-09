@@ -446,7 +446,7 @@ class SudokuScreenState extends State<SudokuScreen> {
                               context: outerContext,
                               builder: (_) => AlertDifficultyState(
                                   currentDifficultyLevel)).whenComplete(() {
-                            if (AlertDifficultyState.difficulty != null) {
+                            if (AlertDifficultyState.difficulty != '') {
                               Timer(const Duration(milliseconds: 300), () {
                                 newGame(AlertDifficultyState.difficulty);
                                 currentDifficultyLevel =
