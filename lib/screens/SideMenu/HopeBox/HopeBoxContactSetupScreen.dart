@@ -191,8 +191,7 @@ class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
                                     '' &&
                                 _hopeController.mobileNumberController.text
                                         .trim() !=
-                                    '' &&
-                                _storedImage != null)
+                                    '')
                             ? Theme.of(context).colorScheme.sunflowerYellow01
                             : Theme.of(context).colorScheme.neutralWhite04),
                     onPressed: () async {
@@ -201,12 +200,16 @@ class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
                           _hopeController.lastNameController.text.trim() !=
                               '' &&
                           _hopeController.mobileNumberController.text.trim() !=
-                              '' &&
-                          _storedImage != null) {
-                        final appDir = await getApplicationDocumentsDirectory();
-                        final savedImage = await _storedImage
-                            .copy('${appDir.path}/$_imagePath');
-                        _hopeController.saveContactDetails(savedImage.path);
+                              '') {
+                        if (_storedImage != null) {
+                          final appDir =
+                              await getApplicationDocumentsDirectory();
+                          final savedImage = await _storedImage
+                              .copy('${appDir.path}/$_imagePath');
+                          _hopeController.saveContactDetails(savedImage.path);
+                        } else {
+                          _hopeController.saveContactDetails('');
+                        }
 
                         Get.offAndToNamed('/hopeBoxContact');
                       }
