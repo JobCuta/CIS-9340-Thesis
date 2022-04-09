@@ -24,31 +24,45 @@ showTalkingPerson({required context, required dialog}) {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              alignment: Alignment.bottomCenter,
-              margin: const EdgeInsets.only(bottom: 50),
-              child: Stack(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(bottom: 80),
+              child: Column(
                 children: [
-                  Material(
-                      color: Colors.transparent,
-                      child: SvgPicture.asset(
-                        'assets/images/talking_person.svg',
-                      )),
-                  Container(
+                  const Expanded(child: const Text('')),
+                  Stack(
+                    children: [
+                      Material(
+                          color: Colors.transparent,
+                          child: SvgPicture.asset(
+                            'assets/images/talking_person.svg',
+                          )),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(left: 40, top: 40),
+                        constraints:
+                            const BoxConstraints(maxHeight: 120, maxWidth: 230),
+                        child: Text(dialog,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
+                      ),
+                    ],
+                  ),
+                  Align(
                     alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 40, top: 40),
-                    constraints:
-                        const BoxConstraints(maxHeight: 120, maxWidth: 230),
-                    child: Text(dialog,
+                    child: Text('Tap to continue',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyText1?.copyWith(
                             fontWeight: FontWeight.w400,
                             color:
                                 Theme.of(context).colorScheme.neutralWhite01)),
-                  ),
-                  // Text('Tap to continue',
-                  //     style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  //         fontWeight: FontWeight.w400,
-                  //         color: Theme.of(context).colorScheme.neutralWhite01))
+                  )
                 ],
               ),
             ),
