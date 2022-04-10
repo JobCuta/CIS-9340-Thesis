@@ -1,19 +1,13 @@
 import 'dart:async';
 import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
+import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
 import 'package:get/get.dart';
-
-class ProvinceCards {
-  AssetImage image;
-  String info;
-  String tips;
-
-  ProvinceCards({required this.image, required this.info, required this.tips});
-}
 
 CopingController _copingController = Get.put(CopingController());
 
@@ -23,37 +17,28 @@ class CopingGameScreen extends StatefulWidget {
 }
 
 class CopingGameScreenState extends State<CopingGameScreen> {
+  bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
-  Map<Province, List<ProvinceCards>> provinceCards = {
-    Province.Abra: [
-      ProvinceCards(image: AssetImage('assets/coping_game/abra/abra_atsuete.png'), info: 'info', tips: 'tips'),
-      ProvinceCards(image: AssetImage('assets/coping_game/abra/abra_barkilya.png'), info: 'info2', tips: 'tips2'),
-      ProvinceCards(image: AssetImage('assets/coping_game/abra/abra_suyod.png'), info: 'info3', tips: 'tips3'),
-      ProvinceCards(image: AssetImage('assets/coping_game/abra/abra_tabungaw_hats.png'), info: 'info4', tips: 'tips4'),
-      ProvinceCards(image: AssetImage('assets/coping_game/abra/abra_talisay.png'), info: 'info5', tips: 'tips5'),
-    ],
-  };
 
-   showCardDialog(AssetImage img, String info, String tips, int index) {
-     setState(() {
-        _copingController.updateCardCompletion(Province.Abra, index);
-     });
+  showCardDialog(AssetImage img, String info, String tipsTitle, String tips, int index) {
+    setState(() {
+      _copingController.updateCardCompletion(Province.Abra, index);
+    });
+    FlipCardController flipCardController = FlipCardController();
+    print('infoSelected on start of dialog = $_infoSelected');
 
-    return showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Align(alignment: Alignment.centerLeft, child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back))),
-          actions: [
-            IconButton(onPressed: () => {}, icon: Icon(Icons.info)),
-            IconButton(onPressed: () => {}, icon: Icon(Icons.subdirectory_arrow_right_sharp)),
-          ],
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-          actionsOverflowDirection: VerticalDirection.down,
+  return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) { return StatefulBuilder(
+        builder: (context, setState) {
+        return AlertDialog(
           backgroundColor: Colors.green[900],
             content: FlipCard(
-              flipOnTouch: true,    // change later
+              flipOnTouch: false,
+              controller: flipCardController,
               front: Container(
-                height: 200,
+                
+                height: 270,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.green[900],
@@ -63,27 +48,88 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                         fit: BoxFit.contain,
                       ),
                 ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                          child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back))
+                        ),
+                        CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                          child: IconButton(
+                            icon: Icon(Icons.info),
+                            onPressed: () {
+                              setState(() => _infoSelected = true);
+                              flipCardController.toggleCard();
+                            }
+                          )
+                        ),
+                      ],
+                    ),
+      
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                        child: IconButton(
+                          icon: Icon(Icons.subdirectory_arrow_right_sharp),
+                          onPressed: () {
+                            setState(() => _infoSelected = false);
+                            flipCardController.toggleCard();
+                          }, 
+                        )
+                      ),
+                    ),
+                  ],
+                ),
               ),
-
+      
               back: Container(
-                height: 200,
+                height: 270,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.green[900],
                     borderRadius: BorderRadius.circular(15),
                 ),
-                child: Text(tips)
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(_infoSelected ? 'Did you know?' : tipsTitle, style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+                        Text(_infoSelected ? info : tips, style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            flipCardController.toggleCard();
+                          }, 
+                        )
+                      ),
+                    ),
+                  ],
+                )
                 ),
               ),
-            ),
-        );
+            );
+        }
+      );
+      }
+    );
   }
 
-  Padding _buildCards(Province province, List<bool> cardsCompleted) {
+  Padding _buildCards(Province province) {
+    List<bool> cardsCompleted = _copingController.abraCardsCompleted.value;
     List<ProvinceCards> cards = provinceCards[province] as List<ProvinceCards>;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(25, 50, 25, 0),
+      padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
@@ -97,7 +143,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
           return InkWell(
             onTap: () {
               print('test $index');
-              showCardDialog(card.image, card.info, card.tips, index);
+              showCardDialog(card.image, card.info, card.tipsTitle, card.tips, index);
             },
             child: Container(
               alignment: Alignment.center,
@@ -123,7 +169,6 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   @override
   Widget build(BuildContext context) {
     Province selectedProvince = _copingController.selectedProvince.value;
-    List<bool> cardsCompleted = _copingController.abraCardsCompleted.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -148,7 +193,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                   fit: BoxFit.cover))
             ),
         const SizedBox(height: 10.0),
-        _buildCards(selectedProvince, cardsCompleted),
+        _buildCards(selectedProvince),
       ])
     );
   }

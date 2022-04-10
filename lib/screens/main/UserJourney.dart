@@ -42,10 +42,11 @@ class _UserJourneyScreenState extends State<UserJourneyScreen>{
           SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       InkWell(
                         onTap: () {
                           // Get.toNamed('');

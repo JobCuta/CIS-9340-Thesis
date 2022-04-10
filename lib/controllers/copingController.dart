@@ -45,6 +45,17 @@ class CopingController extends GetxController {
       );
       box.put('copingGameStatus', copingGameStatus);
     }
+
+    CopingGame copingGame = box.get('copingGameStatus');
+    provinceCompleted.value = copingGame.provinceCompleted;
+    apayaoCardsCompleted.value = copingGame.apayaoCardsCompleted;
+    kalingaCardsCompleted.value = copingGame.kalingaCardsCompleted;
+    abraCardsCompleted.value = copingGame.abraCardsCompleted;
+    mountainProvinceCardsCompleted.value = copingGame.mountainProvinceCardsCompleted;
+    ifugaoCardsCompleted.value = copingGame.ifugaoCardsCompleted;
+    benguetCardsCompleted.value = copingGame.benguetCardsCompleted;
+
+    update();
   }
 
 
