@@ -12,7 +12,7 @@ class UserProfileController extends GetxController {
   var gender = '';
   var anon = '';
   var validate = true;
-  
+
   @override
   void onInit() {
     super.onInit();

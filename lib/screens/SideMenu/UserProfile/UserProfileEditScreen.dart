@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/settingsController.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
 
 class UserProfileEditScreen extends StatefulWidget {
@@ -15,10 +20,21 @@ class UserProfileEditScreen extends StatefulWidget {
 class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
   final UserProfileController _profileController =
       Get.put(UserProfileController());
+  final SettingsController _settingsController = Get.put(SettingsController());
+
+  final ImagePicker _picker = ImagePicker();
+  var _storedImage = null;
+  var _imagePath;
 
   @override
   void initState() {
     super.initState();
+    _storedImage = _settingsController.imagePath.value != ''
+        ? File(_settingsController.imagePath.value)
+        : null;
+    _imagePath = _settingsController.imagePath.value != ''
+        ? _settingsController.imagePath.value
+        : null;
   }
 
   @override
@@ -36,11 +52,6 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
       {'name': 'Female', 'value': 'F'},
       {'name': 'Rather not say...', 'value': 'P'}
     ];
-
-    updateProfile() {
-      print('Profile updated');
-      _profileController.updateValues();
-    }
 
     InputDecoration textFormFieldDecoration(String hintText) {
       return InputDecoration(
@@ -126,6 +137,10 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
     return WillPopScope(
       onWillPop: () {
         _profileController.resetAllValues();
+        _settingsController.resetAllValues();
+        Get.back();
+        Get.offAndToNamed('/userProfileScreen');
+
         return Future.value(true);
       },
       child: Scaffold(
@@ -136,7 +151,9 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                   color: Theme.of(context).colorScheme.accentBlue02,
                   onPressed: () {
                     _profileController.resetAllValues();
+                    _settingsController.resetAllValues();
                     Get.back();
+                    Get.offAndToNamed('/userProfileScreen');
                   }),
               backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
               title: Text('Edit Profile',
@@ -152,6 +169,38 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                 child: SingleChildScrollView(
                   child: Wrap(
                     children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          onTap: () async {
+                            final image = await _picker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image == null) {
+                              return;
+                            }
+                            setState(() {
+                              _storedImage = File(image.path);
+                              _imagePath = basename(image.path);
+                            });
+                          },
+                          child: (_storedImage != null)
+                              ? CircleAvatar(
+                                  radius: 100,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.file(
+                                      _storedImage,
+                                      width: 200.0,
+                                      height: 200.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))
+                              : SvgPicture.asset(
+                                  'assets/images/orange_plus.svg',
+                                  width: 200),
+                        ),
+                      ),
                       _buildTextField(
                           fieldName: 'First Name',
                           hintText: 'Enter your first name',
@@ -181,6 +230,8 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                           height: 50,
                           child: DropdownButtonFormField(
                             style: const TextStyle(fontSize: 14.0),
+                            dropdownColor:
+                                Theme.of(context).colorScheme.neutralWhite01,
                             decoration:
                                 textFormFieldDecoration('Enter your gender'),
                             value: gender,
@@ -285,10 +336,26 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                   : Theme.of(context)
                                       .colorScheme
                                       .neutralWhite04),
-                          onPressed: () {
-                            _profileController.validate
-                                ? updateProfile()
-                                : null;
+                          onPressed: () async {
+                            if (_profileController.validate) {
+                              if (_imagePath !=
+                                      _settingsController.imagePath.value &&
+                                  _settingsController.imagePath.value != '') {
+                                File file =
+                                    File(_settingsController.imagePath.value);
+                                file.delete();
+                              }
+                              if (_storedImage != null) {
+                                final appDir =
+                                    await getApplicationDocumentsDirectory();
+                                final savedImage = await _storedImage
+                                    .copy('${appDir.path}/$_imagePath');
+                                _settingsController.updateImagePathSettings(
+                                    newImage: savedImage.path);
+                              }
+                              _profileController.updateValues();
+                              _settingsController.checkValues();
+                            }
                           },
                           child: Text('Save',
                               style: Theme.of(context)

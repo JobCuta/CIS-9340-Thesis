@@ -195,6 +195,9 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                       splashColor: Theme.of(context).colorScheme.neutralGray02,
                       onTap: () {
                         Get.defaultDialog(
+                            barrierDismissible:
+                                _hopeController.messageController.text.trim() !=
+                                    '',
                             title: 'Alert Message',
                             titleStyle: Theme.of(context)
                                 .textTheme
@@ -263,7 +266,7 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     child: ElevatedButton(
                                         child: Text(
-                                          'Add',
+                                          'Save',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle2
@@ -294,14 +297,18 @@ class _HopeBoxContactScreenState extends State<HopeBoxContactScreen> {
                                   ),
                                 ),
                               ],
-                            ));
+                            )).then(
+                          (value) {
+                            _hopeController.resetContactValue();
+                          },
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Customize alert message',
+                              Text('Customize Alert Message',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1!

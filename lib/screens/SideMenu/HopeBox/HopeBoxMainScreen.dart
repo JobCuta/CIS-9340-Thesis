@@ -23,8 +23,8 @@ class _HopeBoxMainScreenState extends State<HopeBoxMainScreen> {
   @override
   Widget build(BuildContext context) {
     // Coordinates
-    double _x = MediaQuery.of(context).size.width / 3 - 50,
-        _y = MediaQuery.of(context).size.height / 2 - 90;
+    double _x = MediaQuery.of(context).size.width / 2 - 100,
+        _y = MediaQuery.of(context).size.height / 2;
     RenderBox? box = _key.currentContext?.findRenderObject() as RenderBox?;
     Offset? position = box?.localToGlobal(Offset.zero);
     if (position != null) {

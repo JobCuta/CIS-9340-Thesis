@@ -19,7 +19,6 @@ class HopeBoxContactSetupScreen extends StatefulWidget {
 class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
   final ImagePicker _picker = ImagePicker();
   final HopeBoxController _hopeController = Get.put(HopeBoxController());
-  final TextEditingController _noteController = TextEditingController();
 
   var _storedImage = null;
   var _imagePath;
@@ -152,17 +151,17 @@ class _HopeBoxContactSetupScreenState extends State<HopeBoxContactSetupScreen> {
                       ),
                       _buildTextField(
                         fieldName: 'First Name',
-                        hintText: 'Enter your first name',
+                        hintText: 'Enter their first name',
                         controller: _hopeController.firstNameController,
                       ),
                       _buildTextField(
                         fieldName: 'Last Name',
-                        hintText: 'Enter your last name',
+                        hintText: 'Enter their last name',
                         controller: _hopeController.lastNameController,
                       ),
                       _buildTextField(
                         fieldName: 'Mobile Number',
-                        hintText: 'Enter your mobile number',
+                        hintText: 'Enter their mobile number',
                         controller: _hopeController.mobileNumberController,
                       ),
                       const SizedBox(

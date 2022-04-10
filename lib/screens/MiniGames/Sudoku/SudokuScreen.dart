@@ -58,7 +58,6 @@ class SudokuScreenState extends State<SudokuScreen> {
       print(currentTheme);
       newGame(currentDifficultyLevel);
       changeTheme(currentTheme);
-      changeAccentColor(currentAccentColor, true);
     });
   }
 
@@ -110,25 +109,6 @@ class SudokuScreenState extends State<SudokuScreen> {
       });
     }
     setPrefs('currentTheme');
-  }
-
-  void changeAccentColor(String color, [bool firstRun = false]) {
-    setState(() {
-      if (Styles.accentColors.keys.contains(color)) {
-        Styles.primaryColor = Styles.accentColors[color]!;
-      } else {
-        currentAccentColor = 'Blue';
-        Styles.primaryColor = Styles.accentColors[color]!;
-      }
-      if (color == 'Red') {
-        Styles.secondaryColor = Styles.orange;
-      } else {
-        Styles.secondaryColor = Styles.darkGrey;
-      }
-      if (!firstRun) {
-        setPrefs('currentAccentColor');
-      }
-    });
   }
 
   void checkResult() {
