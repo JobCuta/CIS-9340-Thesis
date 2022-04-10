@@ -192,7 +192,7 @@ class _MainState extends State<Main> {
               name: '/notifScreen', page: () => const SetNotificationScreen()),
 
           // main
-          GetPage(name: '/homepage', page: () => const HomePageScreen()),
+          GetPage(name: '/homepage', page: () => HomePageScreen(2)),
 
           GetPage(
               name: '/adventureHome', page: () => const AdventureHomeScreen()),
@@ -281,12 +281,13 @@ class _MainState extends State<Main> {
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
-          GetPage(name: '/memoryGameScreen', page: () => const MemoryGameScreen())
+          GetPage(
+              name: '/memoryGameScreen', page: () => const MemoryGameScreen())
         ],
         theme: themeData,
         home:
             //change to screen checking log-in persisence
-            (isLoggedIn) ? const HomePageScreen() : const IntroductionScreen());
+            (isLoggedIn) ? HomePageScreen(2) : const IntroductionScreen());
   }
 }
 
