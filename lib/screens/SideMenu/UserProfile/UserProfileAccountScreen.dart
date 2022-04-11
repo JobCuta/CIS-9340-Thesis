@@ -32,58 +32,17 @@ class _UserProfileAccountScreenState extends State<UserProfileAccountScreen> {
                     fontWeight: FontWeight.w400,
                     color: Theme.of(context).colorScheme.neutralBlack02))),
         primary: true,
-        body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-            child: Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Email',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02)),
-                        RichText(
-                          text: TextSpan(children: <InlineSpan>[
-                            TextSpan(
-                                text: _profileController.email,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray01,
-                                        fontWeight: FontWeight.w600)),
-                          ]),
-                        )
-                      ]),
-                ),
-                Divider(
-                  color: Theme.of(context).colorScheme.neutralWhite03,
-                  height: 25,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed('/userDeactivateAccountScreen');
-                  },
-                  splashColor: Theme.of(context).colorScheme.neutralGray02,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+        body: SafeArea(
+          child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Deactivate Account',
+                          Text('Email',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
@@ -94,18 +53,61 @@ class _UserProfileAccountScreenState extends State<UserProfileAccountScreen> {
                                           .neutralBlack02)),
                           RichText(
                             text: TextSpan(children: <InlineSpan>[
-                              WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray01))
+                              TextSpan(
+                                  text: _profileController.email,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray01,
+                                          fontWeight: FontWeight.w600)),
                             ]),
                           )
                         ]),
                   ),
-                ),
-              ],
-            )));
+                  Divider(
+                    color: Theme.of(context).colorScheme.neutralWhite03,
+                    height: 25,
+                    thickness: 2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/userDeactivateAccountScreen');
+                    },
+                    splashColor: Theme.of(context).colorScheme.neutralGray02,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Deactivate Account',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralBlack02)),
+                            RichText(
+                              text: TextSpan(children: <InlineSpan>[
+                                WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Icon(
+                                        Icons.keyboard_arrow_right_sharp,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray01))
+                              ]),
+                            )
+                          ]),
+                    ),
+                  ),
+                ],
+              )),
+        ));
   }
 }

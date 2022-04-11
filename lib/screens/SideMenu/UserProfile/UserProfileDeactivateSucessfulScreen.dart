@@ -48,45 +48,48 @@ class _UserProfileDeactivateSuccessfulScreenState
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).colorScheme.neutralBlack02))),
           primary: true,
-          body: Stack(
-            children: [
-              Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-                  child: Wrap(
-                      runSpacing: 25,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 50),
-                          child: SvgPicture.asset(
-                            'assets/images/deactivateWave.svg',
-                            height: 200,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                    child: Wrap(
+                        runSpacing: 25,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: SvgPicture.asset(
+                              'assets/images/deactivateWave.svg',
+                              height: 200,
+                            ),
                           ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 25),
-                          decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite04,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8))),
-                          child: Text(
-                              'You have successfully deactivated your Kasiyanna account. Please note that it may take 7 days to complete the deactivation process.\nThank you for using our app.',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray04)),
-                        ),
-                      ])),
-            ],
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 25),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite04,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8))),
+                            child: Text(
+                                'You have successfully deactivated your Kasiyanna account. Please note that it may take 7 days to complete the deactivation process.\nThank you for using our app.',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray04)),
+                          ),
+                        ])),
+              ],
+            ),
           )),
     );
   }

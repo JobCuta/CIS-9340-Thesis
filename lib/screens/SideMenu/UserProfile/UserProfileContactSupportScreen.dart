@@ -57,98 +57,109 @@ class _UserProfileContactSupportScreenState
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).colorScheme.neutralBlack02))),
       primary: true,
-      body: Stack(
-        children: [
-          Container(
-              padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
-              child: SingleChildScrollView(
-                child: Wrap(
-                  runSpacing: 25,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/images/contact.svg'),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 25.0),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.neutralWhite04,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8))),
-                      child: Text(
-                          'Got a suggestion or complaint? Give us a message! We appreciate and feedback.',
-                          textAlign: TextAlign.center,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+                padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    runSpacing: 25,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/contact.svg'),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 25.0),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.neutralWhite04,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: Text(
+                            'Got a suggestion or complaint? Give us a message! We appreciate and feedback.',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04)),
+                      ),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text('Message',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray04,
+                                            fontWeight: FontWeight.w600))),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 100.0),
+                              child: TextFormField(
+                                  // autofocus: true,
+                                  maxLines: 5,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                  controller: messageController,
+                                  decoration: textFormFieldDecoration(
+                                      'Enter your message here'),
+                                  validator: (input) {
+                                    if (input == null || input.isEmpty) {
+                                      return 'This field is required.';
+                                    }
+                                  }),
+                            ),
+                          ]),
+                      // SizedBox(height: 200)
+                    ],
+                  ),
+                )),
+            Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          primary: messageController.text.isNotEmpty
+                              ? Theme.of(context).colorScheme.accentBlue02
+                              : Theme.of(context).colorScheme.neutralWhite04),
+                      onPressed: () {
+                        messageController.text.isNotEmpty
+                            ? sendMessage()
+                            : null;
+                      },
+                      child: Text('Send',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w400,
+                              .subtitle2!
+                              .copyWith(
                                   color: Theme.of(context)
                                       .colorScheme
-                                      .neutralGray04)),
+                                      .neutralWhite01,
+                                  fontWeight: FontWeight.w600)),
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Text('Message',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray04,
-                                          fontWeight: FontWeight.w600))),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 100.0),
-                            child: TextFormField(
-                                // autofocus: true,
-                                maxLines: 5,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                controller: messageController,
-                                decoration: textFormFieldDecoration(
-                                    'Enter your message here'),
-                                validator: (input) {
-                                  if (input == null || input.isEmpty) {
-                                    return 'This field is required.';
-                                  }
-                                }),
-                          ),
-                        ]),
-                    // SizedBox(height: 200)
-                  ],
-                ),
-              )),
-          Container(
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: messageController.text.isNotEmpty
-                            ? Theme.of(context).colorScheme.accentBlue02
-                            : Theme.of(context).colorScheme.neutralWhite04),
-                    onPressed: () {
-                      messageController.text.isNotEmpty ? sendMessage() : null;
-                    },
-                    child: Text('Send',
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Theme.of(context).colorScheme.neutralWhite01,
-                            fontWeight: FontWeight.w600)),
                   ),
-                ),
-              )),
-        ],
+                )),
+          ],
+        ),
       ),
     );
   }

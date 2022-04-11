@@ -139,42 +139,49 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                   ),
                             ),
                             const SizedBox(height: 7),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Continue Adventure',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralBlack02,
-                                        )),
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: 'Go',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .neutralGray02)),
-                                    WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Icon(
-                                            Icons.keyboard_arrow_right_sharp,
-                                            size: 30,
+                            InkWell(
+                              onTap: () {
+                                Get.offAndToNamed('/userJourney');
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Continue Adventure',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w400,
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .neutralGray02))
-                                  ]),
-                                )
-                              ],
+                                                .neutralBlack02,
+                                          )),
+                                  RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                          text: 'Go',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralGray02)),
+                                      WidgetSpan(
+                                          alignment:
+                                              PlaceholderAlignment.middle,
+                                          child: Icon(
+                                              Icons.keyboard_arrow_right_sharp,
+                                              size: 30,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralGray02))
+                                    ]),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -258,8 +265,9 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            runSpacing: 6,
             children: [
               Container(
                   width: 100,
@@ -274,16 +282,38 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                           Theme.of(context).colorScheme.sunflowerYellow04,
                         ],
                       )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset(path, width: 45, height: 45),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(path),
+                      ),
+                      Visibility(
+                        visible: int.parse(noOfCurrAchievements) <
+                            int.parse(noOfTotalAchievements),
+                        child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .neutralBlack02
+                                  .withOpacity(0.5),
+                            ),
+                            child: const Icon(
+                              Icons.lock_outline,
+                              color: Colors.white,
+                              size: 50,
+                            )),
+                      ),
+                    ],
                   )),
-              const SizedBox(height: 6.0),
               Text(title,
                   style: Theme.of(context).textTheme.caption?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.neutralBlack02)),
-              const SizedBox(height: 6.0),
               LinearPercentIndicator(
                 barRadius: const Radius.circular(24),
                 curve: Curves.easeIn,
@@ -297,7 +327,6 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 animateFromLastPercent: true,
                 addAutomaticKeepAlive: true,
               ),
-              const SizedBox(height: 6.0),
               Text(noOfCurrAchievements + ' out of ' + noOfTotalAchievements,
                   style: Theme.of(context).textTheme.caption?.copyWith(
                       fontWeight: FontWeight.w400,
