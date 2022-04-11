@@ -32,91 +32,128 @@ class CopingGameScreenState extends State<CopingGameScreen> {
       builder: (BuildContext context) { return StatefulBuilder(
         builder: (context, setState) {
         return AlertDialog(
-          backgroundColor: Colors.green[900],
-            content: FlipCard(
-              flipOnTouch: false,
-              controller: flipCardController,
-              front: Container(
-                
-                height: 270,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.green[900],
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        image: img,
-                        fit: BoxFit.contain,
-                      ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+          contentPadding: const EdgeInsets.all(0.00),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          backgroundColor: Theme.of(context).colorScheme.intGreen06,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FlipCard(
+                  flipOnTouch: false,
+                  controller: flipCardController,
+                  front: Container(
+                    height: 270,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.intGreen06,
+                        image: DecorationImage(
+                            image: img,
+                            fit: BoxFit.contain,
+                          ),
+                    ),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                          child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back))
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                            //   child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back))
+                            // ),
+                            InkWell(
+                              onTap: () => Get.back(),
+                              child: const Image(image: AssetImage('assets/images/coping_back_button_dark.png')),
+                            ),
+                            // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                            //   child: IconButton(
+                            //     icon: Icon(Icons.info),
+                            //     onPressed: () {
+                            //       setState(() => _infoSelected = true);
+                            //       flipCardController.toggleCard();
+                            //     }
+                            //   )
+                            // ),
+
+                            InkWell(
+                              onTap: () {
+                                setState(() => _infoSelected = true);
+                                flipCardController.toggleCard();
+                              },
+                              child: const Image(image: AssetImage('assets/images/coping_info_button.png')),
+                            ),
+                          ],
                         ),
-                        CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                          child: IconButton(
-                            icon: Icon(Icons.info),
-                            onPressed: () {
-                              setState(() => _infoSelected = true);
+      
+                        Align(
+                          alignment: Alignment.centerRight,
+                          // child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                          //   child: IconButton(
+                          //     icon: Icon(Icons.subdirectory_arrow_right_sharp),
+                          //     onPressed: () {
+                          //       setState(() => _infoSelected = false);
+                          //       flipCardController.toggleCard();
+                          //     }, 
+                          //   )
+                          // ),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() => _infoSelected = false);
                               flipCardController.toggleCard();
-                            }
-                          )
+                            },
+                            child: const Image(image: AssetImage('assets/images/coping_tips_button.png')),
+                          ),
                         ),
                       ],
                     ),
+                  ),
       
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                        child: IconButton(
-                          icon: Icon(Icons.subdirectory_arrow_right_sharp),
-                          onPressed: () {
-                            setState(() => _infoSelected = false);
-                            flipCardController.toggleCard();
-                          }, 
-                        )
-                      ),
+                  back: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.neutralWhite01,
+                        borderRadius: const BorderRadius.all(Radius.circular(32.0))
                     ),
-                  ],
-                ),
-              ),
-      
-              back: Container(
-                height: 270,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.green[900],
-                    borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(_infoSelected ? 'Did you know?' : tipsTitle, style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600), textAlign: TextAlign.center),
-                        Text(_infoSelected ? info : tips, style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(_infoSelected ? 'Did you know?' : tipsTitle, style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.intGreen06), textAlign: TextAlign.center),
+                            ),
+                            Divider(
+                              color: Theme.of(context).colorScheme.neutralWhite03,
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            Text(_infoSelected ? info : tips, style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Theme.of(context).colorScheme.neutralBlack02), textAlign: TextAlign.center),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          // child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                          //   child: IconButton(
+                          //     icon: Icon(Icons.arrow_back),
+                          //     onPressed: () {
+                          //       flipCardController.toggleCard();
+                          //     }, 
+                          //   )
+                          // ),
+                          child: InkWell(
+                            onTap: () => flipCardController.toggleCard(),
+                            child: const Image(image: AssetImage('assets/images/coping_back_button_light.png')),
+                          ),
+                        ),
                       ],
+                    )
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            flipCardController.toggleCard();
-                          }, 
-                        )
-                      ),
-                    ),
-                  ],
-                )
-                ),
-              ),
+                  ),
+              ],
+            ),
             );
         }
       );
@@ -125,7 +162,15 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   }
 
   Padding _buildCards(Province province) {
-    List<bool> cardsCompleted = _copingController.abraCardsCompleted.value;
+    List<bool> cardsCompleted = 
+        province == Province.Abra ? _copingController.abraCardsCompleted.value
+        : province == Province.Apayao ? _copingController.apayaoCardsCompleted.value
+        : province == Province.Benguet ? _copingController.benguetCardsCompleted.value
+        : province == Province.Ifugao ? _copingController.ifugaoCardsCompleted.value
+        : province == Province.Kalinga ? _copingController.kalingaCardsCompleted.value
+        : _copingController.mountainProvinceCardsCompleted.value; 
+
+    
     List<ProvinceCards> cards = provinceCards[province] as List<ProvinceCards>;
 
     return Padding(
@@ -148,7 +193,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: cardsCompleted[index] ? Colors.green[900] : Colors.green[800],
+                  color: cardsCompleted[index] ? Theme.of(context).colorScheme.intGreen06 : Theme.of(context).colorScheme.intGreen03,
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                       image: card.image,
