@@ -40,8 +40,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (_dailyController.isDailyExerciseDone.value) {
       dailyTaskCount++;
     }
-
-    _emotionController.checkValidEntriesCount();
   }
 
   _buildLevelComponent(String value, String title) {
