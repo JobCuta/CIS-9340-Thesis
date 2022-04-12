@@ -40,7 +40,7 @@ dependencies:
   circular_countdown_timer: ^0.2.0
 
   # Splash Screen Animation dependency
-  splashscreen: ^1.2.0
+  splashscreen: ^1.3.5
 
   # Custom calendar dependency
   table_calendar: ^3.0.4

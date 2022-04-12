@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/ContactDetails.dart';
 import 'package:flutter_application_1/apis/CopingGame.dart';
@@ -22,14 +21,13 @@ import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideoPlaye
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
-//import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
+import 'package:flutter_application_1/screens/onboarding/intro/SplashScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'apis/hopeBoxHive.dart';
 import 'apis/hopeBoxObject.dart';
 import 'apis/phqHive.dart';
@@ -37,7 +35,6 @@ import 'apis/settingsHive.dart';
 import 'apis/sidasHive.dart';
 import 'apis/dailyHive.dart';
 import 'apis/emotionEntryHive.dart';
-import 'apis/userSecureStorage.dart';
 import 'constants/notificationService.dart';
 import 'screens/SideMenu/HopeBox/HopeBoxContactScreen.dart';
 import 'screens/SideMenu/HopeBox/HopeBoxContactSetupScreen.dart';
@@ -53,7 +50,6 @@ import 'screens/SideMenu/UserProfile/UserProfileScreen.dart';
 import 'screens/main/EntriesDetailScreen.dart';
 import 'screens/main/EntriesScreen.dart';
 import 'screens/main/HomepageScreen.dart';
-// import 'screens/main/WellnessExercisesScreen.dart';
 import 'screens/onboarding/intro/ShakeScreen.dart';
 import 'screens/onboarding/intro/IntroductionScreen.dart';
 import 'screens/onboarding/login_registration/AboutSelfScreen.dart';
@@ -135,24 +131,6 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  bool isLoggedIn = false;
-
-  @override
-  void initState() {
-    UserSecureStorage.getLoginKey().then((value) {
-      if (value == null) {
-        setState(() {
-          isLoggedIn = false;
-        });
-      } else {
-        setState(() {
-          isLoggedIn = true;
-        });
-      }
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -285,9 +263,7 @@ class _MainState extends State<Main> {
               name: '/memoryGameScreen', page: () => const MemoryGameScreen())
         ],
         theme: themeData,
-        home:
-            //change to screen checking log-in persisence
-            (isLoggedIn) ? HomePageScreen(2) : const IntroductionScreen());
+        home: const Splash());
   }
 }
 
