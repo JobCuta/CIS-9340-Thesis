@@ -18,22 +18,27 @@ import 'package:get/get.dart';
 import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({Key? key}) : super(key: key);
+  late int selectedIndex;
+
+  HomePageScreen(this.selectedIndex, {Key? key}) : super(key: key);
 
   @override
-  State<HomePageScreen> createState() => _HomePageScreenState();
+  State<HomePageScreen> createState() => _HomePageScreenState(selectedIndex);
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  int _selectedIndex = 2;
+  late int selectedIndex;
+
+  _HomePageScreenState(this.selectedIndex);
+
+  // int _selectedIndex = 2;
 
   static final List<Widget> _widgetOptions = <Widget>[
     const EntriesScreen(),
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    // Temporary
-    SudokuScreen()
+    const Text('Mini-games screen')
   ];
 
   @override
@@ -50,11 +55,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
             transitionType: SharedAxisTransitionType.horizontal,
             child: child,
           ),
-          child: _widgetOptions.elementAt(_selectedIndex),
+          child: _widgetOptions.elementAt(selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 0.0,
-          backgroundColor: _selectedIndex < 3
+          backgroundColor: selectedIndex < 3
               ? Theme.of(context).colorScheme.accentBlue02
               : Theme.of(context).colorScheme.sunflowerYellow01,
           items: const <BottomNavigationBarItem>[
@@ -92,9 +97,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               label: 'Mini-games',
             )
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: selectedIndex,
           selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-          unselectedItemColor: _selectedIndex < 3
+          unselectedItemColor: selectedIndex < 3
               ? Theme.of(context).colorScheme.accentBlue04
               : const Color(0xffA36508),
           iconSize: 32.0,
@@ -115,7 +120,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 }
@@ -296,9 +301,9 @@ class _HomePageState extends State<HomePage> {
                       showTalkingPerson(
                         context: context,
                         dialog:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                       ).then((value) {
-                        Get.toNamed('/introScreen');
+                        // Get.toNamed('/introScreen');
                       });
                     }),
                 ElevatedButton(
@@ -562,8 +567,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          // would prefer to redirect to _selectedIndex = 3 instead
-                          Get.toNamed('/adventureHome');
+                          Get.to(HomePageScreen(3), preventDuplicates: false);
                         },
                         child: Container(
                           alignment: Alignment.center,

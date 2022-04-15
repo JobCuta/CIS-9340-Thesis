@@ -8,7 +8,10 @@
             "name": "Run Main",
             "type": "dart",
             "request": "launch",
-            "program": "lib/main.dart"
+            "program": "lib/main.dart",
+            "args": [
+                "--no-sound-null-safety"
+            ]
         },
     ]
 }

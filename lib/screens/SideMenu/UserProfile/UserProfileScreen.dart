@@ -40,8 +40,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (_dailyController.isDailyExerciseDone.value) {
       dailyTaskCount++;
     }
-
-    _emotionController.checkValidEntriesCount();
   }
 
   _buildLevelComponent(String value, String title) {
@@ -127,7 +125,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(top: 20),
                       child: (_settingsController.imagePath.value != '')
                           ? CircleAvatar(
                               radius: 50,

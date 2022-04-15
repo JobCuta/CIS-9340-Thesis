@@ -100,120 +100,126 @@ class UserProfileNotificationsScreenState
           primary: true,
           body: Stack(
             children: [
-              Container(
-                  padding: const EdgeInsets.fromLTRB(30, 15, 30, 0),
-                  child: Wrap(children: [
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Text('Show Notifications',
+              SafeArea(
+                child: Container(
+                    padding: const EdgeInsets.fromLTRB(30, 15, 30, 0),
+                    child: Wrap(children: [
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: Text('Show Notifications',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralBlack02))),
+                          Switch.adaptive(
+                            value:
+                                _settingsController.notificationsEnabled.value,
+                            onChanged: (value) {
+                              setState(() {
+                                _settingsController.notificationsEnabled.value =
+                                    value;
+                              });
+                            },
+                            activeColor:
+                                Theme.of(context).colorScheme.neutralWhite01,
+                            activeTrackColor:
+                                Theme.of(context).colorScheme.intGreenMain,
+                          ),
+                        ],
+                      ),
+                      AbsorbPointer(
+                        absorbing:
+                            !_settingsController.notificationsEnabled.value,
+                        child: Column(children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 20),
+                            child: Divider(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite03,
+                              height: 25,
+                              thickness: 2,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 25.0),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite04,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8))),
+                            child: Text(
+                                'Set your preferred times for the day for when you want to be notified',
+                                textAlign: TextAlign.center,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .bodyText2
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralBlack02))),
-                        Switch.adaptive(
-                          value: _settingsController.notificationsEnabled.value,
-                          onChanged: (value) {
-                            setState(() {
-                              _settingsController.notificationsEnabled.value =
-                                  value;
-                            });
-                          },
-                          activeColor:
-                              Theme.of(context).colorScheme.neutralWhite01,
-                          activeTrackColor:
-                              Theme.of(context).colorScheme.intGreenMain,
-                        ),
-                      ],
-                    ),
-                    AbsorbPointer(
-                      absorbing:
-                          !_settingsController.notificationsEnabled.value,
-                      child: Column(children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          child: Divider(
-                            color: Theme.of(context).colorScheme.neutralWhite03,
-                            height: 25,
-                            thickness: 2,
+                                        fontWeight: FontWeight.w400,
+                                        color: _settingsController
+                                                .notificationsEnabled.value
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray04
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .neutralGray01)),
                           ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 25.0),
-                          decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite04,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8))),
-                          child: Text(
-                              'Set your preferred times for the day for when you want to be notified',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: _settingsController
-                                              .notificationsEnabled.value
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray04
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray01)),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: GetBuilder<TimeController>(
-                            builder: (value) => Wrap(
-                                alignment: WrapAlignment.center,
-                                runSpacing: 5,
-                                children: [
-                                  _buildFieldComponent(
-                                    label: 'Morning',
-                                    timeValue: _timeController.morningTime.value
-                                        .format(context),
-                                    enabled: _settingsController
-                                        .notificationsEnabled.value,
-                                    onPressed: () {
-                                      _timeController.selectMorningTime(
-                                          context: context);
-                                    },
-                                  ),
-                                  _buildFieldComponent(
-                                      label: 'Afternoon',
+                          Container(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: GetBuilder<TimeController>(
+                              builder: (value) => Wrap(
+                                  alignment: WrapAlignment.center,
+                                  runSpacing: 5,
+                                  children: [
+                                    _buildFieldComponent(
+                                      label: 'Morning',
                                       timeValue: _timeController
-                                          .afternoonTime.value
+                                          .morningTime.value
                                           .format(context),
                                       enabled: _settingsController
                                           .notificationsEnabled.value,
                                       onPressed: () {
-                                        _timeController.selectAfternoonTime(
+                                        _timeController.selectMorningTime(
                                             context: context);
-                                      }),
-                                  _buildFieldComponent(
-                                      label: 'Evening',
-                                      timeValue: _timeController
-                                          .eveningTime.value
-                                          .format(context),
-                                      enabled: _settingsController
-                                          .notificationsEnabled.value,
-                                      onPressed: () {
-                                        _timeController.selectEveningTime(
-                                          context: context,
-                                        );
-                                      })
-                                ]),
-                          ),
-                        )
-                      ]),
-                    ),
-                  ])),
+                                      },
+                                    ),
+                                    _buildFieldComponent(
+                                        label: 'Afternoon',
+                                        timeValue: _timeController
+                                            .afternoonTime.value
+                                            .format(context),
+                                        enabled: _settingsController
+                                            .notificationsEnabled.value,
+                                        onPressed: () {
+                                          _timeController.selectAfternoonTime(
+                                              context: context);
+                                        }),
+                                    _buildFieldComponent(
+                                        label: 'Evening',
+                                        timeValue: _timeController
+                                            .eveningTime.value
+                                            .format(context),
+                                        enabled: _settingsController
+                                            .notificationsEnabled.value,
+                                        onPressed: () {
+                                          _timeController.selectEveningTime(
+                                            context: context,
+                                          );
+                                        })
+                                  ]),
+                            ),
+                          )
+                        ]),
+                      ),
+                    ])),
+              ),
               // Save Button
               Container(
                   padding:
@@ -263,6 +269,9 @@ class UserProfileNotificationsScreenState
                           } else {
                             NotificationService.cancelAllNotifications();
                           }
+                          Get.snackbar('Edit Notification Settings',
+                              'Your notification settings have been updated.',
+                              snackPosition: SnackPosition.BOTTOM);
                         },
                         child: Text('Save',
                             style: Theme.of(context)

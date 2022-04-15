@@ -1,7 +1,7 @@
 
 import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 
 class MemoryGameScreen extends StatefulWidget {
 
@@ -13,14 +13,16 @@ class MemoryGameScreen extends StatefulWidget {
 
 
 class _MemoryGameState extends State<MemoryGameScreen> {
-  late FlipCardController _controller;
   int _previousIndex = -1;
   bool _flip = false;
   bool _wait = false;
+  int _dialogueCounter = 0;
 
   List<bool> _cardFlips = getInitialItemState();
+  List<bool> _visibility = getInitialItemState();
   List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
   List<String> _data = benguetCards();
+  List<String> _dialogues = getDialogue(Province.benguet);
 
   @override
   void initState() {
@@ -29,15 +31,24 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   }
 
   Widget getItem(int index) {
-    return SizedBox(
-      height: 120,
-      child: Card(
-        color: const Color(0xffe9a4f6),
-        child: Center(
-          child: Image.asset(_data[index]),
+    if (_visibility[index] == true) {
+      return SizedBox(
+        height: 120,
+        child: Card(
+          color: const Color(0xffe9a4f6),
+          child: Center(
+            child: Image.asset(_data[index]),
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return const SizedBox(
+        height: 120,
+        child: Card(
+          color: Colors.transparent,
+        ),
+      );
+    }
   }
 
   @override
@@ -70,9 +81,11 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         _flip = false;
                         if (_previousIndex != index) {
                           if (_data[_previousIndex] != _data[index]) {
-                            _wait = true;
 
                             Future.delayed(const Duration(milliseconds: 1000), () {
+                              setState(() {
+                                _wait = false;
+                              });
                               _cardStateKeys[_previousIndex].currentState!.toggleCard();
                               _previousIndex = index;
                               _cardStateKeys[_previousIndex].currentState!.toggleCard();
@@ -81,10 +94,33 @@ class _MemoryGameState extends State<MemoryGameScreen> {
 
                             Future.delayed(const Duration(milliseconds: 160), () {
                               setState(() {
-                                _wait = false;
+                                _wait = true;
                               });
                             }
                             );
+                          } else {
+                            Future.delayed(const Duration(milliseconds: 1000), () {
+                              setState(() {
+                                _wait = false;
+                              });
+                              showTalkingPerson(
+                                  context: context,
+                                  dialog: _dialogues[_dialogueCounter]
+                              );
+                              _visibility[_previousIndex] = false;
+                              _visibility[index] = false;
+                            }
+                            );
+                            Future.delayed(const Duration(milliseconds: 160), () {
+                              setState(() {
+                                _wait = true;
+                              });
+                            });
+                            if (_dialogueCounter < 8) {
+                              _dialogueCounter++;
+                            } else {
+                              _dialogueCounter = 0;
+                            }
                           }
                         } else {
                           _cardFlips[_previousIndex] = false;
@@ -92,7 +128,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         }
                       }
                     },
-                    flipOnTouch: _wait ? false : _cardFlips[index],
+                    flipOnTouch: _wait ? false : true,
                     front: const SizedBox(
                       height: 120,
                       child: Card(
@@ -150,7 +186,6 @@ List getCards(Province province) {
     }
   }
   return provinceCardsList;
-
 }
 
 List<GlobalKey<FlipCardState>> getCardStateKeys() {
@@ -169,39 +204,197 @@ List<bool> getInitialItemState() {
   return initialItemState;
 }
 
-
 enum Province { abra, apayao, benguet, ifugao, kalinga, mountainProvince }
 
 List<String> abraCards() {
-  return [];
+  return [
+    'assets/coping_game/abra/abra_atsuete.png', 'assets/coping_game/abra/abra_atsuete.png',
+    'assets/coping_game/abra/abra_bangued_cathedral.png', 'assets/coping_game/abra/abra_bangued_cathedral.png',
+    'assets/coping_game/abra/abra_barkilya.png', 'assets/coping_game/abra/abra_barkilya.png',
+    'assets/coping_game/abra/abra_kalaleng.png', 'assets/coping_game/abra/abra_kalaleng.png',
+    'assets/coping_game/abra/abra_lalabayan.png', 'assets/coping_game/abra/abra_lalabayan.png',
+    'assets/coping_game/abra/abra_suyod.png', 'assets/coping_game/abra/abra_suyod.png',
+    'assets/coping_game/abra/abra_tabungaw_hats.png', 'assets/coping_game/abra/abra_tabungaw_hats.png',
+    'assets/coping_game/abra/abra_talisay.png', 'assets/coping_game/abra/abra_talisay.png'
+  ];
+}
+
+List<String> abraDialogues() {
+  return [
+    'Depression is a mood disorder, which is a type of mental illness. Mood disorders occur when mood swings go beyond the regular ups and downs that everyone goes through on a daily basis.',
+    'Changes in the brain may cause depression. It can either be triggered by a history of depression in your family, or the introduction of stressors in your life.',
+    'Depression can be classified into different types. Some examples include Major Depressive Disorder (MDD), Persistent Depressive Disorder (PDD), Postpartum depression, and others.',
+    'Being sad is often mistaken as depression. However, depression also has other symptoms that need clinical diagnosis and treatment.',
+    'Traumatic and stressful experiences can also be a cause of depression. Some examples of these experiences may include bullying, losing a loved one, or near-death situations.',
+    'Depression is treatable and you can seek help from medical professionals. Also, there are a lot of self-help methods that are available that you can do at home.',
+    'The timetable of depression varies from person to person. Some episodes can last at least two weeks while some can go for months or even years.',
+    'Major depressive disorder (MDD) is the most common type of depression. People with MDD experience symptoms almost the whole day, nearly every day.',
+  ];
 }
 
 List<String> apayaoCards() {
-  return [];
+  return [
+    'assets/coping_game/apayao/apayao_aliwa.png', 'assets/coping_game/apayao/apayao_aliwa.png',
+    'assets/coping_game/apayao/apayao_isnag_abag.png', 'assets/coping_game/apayao/apayao_isnag_abag.png',
+    'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png', 'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png',
+    'assets/coping_game/apayao/apayao_pas-ing.png', 'assets/coping_game/apayao/apayao_pas-ing.png',
+    'assets/coping_game/apayao/apayao_pottery1.png', 'assets/coping_game/apayao/apayao_pottery1.png',
+    'assets/coping_game/apayao/apayao_pottery2.png', 'assets/coping_game/apayao/apayao_pottery2.png',
+    'assets/coping_game/apayao/apayao_sinibalu.png', 'assets/coping_game/apayao/apayao_sinibalu.png',
+    'assets/coping_game/apayao/apayao_sipattal.png', 'assets/coping_game/apayao/apayao_sipattal.png'
+  ];
+}
+
+List<String> apayaoDialogues() {
+  return [
+    'Mental Illnesses are brain-based conditions that affect thinking, emotions, and behaviors.',
+    'We all experience ups and downs in our physical health. Some days you might feel a little sore, or tired, or sniffly. Something suddenly changes for the worse or Something prevents you from functioning properly.',
+    'Most mental illnesses don’t have a single cause. Instead they have a variety of causes, called risk factors.',
+    'These risk factors don’t just affect who will develop a mental illness in the first place. They also affect how severe their symptoms will be, and when they will experience those symptoms.',
+    'Some therapists actually prefer not to diagnose their clients. And even people who don’t have a mental illness can benefit from therapy or other mental health treatments.',
+    'When you’re at your lowest point, it’s hard to imagine ever feeling better. Sometimes you might not even remember what life was like before you started experiencing the signs of mental illness.',
+    'People’s experiences vary. Some struggle for a little while and then never experience symptoms of mental illness again. Others struggle off and on throughout their lives. ',
+    'If you think you’re experiencing a mental illness, try to find any kind of support earlier than later. Like other illnesses, treating mental illnesses early can help you get better faster.'
+  ];
 }
 
 List<String> benguetCards() {
   return [
     'assets/coping_game/benguet/benguet_bark_beater.png', 'assets/coping_game/benguet/benguet_bark_beater.png',
+    'assets/coping_game/benguet/benguet_kalasag.png', 'assets/coping_game/benguet/benguet_kalasag.png',
     'assets/coping_game/benguet/benguet_kalsa.png', 'assets/coping_game/benguet/benguet_kalsa.png',
     'assets/coping_game/benguet/benguet_kayabang_basket.png', 'assets/coping_game/benguet/benguet_kayabang_basket.png',
     'assets/coping_game/benguet/benguet_kiyag.png', 'assets/coping_game/benguet/benguet_kiyag.png',
     'assets/coping_game/benguet/benguet_lions_head.png', 'assets/coping_game/benguet/benguet_lions_head.png',
     'assets/coping_game/benguet/benguet_obukay.png', 'assets/coping_game/benguet/benguet_obukay.png',
-    'assets/coping_game/benguet/benguet_shield.png', 'assets/coping_game/benguet/benguet_shield.png',
     'assets/coping_game/benguet/benguet_solibao.png', 'assets/coping_game/benguet/benguet_solibao.png'
   ];
 }
 
+List<String> benguetDialogues() {
+  return [
+    'Anxiety is an emotion that you feel when you’re worried about something.When anxiety gets out of hand and it starts to interfere with your daily life, you might have an anxiety disorder.',
+    'Anxiety disorders are so common, we know a lot about them. Living with anxiety is a challenge, but it can be treated.',
+    'Everybody is anxious at times. But there’s a difference between the normal stress, worry, and tension we experience as humans, and a diagnosable anxiety disorder.',
+    'Generalized Anxiety Disorder is the most common anxiety disorder and is probably what most people think about when they think about having an “anxiety disorder” as a diagnosis.',
+    'People with panic disorder experience panic attacks, which come on fast and hard.',
+    'Other types of  anxiety disorders include separation anxiety or anxiety disorder due to another medical condition.',
+    'Living in a stressful environment makes anxiety more likely. Things like living in poverty or having an abusive family put a lot of stress on your brain.',
+    'Even if you’re no longer in a stressful environment, things that happened to you as a child can have an impact later in life.'
+  ];
+}
+
 List<String> ifugaoCards() {
-  return [];
+  return [
+    'assets/coping_game/ifugao/ifugao_balul.png', 'assets/coping_game/ifugao/ifugao_balul.png',
+    'assets/coping_game/ifugao/ifugao_bangibang.png', 'assets/coping_game/ifugao/ifugao_bangibang.png',
+    'assets/coping_game/ifugao/ifugao_dinumog.png', 'assets/coping_game/ifugao/ifugao_dinumog.png',
+    'assets/coping_game/ifugao/ifugao_giniling_and_padang.png', 'assets/coping_game/ifugao/ifugao_giniling_and_padang.png',
+    'assets/coping_game/ifugao/ifugao_hiwang.png', 'assets/coping_game/ifugao/ifugao_hiwang.png',
+    'assets/coping_game/ifugao/ifugao_punamhan.png', 'assets/coping_game/ifugao/ifugao_punamhan.png',
+    'assets/coping_game/ifugao/ifugao_tobayan.png', 'assets/coping_game/ifugao/ifugao_tobayan.png',
+    'assets/coping_game/ifugao/ifugao_warangan.png', 'assets/coping_game/ifugao/ifugao_warangan.png'
+  ];
+}
+
+List<String> ifugaoDialogues() {
+  return [
+    'The average person approximately spends 6 and a half years of their life worrying.',
+    'Anxiety comes from the Greek word “angh” which means to ‘press tight or to strangle’.',
+    'Anxiety Disorders may make an individual anxious most of the time for no specific reason.',
+    'Among all mental health disorders, Anxiety related disorders prove to be the most common.',
+    'Always remember that feeling anxious is not your fault but rather it is a serious mood disorder that affects the lifestyle of an individual.',
+    'A family’s history and genetics contribute to greater chances for an individual to get an anxiety disorder throughout their lifetime.',
+    'On top of increasing stress levels, having an inadequate coping mechanism to manage the stress also greatly contributes to anxiety.',
+    'Dialogue 8'
+  ];
 }
 
 List<String> kalingaCards() {
-  return [];
+  return [
+    'assets/coping_game/kalinga/kalinga_bamboo_container.png', 'assets/coping_game/kalinga/kalinga_bamboo_container.png',
+    'assets/coping_game/kalinga/kalinga_baskets_labba.png', 'assets/coping_game/kalinga/kalinga_baskets_labba.png',
+    'assets/coping_game/kalinga/kalinga_bungkaka.png', 'assets/coping_game/kalinga/kalinga_bungkaka.png',
+    'assets/coping_game/kalinga/kalinga_ceramics.png', 'assets/coping_game/kalinga/kalinga_ceramics.png',
+    'assets/coping_game/kalinga/kalinga_ceramics2.png', 'assets/coping_game/kalinga/kalinga_ceramics2.png',
+    'assets/coping_game/kalinga/kalinga_earrings.png', 'assets/coping_game/kalinga/kalinga_earrings.png',
+    'assets/coping_game/kalinga/kalinga_tattoo_patterns.png', 'assets/coping_game/kalinga/kalinga_tattoo_patterns.png',
+    'assets/coping_game/kalinga/kalinga_tongatong.png', 'assets/coping_game/kalinga/kalinga_tongatong.png'
+  ];
+}
+
+List<String> kalingaDialogues() {
+  return [
+    'Dialogue',
+    'Dialogue',
+    'Dialogue',
+    'Dialogue',
+    'Dialogue',
+    'Dialogue',
+    'Dialogue',
+    'Dialogue'
+  ];
 }
 
 List<String> mtProvinceCards() {
-  return [];
+  return [
+    'assets/coping_game/mountain_province/MtProvince_Belt.png', 'assets/coping_game/mountain_province/MtProvince_Belt.png',
+    'assets/coping_game/mountain_province/MtProvince_Buaya.png', 'assets/coping_game/mountain_province/MtProvince_Buaya.png',
+    'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png', 'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png',
+    'assets/coping_game/mountain_province/MtProvince_Gimata.png', 'assets/coping_game/mountain_province/MtProvince_Gimata.png',
+    'assets/coping_game/mountain_province/MtProvince_Kaob.png', 'assets/coping_game/mountain_province/MtProvince_Kaob.png',
+    'assets/coping_game/mountain_province/MtProvince_Lusong.png', 'assets/coping_game/mountain_province/MtProvince_Lusong.png',
+    'assets/coping_game/mountain_province/MtProvince_Saong.png', 'assets/coping_game/mountain_province/MtProvince_Saong.png',
+    'assets/coping_game/mountain_province/MtProvince_Sikwan.png', 'assets/coping_game/mountain_province/MtProvince_Sikwan.png'
+  ];
 }
 
+List<String> mtProvDialogues() {
+  return [
+    'Depression is treatable, you must not just sit around and wait for it to go away on its own. You can seek professional help from a doctor or therapist, or you can work on your mental health on your own.',
+    'There are a lot of things that can help to treat your depression such as lifestyle changes, therapy, support, medication, and device-based treatments.',
+    "When dealing with negative thoughts, you shouldn't hide your feelings, talk it out, think of a time when you felt better, identify where your expectations are coming from, and try to make peace with being a normal person, who is good at some things and bad at others.",
+    'Everyone is different but people can recover from depression with lifestyle changes, support groups, medications, and therapy.',
+    'Antidepressants are mostly medications that can be used to treat depression. There are different types and each of them works on different chemicals and affects them differently.',
+    'There is no immediate fix, it’s important to give things time to work. People can live full and healthy lives even with depression, with the right combination of support.',
+    'Depression is hard to fight. Your brain is a muscle and just like the other muscles, getting better takes time.',
+    'Depression, it’s scary to share something especially if it’s very personal, however many people can understand it and it can make you feel not alone anymore.'
+  ];
+}
+
+List<String> getDialogue(Province province) {
+  List<String> dialogueList = <String>[];
+  List dialogueSource;
+  if (province == Province.abra) {
+    dialogueSource = abraDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  } else if (province == Province.apayao) {
+    dialogueSource = apayaoDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  } else if (province == Province.benguet) {
+    dialogueSource = benguetDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  } else if (province == Province.ifugao) {
+    dialogueSource = ifugaoDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  } else if (province == Province.kalinga) {
+    dialogueSource = kalingaDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  } else {
+    dialogueSource = mtProvDialogues();
+    for (var element in dialogueSource) {
+      dialogueList.add(element);
+    }
+  }
+  return dialogueList;
+}

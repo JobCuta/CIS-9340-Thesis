@@ -22,8 +22,20 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _noteController = TextEditingController();
 
-  var _storedImage = File(_hopeController.contactPerson.value.getPathImage());
-  var _imagePath = _hopeController.contactPerson.value.getPathImage();
+  var _storedImage = null;
+  var _imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _storedImage = _hopeController.contactPerson.value.getPathImage() != ''
+        ? File(_hopeController.contactPerson.value.getPathImage())
+        : null;
+    _imagePath = _hopeController.contactPerson.value.getPathImage() != ''
+        ? _hopeController.contactPerson.value.getPathImage()
+        : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     InputDecoration textFormFieldDecoration(String hintText) {
@@ -56,7 +68,7 @@ class _HopeBoxContactEditScreenState extends State<HopeBoxContactEditScreen> {
           padding: const EdgeInsets.only(bottom: 15.0),
           child: TextFormField(
             keyboardType: fieldName == 'Mobile Number'
-                ? TextInputType.number
+                ? TextInputType.phone
                 : TextInputType.text,
             textCapitalization: TextCapitalization.sentences,
             onTap: onTap,

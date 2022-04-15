@@ -57,130 +57,134 @@ class _UserProfileDeactivateAccountScreenState
                     fontWeight: FontWeight.w400,
                     color: Theme.of(context).colorScheme.neutralBlack02))),
         primary: true,
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                ListView.builder(
-                    shrinkWrap: true, //just set this property
-                    padding: const EdgeInsets.all(8.0),
-                    itemCount: mainText.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 0),
-                        child: CheckboxListTile(
-                          title: RichText(
-                            text: TextSpan(children: <InlineSpan>[
-                              TextSpan(
-                                  text: mainText[index],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralBlack02,
-                                          fontWeight: FontWeight.w600)),
-                              TextSpan(
-                                  text: emphasizedText[index],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .accentRed02,
-                                          fontWeight: FontWeight.w600)),
-                            ]),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  ListView.builder(
+                      shrinkWrap: true, //just set this property
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: mainText.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 0),
+                          child: CheckboxListTile(
+                            title: RichText(
+                              text: TextSpan(children: <InlineSpan>[
+                                TextSpan(
+                                    text: mainText[index],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02,
+                                            fontWeight: FontWeight.w600)),
+                                TextSpan(
+                                    text: emphasizedText[index],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .accentRed02,
+                                            fontWeight: FontWeight.w600)),
+                              ]),
+                            ),
+                            autofocus: false,
+                            activeColor:
+                                Theme.of(context).colorScheme.accentBlue02,
+                            value: selectedIndexes.contains(index),
+                            onChanged: (bool? value) {
+                              if (selectedIndexes.contains(index)) {
+                                setState(() {
+                                  selectedIndexes.remove(index);
+                                });
+                              } else {
+                                setState(() {
+                                  selectedIndexes.add(index);
+                                });
+                              }
+                            },
                           ),
-                          autofocus: false,
-                          activeColor:
-                              Theme.of(context).colorScheme.accentBlue02,
-                          value: selectedIndexes.contains(index),
-                          onChanged: (bool? value) {
-                            if (selectedIndexes.contains(index)) {
-                              setState(() {
-                                selectedIndexes.remove(index);
-                              });
-                            } else {
-                              setState(() {
-                                selectedIndexes.add(index);
-                              });
-                            }
-                          },
-                        ),
-                      );
-                    }),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 15.0, horizontal: 30.0),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15.0, horizontal: 25.0),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.neutralWhite04,
-                      borderRadius: const BorderRadius.all(Radius.circular(8))),
-                  child: Text(
-                      'I have agreed to the terms above and I understand the consequences of deactivating my account.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.neutralGray04)),
-                ),
-              ],
-            ),
-            Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          primary: selectedIndexes.length == 4
-                              ? Theme.of(context).colorScheme.accentBlue02
-                              : Theme.of(context).colorScheme.neutralWhite04),
-                      onPressed: () async {
-                        if (selectedIndexes.length == 4) {
-                          setState(() => isLoading = true);
-                          // API CALL TO DELETE ACCOUNT FROM BACKEND
-                          // CLEAR HIVE DATA
-                          await clearBoxes();
-                          // DELETE LOGIN Key
-                          UserSecureStorage.removeLoginKey();
-                          Timer(const Duration(seconds: 2), () {
-                            Get.offAllNamed('/userDeactivateSuccessScreen');
-                          });
-                        }
-                      },
-                      child: isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : Text('Agree',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
-                                      fontWeight: FontWeight.w600)),
-                    ),
+                        );
+                      }),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 30.0),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 25.0),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.neutralWhite04,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    child: Text(
+                        'I have agreed to the terms above and I understand the consequences of deactivating my account.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color:
+                                Theme.of(context).colorScheme.neutralGray04)),
                   ),
-                )),
-          ],
+                ],
+              ),
+              Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: selectedIndexes.length == 4
+                                ? Theme.of(context).colorScheme.accentBlue02
+                                : Theme.of(context).colorScheme.neutralWhite04),
+                        onPressed: () async {
+                          if (selectedIndexes.length == 4) {
+                            setState(() => isLoading = true);
+                            // API CALL TO DELETE ACCOUNT FROM BACKEND
+                            // CLEAR HIVE DATA
+                            await clearBoxes();
+                            // DELETE LOGIN Key
+                            UserSecureStorage.removeLoginKey();
+                            Timer(const Duration(seconds: 2), () {
+                              Get.offAllNamed('/userDeactivateSuccessScreen');
+                            });
+                          }
+                        },
+                        child: isLoading
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text('Agree',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600)),
+                      ),
+                    ),
+                  )),
+            ],
+          ),
         ));
   }
 
