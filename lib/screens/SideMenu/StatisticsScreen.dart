@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);
@@ -32,15 +34,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<EmotionEntryHive> emotionEntry =
-        _emotionController.getEmotionEntriesForMonth(month, year);
     List<EmotionEntryHive> latestEmotionEntries =
         _emotionController.getEmotionEntriesInTheLastDays(7);
 
     return Scaffold(
         appBar: AppBar(
           primary: true,
-          elevation: 0,
+          elevation: 1,
           backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
           title: Text('Your statistics',
               style: Theme.of(context).textTheme.subtitle2?.copyWith(
@@ -409,10 +409,114 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       ),
                     ),
                   ),
+                  const ScoreCards(
+                      title: 'Your latest PHQ-9 score for this month',
+                      score: 5,
+                      total: 28,
+                      link: '/phqStatScreen'),
+                  const SizedBox(height: 20),
+                  const ScoreCards(
+                      title:
+                          'Your latest Suicidal Ideation score for this month',
+                      score: 34,
+                      total: 50,
+                      link: '/sidasStatScreen'),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           )
         ]));
+  }
+}
+
+class ScoreCards extends StatelessWidget {
+  final String title, link;
+  final int score, total;
+  const ScoreCards({
+    required this.title,
+    required this.score,
+    required this.total,
+    required this.link,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.left,
+            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                color: Theme.of(context).colorScheme.neutralBlack02,
+                fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 20),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(children: <TextSpan>[
+              TextSpan(
+                  text: score.toString(),
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.accentBlue02)),
+              TextSpan(
+                  text: '/' + total.toString(),
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.accentBlue04)),
+            ]),
+          ),
+          const SizedBox(height: 20),
+          LinearPercentIndicator(
+            lineHeight: 30,
+            percent: (score / total),
+            progressColor: Theme.of(context).colorScheme.accentBlue02,
+            backgroundColor: Theme.of(context).colorScheme.accentBlue04,
+            barRadius: const Radius.circular(4),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'High Ideation',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Seek Treatment',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).colorScheme.neutralGray01),
+          ),
+          const SizedBox(height: 10),
+          const Divider(
+            color: Color(0xffF0F1F1),
+            thickness: 1,
+          ),
+          TextButton(
+            onPressed: () {
+              log('link $link');
+              Get.toNamed(link);
+            },
+            style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+                primary: Theme.of(context).colorScheme.neutralGray03),
+            child: const Text(
+              'Show past assessments',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

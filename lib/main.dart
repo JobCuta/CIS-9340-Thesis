@@ -22,6 +22,8 @@ import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideoPlaye
 import 'package:flutter_application_1/screens/SideMenu/HopeBox/HopeBoxVideosScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/PHQScoreScreen.dart';
+import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/SIDASScoreScreen.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
@@ -264,7 +266,6 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/hopeBoxContactEdit',
               page: () => const HopeBoxContactEditScreen()),
-
           // Achievements Page
           GetPage(
               name: '/achievementsScreen',
@@ -273,11 +274,11 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/MentalHealthOnlineScreen',
               page: () => const MentalHealthOnlineScreen()),
-
           // Statistics Page
           GetPage(
               name: '/statisticsScreen', page: () => const StatisticsScreen()),
-
+          GetPage(name: '/phqStatScreen', page: () => const PHQScoreScreen()),
+          GetPage(name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),

@@ -79,7 +79,7 @@ class UserProvider extends GetConnect {
 
   Future forgotPassword(String email) async {
     final response = await post(domain + paths["forgot"], {"email": email});
-    print('forgot response ${response.statusText} ${response.body}');
+    // print('forgot response ${response.statusText} ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (response.hasError) {
       if (map.containsKey("detail")) {

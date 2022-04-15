@@ -5,22 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Flutter",
+            "name": "Run Main",
             "type": "dart",
             "request": "launch",
             "program": "lib/main.dart"
         },
-        
-        {
-            "name": "CIS-9340-Thesis",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "CIS-9340-Thesis (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        }
     ]
 }

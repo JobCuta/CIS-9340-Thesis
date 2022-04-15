@@ -27,9 +27,29 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
   //to save data locally to hive
   void addToPhqHive(List<int> answerValues, int sum) async {
     var box = await Hive.openBox('phq');
-    var newPhq =
-        phqHive(date: DateTime.now(), answerValues: answerValues, sum: sum);
-    box.add(newPhq);
+    DateTime now = DateTime.now();
+    //under the assumption that this is their first interpretation, it will store them like so.
+    String assessMonth = now.month.toString() + '-' + now.year.toString();
+    phqHive? entry;
+    if (now.day <= 15) {
+      entry = phqHive(
+      schedule: assessMonth,
+      assessment1: now.day,
+      assessment2: now.day + 14,
+      score1: sum,
+      score2: -1
+      );
+    } else {
+      entry = phqHive(
+        schedule: assessMonth,
+        assessment1: now.day,
+        assessment2: now.day + 14,
+        score1: sum,
+        score2: -1
+      );
+    }
+    
+    box.put(assessMonth, entry);
 
     //Output values inside hive into terminal in the last index
     // var last_entry = box.toMap().length - 1;
