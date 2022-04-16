@@ -1,32 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'phqHive.dart';
+part of 'phqHiveObject.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class phqHiveAdapter extends TypeAdapter<phqHive> {
+class phqHiveObjAdapter extends TypeAdapter<phqHiveObj> {
   @override
-  final int typeId = 0;
+  final int typeId = 13;
 
   @override
-  phqHive read(BinaryReader reader) {
+  phqHiveObj read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return phqHive(
-      assessments: (fields[0] as List).cast<phqHiveObj>(),
+    return phqHiveObj(
+      date: fields[0] as DateTime,
+      score: fields[1] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, phqHive obj) {
+  void write(BinaryWriter writer, phqHiveObj obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.assessments);
+      ..write(obj.date)
+      ..writeByte(1)
+      ..write(obj.score);
   }
 
   @override
@@ -35,7 +38,7 @@ class phqHiveAdapter extends TypeAdapter<phqHive> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is phqHiveAdapter &&
+      other is phqHiveObjAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

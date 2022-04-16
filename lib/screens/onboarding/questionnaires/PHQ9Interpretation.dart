@@ -25,39 +25,39 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
   final SIDASController _sidasController = Get.put(SIDASController());
 
   //to save data locally to hive
-  void addToPhqHive(List<int> answerValues, int sum) async {
-    var box = await Hive.openBox('phq');
-    DateTime now = DateTime.now();
-    //under the assumption that this is their first interpretation, it will store them like so.
-    String assessMonth = now.month.toString() + '-' + now.year.toString();
-    phqHive? entry;
-    if (now.day <= 15) {
-      entry = phqHive(
-      schedule: assessMonth,
-      assessment1: now.day,
-      assessment2: now.day + 14,
-      score1: sum,
-      score2: -1
-      );
-    } else {
-      entry = phqHive(
-        schedule: assessMonth,
-        assessment1: now.day,
-        assessment2: now.day + 14,
-        score1: sum,
-        score2: -1
-      );
-    }
-    
-    box.put(assessMonth, entry);
+  // void addToPhqHive(List<int> answerValues, int sum) async {
+  //   var box = await Hive.openBox('phq');
+  //   DateTime now = DateTime.now();
+  //   //under the assumption that this is their first interpretation, it will store them like so.
+  //   String assessMonth = now.month.toString() + '-' + now.year.toString();
+  //   phqHive? entry;
+  //   if (now.day <= 15) {
+  //     entry = phqHive(
+  //     schedule: assessMonth,
+  //     assessment1: now.day,
+  //     assessment2: now.day + 14,
+  //     score1: sum,
+  //     score2: -1
+  //     );
+  //   } else {
+  //     entry = phqHive(
+  //       schedule: assessMonth,
+  //       assessment1: now.day,
+  //       assessment2: now.day + 14,
+  //       score1: sum,
+  //       score2: -1
+  //     );
+  //   }
 
-    //Output values inside hive into terminal in the last index
-    // var last_entry = box.toMap().length - 1;
-    // print('PHQ9');
-    // print(box.getAt(last_entry).date.toString());
-    // print(box.getAt(last_entry).answerValues.toString());
-    // print(box.getAt(last_entry).sum.toString());
-  }
+  //   box.put(assessMonth, entry);
+
+  //Output values inside hive into terminal in the last index
+  // var last_entry = box.toMap().length - 1;
+  // print('PHQ9');
+  // print(box.getAt(last_entry).date.toString());
+  // print(box.getAt(last_entry).answerValues.toString());
+  // print(box.getAt(last_entry).sum.toString());
+  // }
 
   void addToSidasHive(List<int> answerValues, int sum) async {
     var box = await Hive.openBox('sidas');
@@ -75,7 +75,7 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    addToPhqHive(_phqController.answerValues, _phqController.sum);
+    _phqController.addToHive();
     addToSidasHive(_sidasController.answerValues, _sidasController.sum);
     return WillPopScope(
       onWillPop: () async => false,
