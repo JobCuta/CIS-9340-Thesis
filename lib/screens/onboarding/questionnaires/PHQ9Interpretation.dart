@@ -13,7 +13,7 @@ import '../../../controllers/phqController.dart';
 import '../../../controllers/sidasController.dart';
 
 class PHQ9InterpretationScreen extends StatefulWidget {
-  PHQ9InterpretationScreen({Key? key}) : super(key: key);
+  const PHQ9InterpretationScreen({Key? key}) : super(key: key);
 
   @override
   _PHQ9InterpretationScreenState createState() =>

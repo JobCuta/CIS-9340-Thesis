@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/widgets/StatisticsWidgets/monthWidget.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:intl/intl.dart';
 
 import '../../../apis/phqHive.dart';
 
@@ -19,7 +19,6 @@ class PHQScoreScreen extends StatefulWidget {
 class _PHQScoreScreenState extends State<PHQScoreScreen> {
   late final Box box;
   List list = [];
-  List entries = [];
 
   @override
   void initState() {
@@ -57,34 +56,36 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: ListView(shrinkWrap: true, children: [
-            ElevatedButton(
-                child: const Text('Log Box'),
-                onPressed: () {
-                  log('box ${list}');
-                }),
-            ElevatedButton(
-                child: const Text('Add Month'),
-                onPressed: () {
-                  log('test');
-                }),
-            ElevatedButton(
-                child: const Text('Delete scores'),
-                onPressed: () {
-                  box.deleteAll(box.keys);
-                  log('box ${list}');
-                }),
+            // ElevatedButton(
+            //     child: const Text('Add Entry'),
+            //     onPressed: () {
+            //       log('test');
+            //       List<phqHiveObj> tests = [];
+            //       for (int i = 0; i < 5; i++) {
+            //         phqHiveObj entry =
+            //             phqHiveObj(date: DateTime.utc(2022, 4, i), score: -1);
+            //         tests.add(entry);
+            //       }
+            //       box.put('05-2022', tests);
+            //     }),
+            // ElevatedButton(
+            //     child: const Text('Delete scores'),
+            //     onPressed: () {
+            //       box.deleteAll(box.keys);
+            //       log('box ${list}');
+            //     }),
             ListView(
               shrinkWrap: true,
               children: list.map((userone) {
-                return Container(
-                  child: ListTile(
-                    title: Text('test ${userone.date}'),
-                    subtitle: Text("Address: "),
-                  ),
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.all(5),
-                  color: Colors.green[100],
-                );
+                log('user $userone');
+                return Column(children: [
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      child: ScoreCards(
+                        lists: userone,
+                      )),
+                  const SizedBox(height: 20),
+                ]);
               }).toList(),
             )
           ]),
@@ -94,21 +95,11 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
   }
 }
 
-//                 MonthBar(date: 'January 2022'),
-//                 Padding(
-//                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-//                     child: ScoreCards(
-//                       first: 21,
-//                       second: 13,
-//                     )),
-//                 SizedBox(height: 20),
-
 class ScoreCards extends StatelessWidget {
-  final int first, second;
+  final List lists;
   const ScoreCards({
     Key? key,
-    this.first = 0,
-    this.second = 0,
+    required this.lists,
   }) : super(key: key);
 
   @override
@@ -122,58 +113,94 @@ class ScoreCards extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Your Average PHQ-9 score for this month',
-            textAlign: TextAlign.left,
+            DateFormat("MMMM-yyyy").format(lists[0].date).toString(),
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle2?.copyWith(
                 color: Theme.of(context).colorScheme.neutralBlack02,
                 fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 20),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(children: <TextSpan>[
-              TextSpan(
-                  text: ((first + second) / 2).toStringAsFixed(1),
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.accentBlue02)),
-              TextSpan(
-                  text: '/27',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.accentBlue04)),
-            ]),
+          const SizedBox(
+            height: 10,
           ),
-          const SizedBox(height: 20),
-          LinearPercentIndicator(
-            lineHeight: 30,
-            percent: (((first + second) / 2) / 27),
-            progressColor: Theme.of(context).colorScheme.accentBlue02,
-            backgroundColor: Theme.of(context).colorScheme.accentBlue04,
-            barRadius: const Radius.circular(4),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'High Ideation',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
           const Divider(
             color: Color(0xffC4C4C4),
             thickness: 1,
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text('First Entry'), Text(first.toString() + '/27')],
+          const SizedBox(
+            height: 10,
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text('Second Entry'), Text(second.toString() + '/27')],
-          ),
+          for (phqHiveObj item in lists)
+            Container(
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: DateFormat("dd, ")
+                                .format(item.date)
+                                .toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack04)),
+                        TextSpan(
+                            text: DateFormat("EEEE")
+                                .format(item.date)
+                                .toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .accentBlue04))
+                      ]),
+                    ),
+                    item.score != -1
+                        ? RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: item.score.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue02)),
+                              TextSpan(
+                                  text: ' / 27',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue04))
+                            ]),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              // Get.toNamed('/phqsomething');
+                              log('missing');
+                            },
+                            child: Text('Missing',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .accentRed03)),
+                          ),
+                  ],
+                ))
         ],
       ),
     );

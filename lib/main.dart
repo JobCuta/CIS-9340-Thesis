@@ -5,6 +5,7 @@ import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
+import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
@@ -78,6 +79,7 @@ Future<void> main() async {
 
   Hive.registerAdapter(sidasHiveAdapter());
   Hive.registerAdapter(phqHiveAdapter());
+  Hive.registerAdapter(phqHiveObjAdapter());
   Hive.registerAdapter<DailyHive>(DailyHiveAdapter());
   Hive.registerAdapter<EmotionEntryHive>(EmotionEntryHiveAdapter());
   Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
