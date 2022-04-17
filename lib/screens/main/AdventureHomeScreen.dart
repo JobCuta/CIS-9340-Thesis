@@ -59,6 +59,8 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                   const SizedBox(height: 10.0),
                   const Divider(
                     color: Colors.white,
+                    indent: 5,
+                    endIndent: 5,
                     thickness: 2,
                   ),
                   const SizedBox(height: 10.0),
@@ -98,7 +100,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                           Text(
                             '${_levelController.currentXp} / ${_levelController.xpForNextLevel} to unlock next level',
                             style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.neutralBlack02,),
+                              color: Theme.of(context).colorScheme.neutralGray02,),
                           ),
                           const SizedBox(height: 7),
                           Container(
@@ -107,7 +109,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                             decoration: const BoxDecoration(
                                 color: Color(0xffFF8A00),
                                 borderRadius: BorderRadius.all(Radius.circular(4))),
-                            child:Text('"You may have to fight a battle more than once."- Margaret Thatcher',
+                            child:Text('"You may have to fight a battle more than once."  Margaret Thatcher',
                                 textAlign: TextAlign.left,
                                 style: Theme.of(context).textTheme.caption?.copyWith(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400)),
                           ),
