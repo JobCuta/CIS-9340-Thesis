@@ -364,7 +364,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           const SizedBox(height: 5.0),
                           Container(
-                            margin: const EdgeInsets.only(bottom: 150),
+                            margin: const EdgeInsets.only(bottom: 50),
                             child: SizedBox(
                               child: TextFormField(
                                 controller: birthDateController,
@@ -398,9 +398,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                   Container(
                     color: Theme.of(context).colorScheme.neutralWhite01,
                     width: MediaQuery.of(context).size.width,
-                    height: 110,
                     margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
-                    child: ListView(
+                    child: Column(
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
