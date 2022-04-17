@@ -51,7 +51,9 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           title: 'Apayao',
                           requiredLevel: 1,
                           image: 'assets/images/Apayao.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.offAndToNamed('/sudoku');
+                          },
                         ),
                         _buildLevelComponent(
                           title: 'Kalinga',

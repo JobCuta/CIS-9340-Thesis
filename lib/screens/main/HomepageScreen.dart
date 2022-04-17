@@ -39,7 +39,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    const UserJourneyScreen(),
     const Text('Mini-games screen')
   ];
 
