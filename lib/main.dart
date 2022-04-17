@@ -138,7 +138,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/memoryGameScreen',
+        initialRoute: '/userJourney',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -324,3 +324,4 @@ final ThemeData themeData = ThemeData(
   buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
 );
+

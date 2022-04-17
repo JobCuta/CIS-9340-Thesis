@@ -104,7 +104,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
           image: DecorationImage(
             image: AssetImage(image),
             fit: BoxFit.cover,
-            opacity: currentLevel < requiredLevel ? 0.5 : 1,
+            opacity: currentLevel < requiredLevel ? 0.2 : 1,
           ),
         ),
         width: MediaQuery.of(context).size.width,

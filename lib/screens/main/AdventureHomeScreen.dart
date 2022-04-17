@@ -34,7 +34,8 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
           thickness: 2,
         ),
         const SizedBox(height: 10.0),
-        SingleChildScrollView(
+        SafeArea(
+          child:SingleChildScrollView(
           child: Column(
             children: [
               Padding(
@@ -125,7 +126,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
                       ),
                       InkWell(
                         onTap: () {
-                          Get.offAndToNamed('/Achievements');
+                          Get.offAndToNamed('/achievementsScreen');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,9 +185,9 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen>{
               )
             ],
           ),
-        )
-      ],
+        ),
       ),
+      ],),
     );
   }
 
