@@ -140,7 +140,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/userJourney',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -169,7 +169,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
           GetPage(
               name: '/interpretationScreen',
-              page: () => PHQ9InterpretationScreen()),
+              page: () => const PHQ9InterpretationScreen()),
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
@@ -259,7 +259,8 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/statisticsScreen', page: () => const StatisticsScreen()),
           GetPage(name: '/phqStatScreen', page: () => const PHQScoreScreen()),
-          GetPage(name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
+          GetPage(
+              name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
@@ -326,4 +327,3 @@ final ThemeData themeData = ThemeData(
   buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
 );
-
