@@ -28,6 +28,7 @@ import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/SIDASSc
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/UserEngagementScaleScreen.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/intro/SplashScreen.dart';
@@ -265,7 +266,12 @@ class _MainState extends State<Main> {
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
           GetPage(
-              name: '/memoryGameScreen', page: () => const MemoryGameScreen())
+              name: '/memoryGameScreen', page: () => const MemoryGameScreen()),
+
+          // User Engagement Scale
+          GetPage(
+              name: '/engagementScaleScreen',
+              page: () => const UESFocusedAttentionScreen()),
         ],
         theme: themeData,
         home: const Splash());
