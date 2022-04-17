@@ -9,6 +9,7 @@ import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
+import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -38,6 +39,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
+    const UserJourneyScreen(),
     const Text('Mini-games screen')
   ];
 
