@@ -27,7 +27,10 @@ class CopingGameScreenState extends State<CopingGameScreen> {
       _copingController.updateCardCompletion(province, index);
       bool isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
       if (isComplete) {
-        showTalkingPerson(context: context, dialog: "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task.");
+        showTalkingPerson(
+          context: context, 
+          dialog: "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task."
+        );
       }
     });
     FlipCardController flipCardController = FlipCardController();

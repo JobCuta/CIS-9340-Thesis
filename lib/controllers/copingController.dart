@@ -134,7 +134,7 @@ class CopingController extends GetxController {
   }
 
   void checkIfAllProvinceCardsAreComplete(List<bool> provinceCardsCompleted, Province province, CopingGame copingGame) {
-    if (provinceCardsCompleted.contains(false)) {
+    if (!provinceCardsCompleted.contains(false)) {
       provinceCompleted.value[provinceIndex[province] as int] = true;
       copingGame.provinceCompleted[provinceIndex[province] as int] = true;
     }
