@@ -39,19 +39,8 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Object gender = _profileController.gender == 'Male'
-        ? 'M'
-        : _profileController.gender == 'Female'
-            ? 'F'
-            : 'P';
     var selectedDate =
         DateTime.tryParse(_profileController.birthdayController.text);
-
-    List options = [
-      {'name': 'Male', 'value': 'M'},
-      {'name': 'Female', 'value': 'F'},
-      {'name': 'Rather not say...', 'value': 'P'}
-    ];
 
     InputDecoration textFormFieldDecoration(String hintText) {
       return InputDecoration(
@@ -202,44 +191,58 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                     width: 200),
                           ),
                         ),
-                        _buildTextField(
-                            fieldName: 'First Name',
-                            hintText: 'Enter your first name',
-                            controller: _profileController.firstNameController),
-                        _buildTextField(
-                            fieldName: 'Last Name',
-                            hintText: 'Enter your last name',
-                            controller: _profileController.lastNameController),
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: _buildTextField(
+                              fieldName: 'First Name',
+                              hintText: 'Enter your first name',
+                              controller:
+                                  _profileController.firstNameController),
+                        ),
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: _buildTextField(
+                              fieldName: 'Last Name',
+                              hintText: 'Enter your last name',
+                              controller:
+                                  _profileController.lastNameController),
+                        ),
                         _buildTextField(
                             fieldName: 'Nickname',
                             hintText: 'Enter your nickname',
                             controller: _profileController.nicknameController),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text('Gender',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04,
-                                        fontWeight: FontWeight.w600))),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: SizedBox(
-                            height: 50,
-                            child: DropdownButtonFormField(
-                              style: const TextStyle(fontSize: 14.0),
-                              dropdownColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              decoration:
-                                  textFormFieldDecoration('Enter your gender'),
-                              value: gender,
-                              icon: const Icon(Icons.arrow_drop_down),
-                              items: options.map((map) {
-                                return DropdownMenuItem(
-                                    child: Text(map['name'],
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text('Gender',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray04,
+                                          fontWeight: FontWeight.w600))),
+                        ),
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 15.0),
+                            child: SizedBox(
+                              height: 50,
+                              child: DropdownButtonFormField(
+                                style: const TextStyle(fontSize: 14.0),
+                                dropdownColor: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite01,
+                                decoration: textFormFieldDecoration(
+                                    'Enter your gender'),
+                                value: _profileController.gender,
+                                icon: const Icon(Icons.arrow_drop_down),
+                                items: [
+                                  DropdownMenuItem<String>(
+                                    child: Text('Male',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText2
@@ -248,74 +251,106 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .neutralBlack02)),
-                                    value: map['value']);
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  gender = value!;
-                                });
-                              },
-                              validator: (input) {
-                                if (input == null) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
+                                    value: 'M',
+                                  ),
+                                  DropdownMenuItem<String>(
+                                    child: Text('Female',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralBlack02)),
+                                    value: 'F',
+                                  ),
+                                  DropdownMenuItem<String>(
+                                    child: Text('Rather not say...',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralBlack02)),
+                                    value: 'P',
+                                  ),
+                                ],
+                                onChanged: (String? value) {
+                                  _profileController.gender = value!;
+                                },
+                                validator: (input) {
+                                  if (input == null) {
+                                    return 'This field is required.';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
                         ),
-                        Divider(
-                          color: Theme.of(context).colorScheme.neutralWhite03,
-                          height: 25,
-                          thickness: 2,
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: Divider(
+                            color: Theme.of(context).colorScheme.neutralWhite03,
+                            height: 25,
+                            thickness: 2,
+                          ),
                         ),
-                        InkWell(
-                          splashColor:
-                              Theme.of(context).colorScheme.neutralGray02,
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 0),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Birthday',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                  RichText(
-                                    text: TextSpan(children: <InlineSpan>[
-                                      TextSpan(
-                                          text: _profileController
-                                              .birthdayController.text,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .neutralGray01,
-                                                  fontWeight: FontWeight.w600)),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.middle,
-                                          child: Icon(
-                                              Icons.keyboard_arrow_right_sharp,
-                                              size: 30,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralGray01))
-                                    ]),
-                                  )
-                                ]),
+                        Visibility(
+                          visible: _profileController.anon == 'false',
+                          child: InkWell(
+                            splashColor:
+                                Theme.of(context).colorScheme.neutralGray02,
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Birthday',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralBlack02)),
+                                    RichText(
+                                      text: TextSpan(children: <InlineSpan>[
+                                        TextSpan(
+                                            text: _profileController
+                                                .birthdayController.text,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .neutralGray01,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                        WidgetSpan(
+                                            alignment:
+                                                PlaceholderAlignment.middle,
+                                            child: Icon(
+                                                Icons
+                                                    .keyboard_arrow_right_sharp,
+                                                size: 30,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralGray01))
+                                      ]),
+                                    )
+                                  ]),
+                            ),
                           ),
                         ),
                       ],
@@ -360,8 +395,6 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                     newImage: savedImage.path);
                               }
                               _profileController.updateValues();
-                              _settingsController.checkValues();
-
                               Get.snackbar('Edit User Profile',
                                   'Your profile has been updated.',
                                   snackPosition: SnackPosition.BOTTOM);

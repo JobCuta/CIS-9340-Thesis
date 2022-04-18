@@ -193,11 +193,12 @@ class _AnonymousState extends State<AnonymousWidget> {
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
                         if (response["status"]) {
-                          var response = await UserProvider().login(LoginForm(email, pass1));
+                          var response = await UserProvider()
+                              .login(LoginForm(email, pass1));
                           if (response["status"]) {
                             await UserProvider().user(true);
                           }
-                          registeredDialog(context);                          
+                          registeredDialog(context);
                         } else {
                           errorDialog(context, response["message"]);
                         }
@@ -221,7 +222,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       side: BorderSide(
-                          color: Theme.of(context).colorScheme.neutralGray01),
+                          color: Theme.of(context).colorScheme.neutralWhite04),
                       primary: Theme.of(context).colorScheme.neutralWhite01,
                     ),
                     onPressed: () {

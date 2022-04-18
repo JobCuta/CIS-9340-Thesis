@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 showUserEngagementCompletedDialog(context) {
   Get.defaultDialog(
       barrierDismissible: false,
+      onWillPop: () => Future.value(false),
       title: "Thank you for your feedback!",
       titleStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
           height: 1.5,

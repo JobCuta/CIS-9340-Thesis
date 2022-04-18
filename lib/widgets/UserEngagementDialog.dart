@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 showUserEngagementDialog(context) {
   Get.defaultDialog(
       barrierDismissible: false,
+      onWillPop: () => Future.value(false),
       title: "We're curious with how the app left an impression with you!",
       titleStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
           height: 1.5,
