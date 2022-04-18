@@ -16,7 +16,9 @@ import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
+import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -305,6 +307,20 @@ class _HomePageState extends State<HomePage> {
                       ])),
                 ),
                 ElevatedButton(
+                    child: const Text('Test UES'),
+                    onPressed: () {
+                      showUserEngagementDialog(context);
+                    }),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11), 
+                //   child: const Text('Test Future Entries')
+                // ),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
+                //   child: const Text('Test Past Entries')
+                // ),
+                    
+                ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
                       // Sample of how to use the talking person alert dialog
@@ -319,6 +335,24 @@ class _HomePageState extends State<HomePage> {
                     }),
                 ElevatedButton(
                     child: const Text('Test LevelUp'),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4),
+                                topRight: Radius.circular(4)),
+                          ),
+                          useRootNavigator: true,
+                          // isScrollControlled: true,
+                          builder: (context) {
+                            return SizedBox(
+                                height: MediaQuery.of(context).size.height,
+                                child: const LevelUpRewardWidgets());
+                          });
+                }),
+                ElevatedButton(
+                    child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
                       _levelController.addXp(150);

@@ -40,4 +40,5 @@ class UserSecureStorage {
   static Future<String?> getBirthday() async =>
       await _storage.read(key: _birthday);
   static Future<String?> getGender() async => await _storage.read(key: _gender);
+  static Future<String?> getAnon() async => await _storage.read(key: _anon);
 }

@@ -7,6 +7,8 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
+import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 CopingController _copingController = Get.put(CopingController());
@@ -20,21 +22,29 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
 
-  showCardDialog(AssetImage img, String info, String tipsTitle, String tips, int index) {
+  showCardDialog(AssetImage img, String info, String tipsTitle, String tips, int index, Province province) {
+    // TODO: Move completion later on
     setState(() {
-      _copingController.updateCardCompletion(Province.Abra, index);
+      _copingController.updateCardCompletion(province, index);
+      bool isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
+      if (isComplete) {
+        showTalkingPerson(
+          context: context, 
+          dialog: "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task."
+        );
+      }
     });
     FlipCardController flipCardController = FlipCardController();
     print('infoSelected on start of dialog = $_infoSelected');
 
-  return showDialog<String>(
+    return showDialog<String>(
       context: context,
       builder: (BuildContext context) { return StatefulBuilder(
         builder: (context, setState) {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0.00),
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          backgroundColor: Theme.of(context).colorScheme.intGreen06,
+          backgroundColor: Colors.transparent,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -46,6 +56,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.intGreen06,
+                        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
                         image: DecorationImage(
                             image: img,
                             fit: BoxFit.contain,
@@ -58,12 +69,9 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                            //   child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back))
-                            // ),
                             InkWell(
                               onTap: () => Get.back(),
-                              child: const Image(image: AssetImage('assets/images/coping_back_button_dark.png')),
+                              child: SvgPicture.asset('assets/images/coping_back_button_dark.svg'),
                             ),
                             // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
                             //   child: IconButton(
@@ -80,28 +88,19 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                                 setState(() => _infoSelected = true);
                                 flipCardController.toggleCard();
                               },
-                              child: const Image(image: AssetImage('assets/images/coping_info_button.png')),
+                              child: SvgPicture.asset('assets/images/coping_info_button.svg'),
                             ),
                           ],
                         ),
       
                         Align(
                           alignment: Alignment.centerRight,
-                          // child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                          //   child: IconButton(
-                          //     icon: Icon(Icons.subdirectory_arrow_right_sharp),
-                          //     onPressed: () {
-                          //       setState(() => _infoSelected = false);
-                          //       flipCardController.toggleCard();
-                          //     }, 
-                          //   )
-                          // ),
                           child: InkWell(
                             onTap: () {
                               setState(() => _infoSelected = false);
                               flipCardController.toggleCard();
                             },
-                            child: const Image(image: AssetImage('assets/images/coping_tips_button.png')),
+                            child: SvgPicture.asset('assets/images/coping_tips_button.svg'),
                           ),
                         ),
                       ],
@@ -135,17 +134,9 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                         ),
                         Align(
                           alignment: Alignment.centerRight,
-                          // child: CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                          //   child: IconButton(
-                          //     icon: Icon(Icons.arrow_back),
-                          //     onPressed: () {
-                          //       flipCardController.toggleCard();
-                          //     }, 
-                          //   )
-                          // ),
                           child: InkWell(
                             onTap: () => flipCardController.toggleCard(),
-                            child: const Image(image: AssetImage('assets/images/coping_back_button_light.png')),
+                            child: SvgPicture.asset('assets/images/coping_back_button_light.svg'),
                           ),
                         ),
                       ],
@@ -188,7 +179,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
           return InkWell(
             onTap: () {
               print('test $index');
-              showCardDialog(card.image, card.info, card.tipsTitle, card.tips, index);
+              showCardDialog(card.image, card.info, card.tipsTitle, card.tips, index, province);
             },
             child: Container(
               alignment: Alignment.center,
@@ -198,7 +189,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                   image: DecorationImage(
                       image: card.image,
                       fit: BoxFit.contain,
-                      opacity: cardsCompleted[index] ? 0.7 : 1.0
+                      opacity: cardsCompleted[index] ? 0.4 : 1.0
                     ),
               ),
               child: Visibility(

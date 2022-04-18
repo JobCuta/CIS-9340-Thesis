@@ -57,11 +57,11 @@ class UserProfileController extends GetxController {
     });
 
     UserSecureStorage.getGender().then((value) {
-      gender = value == 'M'
-          ? 'Male'
-          : value == 'F'
-              ? 'Female'
-              : 'Rather not say...';
+      gender = value!;
+    });
+
+    UserSecureStorage.getAnon().then((value) {
+      anon = value.toString();
     });
   }
 

@@ -32,7 +32,7 @@ class DailyController extends GetxController {
     DailyHive daily = box.get('dailyStatus'); 
     DateTime storedDate = daily.currentDate;
     DateTime currentDate = DateTime.now();
-    int differenceInDays = currentDate.difference(storedDate).inDays;
+    int differenceInDays = daysBetween(storedDate, currentDate);
     print("DIFFERENCE IN DAYS = $differenceInDays");
 
     if (differenceInDays > 0) {
@@ -90,5 +90,12 @@ class DailyController extends GetxController {
     DailyHive daily = box.get('dailyStatus');
     daily.showedAvailableTasks = showedTasks;
     daily.save();    
+  }
+
+  // will be used because DateTime's difference function is buggy
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 }

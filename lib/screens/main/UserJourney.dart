@@ -4,6 +4,8 @@ import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:get/get.dart';
 
+import '../../widgets/UserJourneyModal.dart';
+
 class UserJourneyScreen extends StatefulWidget {
   const UserJourneyScreen({key}) : super(key: key);
 
@@ -52,7 +54,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 1,
                           image: 'assets/images/Apayao.png',
                           onTap: () {
-                            Get.offAndToNamed('/sudoku');
+                            Get.off(const UserJourneyModalWidget());
                           },
                         ),
                         _buildLevelComponent(

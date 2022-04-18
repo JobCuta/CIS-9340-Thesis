@@ -24,10 +24,12 @@ import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/PHQScoreScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/SIDASScoreScreen.dart';
+import 'package:flutter_application_1/screens/main/ActivitiesGameScreen.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/UserEngagementScaleScreen.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/intro/SplashScreen.dart';
@@ -140,7 +142,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Kasiyanna App',
-        initialRoute: '/userJourney',
+        initialRoute: '/',
         getPages: [
           //intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
@@ -180,6 +182,7 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/adventureHome', page: () => const AdventureHomeScreen()),
           GetPage(name: '/userJourney', page: () => const UserJourneyScreen()),
+          GetPage(name: '/ActivitiesGameScreen', page: () => const ActivitiesGameScreen()),
 
           // wellness exercises
           GetPage(
@@ -259,12 +262,18 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/statisticsScreen', page: () => const StatisticsScreen()),
           GetPage(name: '/phqStatScreen', page: () => const PHQScoreScreen()),
-          GetPage(name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
+          GetPage(
+              name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
           // Minigames Screens
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
           GetPage(
-              name: '/memoryGameScreen', page: () => const MemoryGameScreen())
+              name: '/memoryGameScreen', page: () => const MemoryGameScreen()),
+
+          // User Engagement Scale
+          GetPage(
+              name: '/engagementScaleScreen',
+              page: () => const UESFocusedAttentionScreen()),
         ],
         theme: themeData,
         home: const Splash());
@@ -326,4 +335,3 @@ final ThemeData themeData = ThemeData(
   buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
 );
-

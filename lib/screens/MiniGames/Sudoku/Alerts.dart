@@ -152,6 +152,8 @@ class AlertExit extends StatelessWidget {
                   Styles.primaryBackgroundColor)),
           onPressed: () {
             Get.back();
+            // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
+            Get.offAndToNamed('/userJourney');
           },
           child: Text('Yes',
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
