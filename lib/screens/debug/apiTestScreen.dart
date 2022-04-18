@@ -47,7 +47,19 @@ class DebugScreen extends StatelessWidget {
                       onPressed: () {
                         handleLogin();
                       },
-                      child: const Text("Submit"))
+                      child: const Text("Submit")),
+                  ElevatedButton(
+                      child: const Text('Get PHQ9 Scores'),
+                      onPressed: () {
+                          var scores = UserProvider().phqScores();
+                          log('scores $scores');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Get SIDAS Scores'),
+                      onPressed: () {
+                          var scores = UserProvider().sidasScores();
+                          log('scores $scores');
+                      }),
                 ],
               );
             }),
