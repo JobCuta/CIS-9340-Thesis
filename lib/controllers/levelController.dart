@@ -20,6 +20,9 @@ class LevelController extends GetxController {
   var recentlyAddedXp = false.obs;
   var accomplishedWithXp = {}.obs;
   var totalXpToAdd = 0.obs;
+  var levelUp = false.obs;
+
+  var levelUpRewards = {}.obs;    // TODO: Map of icon and reward title
 
   void prepareTheObjects() {
     Box box = Hive.box<Level>('level');
@@ -82,6 +85,7 @@ class LevelController extends GetxController {
     if (currentXp.value >= xpForNextLevel.value) {
       currentLevel.value++;
       currentXp.value = currentXp.value % xpForNextLevel.value;
+      levelUp.value = true;
     }
 
     if (currentXp.value > xpForNextLevel.value) checkIfLevelUp();
