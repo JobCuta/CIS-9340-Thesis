@@ -169,7 +169,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
           GetPage(
               name: '/interpretationScreen',
-              page: () => PHQ9InterpretationScreen()),
+              page: () => const PHQ9InterpretationScreen()),
           //notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
