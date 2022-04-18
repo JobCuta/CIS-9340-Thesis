@@ -301,6 +301,15 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       showUserEngagementDialog(context);
                     }),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11), 
+                //   child: const Text('Test Future Entries')
+                // ),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
+                //   child: const Text('Test Past Entries')
+                // ),
+                    
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
