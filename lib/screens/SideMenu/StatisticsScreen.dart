@@ -34,8 +34,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<EmotionEntryHive> latestEmotionEntries =
-        _emotionController.getEmotionEntriesInTheLastDays(7);
+    // these 3 methods will update days in a row, longest chain, and mood count for the month
+    List<EmotionEntryHive> latestEmotionEntries = _emotionController.getEmotionEntriesInTheLastDays(7);
+    _emotionController.updateLongestStreak();
+    _emotionController.updateCurrentStreakAndMonthMoodCount(DateTime.now().month, DateTime.now().year);
+    
 
     return Scaffold(
         appBar: AppBar(
@@ -127,69 +130,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 }),
                           ),
                         ),
-
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   children: [
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Sun'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Mon'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Tue'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Wed'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Thu'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03),
-                        //         Text('Fri'),
-                        //       ],
-                        //     ),
-
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         latestEmotionEntries[0].overallMood != 'NoData'
-                        //             ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentBlue03)
-                        //             : const Icon(Icons.close_rounded),
-                        //         Text('Sat'),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
 
                         const SizedBox(height: 10.0),
                         Center(
