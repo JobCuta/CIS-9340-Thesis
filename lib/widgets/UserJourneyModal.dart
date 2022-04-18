@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
-import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() => runApp(const UserJourneyModal());
 
@@ -21,6 +21,9 @@ class UserJourneyModalWidget extends StatefulWidget {
 }
 
 class _UserJourneyModalState extends State<UserJourneyModalWidget> {
+  String first = "We are here in Apayao! Welcome to level 1! in this level,";
+  String second = "Hello, welcome to Apayao. I am here to share to you about mental health. It shows that you are experiencing extreme and unexpected changes in mood. ";
+  String third = "Here are the activities that are available  in this level. You need to finish all of the activities so that you can go to the next region. ";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +52,58 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
             child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 10, horizontal: 10),
-              child: showTalkingPerson(context: context, dialog: "We are here in Apayao! Welcome to level 1! In this level,")
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() => first = second);
+                    setState(() => second = third);
+                    Get.offAndToNamed('/ActivitiesGameScreen');
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(bottom: 80),
+                    child: Column(
+                      children: [
+                        const Expanded(child: Text('')),
+                        Stack(
+                          children: [
+                            Material(
+                                color: Colors.transparent,
+                                child: SvgPicture.asset(
+                                  'assets/images/talking_person.svg',
+                                )),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(left: 15, top: 10),
+                              constraints:
+                              const BoxConstraints(maxHeight: 150, maxWidth: 240),
+                              child: Text(first,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
+                            ),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text('Tap to continue',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color:
+                                  Theme.of(context).colorScheme.neutralWhite01)),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
             ),
           )
         ],
@@ -57,3 +111,4 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
     );
   }
 }
+

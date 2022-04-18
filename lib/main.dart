@@ -24,6 +24,7 @@ import 'package:flutter_application_1/screens/SideMenu/MentalHealthOnline.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/PHQScoreScreen.dart';
 import 'package:flutter_application_1/screens/SideMenu/StatisticsSubPage/SIDASScoreScreen.dart';
+import 'package:flutter_application_1/screens/main/ActivitiesGameScreen.dart';
 //import 'package:flutter_application_1/screens/debug/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
@@ -181,6 +182,7 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/adventureHome', page: () => const AdventureHomeScreen()),
           GetPage(name: '/userJourney', page: () => const UserJourneyScreen()),
+          GetPage(name: '/ActivitiesGameScreen', page: () => const ActivitiesGameScreen()),
 
           // wellness exercises
           GetPage(
