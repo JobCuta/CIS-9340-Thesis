@@ -14,6 +14,7 @@ import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
+import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'SideMenu.dart';
@@ -294,6 +295,11 @@ class _HomePageState extends State<HomePage> {
                         )
                       ])),
                 ),
+                ElevatedButton(
+                    child: const Text('Test UES'),
+                    onPressed: () {
+                      showUserEngagementDialog(context);
+                    }),
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {

@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class PHQController extends GetxController {
-  Box box = Hive.box<phqHive>('phq');
+  Box box = Hive.box('phq');
   final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0].obs;
   int sum = 0;
 
@@ -40,7 +40,7 @@ class PHQController extends GetxController {
       // gets the last key (MM-YYYY) in the box
       var lastEntryIndex = box.toMap().length - 1;
       var lastEntry = box.getAt(lastEntryIndex);
-      DateTime lastEntryDate = lastEntry.assessments.last.getDate();
+      DateTime lastEntryDate = lastEntry.assessments.last.date;
 
       // new assessment date
       DateTime newEntryDate = lastEntryDate.add(const Duration(days: 14));

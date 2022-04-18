@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,14 +34,14 @@ class UserProvider extends GetConnect {
       message = map["non_field_errors"][0];
     } else {
       if (map.containsKey("key")) {
+        log('login key ${map['key']}');
         status = true;
         message = "Successfully logged in.";
         await UserSecureStorage.setKeyLogin(map["key"]);
       } else if (map.containsKey("email")) {
         message = map["email"][0];
       } else {
-        message =
-            "Unknown error occurred checking if response contains login key";
+        message = "Unknown error occurred during Login";
       }
     }
     return {"message": message, "status": status};
@@ -106,10 +108,11 @@ class UserProvider extends GetConnect {
         .then((value) => key = value.toString());
     final response = await get(domain + paths["getUser"],
         headers: {"Authorization": "Token " + key});
-    print('get user response ${response.body}');
+    log('get user response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
       if (initial) {
+        log('da map $map');
         await UserSecureStorage.setLoginDetails(
             map["email"],
             map["nickname"] == "" ? map["first_name"] : map["nickname"],
@@ -117,8 +120,7 @@ class UserProvider extends GetConnect {
             map["last_name"],
             map["date_of_birth"],
             map["gender"],
-            map["anon"].toString()
-            );
+            map["anon"].toString());
         return true;
       } else {
         return response;
