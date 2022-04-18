@@ -77,10 +77,7 @@ class CopingController extends GetxController {
       copingGame.abraCardsCompleted[gridNum] = true;
 
       abraCardsCompleted.refresh();
-      if (!abraCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(abraCardsCompleted, Province.Abra, copingGame);
     }
 
     else if (province == Province.Apayao) {
@@ -88,10 +85,7 @@ class CopingController extends GetxController {
       copingGame.apayaoCardsCompleted[gridNum] = true;
 
       apayaoCardsCompleted.refresh();
-      if (!apayaoCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(apayaoCardsCompleted, Province.Apayao, copingGame);
     }
 
     else if (province == Province.Benguet) {
@@ -99,10 +93,7 @@ class CopingController extends GetxController {
       copingGame.benguetCardsCompleted[gridNum] = true;
 
       benguetCardsCompleted.refresh();
-      if (!benguetCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(benguetCardsCompleted, Province.Benguet, copingGame);
     }
 
     else if (province == Province.Ifugao) {
@@ -110,10 +101,7 @@ class CopingController extends GetxController {
       copingGame.ifugaoCardsCompleted[gridNum] = true;
 
       ifugaoCardsCompleted.refresh();
-      if (!ifugaoCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(ifugaoCardsCompleted, Province.Ifugao, copingGame);
     }
 
     else if (province == Province.Kalinga) {
@@ -121,10 +109,7 @@ class CopingController extends GetxController {
       copingGame.kalingaCardsCompleted[gridNum] = true;
 
       kalingaCardsCompleted.refresh();
-      if (!kalingaCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(kalingaCardsCompleted, Province.Kalinga, copingGame);
     }
 
     else if (province == Province.MountainProvince) {
@@ -132,14 +117,31 @@ class CopingController extends GetxController {
       copingGame.mountainProvinceCardsCompleted[gridNum] = true;
 
       mountainProvinceCardsCompleted.refresh();
-      if (!mountainProvinceCardsCompleted.value.contains(false)) {
-        provinceCompleted.value[provinceIndex[province] as int] = true;
-        copingGame.provinceCompleted[provinceIndex[province] as int] = true;
-      }
+      checkIfAllProvinceCardsAreComplete(mountainProvinceCardsCompleted, Province.MountainProvince, copingGame);
     }
 
     update();
     copingGame.save();
+
+    print('-------- COPING GAME UPDATE');
+    print('All Provinces: ${provinceCompleted.value.toString()}');
+    print('Abra: ${abraCardsCompleted.value.toString()}');
+    print('Apayao: ${apayaoCardsCompleted.value.toString()}');
+    print('Benguet: ${benguetCardsCompleted.value.toString()}');
+    print('Kalinga: ${kalingaCardsCompleted.value.toString()}');
+    print('Ifugao: ${ifugaoCardsCompleted.value.toString()}');
+    print('Mt. Province: ${mountainProvinceCardsCompleted.value.toString()}');
+  }
+
+  void checkIfAllProvinceCardsAreComplete(List<bool> provinceCardsCompleted, Province province, CopingGame copingGame) {
+    if (provinceCardsCompleted.contains(false)) {
+      provinceCompleted.value[provinceIndex[province] as int] = true;
+      copingGame.provinceCompleted[provinceIndex[province] as int] = true;
+    }
+  }
+
+  bool getCompleteStatusOfProvinceCards(Province province) {
+    return provinceCompleted.value[provinceIndex[province] as int];
   }
 
   void updateSelectedProvince(Province province) {
