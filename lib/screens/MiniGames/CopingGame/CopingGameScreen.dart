@@ -8,6 +8,7 @@ import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 CopingController _copingController = Get.put(CopingController());
@@ -43,7 +44,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0.00),
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          backgroundColor: Theme.of(context).colorScheme.intGreen06,
+          backgroundColor: Colors.transparent,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -55,6 +56,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.intGreen06,
+                        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
                         image: DecorationImage(
                             image: img,
                             fit: BoxFit.contain,
@@ -69,7 +71,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                           children: [
                             InkWell(
                               onTap: () => Get.back(),
-                              child: const Image(image: AssetImage('assets/images/coping_back_button_dark.png')),
+                              child: SvgPicture.asset('assets/images/coping_back_button_dark.svg'),
                             ),
                             // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
                             //   child: IconButton(
@@ -86,7 +88,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                                 setState(() => _infoSelected = true);
                                 flipCardController.toggleCard();
                               },
-                              child: const Image(image: AssetImage('assets/images/coping_info_button.png')),
+                              child: SvgPicture.asset('assets/images/coping_info_button.svg'),
                             ),
                           ],
                         ),
@@ -98,7 +100,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                               setState(() => _infoSelected = false);
                               flipCardController.toggleCard();
                             },
-                            child: const Image(image: AssetImage('assets/images/coping_tips_button.png')),
+                            child: SvgPicture.asset('assets/images/coping_tips_button.svg'),
                           ),
                         ),
                       ],
@@ -134,7 +136,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () => flipCardController.toggleCard(),
-                            child: const Image(image: AssetImage('assets/images/coping_back_button_light.png')),
+                            child: SvgPicture.asset('assets/images/coping_back_button_light.svg'),
                           ),
                         ),
                       ],
@@ -187,7 +189,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                   image: DecorationImage(
                       image: card.image,
                       fit: BoxFit.contain,
-                      opacity: cardsCompleted[index] ? 0.7 : 1.0
+                      opacity: cardsCompleted[index] ? 0.4 : 1.0
                     ),
               ),
               child: Visibility(
