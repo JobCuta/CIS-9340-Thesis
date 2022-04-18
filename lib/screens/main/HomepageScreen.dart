@@ -13,6 +13,7 @@ import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -315,6 +316,24 @@ class _HomePageState extends State<HomePage> {
                     }),
                 ElevatedButton(
                     child: const Text('Test LevelUp'),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4),
+                                topRight: Radius.circular(4)),
+                          ),
+                          useRootNavigator: true,
+                          // isScrollControlled: true,
+                          builder: (context) {
+                            return SizedBox(
+                                height: MediaQuery.of(context).size.height,
+                                child: const LevelUpRewardWidgets());
+                          });
+                }),
+                ElevatedButton(
+                    child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
                       _levelController.addXp(150);
