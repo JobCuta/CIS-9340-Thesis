@@ -274,11 +274,12 @@ class EmotionController extends GetxController {
       print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
       box.put(date, newEmotionEntry);
+
     } else {
       Box box = Hive.box<EmotionEntryHive>('emotion');
       EmotionEntryHive latestEmotionEntry = box.getAt(box.length - 1);
-      print(
-          "Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
+      print("Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
+
       final latestEmotionEntryDate = DateTime(
           latestEmotionEntry.year,
           monthNameToMonthNumber[latestEmotionEntry.month] as int,
@@ -286,7 +287,7 @@ class EmotionController extends GetxController {
       print("Latest Emotion Entry Date = " + latestEmotionEntryDate.toString());
 
       for (int i = 1; i <= differenceInDays; i++) {
-        DateTime dateTime = latestEmotionEntryDate.subtract(Duration(days: i));
+        DateTime dateTime = latestEmotionEntryDate.add(Duration(days: i));
         String date = dateToString(dateTime);
 
         Box box = Hive.box<EmotionEntryHive>('emotion');
@@ -444,7 +445,6 @@ class EmotionController extends GetxController {
     final emotionEntryKeys = box.keys;
     List<EmotionEntryHive> emotionEntries = [];
     currentStreak.value = 0;
-    longestStreak.value = 0;
     monthMoodCount.value = [0, 0, 0, 0, 0];
     update();
 
@@ -469,19 +469,88 @@ class EmotionController extends GetxController {
 
       if (emotionEntry.overallMood != 'NoData') {
         currentStreak.value++;
-        if (currentStreak.value > longestStreak.value)
-          longestStreak.value = currentStreak.value;
       } else {
         currentStreak.value = 0;
       }
     }
 
     print("CURRENT STREAK VALUE = $currentStreak");
-    print("LONGEST STREAK VALUE = $longestStreak");
     print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
 
     update();
     return emotionEntries;
+  }
+
+  void updateCurrentStreakAndMonthMoodCount(int month, int year) {
+    Map<int, String> monthStr = {
+      1: 'January',
+      2: 'Febuary',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    };
+
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+    List<EmotionEntryHive> emotionEntries = [];
+    currentStreak.value = 0;
+    monthMoodCount.value = [0, 0, 0, 0, 0];
+    update();
+
+    String selectedMonth = monthStr[month] as String;
+
+    for (var key in emotionEntryKeys) {
+      EmotionEntryHive emotionEntry = box.get(key);
+      if (emotionEntry.month == selectedMonth && emotionEntry.year == year) {
+        emotionEntries.add(emotionEntry);
+        if (emotionEntry.overallMood == 'VeryBad') {
+          monthMoodCount.value[0]++;
+        } else if (emotionEntry.overallMood == 'Bad') {
+          monthMoodCount.value[1]++;
+        } else if (emotionEntry.overallMood == 'Neutral') {
+          monthMoodCount.value[2]++;
+        } else if (emotionEntry.overallMood == 'Happy') {
+          monthMoodCount.value[3]++;
+        } else if (emotionEntry.overallMood == 'VeryHappy') {
+          monthMoodCount.value[4]++;
+        }
+      }
+
+      if (emotionEntry.overallMood != 'NoData') {
+        currentStreak.value++;
+      } else {
+        currentStreak.value = 0;
+      }
+    }
+
+    print("CURRENT STREAK VALUE = $currentStreak");
+    print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
+
+    update();
+  }
+
+  void updateLongestStreak() {
+    int longestStreakTemp = 0;
+    Box box = Hive.box<EmotionEntryHive>('emotion');
+    final emotionEntryKeys = box.keys;
+    for (var key in emotionEntryKeys) {
+      EmotionEntryHive emotionEntry = box.get(key);
+      if (emotionEntry.overallMood == 'NoData') {
+        longestStreakTemp = 0;
+      } else {
+        longestStreakTemp++;
+      }
+    }
+
+    longestStreak.value = longestStreakTemp;
+    update();
   }
 
   List<EmotionEntryHive> getAllEmotionEntries() {
@@ -637,8 +706,42 @@ class EmotionController extends GetxController {
     }
   }
 
-  // ---------------------------------- ADMIN / TESTING PURPOSES ONLY ----------------------------------
-  void testLargeNumberOfEntries(int numberOfEntries) {
+  // ---------------------------------- EVERYTHING BELOW IS ADMIN / TESTING PURPOSES ONLY ----------------------------------
+  void testLargeNumberOfFutureEntries(int numberOfEntries) {
+    final latestEmotionEntryDate = DateTime(
+      2022,
+      4,
+      10);
+
+    DateTime currentDate = DateTime.now();
+    int differenceInDays = daysBetween(latestEmotionEntryDate, currentDate);
+
+    for (int i = 1; i <= differenceInDays; i++) {
+      DateTime dateTime = latestEmotionEntryDate.add(Duration(days: i));
+      print("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+    }
     createNewEntriesInStorage(numberOfEntries);
+  }
+
+  void testLargeNumberOfPastEntries(int numberOfEntries) {
+    final latestEmotionEntryDate = DateTime(
+      2022,
+      4,
+      10);
+
+    DateTime currentDate = DateTime.now();
+    int differenceInDays = daysBetween(latestEmotionEntryDate, currentDate);
+
+    for (int i = 1; i <= differenceInDays; i++) {
+      DateTime dateTime = latestEmotionEntryDate.subtract(Duration(days: i));
+      print("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+    }
+    // createNewEntriesInStorage(numberOfEntries);
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 }

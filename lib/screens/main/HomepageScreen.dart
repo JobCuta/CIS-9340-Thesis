@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
@@ -43,6 +46,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const AdventureHomeScreen(),
     const Text('Mini-games screen')
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    var scores = UserProvider().phqScores();
+    log('scores $scores');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,6 +311,15 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       showUserEngagementDialog(context);
                     }),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11), 
+                //   child: const Text('Test Future Entries')
+                // ),
+                // ElevatedButton(
+                //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
+                //   child: const Text('Test Past Entries')
+                // ),
+                    
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
