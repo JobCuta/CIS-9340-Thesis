@@ -34,6 +34,7 @@ import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/intro/SplashScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/login_registration/AnonymousScreen.dart';
+import 'package:flutter_application_1/screens/onboarding/login_registration/LoginSplash.dart';
 import 'apis/hopeBoxHive.dart';
 import 'apis/hopeBoxObject.dart';
 import 'apis/phqHive.dart';
@@ -144,12 +145,12 @@ class _MainState extends State<Main> {
         title: 'Kasiyanna App',
         initialRoute: '/',
         getPages: [
-          //intro
+          // intro
           GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
           GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
           GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
 
-          //login_registration
+          // login_registration
           GetPage(
               name: '/accountScreen', page: () => const CreateAccountScreen()),
           GetPage(
@@ -157,8 +158,9 @@ class _MainState extends State<Main> {
           GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
           GetPage(
               name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
+          GetPage(name: '/loginSplashScreen', page: () => const LoadingSplash()),
 
-          //questionnaires
+          // questionnaires
           GetPage(
               name: '/assessPHQScreen',
               page: () => const InitialAssessmentPHQ9Screen()),
@@ -172,7 +174,8 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/interpretationScreen',
               page: () => const PHQ9InterpretationScreen()),
-          //notification
+
+          // notification
           GetPage(
               name: '/notifScreen', page: () => const SetNotificationScreen()),
 
@@ -195,7 +198,7 @@ class _MainState extends State<Main> {
               name: '/emotionEndScreen',
               page: () => const EmotionalEvaluationEndScreen()),
 
-          //calendar
+          // calendar
           GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
 
           // entries detail

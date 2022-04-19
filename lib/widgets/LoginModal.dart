@@ -346,7 +346,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                     bool result = await handleLogin();
                                     Timer(const Duration(seconds: 1), () {
                                       if (result) {
-                                        Get.offAndToNamed('/homepage');
+                                        // Get.offAndToNamed('/homepage');
+                                        Get.offAndToNamed('/loginSplashScreen');
                                       } else {
                                         Get.snackbar(
                                           "Log in failed",

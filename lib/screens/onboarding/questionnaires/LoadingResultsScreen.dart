@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/nextScreenModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-
 import 'package:get/get.dart';
 import 'dart:async';
-
-void main() {
-  runApp(const LoadingResultsScreen());
-}
 
 class LoadingResultsScreen extends StatelessWidget {
   const LoadingResultsScreen({Key? key}) : super(key: key);
