@@ -61,31 +61,41 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           title: 'Kalinga',
                           requiredLevel: 2,
                           image: 'assets/images/Kalinga.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.off(const UserJourneyModalWidget());
+                          },
                         ),
                         _buildLevelComponent(
                           title: 'Abra',
                           requiredLevel: 3,
                           image: 'assets/images/Abra.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.off(const UserJourneyModalWidget());
+                          },
                         ),
                         _buildLevelComponent(
                           title: 'Mt. Province',
                           requiredLevel: 4,
                           image: 'assets/images/Mt Province.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.off(const UserJourneyModalWidget());
+                          },
                         ),
                         _buildLevelComponent(
                           title: 'Ifugao',
                           requiredLevel: 5,
                           image: 'assets/images/Ifugao.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.off(const UserJourneyModalWidget());
+                          },
                         ),
                         _buildLevelComponent(
                           title: 'Benguet',
                           requiredLevel: 6,
                           image: 'assets/images/Benguet.png',
-                          onTap: () {},
+                          onTap: () {
+                            Get.off(const UserJourneyModalWidget());
+                          },
                         ),
                       ],
                     )),
