@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -64,6 +65,21 @@ class _PHQ9InterpretationScreenState extends State<PHQ9InterpretationScreen> {
     var newSidas =
         sidasHive(date: DateTime.now(), answerValues: answerValues, sum: sum);
     box.add(newSidas);
+
+    // Attempt to save entry online
+    String title = '', sub = '';
+    bool result = await UserProvider().createSIDAS(newSidas);
+    if (result) {
+      title = 'Entry saved!';
+      sub = 'Entry was saved to your profile';
+    } else {
+      title = 'Entry not saved';
+      sub = 'There was a problem saving your entry online';
+    }
+    Get.snackbar(title, sub,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white60,
+        colorText: Colors.black87);
 
     //Output values inside hive into terminal in the last index
     // var last_entry = box.toMap().length - 1;

@@ -11,17 +11,25 @@ class LoadingSplash extends StatefulWidget {
 }
 
 class _LoadingSplashState extends State<LoadingSplash> {
-  
   String loadingStatus = 'Retrieving user details please wait..';
 
+  /// Get data from online database
+  /// Works by checking which storage is more up to date
   Future<Widget> loadFromFuture() async {
+    // Get entire database scores of SIDAS, PHQ, HOPEBOX, LEVEL, ACHIEVEMENTS, ETC.
+    // compare if the latest entry is much later than the database
+    // somehow check if updated missed entries are up-to-date as well
+    // if the local storage is much later, update backend; else, update local
+    // apply to the rest
     return Future.value(HomePageScreen(2));
   }
 
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      navigateAfterFuture: loadFromFuture(),
+      // navigateAfterFuture: loadFromFuture(),
+      seconds: 10,
+      navigateAfterSeconds: HomePageScreen(2),
       backgroundColor: Colors.white,
       loaderColor: Theme.of(context).colorScheme.accentBlue01,
       image: Image.asset('assets/images/splash.png'),

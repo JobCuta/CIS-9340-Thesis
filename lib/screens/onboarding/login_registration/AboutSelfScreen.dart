@@ -104,7 +104,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         selectedDate = picked;
       });
     }
-    birthDateController.text = DateFormat('yyyy-MM-d').format(selectedDate);
+    birthDateController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
   }
 
   @override

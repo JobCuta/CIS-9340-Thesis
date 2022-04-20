@@ -117,7 +117,7 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
       if (picked != null && picked != selectedDate) {
         setState(() {
           _profileController.birthdayController.text =
-              DateFormat('yyyy-MM-d').format(picked);
+              DateFormat('yyyy-MM-dd').format(picked);
         });
       }
     }

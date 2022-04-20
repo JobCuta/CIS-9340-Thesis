@@ -56,7 +56,7 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
                   onTap: () {
                     setState(() => first = second);
                     setState(() => second = third);
-                    Get.offAndToNamed('/ActivitiesGameScreen');
+                    setState(() => third = Get.offAndToNamed('/ActivitiesGameScreen') as String);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

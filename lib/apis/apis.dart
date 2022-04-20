@@ -98,19 +98,34 @@ class UserProvider extends GetConnect {
     return {"status": true, "detail": map["detail"]};
   }
 
-  Future createPHQ(phqHiveObj entry) async {
-    final response = await post(domain + paths["PHQ9"], {});
+  Future<bool> createPHQ(phqHiveObj entry) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey()
+        .then((value) => key = value.toString());
+    final response = await post(domain + paths["PHQ"], {
+      "date_created": entry.date.toString(),
+      "score": entry.score,
+    }, headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('create PHQ9 entry error ${response.statusText}');
+      return false;
+    }
+    return true;
   }
 
-  Future createSIDAS(sidasHive entry) async {
+  Future<bool> createSIDAS(sidasHive entry) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey()
+        .then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
-      "date_created": entry.date,
+      "date_created": entry.date.toString(),
       "sum": entry.sum,
-    });
+    }, headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      return "Error";
+      log('create SIDAS entry error ${response.statusText}');
+      return false;
     }
-    return response.body;
+    return true;
   }
 
   //GET
@@ -148,22 +163,26 @@ class UserProvider extends GetConnect {
     }
   }
 
-  Future<Object> phqScores() async {
+  Future phqScores() async {
     String key = "";
     await UserSecureStorage.getLoginKey()
         .then((value) => key = value.toString());
-    final response = await get(domain + paths["getPHQ"],
+    final response = await get(domain + paths["PHQ"],
         headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('error ${response.statusText}');
+      return response.statusText;
+    }
     List<dynamic> body = response.body;
     log('scores body $body');
     return response.body;
   }
 
-  Future<Object> sidasScores() async {
+  Future sidasScores() async {
     String key = "";
     await UserSecureStorage.getLoginKey()
         .then((value) => key = value.toString());
-    final response = await get(domain + paths["getSIDAS"],
+    final response = await get(domain + paths["SIDAS"],
         headers: {"Authorization": "Token " + key});
     List<dynamic> body = response.body;
     log('scores body $body');
