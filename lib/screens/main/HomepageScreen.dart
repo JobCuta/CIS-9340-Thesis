@@ -21,6 +21,7 @@ import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../custom_icons_icons.dart';
 import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -79,21 +80,21 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.notes),
+                child: Icon(CustomIcons.entries),
               ),
               label: 'Entries',
             ),
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.calendar_today_outlined),
+                child: Icon(CustomIcons.calendar),
               ),
               label: 'Calendar',
             ),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
-                  child: Icon(Icons.home),
+                  child: Icon(CustomIcons.home),
                 ),
                 label: 'Home'),
             BottomNavigationBarItem(
@@ -105,7 +106,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.widgets_outlined),
+                child: Icon(CustomIcons.minigames),
               ),
               label: 'Mini-games',
             )
