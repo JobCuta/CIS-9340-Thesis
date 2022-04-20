@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/onboarding/questionnaires/PHQ9Interpretation.dart';
+import 'package:flutter_application_1/screens/onboarding/questionnaires/OnBoardingScoresScreen.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
 import 'package:get/get.dart';
@@ -33,8 +33,11 @@ class _nextScreenModalState extends State<nextScreenModalWidget> {
     return Timer(duration, route);
   }
 
-  route() => Get.off(PHQ9InterpretationScreen(),
-      transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+  route() => Get.off(
+    const OnBoardingScoresScreen(),
+    transition: Transition.fadeIn, 
+    duration: const Duration(seconds: 1)
+  );
 
   @override
   Widget build(BuildContext context) {

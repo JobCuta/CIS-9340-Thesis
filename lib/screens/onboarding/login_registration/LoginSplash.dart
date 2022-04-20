@@ -19,17 +19,23 @@ class _LoadingSplashState extends State<LoadingSplash> {
     // Get entire database scores of SIDAS, PHQ, HOPEBOX, LEVEL, ACHIEVEMENTS, ETC.
     // compare if the latest entry is much later than the database
     // somehow check if updated missed entries are up-to-date as well
-    // if the local storage is much later, update backend; else, update local
+
+    // Check if PHQ date here is more recent that database
+
     // apply to the rest
+    
+    // update the database - local overwriting the database with no entries
+    // datebase update the local - datbase might have older entries
+    
     return Future.value(HomePageScreen(2));
   }
 
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      // navigateAfterFuture: loadFromFuture(),
-      seconds: 10,
-      navigateAfterSeconds: HomePageScreen(2),
+      navigateAfterFuture: loadFromFuture(),
+      // seconds: 10,
+      // navigateAfterSeconds: HomePageScreen(2),
       backgroundColor: Colors.white,
       loaderColor: Theme.of(context).colorScheme.accentBlue01,
       image: Image.asset('assets/images/splash.png'),

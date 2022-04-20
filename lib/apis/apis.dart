@@ -4,11 +4,9 @@ import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class UserProvider extends GetConnect {
-  final storage = const FlutterSecureStorage();
   static const domain = "https://kasiyanna-efd6n.ondigitalocean.app/";
 
   @override
@@ -24,6 +22,7 @@ class UserProvider extends GetConnect {
     "forgot": "api/v1/auth/password/reset/",
     "getUser": "api/v1/auth/user/",
     "PHQ": "api/v1/PHQ9/",
+    "PHQL": "api/v1/PHQ9-LIST/",
     "SIDAS": "api/v1/SIDAS/",
   };
 

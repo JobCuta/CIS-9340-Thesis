@@ -66,7 +66,7 @@ import 'screens/main/CalendarScreen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
-import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
+import 'screens/onboarding/questionnaires/OnBoardingScoresScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'screens/SideMenu/AchievementsScreen.dart';
 import 'package:get/get.dart';
@@ -173,7 +173,7 @@ class _MainState extends State<Main> {
           GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
           GetPage(
               name: '/interpretationScreen',
-              page: () => const PHQ9InterpretationScreen()),
+              page: () => const OnBoardingScoresScreen()),
 
           // notification
           GetPage(
