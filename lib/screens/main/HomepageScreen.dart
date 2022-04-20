@@ -8,6 +8,7 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
+import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
 import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
@@ -45,7 +46,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    const Text('Mini-games screen')
+    const MemoryGameScreen()
   ];
 
   @override

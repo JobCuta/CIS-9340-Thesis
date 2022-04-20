@@ -15,14 +15,14 @@ class MemoryGameScreen extends StatefulWidget {
 class _MemoryGameState extends State<MemoryGameScreen> {
   int _previousIndex = -1;
   bool _flip = false;
-  bool _wait = false;
+  bool _wait = true;
   int _dialogueCounter = 0;
 
   List<bool> _cardFlips = getInitialItemState();
   List<bool> _visibility = getInitialItemState();
   List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
-  List<String> _data = benguetCards();
-  List<String> _dialogues = getDialogue(Province.benguet);
+  List<String> _data = kalingaCards();
+  List<String> _dialogues = getDialogue(Province.kalinga);
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
 
                             Future.delayed(const Duration(milliseconds: 1000), () {
                               setState(() {
-                                _wait = false;
+                                _wait = true;
                               });
                               _cardStateKeys[_previousIndex].currentState!.toggleCard();
                               _previousIndex = index;
@@ -94,14 +94,14 @@ class _MemoryGameState extends State<MemoryGameScreen> {
 
                             Future.delayed(const Duration(milliseconds: 160), () {
                               setState(() {
-                                _wait = true;
+                                _wait = false;
                               });
                             }
                             );
                           } else {
                             Future.delayed(const Duration(milliseconds: 1000), () {
                               setState(() {
-                                _wait = false;
+                                _wait = true;
                               });
                               showTalkingPerson(
                                   context: context,
@@ -109,26 +109,27 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                               );
                               _visibility[_previousIndex] = false;
                               _visibility[index] = false;
+                              _cardFlips[_previousIndex] = false;
+                              _cardFlips[index] = false;
+                              if(_dialogueCounter == 7) {
+                                Future.delayed(const Duration(milliseconds: 1000), () {
+                                  showTalkingPerson(context: context, dialog: 'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',);
+                                });
+                              }
+                              _dialogueCounter++;
                             }
                             );
                             Future.delayed(const Duration(milliseconds: 160), () {
                               setState(() {
-                                _wait = true;
+                                _wait = false;
                               });
                             });
-                            if (_dialogueCounter < 8) {
-                              _dialogueCounter++;
-                            } else {
-                              _dialogueCounter = 0;
-                            }
+                            print("counter: " + _dialogueCounter.toString());
                           }
-                        } else {
-                          _cardFlips[_previousIndex] = false;
-                          _cardFlips[index] = false;
                         }
                       }
                     },
-                    flipOnTouch: _wait ? false : true,
+                    flipOnTouch: _wait && _cardFlips[index] ? true : false,
                     front: const SizedBox(
                       height: 120,
                       child: Card(
