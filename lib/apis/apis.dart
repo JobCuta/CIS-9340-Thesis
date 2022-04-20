@@ -74,8 +74,7 @@ class UserProvider extends GetConnect {
         status = true;
         message = map["detail"];
       } else {
-        message =
-            "Unknown error occured verifying user details during registration";
+        message = "Unknown error occured verifying user details during registration";
       }
     }
     return {"message": message, "status": status};
@@ -99,12 +98,13 @@ class UserProvider extends GetConnect {
 
   Future<bool> createPHQ(phqHiveObj entry) async {
     String key = "";
-    await UserSecureStorage.getLoginKey()
-        .then((value) => key = value.toString());
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["PHQ"], {
       "date_created": entry.date.toString(),
       "score": entry.score,
-    }, headers: {"Authorization": "Token " + key});
+    }, headers: {
+      "Authorization": "Token " + key
+    });
     if (response.hasError) {
       log('create PHQ9 entry error ${response.statusText}');
       return false;
@@ -114,12 +114,13 @@ class UserProvider extends GetConnect {
 
   Future<bool> createSIDAS(sidasHive entry) async {
     String key = "";
-    await UserSecureStorage.getLoginKey()
-        .then((value) => key = value.toString());
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
       "date_created": entry.date.toString(),
       "sum": entry.sum,
-    }, headers: {"Authorization": "Token " + key});
+    }, headers: {
+      "Authorization": "Token " + key
+    });
     if (response.hasError) {
       log('create SIDAS entry error ${response.statusText}');
       return false;
@@ -136,10 +137,8 @@ class UserProvider extends GetConnect {
 
   Future<Object> user(bool initial) async {
     String key = "";
-    await UserSecureStorage.getLoginKey()
-        .then((value) => key = value.toString());
-    final response = await get(domain + paths["getUser"],
-        headers: {"Authorization": "Token " + key});
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
     log('get user response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
@@ -164,10 +163,8 @@ class UserProvider extends GetConnect {
 
   Future phqScores() async {
     String key = "";
-    await UserSecureStorage.getLoginKey()
-        .then((value) => key = value.toString());
-    final response = await get(domain + paths["PHQ"],
-        headers: {"Authorization": "Token " + key});
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["PHQ"], headers: {"Authorization": "Token " + key});
     if (response.hasError) {
       log('error ${response.statusText}');
       return response.statusText;
@@ -179,12 +176,35 @@ class UserProvider extends GetConnect {
 
   Future sidasScores() async {
     String key = "";
-    await UserSecureStorage.getLoginKey()
-        .then((value) => key = value.toString());
-    final response = await get(domain + paths["SIDAS"],
-        headers: {"Authorization": "Token " + key});
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["SIDAS"], headers: {"Authorization": "Token " + key});
     List<dynamic> body = response.body;
     log('scores body $body');
     return response.body;
+  }
+
+  //PUT
+  Future updatePHQ(int score, String index) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response =
+        await put(domain + paths["PHQ"] + '$index/', {"score": score}, headers: {"Authorization": "Token" + key});
+    if (response.hasError) {
+      log('error ${response.statusText}');
+      return false;
+    }
+    return true;
+  }
+
+    Future updateSIDAS(int score, String index) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response =
+        await put(domain + paths["SIDAS"] + '$index/', {"score": score}, headers: {"Authorization": "Token" + key});
+    if (response.hasError) {
+      log('error ${response.statusText}');
+      return false;
+    }
+    return true;
   }
 }

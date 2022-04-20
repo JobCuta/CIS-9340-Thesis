@@ -3,16 +3,14 @@ import 'dart:developer';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
-import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
-import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
-import 'package:flutter_application_1/screens/main/UserJourney.dart';
+import 'package:flutter_application_1/widgets/AssessmentsContainer.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -693,6 +691,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ]),
                 ),
+                const AssessmentsContainer(phq: true),
               ],
             ),
           ),
