@@ -8,6 +8,7 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
+import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
 import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../custom_icons_icons.dart';
 import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    const Text('Mini-games screen')
+    const MemoryGameScreen()
   ];
 
   @override
@@ -79,21 +81,21 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.notes),
+                child: Icon(CustomIcons.entries),
               ),
               label: 'Entries',
             ),
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.calendar_today_outlined),
+                child: Icon(CustomIcons.calendar),
               ),
               label: 'Calendar',
             ),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
-                  child: Icon(Icons.home),
+                  child: Icon(CustomIcons.home),
                 ),
                 label: 'Home'),
             BottomNavigationBarItem(
@@ -105,7 +107,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.widgets_outlined),
+                child: Icon(CustomIcons.minigames),
               ),
               label: 'Mini-games',
             )
