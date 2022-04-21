@@ -7,9 +7,9 @@
 // GitHub - VarunS2002/Flutter-Sudoku: This is a fully fledged Sudoku game written in Dart using Flutter. (2022). Retrieved 2 April 2022, from https://github.com/VarunS2002/Flutter-Sudoku
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:get/get.dart';
@@ -37,6 +37,7 @@ class SudokuScreenState extends State<SudokuScreen> {
   static String currentTheme = '';
   static String currentAccentColor = '';
   final SudokuController _sudokuController = Get.put(SudokuController());
+  final LevelController _levelController = Get.put(LevelController());
 
   @override
   void initState() {
@@ -122,7 +123,14 @@ class SudokuScreenState extends State<SudokuScreen> {
             context: context,
             dialog:
                 'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
-          );
+          ).then((value) {
+            Get.offAndToNamed('/ActivitiesGameScreen');
+          });
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            _levelController.addXp('Sudoku', 50);
+            _levelController.displayLevelXpModal(context);
+          });
+
           // showAnimatedDialog<void>(
           //     animationType: DialogTransitionType.fadeScale,
           //     barrierDismissible: true,
