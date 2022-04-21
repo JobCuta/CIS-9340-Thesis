@@ -67,7 +67,7 @@ import 'screens/main/CalendarScreen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
-import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
+import 'screens/onboarding/questionnaires/OnBoardingScoresScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'screens/SideMenu/AchievementsScreen.dart';
 import 'package:get/get.dart';
@@ -160,20 +160,20 @@ class _MainState extends State<Main> {
             name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
         GetPage(name: '/loginSplashScreen', page: () => const LoadingSplash()),
 
-        // questionnaires
-        GetPage(
-            name: '/assessPHQScreen',
-            page: () => const InitialAssessmentPHQ9Screen()),
-        GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
-        GetPage(
-            name: '/loadingScreen', page: () => const LoadingResultsScreen()),
-        GetPage(
-            name: '/assessSIDASScreen',
-            page: () => const InitialAssessmentSIDASScreen()),
-        GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
-        GetPage(
-            name: '/interpretationScreen',
-            page: () => const PHQ9InterpretationScreen()),
+          // questionnaires
+          GetPage(
+              name: '/assessPHQScreen',
+              page: () => const InitialAssessmentPHQ9Screen()),
+          GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
+          GetPage(
+              name: '/loadingScreen', page: () => const LoadingResultsScreen()),
+          GetPage(
+              name: '/assessSIDASScreen',
+              page: () => const InitialAssessmentSIDASScreen()),
+          GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
+          GetPage(
+              name: '/interpretationScreen',
+              page: () => const OnBoardingScoresScreen()),
 
         // notification
         GetPage(

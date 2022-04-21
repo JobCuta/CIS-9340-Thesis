@@ -60,7 +60,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
               ),
               Center(
                 child: Text(
-                  'Your just gained your first experience!',
+                  'Your just gained experience!',
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).colorScheme.accentBlue04),

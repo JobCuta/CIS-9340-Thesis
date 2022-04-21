@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
+import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -215,6 +217,10 @@ class CopingGameScreenState extends State<CopingGameScreen> {
             context: context,
             dialog:
                 "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task.");
+
+        LevelController _levelController = Get.put(LevelController());
+        _levelController.addXp('Coping (${province.name})', 50);
+        _levelController.displayLevelXpModal(context);
       }
     });
   }
@@ -236,8 +242,10 @@ class CopingGameScreenState extends State<CopingGameScreen> {
     List<ProvinceCards> cards = provinceCards[province] as List<ProvinceCards>;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(50, 50, 50, 0),
+      padding: const EdgeInsets.fromLTRB(50, 50, 50, 25),
       child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
               crossAxisSpacing: 20,
@@ -312,7 +320,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                       ),
                       fit: BoxFit.cover))),
           const SizedBox(height: 10.0),
-          _buildCards(selectedProvince),
+          SingleChildScrollView(child: _buildCards(selectedProvince)),
         ]));
   }
 }

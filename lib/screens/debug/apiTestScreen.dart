@@ -7,10 +7,15 @@ import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
+import '../../apis/phqHive.dart';
 import '../onboarding/intro/IntroductionScreen.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(phqHiveAdapter());
   runApp(DebugScreen());
 }
 
@@ -21,8 +26,7 @@ class DebugScreen extends StatelessWidget {
   final lc = [TextEditingController(), TextEditingController()];
 
   handleLogin() async {
-    var response =
-        await UserProvider().login(LoginForm(lc[0].text, lc[1].text));
+    var response = await UserProvider().login(LoginForm(lc[0].text, lc[1].text));
     log("test $response");
   }
 
@@ -69,20 +73,42 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Create PHQ9 Entry'),
                       onPressed: () async {
-                        phqHiveObj entry = phqHiveObj(
-                            date: DateTime.now(), score: random.nextInt(27));
+                        phqHiveObj entry = phqHiveObj(date: DateTime.now(), score: random.nextInt(27));
                         bool scores = await UserProvider().createPHQ(entry);
                         log('entry made? $scores');
                       }),
                   ElevatedButton(
                       child: const Text('Create SIDAS Entry'),
                       onPressed: () async {
-                        sidasHive entry = sidasHive(
-                            date: DateTime.now(),
-                            answerValues: [],
-                            sum: random.nextInt(50));
+                        sidasHive entry = sidasHive(date: DateTime.now(), answerValues: [], sum: random.nextInt(50));
                         bool scores = await UserProvider().createSIDAS(entry);
                         log('entry made? ${scores}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Get PHQ9 Hive'),
+                      onPressed: () async {
+                        var phq = await Hive.openLazyBox('phq');
+                        log('phq ${phq.keys.toList()}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Get SIDAS Hive'),
+                      onPressed: () async {
+                        var sidas = await Hive.openLazyBox('sidas');
+                        log('sidas ${sidas.keys.toList()}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Delete PHQ Hive'),
+                      onPressed: () async {
+                        var phq = await Hive.openLazyBox('phq');
+                        phq.deleteAll(phq.keys);
+                        log('phq ${phq.keys.toList()}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Delete SIDAS Hive'),
+                      onPressed: () async {
+                        var sidas = await Hive.openLazyBox('sidas');
+                        sidas.deleteAll(sidas.keys);
+                        log('sidas ${sidas.keys.toList()}');
                       }),
                 ],
               );
