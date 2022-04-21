@@ -146,8 +146,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           visible: _settingsController.framePath.value != '',
                           child: SvgPicture.asset(
                               _settingsController.framePath.value,
-                              width: 110,
-                              height: 110),
+                              width: 100,
+                              height: 100),
                         ),
                       ],
                     ),
