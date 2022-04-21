@@ -1,6 +1,8 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:get/get.dart';
+import '../../../controllers/levelController.dart';
 
 class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
   List<String> _data = kalingaCards();
   List<String> _dialogues = getDialogue(Province.kalinga);
+  bool _completed = false;
+  final LevelController _levelController = Get.put(LevelController());
 
   @override
   void initState() {
@@ -118,6 +122,9 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                   .then((value) {
                                 _dialogueCounter++;
                                 if (_dialogueCounter == 8) {
+                                  setState(() {
+                                    _completed = true;
+                                  });
                                   Future.delayed(
                                       const Duration(milliseconds: 1000), () {
                                     showTalkingPerson(
@@ -126,6 +133,12 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                           'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
                                     );
                                   });
+                                  if (_completed == true) {
+                                    Future.delayed(const Duration(milliseconds: 1000), () {
+                                      _levelController.addXp('Memory Game', 50);
+                                      _levelController.displayLevelXpModal(context);
+                                    });
+                                  }
                                 }
                               });
                             });
