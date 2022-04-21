@@ -22,8 +22,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
   var latestEntry;
 
   @override
-  Future<void> initState() async {
-    // super.initState();
+  void initState() {
+    super.initState();
     // if (widget.phq) {
     //   boxName = 'phq';
     //   title = 'PHQ9';
