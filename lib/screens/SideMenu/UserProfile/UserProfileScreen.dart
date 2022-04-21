@@ -124,22 +124,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   spacing: 15,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Container(
-                      child: (_settingsController.imagePath.value != '')
-                          ? CircleAvatar(
-                              radius: 50,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.file(
-                                  File(_settingsController.imagePath.value),
-                                  width: 100.0,
-                                  height: 100.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ))
-                          : SvgPicture.asset(
-                              'assets/images/default_user_image.svg',
-                              width: 100),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          child: (_settingsController.imagePath.value != '')
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.file(
+                                    File(_settingsController.imagePath.value),
+                                    width: 100.0,
+                                    height: 100.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/default_user_image.svg',
+                                  width: 100),
+                        ),
+                        Visibility(
+                          visible: _settingsController.framePath.value != '',
+                          child: SvgPicture.asset(
+                              _settingsController.framePath.value,
+                              width: 100,
+                              height: 100),
+                        ),
+                      ],
                     ),
                     GetBuilder<UserProfileController>(
                       builder: (value) => Text(
@@ -203,6 +213,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         isEditable: true,
                         onTap: (() {
                           Get.toNamed('/userProfileEditScreen');
+                        })),
+                    _buildFieldComponent(
+                        fieldName: 'Edit Frame',
+                        isEditable: true,
+                        onTap: (() {
+                          Get.toNamed('/userProfileFrameScreen');
                         })),
                     Divider(
                       color: Theme.of(context).colorScheme.neutralWhite03,

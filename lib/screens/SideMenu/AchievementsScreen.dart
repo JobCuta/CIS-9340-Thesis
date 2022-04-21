@@ -44,26 +44,39 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
                 child: Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    Stack(
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
-                      height: 200,
-                      child: (_settingsController.imagePath.value != '')
-                          ? CircleAvatar(
-                              radius: 80,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(160),
-                                child: Image.file(
-                                  File(_settingsController.imagePath.value),
-                                  width: 160.0,
-                                  height: 160.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ))
-                          : SvgPicture.asset(
-                              'assets/images/default_user_image.svg',
-                              width: 160),
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.center,
+                          decoration:
+                              const BoxDecoration(shape: BoxShape.circle),
+                          height: 200,
+                          child: (_settingsController.imagePath.value != null)
+                              ? CircleAvatar(
+                                  radius: 80,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.file(
+                                      File(_settingsController.imagePath.value),
+                                      width: 160.0,
+                                      height: 160.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))
+                              : SvgPicture.asset(
+                                  'assets/images/default_user_image.svg',
+                                  width: 160),
+                        ),
+                        Visibility(
+                          visible: _settingsController.framePath.value != '',
+                          child: SvgPicture.asset(
+                              _settingsController.framePath.value,
+                              width: 160,
+                              height: 160),
+                        ),
+                      ],
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),

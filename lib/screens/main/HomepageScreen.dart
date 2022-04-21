@@ -7,6 +7,8 @@ import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
+import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
+import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
@@ -19,6 +21,7 @@ import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../custom_icons_icons.dart';
 import 'SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -42,7 +45,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    const Text('Mini-games screen')
+    const MemoryGameScreen()
   ];
 
   @override
@@ -77,21 +80,21 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.notes),
+                child: Icon(CustomIcons.entries),
               ),
               label: 'Entries',
             ),
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.calendar_today_outlined),
+                child: Icon(CustomIcons.calendar),
               ),
               label: 'Calendar',
             ),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
-                  child: Icon(Icons.home),
+                  child: Icon(CustomIcons.home),
                 ),
                 label: 'Home'),
             BottomNavigationBarItem(
@@ -103,7 +106,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Icon(Icons.widgets_outlined),
+                child: Icon(CustomIcons.minigames),
               ),
               label: 'Mini-games',
             )
@@ -345,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                           // isScrollControlled: true,
                           builder: (context) {
                             return SizedBox(
-                                height: MediaQuery.of(context).size.height,
+                                height: MediaQuery.of(context).size.height * 0.75,
                                 child: const LevelUpRewardWidgets());
                           });
                 }),
@@ -353,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp(150);
+                      _levelController.addXp('Test', 150);
 
                       showModalBottomSheet(
                           context: context,
@@ -374,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text("Test Today's Task"),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp(150);
+                      _levelController.addXp('Test', 150);
 
                       showModalBottomSheet(
                           context: context,

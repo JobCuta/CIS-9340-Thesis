@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
+import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
+import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -21,184 +23,274 @@ class CopingGameScreen extends StatefulWidget {
 class CopingGameScreenState extends State<CopingGameScreen> {
   bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
+  double height = 270;
+  double width = 300;
+  bool isComplete = false;
 
-  showCardDialog(AssetImage img, String info, String tipsTitle, String tips, int index, Province province) {
-    // TODO: Move completion later on
+  showCardDialog(AssetImage img, String info, String tipsTitle, String tips,
+      int index, Province province) {
     setState(() {
       _copingController.updateCardCompletion(province, index);
-      bool isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
-      if (isComplete) {
-        showTalkingPerson(
-          context: context, 
-          dialog: "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task."
-        );
-      }
+      isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
     });
     FlipCardController flipCardController = FlipCardController();
     print('infoSelected on start of dialog = $_infoSelected');
 
     return showDialog<String>(
-      context: context,
-      builder: (BuildContext context) { return StatefulBuilder(
-        builder: (context, setState) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(0.00),
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          backgroundColor: Colors.transparent,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FlipCard(
-                  flipOnTouch: false,
-                  controller: flipCardController,
-                  front: Container(
-                    height: 270,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.intGreen06,
-                        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-                        image: DecorationImage(
-                            image: img,
-                            fit: BoxFit.contain,
-                          ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: () => Get.back(),
-                              child: SvgPicture.asset('assets/images/coping_back_button_dark.svg'),
-                            ),
-                            // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
-                            //   child: IconButton(
-                            //     icon: Icon(Icons.info),
-                            //     onPressed: () {
-                            //       setState(() => _infoSelected = true);
-                            //       flipCardController.toggleCard();
-                            //     }
-                            //   )
-                            // ),
+        barrierColor: const Color(0xff101010).withOpacity(0.60),
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              contentPadding: const EdgeInsets.all(0),
+              backgroundColor: Colors.transparent,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FlipCard(
+                    flipOnTouch: false,
+                    controller: flipCardController,
+                    front: Container(
+                      height: height,
+                      width: width,
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width - 150,
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.intGreen06,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Image(image: img),
+                                ),
+                              )),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () => Get.back(),
+                                    child: SvgPicture.asset(
+                                        'assets/images/coping_back_button_dark.svg'),
+                                  ),
+                                  // CircleAvatar(radius: 24, backgroundColor: Theme.of(context).colorScheme.textileRed01,
+                                  //   child: IconButton(
+                                  //     icon: Icon(Icons.info),
+                                  //     onPressed: () {
+                                  //       setState(() => _infoSelected = true);
+                                  //       flipCardController.toggleCard();
+                                  //     }
+                                  //   )
+                                  // ),
 
-                            InkWell(
-                              onTap: () {
-                                setState(() => _infoSelected = true);
-                                flipCardController.toggleCard();
-                              },
-                              child: SvgPicture.asset('assets/images/coping_info_button.svg'),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() => _infoSelected = true);
+                                      flipCardController.toggleCard();
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/images/coping_info_button.svg'),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-      
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: () {
-                              setState(() => _infoSelected = false);
-                              flipCardController.toggleCard();
-                            },
-                            child: SvgPicture.asset('assets/images/coping_tips_button.svg'),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() => _infoSelected = false);
+                                  flipCardController.toggleCard();
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/images/coping_tips_button.svg'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-      
-                  back: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.neutralWhite01,
-                        borderRadius: const BorderRadius.all(Radius.circular(32.0))
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                    back: Container(
+                        height: height,
+                        width: width,
+                        alignment: Alignment.center,
+                        color: Colors.transparent,
+                        child: Stack(
                           children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width - 150,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 15, 15, 10),
+                                      child: Text(
+                                        _infoSelected
+                                            ? 'Did you know?'
+                                            : tipsTitle,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .intGreen06),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite03,
+                                      height: 5,
+                                      indent: 10,
+                                      endIndent: 10,
+                                      thickness: 1,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      child: Text(_infoSelected ? info : tips,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralBlack02),
+                                          textAlign: TextAlign.center),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text(_infoSelected ? 'Did you know?' : tipsTitle, style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.intGreen06), textAlign: TextAlign.center),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: InkWell(
+                                  onTap: () => flipCardController.toggleCard(),
+                                  child: SvgPicture.asset(
+                                      'assets/images/coping_back_button_light.svg'),
+                                ),
+                              ),
                             ),
-                            Divider(
-                              color: Theme.of(context).colorScheme.neutralWhite03,
-                              height: 25,
-                              thickness: 1,
-                            ),
-                            Text(_infoSelected ? info : tips, style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Theme.of(context).colorScheme.neutralBlack02), textAlign: TextAlign.center),
                           ],
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: () => flipCardController.toggleCard(),
-                            child: SvgPicture.asset('assets/images/coping_back_button_light.svg'),
-                          ),
-                        ),
-                      ],
-                    )
-                    ),
+                        )),
                   ),
-              ],
-            ),
+                ],
+              ),
             );
-        }
-      );
+          });
+        }).then((value) {
+      if (isComplete) {
+        showTalkingPerson(
+            context: context,
+            dialog:
+                "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task.");
+
+        LevelController _levelController = Get.put(LevelController());
+        _levelController.addXp('Coping (${province.name})', 50);
+        _levelController.displayLevelXpModal(context);
       }
-    );
+    });
   }
 
   Padding _buildCards(Province province) {
-    List<bool> cardsCompleted = 
-        province == Province.Abra ? _copingController.abraCardsCompleted.value
-        : province == Province.Apayao ? _copingController.apayaoCardsCompleted.value
-        : province == Province.Benguet ? _copingController.benguetCardsCompleted.value
-        : province == Province.Ifugao ? _copingController.ifugaoCardsCompleted.value
-        : province == Province.Kalinga ? _copingController.kalingaCardsCompleted.value
-        : _copingController.mountainProvinceCardsCompleted.value; 
+    List<bool> cardsCompleted = province == Province.Abra
+        ? _copingController.abraCardsCompleted.value
+        : province == Province.Apayao
+            ? _copingController.apayaoCardsCompleted.value
+            : province == Province.Benguet
+                ? _copingController.benguetCardsCompleted.value
+                : province == Province.Ifugao
+                    ? _copingController.ifugaoCardsCompleted.value
+                    : province == Province.Kalinga
+                        ? _copingController.kalingaCardsCompleted.value
+                        : _copingController
+                            .mountainProvinceCardsCompleted.value;
 
-    
     List<ProvinceCards> cards = provinceCards[province] as List<ProvinceCards>;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
+      padding: const EdgeInsets.fromLTRB(50, 50, 50, 25),
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            childAspectRatio: 3 / 2,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20),
-        itemCount: cards.length,
-        itemBuilder: (BuildContext context, index) {
-          ProvinceCards card = cards[index];
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: cards.length,
+          itemBuilder: (BuildContext context, index) {
+            ProvinceCards card = cards[index];
 
-          return InkWell(
-            onTap: () {
-              print('test $index');
-              showCardDialog(card.image, card.info, card.tipsTitle, card.tips, index, province);
-            },
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: cardsCompleted[index] ? Theme.of(context).colorScheme.intGreen06 : Theme.of(context).colorScheme.intGreen03,
+            return InkWell(
+              onTap: () {
+                showCardDialog(card.image, card.info, card.tipsTitle, card.tips,
+                    index, province);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.intGreen06,
                   borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                      image: card.image,
-                      fit: BoxFit.contain,
-                      opacity: cardsCompleted[index] ? 0.4 : 1.0
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image(image: card.image),
                     ),
+                    Visibility(
+                        visible: cardsCompleted[index],
+                        child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .neutralBlack02
+                                  .withOpacity(0.40),
+                            ),
+                            child: const Icon(Icons.check,
+                                color: Color(0xff00BF58), size: 50.0))),
+                  ],
+                ),
               ),
-              child: Visibility(
-                visible: cardsCompleted[index],
-                child: Icon(Icons.check, color: Theme.of(context).colorScheme.accentGreen04, size: 46.0)
-              )
-            ),
-          );
-        }),
+            );
+          }),
     );
   }
 
@@ -207,30 +299,28 @@ class CopingGameScreenState extends State<CopingGameScreen> {
     Province selectedProvince = _copingController.selectedProvince.value;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Coping (${selectedProvince.name})',
-          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-              color: Theme.of(context).colorScheme.neutralWhite01,
-              fontWeight: FontWeight.w400),
-        ),
-        leading: BackButton(onPressed: () {
-          Get.back();
-        }),
-        elevation: 0,
-        backgroundColor: const Color(0xff216CB2).withOpacity(0.40)
-      ),
-
-      body: Stack(children: [
-        Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/background_images/adventure_background.png',),
-                  fit: BoxFit.cover))
+        appBar: AppBar(
+            title: Text(
+              'Coping (${selectedProvince.name})',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralWhite01,
+                  fontWeight: FontWeight.w400),
             ),
-        const SizedBox(height: 10.0),
-        _buildCards(selectedProvince),
-      ])
-    );
+            leading: BackButton(onPressed: () {
+              Get.back();
+            }),
+            elevation: 0,
+            backgroundColor: const Color(0xff216CB2).withOpacity(0.40)),
+        body: Stack(children: [
+          Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/background_images/adventure_background.png',
+                      ),
+                      fit: BoxFit.cover))),
+          const SizedBox(height: 10.0),
+          SingleChildScrollView(child: _buildCards(selectedProvince)),
+        ]));
   }
 }

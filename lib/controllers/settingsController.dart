@@ -10,6 +10,7 @@ class SettingsController extends GetxController {
   var notificationsEveningTime = ['18', '30'].obs;
   var language = 'English'.obs;
   var imagePath = ''.obs;
+  var framePath = ''.obs;
   TimeController timeController = TimeController();
 
   Box box = Hive.box<SettingsHive>('settings');
@@ -22,7 +23,8 @@ class SettingsController extends GetxController {
           notificationsAfternoonTime: ['12', '30'],
           notificationsEveningTime: ['18', '30'],
           language: 'English',
-          imagePath: '');
+          imagePath: '',
+          framePath: '');
       box.put('settings', settings);
     }
     // print('Settings');
@@ -35,6 +37,7 @@ class SettingsController extends GetxController {
     notificationsEveningTime.value = settings.notificationsEveningTime;
     language.value = settings.language;
     imagePath.value = settings.imagePath;
+    framePath.value = settings.framePath;
     checkValues();
   }
 
@@ -49,7 +52,8 @@ class SettingsController extends GetxController {
         notificationsAfternoonTime: newNotificationsAfternoonTime,
         notificationsEveningTime: newNotificationsEveningTime,
         language: language.value,
-        imagePath: imagePath.value);
+        imagePath: imagePath.value,
+        framePath: framePath.value);
     box.putAt(0, newSettings);
 
     notificationsEnabled.value = newSettings.notificationsEnabled;
@@ -68,7 +72,8 @@ class SettingsController extends GetxController {
         notificationsAfternoonTime: notificationsAfternoonTime.value,
         notificationsEveningTime: notificationsEveningTime.value,
         language: newLanguage,
-        imagePath: imagePath.value);
+        imagePath: imagePath.value,
+        framePath: framePath.value);
     box.putAt(0, newSettings);
 
     language.value = newLanguage;
@@ -84,10 +89,27 @@ class SettingsController extends GetxController {
         notificationsAfternoonTime: notificationsAfternoonTime.value,
         notificationsEveningTime: notificationsEveningTime.value,
         language: language.value,
-        imagePath: newImage);
+        imagePath: newImage,
+        framePath: framePath.value);
     box.putAt(0, newSettings);
 
     imagePath.value = newImage;
+    update();
+    checkValues();
+  }
+
+  void updateFrameSettings({required newFrame}) {
+    SettingsHive newSettings = SettingsHive(
+        notificationsEnabled: notificationsEnabled.value,
+        notificationsMorningTime: notificationsMorningTime.value,
+        notificationsAfternoonTime: notificationsAfternoonTime.value,
+        notificationsEveningTime: notificationsEveningTime.value,
+        language: language.value,
+        imagePath: imagePath.value,
+        framePath: newFrame);
+    box.putAt(0, newSettings);
+
+    imagePath.value = newFrame;
     update();
     checkValues();
   }
@@ -100,6 +122,7 @@ class SettingsController extends GetxController {
     notificationsEveningTime.value = settings.notificationsEveningTime;
     language.value = settings.language;
     imagePath.value = settings.imagePath;
+    framePath.value = settings.framePath;
     checkValues();
   }
 
@@ -112,6 +135,7 @@ class SettingsController extends GetxController {
     print(notificationsEveningTime.value);
     print(language.value);
     print(imagePath.value);
+    print(framePath.value);
 
     SettingsHive settings = box.get('settings');
     print('Settings in the box (Settings)');
@@ -122,5 +146,6 @@ class SettingsController extends GetxController {
     print(settings.notificationsEveningTime);
     print(settings.language);
     print(settings.imagePath);
+    print(settings.framePath);
   }
 }

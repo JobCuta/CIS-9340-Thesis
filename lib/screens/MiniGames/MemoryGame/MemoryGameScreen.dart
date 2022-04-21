@@ -1,28 +1,29 @@
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
+import 'package:get/get.dart';
+import '../../../controllers/levelController.dart';
 
 class MemoryGameScreen extends StatefulWidget {
-
   const MemoryGameScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MemoryGameState();
 }
 
-
 class _MemoryGameState extends State<MemoryGameScreen> {
   int _previousIndex = -1;
   bool _flip = false;
-  bool _wait = false;
+  bool _wait = true;
   int _dialogueCounter = 0;
 
   List<bool> _cardFlips = getInitialItemState();
   List<bool> _visibility = getInitialItemState();
   List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
-  List<String> _data = benguetCards();
-  List<String> _dialogues = getDialogue(Province.benguet);
+  List<String> _data = kalingaCards();
+  List<String> _dialogues = getDialogue(Province.kalinga);
+  bool _completed = false;
+  final LevelController _levelController = Get.put(LevelController());
 
   @override
   void initState() {
@@ -58,19 +59,22 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background_images/adventure_background.png'),
-                  fit: BoxFit.cover)),
+                image: DecorationImage(
+                    image: AssetImage(
+                        'assets/background_images/adventure_background.png'),
+                    fit: BoxFit.cover)),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
                 child: GridView.builder(
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
                   itemBuilder: (context, index) => FlipCard(
                     key: _cardStateKeys[index],
                     onFlip: () {
@@ -81,59 +85,82 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         _flip = false;
                         if (_previousIndex != index) {
                           if (_data[_previousIndex] != _data[index]) {
-
-                            Future.delayed(const Duration(milliseconds: 1000), () {
+                            Future.delayed(const Duration(milliseconds: 1000),
+                                () {
                               setState(() {
-                                _wait = false;
+                                _wait = true;
                               });
-                              _cardStateKeys[_previousIndex].currentState!.toggleCard();
+                              _cardStateKeys[_previousIndex]
+                                  .currentState!
+                                  .toggleCard();
                               _previousIndex = index;
-                              _cardStateKeys[_previousIndex].currentState!.toggleCard();
-                                }
-                            );
+                              _cardStateKeys[_previousIndex]
+                                  .currentState!
+                                  .toggleCard();
+                            });
 
-                            Future.delayed(const Duration(milliseconds: 160), () {
-                              setState(() {
-                                _wait = true;
-                              });
-                            }
-                            );
-                          } else {
-                            Future.delayed(const Duration(milliseconds: 1000), () {
+                            Future.delayed(const Duration(milliseconds: 160),
+                                () {
                               setState(() {
                                 _wait = false;
-                              });
-                              showTalkingPerson(
-                                  context: context,
-                                  dialog: _dialogues[_dialogueCounter]
-                              );
-                              _visibility[_previousIndex] = false;
-                              _visibility[index] = false;
-                            }
-                            );
-                            Future.delayed(const Duration(milliseconds: 160), () {
-                              setState(() {
-                                _wait = true;
                               });
                             });
-                            if (_dialogueCounter < 8) {
-                              _dialogueCounter++;
-                            } else {
-                              _dialogueCounter = 0;
-                            }
+                          } else {
+                            Future.delayed(const Duration(milliseconds: 1000),
+                                () {
+                              setState(() {
+                                _wait = true;
+                              });
+
+                              _visibility[_previousIndex] = false;
+                              _visibility[index] = false;
+                              _cardFlips[_previousIndex] = false;
+                              _cardFlips[index] = false;
+                              showTalkingPerson(
+                                      context: context,
+                                      dialog: _dialogues[_dialogueCounter])
+                                  .then((value) {
+                                _dialogueCounter++;
+                                if (_dialogueCounter == 8) {
+                                  setState(() {
+                                    _completed = true;
+                                  });
+                                  Future.delayed(
+                                      const Duration(milliseconds: 1000), () {
+                                    showTalkingPerson(
+                                      context: context,
+                                      dialog:
+                                          'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
+                                    );
+                                  });
+                                  if (_completed == true) {
+                                    Future.delayed(const Duration(milliseconds: 1000), () {
+                                      _levelController.addXp('Memory Game', 50);
+                                      _levelController.displayLevelXpModal(context);
+                                    });
+                                  }
+                                }
+                              });
+                            });
+                            Future.delayed(const Duration(milliseconds: 160),
+                                () {
+                              setState(() {
+                                _wait = false;
+                              });
+                            });
+                            print("counter: " + _dialogueCounter.toString());
                           }
-                        } else {
-                          _cardFlips[_previousIndex] = false;
-                          _cardFlips[index] = false;
                         }
                       }
                     },
-                    flipOnTouch: _wait ? false : true,
+                    flipOnTouch: _wait && _cardFlips[index] ? true : false,
                     front: const SizedBox(
                       height: 120,
                       child: Card(
                         child: Center(
-                          child: Image(image: AssetImage('assets/images/hidden_card.png')),
+                          child: Image(
+                              image:
+                                  AssetImage('assets/images/hidden_card.png')),
                         ),
                       ),
                     ),
@@ -149,7 +176,6 @@ class _MemoryGameState extends State<MemoryGameScreen> {
     );
   }
 }
-
 
 List getCards(Province province) {
   List<String> provinceCardsList = <String>[];
@@ -208,14 +234,22 @@ enum Province { abra, apayao, benguet, ifugao, kalinga, mountainProvince }
 
 List<String> abraCards() {
   return [
-    'assets/coping_game/abra/abra_atsuete.png', 'assets/coping_game/abra/abra_atsuete.png',
-    'assets/coping_game/abra/abra_bangued_cathedral.png', 'assets/coping_game/abra/abra_bangued_cathedral.png',
-    'assets/coping_game/abra/abra_barkilya.png', 'assets/coping_game/abra/abra_barkilya.png',
-    'assets/coping_game/abra/abra_kalaleng.png', 'assets/coping_game/abra/abra_kalaleng.png',
-    'assets/coping_game/abra/abra_lalabayan.png', 'assets/coping_game/abra/abra_lalabayan.png',
-    'assets/coping_game/abra/abra_suyod.png', 'assets/coping_game/abra/abra_suyod.png',
-    'assets/coping_game/abra/abra_tabungaw_hats.png', 'assets/coping_game/abra/abra_tabungaw_hats.png',
-    'assets/coping_game/abra/abra_talisay.png', 'assets/coping_game/abra/abra_talisay.png'
+    'assets/coping_game/abra/abra_atsuete.png',
+    'assets/coping_game/abra/abra_atsuete.png',
+    'assets/coping_game/abra/abra_bangued_cathedral.png',
+    'assets/coping_game/abra/abra_bangued_cathedral.png',
+    'assets/coping_game/abra/abra_barkilya.png',
+    'assets/coping_game/abra/abra_barkilya.png',
+    'assets/coping_game/abra/abra_kalaleng.png',
+    'assets/coping_game/abra/abra_kalaleng.png',
+    'assets/coping_game/abra/abra_lalabayan.png',
+    'assets/coping_game/abra/abra_lalabayan.png',
+    'assets/coping_game/abra/abra_suyod.png',
+    'assets/coping_game/abra/abra_suyod.png',
+    'assets/coping_game/abra/abra_tabungaw_hats.png',
+    'assets/coping_game/abra/abra_tabungaw_hats.png',
+    'assets/coping_game/abra/abra_talisay.png',
+    'assets/coping_game/abra/abra_talisay.png'
   ];
 }
 
@@ -234,14 +268,22 @@ List<String> abraDialogues() {
 
 List<String> apayaoCards() {
   return [
-    'assets/coping_game/apayao/apayao_aliwa.png', 'assets/coping_game/apayao/apayao_aliwa.png',
-    'assets/coping_game/apayao/apayao_isnag_abag.png', 'assets/coping_game/apayao/apayao_isnag_abag.png',
-    'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png', 'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png',
-    'assets/coping_game/apayao/apayao_pas-ing.png', 'assets/coping_game/apayao/apayao_pas-ing.png',
-    'assets/coping_game/apayao/apayao_pottery1.png', 'assets/coping_game/apayao/apayao_pottery1.png',
-    'assets/coping_game/apayao/apayao_pottery2.png', 'assets/coping_game/apayao/apayao_pottery2.png',
-    'assets/coping_game/apayao/apayao_sinibalu.png', 'assets/coping_game/apayao/apayao_sinibalu.png',
-    'assets/coping_game/apayao/apayao_sipattal.png', 'assets/coping_game/apayao/apayao_sipattal.png'
+    'assets/coping_game/apayao/apayao_aliwa.png',
+    'assets/coping_game/apayao/apayao_aliwa.png',
+    'assets/coping_game/apayao/apayao_isnag_abag.png',
+    'assets/coping_game/apayao/apayao_isnag_abag.png',
+    'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png',
+    'assets/coping_game/apayao/apayao_mataguisi_church_ruins.png',
+    'assets/coping_game/apayao/apayao_pas-ing.png',
+    'assets/coping_game/apayao/apayao_pas-ing.png',
+    'assets/coping_game/apayao/apayao_pottery1.png',
+    'assets/coping_game/apayao/apayao_pottery1.png',
+    'assets/coping_game/apayao/apayao_pottery2.png',
+    'assets/coping_game/apayao/apayao_pottery2.png',
+    'assets/coping_game/apayao/apayao_sinibalu.png',
+    'assets/coping_game/apayao/apayao_sinibalu.png',
+    'assets/coping_game/apayao/apayao_sipattal.png',
+    'assets/coping_game/apayao/apayao_sipattal.png'
   ];
 }
 
@@ -260,14 +302,22 @@ List<String> apayaoDialogues() {
 
 List<String> benguetCards() {
   return [
-    'assets/coping_game/benguet/benguet_bark_beater.png', 'assets/coping_game/benguet/benguet_bark_beater.png',
-    'assets/coping_game/benguet/benguet_kalasag.png', 'assets/coping_game/benguet/benguet_kalasag.png',
-    'assets/coping_game/benguet/benguet_kalsa.png', 'assets/coping_game/benguet/benguet_kalsa.png',
-    'assets/coping_game/benguet/benguet_kayabang_basket.png', 'assets/coping_game/benguet/benguet_kayabang_basket.png',
-    'assets/coping_game/benguet/benguet_kiyag.png', 'assets/coping_game/benguet/benguet_kiyag.png',
-    'assets/coping_game/benguet/benguet_lions_head.png', 'assets/coping_game/benguet/benguet_lions_head.png',
-    'assets/coping_game/benguet/benguet_obukay.png', 'assets/coping_game/benguet/benguet_obukay.png',
-    'assets/coping_game/benguet/benguet_solibao.png', 'assets/coping_game/benguet/benguet_solibao.png'
+    'assets/coping_game/benguet/benguet_bark_beater.png',
+    'assets/coping_game/benguet/benguet_bark_beater.png',
+    'assets/coping_game/benguet/benguet_kalasag.png',
+    'assets/coping_game/benguet/benguet_kalasag.png',
+    'assets/coping_game/benguet/benguet_kalsa.png',
+    'assets/coping_game/benguet/benguet_kalsa.png',
+    'assets/coping_game/benguet/benguet_kayabang_basket.png',
+    'assets/coping_game/benguet/benguet_kayabang_basket.png',
+    'assets/coping_game/benguet/benguet_kiyag.png',
+    'assets/coping_game/benguet/benguet_kiyag.png',
+    'assets/coping_game/benguet/benguet_lions_head.png',
+    'assets/coping_game/benguet/benguet_lions_head.png',
+    'assets/coping_game/benguet/benguet_obukay.png',
+    'assets/coping_game/benguet/benguet_obukay.png',
+    'assets/coping_game/benguet/benguet_solibao.png',
+    'assets/coping_game/benguet/benguet_solibao.png'
   ];
 }
 
@@ -286,14 +336,22 @@ List<String> benguetDialogues() {
 
 List<String> ifugaoCards() {
   return [
-    'assets/coping_game/ifugao/ifugao_balul.png', 'assets/coping_game/ifugao/ifugao_balul.png',
-    'assets/coping_game/ifugao/ifugao_bangibang.png', 'assets/coping_game/ifugao/ifugao_bangibang.png',
-    'assets/coping_game/ifugao/ifugao_dinumog.png', 'assets/coping_game/ifugao/ifugao_dinumog.png',
-    'assets/coping_game/ifugao/ifugao_giniling_and_padang.png', 'assets/coping_game/ifugao/ifugao_giniling_and_padang.png',
-    'assets/coping_game/ifugao/ifugao_hiwang.png', 'assets/coping_game/ifugao/ifugao_hiwang.png',
-    'assets/coping_game/ifugao/ifugao_punamhan.png', 'assets/coping_game/ifugao/ifugao_punamhan.png',
-    'assets/coping_game/ifugao/ifugao_tobayan.png', 'assets/coping_game/ifugao/ifugao_tobayan.png',
-    'assets/coping_game/ifugao/ifugao_warangan.png', 'assets/coping_game/ifugao/ifugao_warangan.png'
+    'assets/coping_game/ifugao/ifugao_balul.png',
+    'assets/coping_game/ifugao/ifugao_balul.png',
+    'assets/coping_game/ifugao/ifugao_bangibang.png',
+    'assets/coping_game/ifugao/ifugao_bangibang.png',
+    'assets/coping_game/ifugao/ifugao_dinumog.png',
+    'assets/coping_game/ifugao/ifugao_dinumog.png',
+    'assets/coping_game/ifugao/ifugao_giniling_and_padang.png',
+    'assets/coping_game/ifugao/ifugao_giniling_and_padang.png',
+    'assets/coping_game/ifugao/ifugao_hiwang.png',
+    'assets/coping_game/ifugao/ifugao_hiwang.png',
+    'assets/coping_game/ifugao/ifugao_punamhan.png',
+    'assets/coping_game/ifugao/ifugao_punamhan.png',
+    'assets/coping_game/ifugao/ifugao_tobayan.png',
+    'assets/coping_game/ifugao/ifugao_tobayan.png',
+    'assets/coping_game/ifugao/ifugao_warangan.png',
+    'assets/coping_game/ifugao/ifugao_warangan.png'
   ];
 }
 
@@ -312,14 +370,22 @@ List<String> ifugaoDialogues() {
 
 List<String> kalingaCards() {
   return [
-    'assets/coping_game/kalinga/kalinga_bamboo_container.png', 'assets/coping_game/kalinga/kalinga_bamboo_container.png',
-    'assets/coping_game/kalinga/kalinga_baskets_labba.png', 'assets/coping_game/kalinga/kalinga_baskets_labba.png',
-    'assets/coping_game/kalinga/kalinga_bungkaka.png', 'assets/coping_game/kalinga/kalinga_bungkaka.png',
-    'assets/coping_game/kalinga/kalinga_ceramics.png', 'assets/coping_game/kalinga/kalinga_ceramics.png',
-    'assets/coping_game/kalinga/kalinga_ceramics2.png', 'assets/coping_game/kalinga/kalinga_ceramics2.png',
-    'assets/coping_game/kalinga/kalinga_earrings.png', 'assets/coping_game/kalinga/kalinga_earrings.png',
-    'assets/coping_game/kalinga/kalinga_tattoo_patterns.png', 'assets/coping_game/kalinga/kalinga_tattoo_patterns.png',
-    'assets/coping_game/kalinga/kalinga_tongatong.png', 'assets/coping_game/kalinga/kalinga_tongatong.png'
+    'assets/coping_game/kalinga/kalinga_bamboo_container.png',
+    'assets/coping_game/kalinga/kalinga_bamboo_container.png',
+    'assets/coping_game/kalinga/kalinga_baskets_labba.png',
+    'assets/coping_game/kalinga/kalinga_baskets_labba.png',
+    'assets/coping_game/kalinga/kalinga_bungkaka.png',
+    'assets/coping_game/kalinga/kalinga_bungkaka.png',
+    'assets/coping_game/kalinga/kalinga_ceramics.png',
+    'assets/coping_game/kalinga/kalinga_ceramics.png',
+    'assets/coping_game/kalinga/kalinga_ceramics2.png',
+    'assets/coping_game/kalinga/kalinga_ceramics2.png',
+    'assets/coping_game/kalinga/kalinga_earrings.png',
+    'assets/coping_game/kalinga/kalinga_earrings.png',
+    'assets/coping_game/kalinga/kalinga_tattoo_patterns.png',
+    'assets/coping_game/kalinga/kalinga_tattoo_patterns.png',
+    'assets/coping_game/kalinga/kalinga_tongatong.png',
+    'assets/coping_game/kalinga/kalinga_tongatong.png'
   ];
 }
 
@@ -338,14 +404,22 @@ List<String> kalingaDialogues() {
 
 List<String> mtProvinceCards() {
   return [
-    'assets/coping_game/mountain_province/MtProvince_Belt.png', 'assets/coping_game/mountain_province/MtProvince_Belt.png',
-    'assets/coping_game/mountain_province/MtProvince_Buaya.png', 'assets/coping_game/mountain_province/MtProvince_Buaya.png',
-    'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png', 'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png',
-    'assets/coping_game/mountain_province/MtProvince_Gimata.png', 'assets/coping_game/mountain_province/MtProvince_Gimata.png',
-    'assets/coping_game/mountain_province/MtProvince_Kaob.png', 'assets/coping_game/mountain_province/MtProvince_Kaob.png',
-    'assets/coping_game/mountain_province/MtProvince_Lusong.png', 'assets/coping_game/mountain_province/MtProvince_Lusong.png',
-    'assets/coping_game/mountain_province/MtProvince_Saong.png', 'assets/coping_game/mountain_province/MtProvince_Saong.png',
-    'assets/coping_game/mountain_province/MtProvince_Sikwan.png', 'assets/coping_game/mountain_province/MtProvince_Sikwan.png'
+    'assets/coping_game/mountain_province/MtProvince_Belt.png',
+    'assets/coping_game/mountain_province/MtProvince_Belt.png',
+    'assets/coping_game/mountain_province/MtProvince_Buaya.png',
+    'assets/coping_game/mountain_province/MtProvince_Buaya.png',
+    'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png',
+    'assets/coping_game/mountain_province/MtProvince_Diwidiwas.png',
+    'assets/coping_game/mountain_province/MtProvince_Gimata.png',
+    'assets/coping_game/mountain_province/MtProvince_Gimata.png',
+    'assets/coping_game/mountain_province/MtProvince_Kaob.png',
+    'assets/coping_game/mountain_province/MtProvince_Kaob.png',
+    'assets/coping_game/mountain_province/MtProvince_Lusong.png',
+    'assets/coping_game/mountain_province/MtProvince_Lusong.png',
+    'assets/coping_game/mountain_province/MtProvince_Saong.png',
+    'assets/coping_game/mountain_province/MtProvince_Saong.png',
+    'assets/coping_game/mountain_province/MtProvince_Sikwan.png',
+    'assets/coping_game/mountain_province/MtProvince_Sikwan.png'
   ];
 }
 
