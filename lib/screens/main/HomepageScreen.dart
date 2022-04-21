@@ -349,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                           // isScrollControlled: true,
                           builder: (context) {
                             return SizedBox(
-                                height: MediaQuery.of(context).size.height,
+                                height: MediaQuery.of(context).size.height * 0.75,
                                 child: const LevelUpRewardWidgets());
                           });
                 }),
@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp(150);
+                      _levelController.addXp('Test', 150);
 
                       showModalBottomSheet(
                           context: context,
@@ -378,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text("Test Today's Task"),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp(150);
+                      _levelController.addXp('Test', 150);
 
                       showModalBottomSheet(
                           context: context,
