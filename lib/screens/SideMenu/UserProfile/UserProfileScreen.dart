@@ -181,7 +181,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     .toString(),
                                 'Entries'),
                             const SizedBox(width: 30),
-                            _buildLevelComponent('24', 'Achievements'),
+                            _buildLevelComponent('-', 'Achievements'),
                           ]),
                     )
                   ]),

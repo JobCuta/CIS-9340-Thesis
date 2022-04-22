@@ -143,13 +143,13 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Kasiyanna App',
-      initialRoute: '/homepage',
-      getPages: [
-        // intro
-        GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
-        GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
-        GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
+        title: 'Kasiyanna App',
+        initialRoute: '/',
+        getPages: [
+          // intro
+          GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
+          GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
+          GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
 
         // login_registration
         GetPage(name: '/accountScreen', page: () => const CreateAccountScreen()),
@@ -169,8 +169,8 @@ class _MainState extends State<Main> {
         // notification
         GetPage(name: '/notifScreen', page: () => const SetNotificationScreen()),
 
-        // main
-        GetPage(name: '/homepage', page: () => HomePageScreen(2)),
+          // main
+          GetPage(name: '/homepage', page: () => HomePageScreen(2)),
 
         GetPage(name: '/adventureHome', page: () => const AdventureHomeScreen()),
         GetPage(name: '/userJourney', page: () => const UserJourneyScreen()),
@@ -181,8 +181,8 @@ class _MainState extends State<Main> {
         GetPage(name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
         GetPage(name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
 
-        // calendar
-        GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
+          // calendar
+          GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
 
         // entries detail
         GetPage(name: '/entriesScreen', page: () => const EntriesScreen()),

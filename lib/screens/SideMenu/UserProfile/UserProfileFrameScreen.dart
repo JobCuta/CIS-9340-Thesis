@@ -60,43 +60,43 @@ class _UserProfileFrameScreenState extends State<UserProfileFrameScreen> {
       Frame(
           image: 'assets/frames/kalinga_v1.svg',
           name: 'Kalinga V1',
-          requiredLevel: 1),
+          requiredLevel: 2),
       Frame(
           image: 'assets/frames/kalinga_v2.svg',
           name: 'Kalinga V2',
-          requiredLevel: 1),
+          requiredLevel: 2),
       Frame(
           image: 'assets/frames/abra_v1.svg',
           name: 'Abra V1',
-          requiredLevel: 1),
+          requiredLevel: 3),
       Frame(
           image: 'assets/frames/abra_v2.svg',
           name: 'Abra V2',
-          requiredLevel: 1),
+          requiredLevel: 3),
       Frame(
           image: 'assets/frames/mtProvince_v1.svg',
           name: 'Mt. Province V1',
-          requiredLevel: 1),
+          requiredLevel: 4),
       Frame(
           image: 'assets/frames/mtProvince_v2.svg',
           name: 'Mt. Province V2',
-          requiredLevel: 1),
+          requiredLevel: 4),
       Frame(
           image: 'assets/frames/ifugao_v1.svg',
           name: 'Ifugao V1',
-          requiredLevel: 1),
+          requiredLevel: 5),
       Frame(
           image: 'assets/frames/ifugao_v2.svg',
           name: 'Ifugao V2',
-          requiredLevel: 1),
+          requiredLevel: 5),
       Frame(
           image: 'assets/frames/benguet_v1.svg',
           name: 'Benguet V1',
-          requiredLevel: 1),
+          requiredLevel: 6),
       Frame(
           image: 'assets/frames/benguet_v2.svg',
           name: 'Benguet V2',
-          requiredLevel: 1)
+          requiredLevel: 6)
     ];
 
     return WillPopScope(

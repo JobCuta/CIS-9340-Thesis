@@ -74,6 +74,7 @@ class AlertDifficultyState extends StatefulWidget {
 class AlertDifficulty extends State<AlertDifficultyState> {
   static String difficulty = '';
   static final List<String> difficulties = [
+    'test',
     'beginner',
     'easy',
     'medium',
@@ -153,7 +154,7 @@ class AlertExit extends StatelessWidget {
           onPressed: () {
             Get.back();
             // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
-            Get.offAndToNamed('/userJourney');
+            Get.offAndToNamed('/ActivitiesGameScreen');
           },
           child: Text('Yes',
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
