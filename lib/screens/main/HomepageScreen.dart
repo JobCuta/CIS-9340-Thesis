@@ -191,43 +191,12 @@ class _HomePageState extends State<HomePage> {
         _dailyController.showedAvailableTasks.value.toString());
 
     if (_levelController.recentlyAddedXp.value) {
-      Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-            ),
-            useRootNavigator: true,
-            isScrollControlled: true,
-            builder: (context) {
-              return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelWidgets());
-            });
-
-        _levelController.updateRecentlyAddedXp(false);
-      });
+      _levelController.displayLevelXpModal(context);
     } else if (!_dailyController.showedAvailableTasks.value &&
         (!_dailyController.isDailyEntryDone.value ||
             !_dailyController.isDailyExerciseDone.value)) {
-      Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-            ),
-            useRootNavigator: true,
-            isScrollControlled: true,
-            builder: (context) {
-              return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelTasksTodayWidgets());
-            });
-
-        _dailyController.updateShowedAvailableTasks(true);
-      });
+      _levelController.displayTodaysTaskWithXp(context);
+      _dailyController.updateShowedAvailableTasks(true);
     }
 
     super.initState();
@@ -338,63 +307,28 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                     child: const Text('Test LevelUp'),
                     onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.75,
-                                child: const LevelUpRewardWidgets());
-                          });
+                      _levelController.displayRewardsUponLevelUp(context);
                 }),
                 ElevatedButton(
                     child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
                       _levelController.addXp('Test', 150);
-
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height,
-                                child: const LevelWidgets());
-                          });
+                      _levelController.displayLevelXpModal(context);
+   
                     }),
                 ElevatedButton(
                     child: const Text("Test Today's Task"),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp('Test', 150);
-
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height,
-                                child: const LevelTasksTodayWidgets());
-                          });
+                      _levelController.displayTodaysTaskWithXp(context);
                     }),
+
+                ElevatedButton(
+                  onPressed: () {
+                    _levelController.setLevel(2);
+                  }, child: const Text('Set level to 2'),
+                ),
                 Center(
                   child: Padding(
                       padding: const EdgeInsets.symmetric(

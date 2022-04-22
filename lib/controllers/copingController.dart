@@ -28,7 +28,7 @@ class CopingController extends GetxController {
   var ifugaoCardsCompleted = [false, false, false, false, false, false, false, false].obs;
   var benguetCardsCompleted = [false, false, false, false, false, false, false, false].obs;
 
-  var selectedProvince = Province.Benguet.obs;
+  var selectedProvince = Province.Apayao.obs;
 
 
   void prepareTheObjects() {
