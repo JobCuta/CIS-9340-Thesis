@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -35,6 +36,7 @@ class _AnonymousState extends State<AnonymousWidget> {
   String pass2 = '';
   String nickName = '';
   bool anon = true;
+  bool isLoading = false;
 
   handleUserInfo() async {
     print('arguments ${Get.arguments}');
@@ -190,6 +192,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                       primary: Theme.of(context).colorScheme.intGreenMain,
                     ),
                     onPressed: () async {
+                      setState(() => isLoading = true);
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
                         if (response["status"]) {
@@ -199,17 +202,36 @@ class _AnonymousState extends State<AnonymousWidget> {
                             await UserProvider().user(true);
                           }
                           registeredDialog(context);
+                          UserSecureStorage.setLoginDetails(
+                              email, nickName, '', '', '', '', 'true');
                         } else {
                           errorDialog(context, response["message"]);
                         }
+                        setState(() => isLoading = false);
                       }
+                      setState(() => isLoading = false);
                     },
-                    child: Text(
-                      'Continue',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.neutralWhite01),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01),
+                          ),
                   ),
                 ),
                 const SizedBox(

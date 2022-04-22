@@ -39,6 +39,7 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_profileController.gender);
     var selectedDate =
         DateTime.tryParse(_profileController.birthdayController.text);
 
@@ -253,7 +254,9 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                     .neutralWhite01,
                                 decoration: textFormFieldDecoration(
                                     'Enter your gender'),
-                                value: _profileController.gender,
+                                value: _profileController.gender != ''
+                                    ? _profileController.gender
+                                    : 'P',
                                 icon: const Icon(Icons.arrow_drop_down),
                                 items: [
                                   DropdownMenuItem<String>(

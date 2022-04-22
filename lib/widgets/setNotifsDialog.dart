@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 setNotificationsAlert(context) {
   Get.defaultDialog(
       title: 'One last thing...',
+      barrierDismissible: false,
+      onWillPop: () => Future.value(false),
       titleStyle: Theme.of(context).textTheme.headline5?.copyWith(
           fontWeight: FontWeight.w600,
           color: Theme.of(context).colorScheme.sunflowerYellow01),

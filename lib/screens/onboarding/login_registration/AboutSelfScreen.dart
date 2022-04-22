@@ -416,14 +416,14 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 if (response["status"]) {
                                   registeredDialog(context);
                                   loginAccount();
-                                  // UserSecureStorage.setLoginDetails(
-                                  //     email,
-                                  //     nickName != '' ? nickName : firstName,
-                                  //     firstName,
-                                  //     lastName,
-                                  //     birthDate,
-                                  //     gender!,
-                                  //     'false');
+                                  UserSecureStorage.setLoginDetails(
+                                      email,
+                                      nickName != '' ? nickName : firstName,
+                                      firstName,
+                                      lastName,
+                                      birthDate,
+                                      gender!,
+                                      'false');
                                 } else {
                                   errorDialog(context, response["message"]);
                                 }
