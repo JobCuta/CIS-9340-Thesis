@@ -9,13 +9,5 @@ class phqHiveObj extends HiveObject {
   @HiveField(1)
   int score;
 
-  DateTime getDate() {
-    return date;
-  }
-
-  int getScore() {
-    return score;
-  }
-
   phqHiveObj({required this.date, required this.score});
 }

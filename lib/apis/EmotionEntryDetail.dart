@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 part 'EmotionEntryDetail.g.dart';
@@ -33,7 +32,7 @@ class EmotionEntryDetail extends HiveObject {
   });
 
   String getMood() {
-    return this.mood;
+    return mood;
   }
 
   @override

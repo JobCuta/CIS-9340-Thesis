@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -35,14 +38,14 @@ class _AnonymousState extends State<AnonymousWidget> {
   String pass2 = '';
   String nickName = '';
   bool anon = true;
+  bool isLoading = false;
 
   handleUserInfo() async {
     print('arguments ${Get.arguments}');
     email = Get.arguments["email"];
     pass1 = Get.arguments["pass1"];
     pass2 = Get.arguments["pass2"];
-    var response = await UserProvider()
-        .register(RegisterForm.anon(email, pass1, pass2, nickName, anon));
+    var response = await UserProvider().register(RegisterForm.anon(email, pass1, pass2, nickName, anon));
     return response;
   }
 
@@ -82,17 +85,19 @@ class _AnonymousState extends State<AnonymousWidget> {
                     child: Center(
                         child: Text(
                       'Staying anonymous',
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.neutralBlack02),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralBlack02),
                     )),
                   ),
                   Center(
                     child: Text(
                       'What do you want us to call you?',
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Theme.of(context).colorScheme.neutralBlack03,
-                          fontWeight: FontWeight.w400),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack03, fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(
@@ -108,14 +113,8 @@ class _AnonymousState extends State<AnonymousWidget> {
                             children: [
                               Text(
                                 'Nickname',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04),
+                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray04),
                               ),
                             ],
                           ),
@@ -131,26 +130,16 @@ class _AnonymousState extends State<AnonymousWidget> {
                                 isDense: true,
                                 border: const OutlineInputBorder(),
                                 hintText: 'Enter your nickname',
-                                fillColor: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01,
+                                fillColor: Theme.of(context).colorScheme.neutralWhite01,
                                 filled: true,
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
+                                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
                                       fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray03,
+                                      color: Theme.of(context).colorScheme.neutralGray03,
                                     ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralGray01,
+                                  color: Theme.of(context).colorScheme.neutralGray01,
                                 )),
                               ),
                               onChanged: (val) {
@@ -190,26 +179,46 @@ class _AnonymousState extends State<AnonymousWidget> {
                       primary: Theme.of(context).colorScheme.intGreenMain,
                     ),
                     onPressed: () async {
+                      setState(() => isLoading = true);
                       if (_form.currentState!.validate()) {
                         var response = await handleUserInfo();
                         if (response["status"]) {
-                          var response = await UserProvider()
-                              .login(LoginForm(email, pass1));
+                          var response = await UserProvider().login(LoginForm(email, pass1));
                           if (response["status"]) {
-                            await UserProvider().user(true);
+                            await UserProvider().user();
+                            log('--[user logged in..]--');
                           }
                           registeredDialog(context);
+                          UserSecureStorage.setLoginDetails(
+                              email, nickName, '', '', '', '', 'true');
                         } else {
                           errorDialog(context, response["message"]);
                         }
+                        setState(() => isLoading = false);
                       }
+                      setState(() => isLoading = false);
                     },
-                    child: Text(
-                      'Continue',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.neutralWhite01),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01),
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -221,8 +230,7 @@ class _AnonymousState extends State<AnonymousWidget> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      side: BorderSide(
-                          color: Theme.of(context).colorScheme.neutralWhite04),
+                      side: BorderSide(color: Theme.of(context).colorScheme.neutralWhite04),
                       primary: Theme.of(context).colorScheme.neutralWhite01,
                     ),
                     onPressed: () {
@@ -231,9 +239,10 @@ class _AnonymousState extends State<AnonymousWidget> {
                     },
                     child: Text(
                       'I changed my mind...',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.intGreenMain),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.intGreenMain),
                     ),
                   ),
                 )

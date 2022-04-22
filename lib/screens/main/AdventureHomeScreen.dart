@@ -53,7 +53,7 @@ class _AdventureHomeScreenState extends State<AdventureHomeScreen> {
                           decoration:
                               const BoxDecoration(shape: BoxShape.circle),
                           height: 200,
-                          child: (_settingsController.imagePath.value != null)
+                          child: (_settingsController.imagePath.value != '')
                               ? CircleAvatar(
                                   radius: 80,
                                   child: ClipRRect(

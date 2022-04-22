@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
+import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:hive/hive.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -17,13 +23,7 @@ class PHQ9Screen extends StatefulWidget {
 class _PHQ9ScreenState extends State<PHQ9Screen> {
   final PageController _pageController = PageController();
 
-  var options = [
-    'Pick an option',
-    'Nearly every day',
-    'More than half the days',
-    'Several days',
-    'Not at all'
-  ];
+  var options = ['Pick an option', 'Nearly every day', 'More than half the days', 'Several days', 'Not at all'];
 
   // PHQ9 Questions
   final List<String> questions = [
@@ -67,6 +67,51 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
 
   @override
   Widget build(BuildContext context) {
+    saveEntries() async {
+      var box = Hive.box('phq');
+      phqHive assessMonth = box.get(Get.arguments["key"]);
+
+      assessMonth.assessments.first.score = _phqController.sum;
+      assessMonth.save();
+
+      var nextPhq = phqHiveObj(date: assessMonth.assessments.first.date.add(const Duration(days: 14)), score: -1);
+
+      if (assessMonth.assessments.first.date.month == nextPhq.date.month) {
+        assessMonth.assessments.add(nextPhq);
+        assessMonth.save();
+      } else {
+        var newMonth = phqHive(assessments: [nextPhq]);
+        String monthKey = nextPhq.date.month.toString() + '-' + nextPhq.date.year.toString();
+        box.put(monthKey, newMonth);
+      }
+
+      // String title = '', sub = '';
+      // bool result = await UserProvider().createPHQ(newPhq);
+      // bool result2 = await UserProvider().createPHQ(nextPhq);
+
+      // // Check results of saving entry online
+      // if (result && result2) {
+      //   title = 'PHQ9 Entry saved!';
+      //   sub = 'Entry was saved to your profile';
+      // } else {
+      //   title = 'PHQ9 Entry not saved';
+      //   sub = 'There was a problem saving your entry online';
+      // }
+
+      // Get.snackbar(title, sub,
+      //     snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+    }
+
+    checkIfOnboarding() {
+      if (Get.arguments != null) {
+        log('look im saving an entry');
+        saveEntries();
+        // Get.offAndToNamed(Get.arguments["home"]);
+      } else {
+        Get.toNamed('/assessSIDASScreen');
+      }
+    }
+
     // Currently can't figure out how to display the hint text (Pick an option) with the current implementation
     // thus 'Pick an option' was added as an option (countermeasure added to ensure the user cannot proceed unless they choose a different option)
     return Scaffold(
@@ -86,8 +131,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                           fit: BoxFit.cover))),
               // Keeps the StepProgressIndicator in the same spot
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: StepProgressIndicator(
@@ -102,8 +146,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
                 child: Center(
                     child: Wrap(alignment: WrapAlignment.center, runSpacing: 20,
                         // mainAxisAlignment: MainAxisAlignment.center,
@@ -116,23 +159,16 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 13.0, horizontal: 14.0),
+                        padding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                         decoration: BoxDecoration(
                             color: const Color(0xff3290FF).withOpacity(0.60),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
+                            borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Center(
                           child: Text(questions[position],
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
+                              style: Theme.of(context).textTheme.subtitle2?.copyWith(
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
+                                    color: Theme.of(context).colorScheme.neutralWhite01,
                                   )),
                         ),
                       ),
@@ -141,11 +177,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             color: Theme.of(context).colorScheme.neutralWhite01,
                             borderRadius: BorderRadius.circular(8)),
                         child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 30.0, right: 30.0),
+                          padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                           child: DropdownButton(
-                            dropdownColor:
-                                Theme.of(context).colorScheme.neutralWhite01,
+                            dropdownColor: Theme.of(context).colorScheme.neutralWhite01,
                             isExpanded: true,
                             underline: Container(),
                             hint: const Text('Pick an option'),
@@ -160,8 +194,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     position,
                                     (newValue == 'Nearly every day')
                                         ? 3
-                                        : (newValue ==
-                                                'More than half the days')
+                                        : (newValue == 'More than half the days')
                                             ? 2
                                             : (newValue == 'Several days')
                                                 ? 1
@@ -173,14 +206,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                   value: items,
                                   child: Text(
                                     items,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralGray04),
+                                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).colorScheme.neutralGray04),
                                   ));
                             }).toList(),
                           ),
@@ -203,15 +231,11 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xffFFBE18)),
+                                    ?.copyWith(fontWeight: FontWeight.w600, color: const Color(0xffFFBE18)),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                primary: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01,
+                                primary: Theme.of(context).colorScheme.neutralWhite01,
                               ),
                               onPressed: () {
                                 (position == 0)
@@ -227,31 +251,22 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                           child: ElevatedButton(
                               child: Text(
                                 'Next',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite01),
+                                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 primary: (answers[position] == 'Pick an option')
-                                    ? Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite04
+                                    ? Theme.of(context).colorScheme.neutralWhite04
                                     : const Color(0xffFFBE18),
                               ),
                               onPressed: () {
                                 (position == questions.length - 1)
-                                    ? Get.toNamed('/assessSIDASScreen')
+                                    ? checkIfOnboarding()
                                     // Checks if the user selected a valid value
                                     : (answers[position] == 'Pick an option')
                                         ? null
-                                        : _pageController
-                                            .jumpToPage(position + 1);
+                                        : _pageController.jumpToPage(position + 1);
                               }),
                         ),
                       ),

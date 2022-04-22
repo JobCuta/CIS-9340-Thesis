@@ -67,7 +67,7 @@ import 'screens/main/CalendarScreen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentPHQ9Screen.dart';
 import 'screens/onboarding/questionnaires/InitialAssessmentSIDASScreen.dart';
 import 'screens/onboarding/questionnaires/LoadingResultsScreen.dart';
-import 'screens/onboarding/questionnaires/PHQ9Interpretation.dart';
+import 'screens/onboarding/questionnaires/OnBoardingScoresScreen.dart';
 import 'screens/onboarding/questionnaires/PHQ9Screen.dart';
 import 'screens/SideMenu/AchievementsScreen.dart';
 import 'package:get/get.dart';
@@ -143,144 +143,89 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Kasiyanna App',
-      initialRoute: '/homepage',
-      getPages: [
-        // intro
-        GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
-        GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
-        GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
+        title: 'Kasiyanna App',
+        initialRoute: '/',
+        getPages: [
+          // intro
+          GetPage(name: '/introScreen', page: () => const IntroductionScreen()),
+          GetPage(name: '/shakeScreen', page: () => ShakeScreen()),
+          GetPage(name: '/exerciseScreen', page: () => ExerciseScreen()),
 
         // login_registration
-        GetPage(
-            name: '/accountScreen', page: () => const CreateAccountScreen()),
+        GetPage(name: '/accountScreen', page: () => const CreateAccountScreen()),
         GetPage(name: '/aboutSelfScreen', page: () => const AboutSelfScreen()),
         GetPage(name: '/anonScreen', page: () => const AnonymousScreen()),
-        GetPage(
-            name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
+        GetPage(name: '/forgotScreen', page: () => const ForgotPasswordScreen()),
         GetPage(name: '/loginSplashScreen', page: () => const LoadingSplash()),
 
         // questionnaires
-        GetPage(
-            name: '/assessPHQScreen',
-            page: () => const InitialAssessmentPHQ9Screen()),
+        GetPage(name: '/assessPHQScreen', page: () => const InitialAssessmentPHQ9Screen()),
         GetPage(name: '/phqScreen', page: () => const PHQ9Screen()),
-        GetPage(
-            name: '/loadingScreen', page: () => const LoadingResultsScreen()),
-        GetPage(
-            name: '/assessSIDASScreen',
-            page: () => const InitialAssessmentSIDASScreen()),
+        GetPage(name: '/loadingScreen', page: () => const LoadingResultsScreen()),
+        GetPage(name: '/assessSIDASScreen', page: () => const InitialAssessmentSIDASScreen()),
         GetPage(name: '/sidasScreen', page: () => const SIDASScreen()),
-        GetPage(
-            name: '/interpretationScreen',
-            page: () => const PHQ9InterpretationScreen()),
+        GetPage(name: '/interpretationScreen', page: () => const OnBoardingScoresScreen()),
 
         // notification
-        GetPage(
-            name: '/notifScreen', page: () => const SetNotificationScreen()),
+        GetPage(name: '/notifScreen', page: () => const SetNotificationScreen()),
 
-        // main
-        GetPage(name: '/homepage', page: () => HomePageScreen(2)),
+          // main
+          GetPage(name: '/homepage', page: () => HomePageScreen(2)),
 
-        GetPage(
-            name: '/adventureHome', page: () => const AdventureHomeScreen()),
+        GetPage(name: '/adventureHome', page: () => const AdventureHomeScreen()),
         GetPage(name: '/userJourney', page: () => const UserJourneyScreen()),
-        GetPage(
-            name: '/ActivitiesGameScreen',
-            page: () => const ActivitiesGameScreen()),
+        GetPage(name: '/ActivitiesGameScreen', page: () => const ActivitiesGameScreen()),
 
         // wellness exercises
-        GetPage(
-            name: '/wellnessScreen',
-            page: () => const WellnessExercisesScreen()),
-        GetPage(
-            name: '/emotionStartScreen',
-            page: () => const EmotionalEvaluationStartScreen()),
-        GetPage(
-            name: '/emotionEndScreen',
-            page: () => const EmotionalEvaluationEndScreen()),
+        GetPage(name: '/wellnessScreen', page: () => const WellnessExercisesScreen()),
+        GetPage(name: '/emotionStartScreen', page: () => const EmotionalEvaluationStartScreen()),
+        GetPage(name: '/emotionEndScreen', page: () => const EmotionalEvaluationEndScreen()),
 
-        // calendar
-        GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
+          // calendar
+          GetPage(name: '/calendarScreen', page: () => const CalendarScreen()),
 
         // entries detail
         GetPage(name: '/entriesScreen', page: () => const EntriesScreen()),
-        GetPage(
-            name: '/entriesDetailScreen',
-            page: () => const EntriesDetailScreen()),
+        GetPage(name: '/entriesDetailScreen', page: () => const EntriesDetailScreen()),
 
         // Side Menu Screens
         // Profile pages
-        GetPage(
-            name: '/userProfileScreen', page: () => const UserProfileScreen()),
-        GetPage(
-            name: '/userProfileEditScreen',
-            page: () => const UserProfileEditScreen()),
-        GetPage(
-            name: '/userProfileFrameScreen',
-            page: () => const UserProfileFrameScreen()),
-        GetPage(
-            name: '/userProfileNotificationsScreen',
-            page: () => const UserProfileNotificationsScreen()),
-        GetPage(
-            name: '/userProfileLanguageScreen',
-            page: () => const UserProfileLanguageScreen()),
-        GetPage(
-            name: '/userProfileContactScreen',
-            page: () => const UserProfileContactSupportScreen()),
-        GetPage(
-            name: '/userProfileAccountScreen',
-            page: () => const UserProfileAccountScreen()),
-        GetPage(
-            name: '/userDeactivateAccountScreen',
-            page: () => const UserProfileDeactivateAccountScreen()),
-        GetPage(
-            name: '/userDeactivateSuccessScreen',
-            page: () => const UserProfileDeactivateSuccessfulScreen()),
+        GetPage(name: '/userProfileScreen', page: () => const UserProfileScreen()),
+        GetPage(name: '/userProfileEditScreen', page: () => const UserProfileEditScreen()),
+        GetPage(name: '/userProfileFrameScreen', page: () => const UserProfileFrameScreen()),
+        GetPage(name: '/userProfileNotificationsScreen', page: () => const UserProfileNotificationsScreen()),
+        GetPage(name: '/userProfileLanguageScreen', page: () => const UserProfileLanguageScreen()),
+        GetPage(name: '/userProfileContactScreen', page: () => const UserProfileContactSupportScreen()),
+        GetPage(name: '/userProfileAccountScreen', page: () => const UserProfileAccountScreen()),
+        GetPage(name: '/userDeactivateAccountScreen', page: () => const UserProfileDeactivateAccountScreen()),
+        GetPage(name: '/userDeactivateSuccessScreen', page: () => const UserProfileDeactivateSuccessfulScreen()),
         // Hope Box Pages
         GetPage(name: '/hopeBox', page: () => const HopeBoxMainScreen()),
-        GetPage(
-            name: '/hopeBoxImages', page: () => const HopeBoxImagesScreen()),
-        GetPage(
-            name: '/hopeBoxVideos', page: () => const HopeBoxVideosScreen()),
+        GetPage(name: '/hopeBoxImages', page: () => const HopeBoxImagesScreen()),
+        GetPage(name: '/hopeBoxVideos', page: () => const HopeBoxVideosScreen()),
         GetPage(name: '/hopeBoxVideoPlayer', page: () => HopeBoxVideoPlayer()),
-        GetPage(
-            name: '/hopeBoxRecordings',
-            page: () => const HopeBoxRecordingsScreen()),
-        GetPage(
-            name: '/hopeBoxContact', page: () => const HopeBoxContactScreen()),
-        GetPage(
-            name: '/hopeBoxContactSetup',
-            page: () => const HopeBoxContactSetupScreen()),
-        GetPage(
-            name: '/hopeBoxContactEdit',
-            page: () => const HopeBoxContactEditScreen()),
+        GetPage(name: '/hopeBoxRecordings', page: () => const HopeBoxRecordingsScreen()),
+        GetPage(name: '/hopeBoxContact', page: () => const HopeBoxContactScreen()),
+        GetPage(name: '/hopeBoxContactSetup', page: () => const HopeBoxContactSetupScreen()),
+        GetPage(name: '/hopeBoxContactEdit', page: () => const HopeBoxContactEditScreen()),
         // Achievements Page
-        GetPage(
-            name: '/achievementsScreen',
-            page: () => const AchievementsScreen()),
+        GetPage(name: '/achievementsScreen', page: () => const AchievementsScreen()),
         // Hotline Page
-        GetPage(
-            name: '/MentalHealthOnlineScreen',
-            page: () => const MentalHealthOnlineScreen()),
+        GetPage(name: '/MentalHealthOnlineScreen', page: () => const MentalHealthOnlineScreen()),
         // Statistics Page
-        GetPage(
-            name: '/statisticsScreen', page: () => const StatisticsScreen()),
+        GetPage(name: '/statisticsScreen', page: () => const StatisticsScreen()),
         GetPage(name: '/phqStatScreen', page: () => const PHQScoreScreen()),
         GetPage(name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
         // Minigames Screens
         GetPage(name: '/sudoku', page: () => SudokuScreen()),
         GetPage(name: '/copingGame', page: () => CopingGameScreen()),
-        GetPage(
-            name: '/memoryGameScreen', page: () => const MemoryGameScreen()),
+        GetPage(name: '/memoryGameScreen', page: () => const MemoryGameScreen()),
 
         // User Engagement Scale
-        GetPage(
-            name: '/engagementScaleScreen',
-            page: () => const UESFocusedAttentionScreen()),
+        GetPage(name: '/engagementScaleScreen', page: () => const UESFocusedAttentionScreen()),
       ],
       theme: themeData,
-      // home: const Splash()
+      home: const Splash()
     );
   }
 }
@@ -337,6 +282,5 @@ final ThemeData themeData = ThemeData(
       padding: const EdgeInsets.all(10),
     ),
   ),
-  buttonTheme: ButtonThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
+  buttonTheme: ButtonThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
 );

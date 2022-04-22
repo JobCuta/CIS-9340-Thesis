@@ -30,12 +30,30 @@ class _SplashState extends State<Splash> {
     super.initState();
   }
 
+  Future<Widget> loadFromFuture() async {
+    if (!isLoggedIn) {
+      return Future.value(const LanguageSelect());
+    }
+    // Get entire database scores of SIDAS, PHQ, HOPEBOX, LEVEL, ACHIEVEMENTS, ETC.
+    // compare if the latest entry is much later than the database
+    // somehow check if updated missed entries are up-to-date as well
+
+    // Check if PHQ date here is more recent that database
+
+    // apply to the rest
+
+    // update the database - local overwriting the database with no entries
+    // datebase update the local - datbase might have older entries
+
+    return Future.value(HomePageScreen(2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
         seconds: 5,
-        navigateAfterSeconds:
-            (isLoggedIn) ? HomePageScreen(2) : const LanguageSelect(),
+        navigateAfterSeconds: (isLoggedIn) ? HomePageScreen(2) : const LanguageSelect(),
+        // navigateAfterFuture: loadFromFuture(),
         image: Image.asset('assets/images/splash.png'),
         backgroundColor: Colors.white,
         photoSize: 100.0,

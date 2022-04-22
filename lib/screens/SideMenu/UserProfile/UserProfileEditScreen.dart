@@ -39,6 +39,7 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_profileController.gender);
     var selectedDate =
         DateTime.tryParse(_profileController.birthdayController.text);
 
@@ -159,36 +160,51 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                   child: SingleChildScrollView(
                     child: Wrap(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          alignment: Alignment.center,
-                          child: InkWell(
-                            onTap: () async {
-                              final image = await _picker.pickImage(
-                                  source: ImageSource.gallery);
-                              if (image == null) {
-                                return;
-                              }
-                              setState(() {
-                                _storedImage = File(image.path);
-                                _imagePath = basename(image.path);
-                              });
-                            },
-                            child: (_storedImage != null)
-                                ? CircleAvatar(
-                                    radius: 100,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.file(
-                                        _storedImage,
-                                        width: 200.0,
-                                        height: 200.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ))
-                                : SvgPicture.asset(
-                                    'assets/images/orange_plus.svg',
-                                    width: 200),
+                        InkWell(
+                          onTap: () async {
+                            final image = await _picker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image == null) {
+                              return;
+                            }
+                            setState(() {
+                              _storedImage = File(image.path);
+                              _imagePath = basename(image.path);
+                            });
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                alignment: Alignment.center,
+                                child: (_storedImage != null)
+                                    ? CircleAvatar(
+                                        radius: 100,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.file(
+                                            _storedImage,
+                                            width: 200.0,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ))
+                                    : SvgPicture.asset(
+                                        'assets/images/orange_plus.svg',
+                                        width: 200),
+                              ),
+                              Visibility(
+                                visible:
+                                    _settingsController.framePath.value != '',
+                                child: SvgPicture.asset(
+                                    _settingsController.framePath.value,
+                                    width: 200,
+                                    height: 200),
+                              ),
+                            ],
                           ),
                         ),
                         Visibility(
@@ -238,7 +254,9 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                     .neutralWhite01,
                                 decoration: textFormFieldDecoration(
                                     'Enter your gender'),
-                                value: _profileController.gender,
+                                value: _profileController.gender != ''
+                                    ? _profileController.gender
+                                    : 'P',
                                 icon: const Icon(Icons.arrow_drop_down),
                                 items: [
                                   DropdownMenuItem<String>(

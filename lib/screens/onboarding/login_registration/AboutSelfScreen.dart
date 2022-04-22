@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
@@ -51,23 +53,9 @@ class _AboutSelfState extends State<AboutSelfWidget> {
     email = Get.arguments["email"];
     pass1 = Get.arguments["pass1"];
     pass2 = Get.arguments["pass2"];
-    var response = await UserProvider().register(RegisterForm(
-        email,
-        pass1,
-        pass2,
-        firstName,
-        lastName,
-        nickName,
-        birthDateController.text,
-        gender!));
+    var response = await UserProvider()
+        .register(RegisterForm(email, pass1, pass2, firstName, lastName, nickName, birthDateController.text, gender!));
     return response;
-  }
-
-  loginAccount() async {
-    var response = await UserProvider().login(LoginForm(email, pass1));
-    if (response["status"]) {
-      await UserProvider().user(true);
-    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -77,10 +65,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
         return Theme(
           data: ThemeData(
             textTheme: TextTheme(
-              subtitle1: TextStyle(
-                  color: Theme.of(context).colorScheme.neutralBlack02),
-              button:
-                  TextStyle(color: Theme.of(context).colorScheme.intGreenMain),
+              subtitle1: TextStyle(color: Theme.of(context).colorScheme.neutralBlack02),
+              button: TextStyle(color: Theme.of(context).colorScheme.intGreenMain),
             ),
             colorScheme: ColorScheme.light(
               primary: Theme.of(context).colorScheme.intGreenMain,
@@ -145,17 +131,19 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                     child: Center(
                         child: Text(
                       'Tell us about yourself',
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.neutralBlack02),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralBlack02),
                     )),
                   ),
                   Center(
                     child: Text(
                       'Please enter your credentials to continue',
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Theme.of(context).colorScheme.neutralBlack03,
-                          fontWeight: FontWeight.w400),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack03, fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(height: 30.0),
@@ -168,14 +156,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                         children: <Widget>[
                           Text(
                             'First name',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04,
-                                    fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: Theme.of(context).colorScheme.neutralGray04, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(
                             height: 5.0,
@@ -184,8 +166,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                             child: TextFormField(
                               textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(fontSize: 14.0),
-                              decoration: textFormFieldDecoration(
-                                  'Enter your first name'),
+                              decoration: textFormFieldDecoration('Enter your first name'),
                               validator: (input) {
                                 if (input == null || input.isEmpty) {
                                   return 'This field is required.';
@@ -202,14 +183,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           Text(
                             'Last name',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04,
-                                    fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: Theme.of(context).colorScheme.neutralGray04, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(
                             height: 5.0,
@@ -220,8 +195,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               style: const TextStyle(
                                 fontSize: 14.0,
                               ),
-                              decoration: textFormFieldDecoration(
-                                  'Enter your last name'),
+                              decoration: textFormFieldDecoration('Enter your last name'),
                               validator: (input) {
                                 if (input == null || input.isEmpty) {
                                   return 'This field is required.';
@@ -235,20 +209,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           ),
                           const SizedBox(height: 20.0),
                           Text('Nickname (optional)',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray04,
-                                      fontWeight: FontWeight.w600)),
+                              style: Theme.of(context).textTheme.caption?.copyWith(
+                                  color: Theme.of(context).colorScheme.neutralGray04, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 5.0),
                           SizedBox(
                             child: TextFormField(
                               style: const TextStyle(fontSize: 14.0),
-                              decoration: textFormFieldDecoration(
-                                  'Enter your nickname'),
+                              decoration: textFormFieldDecoration('Enter your nickname'),
                               onChanged: (val) {
                                 setState(() => nickName = val);
                               },
@@ -257,44 +224,26 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(height: 20.0),
                           Text(
                             'Gender',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04,
-                                    fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: Theme.of(context).colorScheme.neutralGray04, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 5.0),
                           SizedBox(
                             height: 50,
                             child: DropdownButtonFormField(
-                              dropdownColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
+                              dropdownColor: Theme.of(context).colorScheme.neutralWhite01,
                               style: const TextStyle(fontSize: 14.0),
                               decoration: InputDecoration(
                                 border: const OutlineInputBorder(),
                                 hintText: 'Select your gender',
-                                fillColor: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01,
+                                fillColor: Theme.of(context).colorScheme.neutralWhite01,
                                 filled: true,
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray03),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
+                                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralGray01,
+                                  color: Theme.of(context).colorScheme.neutralGray01,
                                 )),
                               ),
                               value: gender,
@@ -302,38 +251,23 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               items: [
                                 DropdownMenuItem<String>(
                                   child: Text('Male',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context).colorScheme.neutralBlack02)),
                                   value: 'M',
                                 ),
                                 DropdownMenuItem<String>(
                                   child: Text('Female',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context).colorScheme.neutralBlack02)),
                                   value: 'F',
                                 ),
                                 DropdownMenuItem<String>(
                                   child: Text('Rather not say...',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context).colorScheme.neutralBlack02)),
                                   value: 'P',
                                 ),
                               ],
@@ -353,14 +287,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           const SizedBox(height: 20.0),
                           Text(
                             'Birthday',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray04,
-                                    fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: Theme.of(context).colorScheme.neutralGray04, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 5.0),
                           Container(
@@ -371,16 +299,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                 style: Theme.of(context).textTheme.bodyText1,
                                 onTap: () {
                                   // Below line stops keyboard from appearing
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
+                                  FocusScope.of(context).requestFocus(FocusNode());
                                   // Show Date Picker Here
                                   _selectDate(context);
                                 },
-                                decoration: textFormFieldDecoration(
-                                    'Enter your birthday'),
+                                decoration: textFormFieldDecoration('Enter your birthday'),
                                 onChanged: (val) {
-                                  setState(() =>
-                                      birthDate = birthDateController.text);
+                                  setState(() => birthDate = birthDateController.text);
                                 },
                                 validator: (input) {
                                   if (input == null || input.isEmpty) {
@@ -406,24 +331,13 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                primary:
-                                    Theme.of(context).colorScheme.intGreenMain),
+                                elevation: 0, primary: Theme.of(context).colorScheme.intGreenMain),
                             onPressed: () async {
                               setState(() => isLoading = true);
                               if (_form.currentState!.validate()) {
                                 var response = await handleUserInfo();
                                 if (response["status"]) {
                                   registeredDialog(context);
-                                  loginAccount();
-                                  // UserSecureStorage.setLoginDetails(
-                                  //     email,
-                                  //     nickName != '' ? nickName : firstName,
-                                  //     firstName,
-                                  //     lastName,
-                                  //     birthDate,
-                                  //     gender!,
-                                  //     'false');
                                 } else {
                                   errorDialog(context, response["message"]);
                                 }
@@ -436,22 +350,15 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                     width: 20,
                                     height: 20,
                                     child: CircularProgressIndicator(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
+                                      color: Theme.of(context).colorScheme.neutralWhite01,
                                       strokeWidth: 2,
                                     ),
                                   )
                                 : Text(
                                     'Continue',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2
-                                        ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01,
-                                            fontWeight: FontWeight.w600),
+                                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                        color: Theme.of(context).colorScheme.neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                                   ),
                           ),
                         ),
@@ -464,13 +371,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                side: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite04),
-                                primary: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01,
+                                side: BorderSide(color: Theme.of(context).colorScheme.neutralWhite04),
+                                primary: Theme.of(context).colorScheme.neutralWhite01,
                               ),
                               onPressed: () {
                                 //navigate to next page
@@ -482,14 +384,8 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               },
                               child: Text(
                                 'Stay Anonymous',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .intGreenMain,
-                                        fontWeight: FontWeight.w600),
+                                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                    color: Theme.of(context).colorScheme.intGreenMain, fontWeight: FontWeight.w600),
                               )),
                         ),
                       ],
@@ -510,11 +406,11 @@ class _AboutSelfState extends State<AboutSelfWidget> {
       hintText: hintText,
       fillColor: Theme.of(context).colorScheme.neutralWhite01,
       filled: true,
-      hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
-          fontWeight: FontWeight.w400,
-          color: Theme.of(context).colorScheme.neutralGray03),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+      hintStyle: Theme.of(context)
+          .textTheme
+          .bodyText2
+          ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
         color: Theme.of(context).colorScheme.neutralGray01,
