@@ -87,26 +87,26 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Get PHQ9 Hive'),
                       onPressed: () async {
-                        var phq = await Hive.openLazyBox('phq');
+                        var phq = Hive.box('phq');
                         log('phq ${phq.keys.toList()}');
                       }),
                   ElevatedButton(
                       child: const Text('Get SIDAS Hive'),
                       onPressed: () async {
-                        var sidas = await Hive.openLazyBox('sidas');
+                        var sidas = Hive.box('sidas');
                         log('sidas ${sidas.keys.toList()}');
                       }),
                   ElevatedButton(
                       child: const Text('Delete PHQ Hive'),
                       onPressed: () async {
-                        var phq = await Hive.openLazyBox('phq');
+                        var phq = Hive.box('phq');
                         phq.deleteAll(phq.keys);
                         log('phq ${phq.keys.toList()}');
                       }),
                   ElevatedButton(
                       child: const Text('Delete SIDAS Hive'),
                       onPressed: () async {
-                        var sidas = await Hive.openLazyBox('sidas');
+                        var sidas = Hive.box('sidas');
                         sidas.deleteAll(sidas.keys);
                         log('sidas ${sidas.keys.toList()}');
                       }),

@@ -1,11 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
-
-void main() => runApp(const LoginModal());
 
 class LoginModal extends StatelessWidget {
   const LoginModal({Key? key}) : super(key: key);
@@ -73,18 +72,6 @@ class _LoginWidgetsState extends State<LoginWidgets> {
     super.dispose();
   }
 
-  handleLogin() async {
-    var response = await UserProvider()
-        .login(LoginForm(emailController.text, passwordController.text));
-    if (response["status"]) {
-      await UserProvider().user(true);
-      return true;
-    } else {
-      error = response["message"];
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -121,14 +108,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Center(
                       child: Text('Log in',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralBlack02))),
+                          style: Theme.of(context).textTheme.headline5?.copyWith(
+                              fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralBlack02))),
                 ),
                 const SizedBox(
                   height: 15.0,
@@ -136,28 +117,22 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                 Center(
                   child: Text(
                     'Please enter your credentials to continue',
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.neutralBlack03),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack03),
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(top: 25, left: 20.0, right: 20),
+                  padding: const EdgeInsets.only(top: 25, left: 20.0, right: 20),
                   child: Form(
                     child: Column(
                       children: <Widget>[
                         Row(
                           children: [
                             Text('Email',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04))
+                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray04))
                           ],
                         ),
                         const SizedBox(
@@ -171,27 +146,17 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             controller: emailController,
                             decoration: InputDecoration(
-                              errorText:
-                                  _validate ? 'This field is required' : null,
+                              errorText: _validate ? 'This field is required' : null,
                               border: const OutlineInputBorder(),
-                              fillColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
+                              fillColor: Theme.of(context).colorScheme.neutralWhite01,
                               filled: true,
                               hintText: 'Enter your email',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray03),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 15.0),
+                              hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                  fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color:
-                                    Theme.of(context).colorScheme.neutralGray01,
+                                color: Theme.of(context).colorScheme.neutralGray01,
                               )),
                             ),
                             onChanged: (val) {
@@ -199,9 +164,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             },
                             onTap: () {
                               setState(() {
-                                emailController.text.isEmpty
-                                    ? _validate = false
-                                    : _validate = false;
+                                emailController.text.isEmpty ? _validate = false : _validate = false;
                               });
                             },
                           ),
@@ -212,14 +175,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                         Row(
                           children: [
                             Text('Password',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray04)),
+                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray04)),
                           ],
                         ),
                         const SizedBox(
@@ -235,29 +192,18 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             ),
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              fillColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
+                              fillColor: Theme.of(context).colorScheme.neutralWhite01,
                               filled: true,
                               hintText: 'Enter your password',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray03),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 15.0),
+                              hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                  fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                color:
-                                    Theme.of(context).colorScheme.neutralGray01,
+                                color: Theme.of(context).colorScheme.neutralGray01,
                               )),
                               suffixIcon: IconButton(
-                                icon: Icon(_isObscure
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined),
+                                icon: Icon(_isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined),
                                 onPressed: () {
                                   setState(() {
                                     _isObscure = !_isObscure;
@@ -270,9 +216,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                             },
                             onTap: () {
                               setState(() {
-                                emailController.text.isEmpty
-                                    ? _validate = true
-                                    : _validate = false;
+                                emailController.text.isEmpty ? _validate = true : _validate = false;
                               });
                             },
                           ),
@@ -291,14 +235,8 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                 },
                                 child: Text(
                                   'Forgot your password?',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralGray03),
+                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                      fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03),
                                 ),
                               ),
                             ],
@@ -313,52 +251,45 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                               elevation: 0,
                               primary: isButtonActive
                                   ? Theme.of(context).colorScheme.intGreenMain
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite04,
+                                  : Theme.of(context).colorScheme.neutralWhite04,
                             ),
                             child: isLoading
                                 ? SizedBox(
                                     width: 20,
                                     height: 20,
                                     child: CircularProgressIndicator(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
+                                      color: Theme.of(context).colorScheme.neutralWhite01,
                                       strokeWidth: 2,
                                     ),
                                   )
                                 : Text(
                                     'Continue',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01),
+                                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).colorScheme.neutralWhite01),
                                   ),
                             onPressed: isButtonActive
                                 ? () async {
                                     //Navigation and account validation
                                     setState(() => isLoading = true);
-                                    bool result = await handleLogin();
+                                    var response = await UserProvider()
+                                        .login(LoginForm(emailController.text, passwordController.text));
                                     Timer(const Duration(seconds: 1), () {
-                                      if (result) {
+                                      if (response["status"]) {
                                         // Get.offAndToNamed('/homepage');
-                                        Get.offAndToNamed('/loginSplashScreen');
+                                        log('first time? ${response["firstTimeLogin"]}');
+                                        if (response["firstTimeLogin"]) {
+                                          Get.offAndToNamed('/assessPHQScreen');
+                                        } else {
+                                          Get.offAndToNamed('/loginSplashScreen');
+                                        }
                                       } else {
                                         Get.snackbar(
                                           "Log in failed",
                                           error,
                                           snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .accentRed02,
-                                          colorText: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01,
+                                          backgroundColor: Theme.of(context).colorScheme.accentRed02,
+                                          colorText: Theme.of(context).colorScheme.neutralWhite01,
                                         );
                                         setState(() => isLoading = false);
                                       }

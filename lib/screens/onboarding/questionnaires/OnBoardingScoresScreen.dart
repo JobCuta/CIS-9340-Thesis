@@ -26,19 +26,30 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   final PHQController _phqController = Get.put(PHQController());
   final SIDASController _sidasController = Get.put(SIDASController());
 
-
   // creating several DatTime.now() makes varying dates. Strictly use one for the same exact dates.
   DateTime now = DateTime.now();
 
   void savePhqEntry(List<int> answerValues, int sum) async {
-    var box = await Hive.openLazyBox('phq');
+    var box = Hive.box('phq');
+    DateTime next = now.add(const Duration(days: 14));
 
     var newPhq = phqHiveObj(date: now, score: sum);
-    var nextPhq = phqHiveObj(date: now.add(const Duration(days: 14)), score: -1);
+    var nextPhq = phqHiveObj(date: next, score: -1);
 
-    var phqMonth = phqHive(assessments: [newPhq, nextPhq]);
-    String monthKey = now.month.toString()+ '-' + now.year.toString();
-    box.put(monthKey, phqMonth);
+    if (now.month == next.month) {
+      var phqMonth = phqHive(assessments: [newPhq, nextPhq]);
+      String monthKey = now.month.toString() + '-' + now.year.toString();
+      box.put(monthKey, phqMonth);
+    } else {
+      var m1 = phqHive(assessments: [newPhq]);
+      var m2 = phqHive(assessments: [nextPhq]);
+
+      String m1Key = now.month.toString() + '-' + now.year.toString();
+      String m2Key = next.month.toString() + '-' + next.year.toString();
+
+      box.put(m1Key, m1);
+      box.put(m2Key, m2);
+    }
 
     String title = '', sub = '';
     bool result = await UserProvider().createPHQ(newPhq);
@@ -58,7 +69,7 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   }
 
   void saveSidasEntry(List<int> answerValues, int sum) async {
-    var box = await Hive.openLazyBox('sidas');
+    var box = Hive.box('sidas');
 
     var newSidas = sidasHive(date: now, answerValues: answerValues, sum: sum);
     var nextSidas = sidasHive(date: DateTime(now.year, now.month + 1, now.day), answerValues: [], sum: -1);
@@ -89,6 +100,7 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   @override
   Widget build(BuildContext context) {
     _phqController.addToHive();
+    savePhqEntry(_phqController.answerValues, _phqController.sum);
     saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
     return WillPopScope(
       onWillPop: () async => false,

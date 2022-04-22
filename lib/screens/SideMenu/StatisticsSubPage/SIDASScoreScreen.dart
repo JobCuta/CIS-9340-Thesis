@@ -48,7 +48,7 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                   fontWeight: FontWeight.w400),
             ),
             leading: BackButton(onPressed: () {
-              Get.offAndToNamed('/statisticsScreen');
+              Get.back();
             }),
             elevation: 1,
             backgroundColor: Colors.transparent),
@@ -79,7 +79,7 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(children: <TextSpan>[
                           TextSpan(
-                              text: userone.sum.toString(),
+                              text: userone.sum != -1 ? userone.sum.toString() : '--',
                               style: Theme.of(context).textTheme.displaySmall?.copyWith(
                                 color: Theme.of(context).colorScheme.accentBlue02)),
                           TextSpan(

@@ -46,10 +46,10 @@ Future registeredDialog(BuildContext context) {
           primary: Theme.of(context).colorScheme.intGreenMain,
         ),
         onPressed: () {
-          Get.offAllNamed('/assessPHQScreen');
+          Get.offAllNamed('/accountScreen');
         },
         child: Text(
-          'Okay!',
+          'Back to Login',
           style: Theme.of(context).textTheme.subtitle2?.copyWith(
               color: Theme.of(context).colorScheme.neutralWhite01,
               fontWeight: FontWeight.w600),

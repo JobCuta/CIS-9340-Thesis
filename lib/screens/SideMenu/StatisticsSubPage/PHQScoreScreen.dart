@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
@@ -24,8 +25,7 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
   void initState() {
     super.initState();
     box = Hive.box('phq');
-    list = box.values.toList();
-    // log('list ${list.first.date}');
+    list= box.values.toList();
   }
 
   @override
@@ -49,32 +49,14 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
                   fontWeight: FontWeight.w400),
             ),
             leading: BackButton(onPressed: () {
-              Get.offAndToNamed('/statisticsScreen');
+              Get.back();
             }),
             elevation: 1,
             backgroundColor: Colors.transparent),
         body: Padding(
           padding: const EdgeInsets.all(20),
-          child: ListView(shrinkWrap: true, children: [
-            // ElevatedButton(
-            //     child: const Text('Add Entry'),
-            //     onPressed: () {
-            //       log('test');
-            //       List<phqHiveObj> tests = [];
-            //       for (int i = 0; i < 5; i++) {
-            //         phqHiveObj entry =
-            //             phqHiveObj(date: DateTime.utc(2022, 4, i), score: -1);
-            //         tests.add(entry);
-            //       }
-            //       box.put('05-2022', tests);
-            //     }),
-            // ElevatedButton(
-            //     child: const Text('Delete scores'),
-            //     onPressed: () {
-            //       box.deleteAll(box.keys);
-            //       log('box ${list}');
-            //     }),
-            ListView(
+          child: Container(
+            child: ListView(
               shrinkWrap: true,
               children: list.map((userone) {
                 log('user $userone');
@@ -82,13 +64,13 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
                   Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                       child: ScoreCards(
-                        lists: userone,
+                        lists: userone.assessments,
                       )),
                   const SizedBox(height: 20),
                 ]);
               }).toList(),
-            )
-          ]),
+            ),
+          ),
         ),
       ),
     );

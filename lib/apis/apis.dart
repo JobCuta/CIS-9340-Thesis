@@ -29,10 +29,9 @@ class UserProvider extends GetConnect {
   //POST
   Future login(LoginForm loginData) async {
     final response = await post(domain + paths["login"], loginData.form());
-    print('login response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     String message = "";
-    bool status = false;
+    bool status = false, firstTimeLogin = false;
     if (response.hasError && map.containsKey("non_field_errors")) {
       message = map["non_field_errors"][0];
     } else {
@@ -41,13 +40,23 @@ class UserProvider extends GetConnect {
         status = true;
         message = "Successfully logged in.";
         await UserSecureStorage.setKeyLogin(map["key"]);
+        var user = Map<String, dynamic>.from(map["user"]);
+        await UserSecureStorage.setLoginDetails(
+            user["email"],
+            user["nickname"] == "" ? user["first_name"] : user["nickname"],
+            user["first_name"],
+            user["last_name"],
+            user["date_of_birth"],
+            user["gender"],
+            user["anon"].toString());
+        firstTimeLogin = user["first_time_login"];
       } else if (map.containsKey("email")) {
         message = map["email"][0];
       } else {
         message = "Unknown error occurred during Login";
       }
     }
-    return {"message": message, "status": status};
+    return {"message": message, "status": status, "firstTimeLogin": firstTimeLogin};
   }
 
   Future register(RegisterForm userData) async {
@@ -135,27 +144,17 @@ class UserProvider extends GetConnect {
     return response;
   }
 
-  Future<Object> user(bool initial) async {
+  Future<Object> user() async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
     log('get user response ${response.body}');
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
-      if (initial) {
-        log('da map $map');
-        await UserSecureStorage.setLoginDetails(
-            map["email"],
-            map["nickname"] == "" ? map["first_name"] : map["nickname"],
-            map["first_name"],
-            map["last_name"],
-            map["date_of_birth"],
-            map["gender"],
-            map["anon"].toString());
-        return true;
-      } else {
-        return response;
-      }
+      log('da map $map');
+      await UserSecureStorage.setLoginDetails(map["email"], map["nickname"] == "" ? map["first_name"] : map["nickname"],
+          map["first_name"], map["last_name"], map["date_of_birth"], map["gender"], map["anon"].toString());
+      return true;
     } else {
       return false;
     }
@@ -196,7 +195,7 @@ class UserProvider extends GetConnect {
     return true;
   }
 
-    Future updateSIDAS(int score, String index) async {
+  Future updateSIDAS(int score, String index) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response =

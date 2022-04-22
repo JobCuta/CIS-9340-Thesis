@@ -49,13 +49,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    var scores = UserProvider().phqScores();
-    log('scores $scores');
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false, //change to confirm exit modal
@@ -592,6 +585,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                const AssessmentsContainer(phq: true),
+                const AssessmentsContainer(phq: false),
                 InkWell(
                   onTap: () {
                     //Add navigation to the adventure page here
@@ -694,7 +689,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ]),
                 ),
-                // const AssessmentsContainer(phq: true),
               ],
             ),
           ),
