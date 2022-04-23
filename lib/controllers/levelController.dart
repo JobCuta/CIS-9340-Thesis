@@ -171,7 +171,7 @@ class LevelController extends GetxController {
     updateRecentlyAddedXp(false);
   }
 
-  void displayTodaysTaskWithXp(BuildContext context) {
+  void displayTodaysTaskWithXp(BuildContext context) {}ysTaskWithXp(BuildContext context) {
     Future.delayed(const Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
             context: context,
