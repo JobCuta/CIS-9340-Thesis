@@ -67,14 +67,23 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
 
   @override
   Widget build(BuildContext context) {
+
+    /// Save PHQ score on both Hive and Backend
     saveEntries() async {
       var box = Hive.box('phq');
       phqHive assessMonth = box.get(Get.arguments["key"]);
 
+      // update previously made entry's score
       assessMonth.assessments.first.score = _phqController.sum;
       assessMonth.save();
 
-      var nextPhq = phqHiveObj(date: assessMonth.assessments.first.date.add(const Duration(days: 14)), score: -1);
+      // create a new entry for the next assessment
+      int nextIndex = assessMonth.assessments.first.index + 1;
+      var nextPhq = phqHiveObj( 
+        index: nextIndex, 
+        date: assessMonth.assessments.first.date.add(const Duration(days: 14)), 
+        score: -1
+      );
 
       if (assessMonth.assessments.first.date.month == nextPhq.date.month) {
         assessMonth.assessments.add(nextPhq);
@@ -85,21 +94,24 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
         box.put(monthKey, newMonth);
       }
 
-      // String title = '', sub = '';
-      // bool result = await UserProvider().createPHQ(newPhq);
-      // bool result2 = await UserProvider().createPHQ(nextPhq);
+      String title = '', sub = '';
+      bool result = await UserProvider().updatePHQ(
+        _phqController.sum,
+        nextPhq.index.toString()
+      );
+      bool result2 = await UserProvider().createPHQ(nextPhq);
 
-      // // Check results of saving entry online
-      // if (result && result2) {
-      //   title = 'PHQ9 Entry saved!';
-      //   sub = 'Entry was saved to your profile';
-      // } else {
-      //   title = 'PHQ9 Entry not saved';
-      //   sub = 'There was a problem saving your entry online';
-      // }
+      // Check results of saving entry online
+      if (result && result2) {
+        title = 'PHQ9 Entry saved!';
+        sub = 'Entry was saved to your profile';
+      } else {
+        title = 'PHQ9 Entry not saved';
+        sub = 'There was a problem saving your entry online';
+      }
 
-      // Get.snackbar(title, sub,
-      //     snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+      Get.snackbar(title, sub,
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
     }
 
     checkIfOnboarding() {

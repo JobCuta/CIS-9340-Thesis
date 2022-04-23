@@ -33,8 +33,8 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
     var box = Hive.box('phq');
     DateTime next = now.add(const Duration(days: 14));
 
-    var newPhq = phqHiveObj(date: now, score: sum);
-    var nextPhq = phqHiveObj(date: next, score: -1);
+    var newPhq = phqHiveObj(index: 0, date: now, score: sum);
+    var nextPhq = phqHiveObj(index: 1, date: next, score: -1);
 
     if (now.month == next.month) {
       var phqMonth = phqHive(assessments: [newPhq, nextPhq]);
@@ -71,8 +71,8 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   void saveSidasEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('sidas');
 
-    var newSidas = sidasHive(date: now, answerValues: answerValues, sum: sum);
-    var nextSidas = sidasHive(date: DateTime(now.year, now.month + 1, now.day), answerValues: [], sum: -1);
+    var newSidas = sidasHive(date: now, answerValues: answerValues, score: sum);
+    var nextSidas = sidasHive(date: DateTime(now.year, now.month + 1, now.day), answerValues: [], score: -1);
     box.add(newSidas);
     box.add(nextSidas);
 
@@ -98,10 +98,14 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    _phqController.addToHive();
+  void initState() {
+    super.initState();
     savePhqEntry(_phqController.answerValues, _phqController.sum);
     saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -245,6 +249,8 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                         primary: Theme.of(context).colorScheme.accentBlue02,
                       ),
                       onPressed: () {
+                        _phqController.dispose();
+                        _sidasController.dispose();
                         Get.toNamed('/homepage');
                       }),
                 )))

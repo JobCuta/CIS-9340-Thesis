@@ -126,7 +126,7 @@ class UserProvider extends GetConnect {
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
       "date_created": entry.date.toString(),
-      "sum": entry.sum,
+      "sum": entry.score,
     }, headers: {
       "Authorization": "Token " + key
     });
