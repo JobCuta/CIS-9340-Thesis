@@ -13,11 +13,10 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-            decoration:
-                const BoxDecoration(color: Color.fromRGBO(242, 255, 245, 1.0)),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+            decoration: const BoxDecoration(color: Color(0xffF2FFF5)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,16 +35,15 @@ class CreateAccountScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: SvgPicture.asset('assets/images/create.svg'),
                 ),
-                const SizedBox(
-                  height: 15.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Text(
+                    'Create an account!',
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.neutralBlack02),
+                  ),
                 ),
-                Text(
-                  'Create an account!',
-                  style: Theme.of(context).textTheme.headline5?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.neutralBlack02),
-                ),
-                const SizedBox(height: 15.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
@@ -53,7 +51,7 @@ class CreateAccountScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         color: Theme.of(context).colorScheme.intGreen07,
-                        height: 2),
+                        height: 1.5),
                   ),
                 ),
                 const SizedBox(
@@ -112,7 +110,8 @@ class CreateAccountScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         side: BorderSide(
-                            color: Theme.of(context).colorScheme.neutralWhite04),
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite04),
                         primary: Theme.of(context).colorScheme.neutralWhite01,
                       ),
                       onPressed: () {

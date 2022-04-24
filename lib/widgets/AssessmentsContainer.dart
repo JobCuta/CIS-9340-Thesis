@@ -67,51 +67,62 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Upcoming $title Assessment: ${DateFormat("MMMM-dd").format(latestEntry.date)}',
+              Text(
+                  'Upcoming $title Assessment: ${DateFormat("MMMM dd").format(latestEntry.date)}',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      ?.copyWith(
-                        fontWeight: FontWeight.w600, 
-                        color: daysLeft > 1 ? Theme.of(context).colorScheme.accentBlue02 : Theme.of(context).colorScheme.sunflowerYellow01)),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: daysLeft > 1
+                          ? Theme.of(context).colorScheme.accentBlue02
+                          : Theme.of(context).colorScheme.sunflowerYellow01)),
               const SizedBox(
                 height: 10,
               ),
-              Text( daysLeft != 0 ? 'Due in $daysLeft day/s' : 'Your $title assessment is due today',
+              Text(
+                  daysLeft != 0
+                      ? 'Due in $daysLeft day/s'
+                      : 'Your $title assessment is due today',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.neutralGray02)),
               const SizedBox(
                 height: 20,
               ),
               InkWell(
                 onTap: () {
-                  Get.toNamed(takeAssessRoute, 
-                    arguments: {
-                      'home':'/homepage', 
-                      'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()
-                    }
-                  );
+                  Get.toNamed(takeAssessRoute, arguments: {
+                    'home': '/homepage',
+                    'key': latestEntry.date.month.toString() +
+                        '-' +
+                        latestEntry.date.year.toString()
+                  });
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Take Assessment Now',
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.neutralBlack02)),
+                            fontWeight: FontWeight.w500,
+                            color:
+                                Theme.of(context).colorScheme.neutralBlack02)),
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
                             text: 'Go',
-                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .accentBlue04)),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Icon(Icons.keyboard_arrow_right_sharp,
-                                color: Theme.of(context).colorScheme.accentBlue04))
+                                color:
+                                    Theme.of(context).colorScheme.accentBlue04))
                       ]),
                     ),
                   ],
@@ -125,10 +136,9 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               InkWell(
                 child: Text('Show previous assessments',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03)),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.neutralGray03)),
                 onTap: () {
                   Get.toNamed(prevAssessRoute);
                 },

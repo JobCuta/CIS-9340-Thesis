@@ -49,7 +49,7 @@ Future registeredDialog(BuildContext context) {
           Get.offAllNamed('/accountScreen');
         },
         child: Text(
-          'Back to Login',
+          'Return to login',
           style: Theme.of(context).textTheme.subtitle2?.copyWith(
               color: Theme.of(context).colorScheme.neutralWhite01,
               fontWeight: FontWeight.w600),

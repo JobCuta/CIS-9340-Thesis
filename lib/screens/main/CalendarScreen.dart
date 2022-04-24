@@ -306,28 +306,63 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: SizedBox(
-                            child: Center(
-                              child: RichText(
-                                  text: TextSpan(
-                                      text: (noEntriesCount == 1)
-                                          ? 'You missed 1 day! '
-                                          : 'You missed $noEntriesCount days! ',
-                                      style: const TextStyle(
-                                          fontSize: 14.0, color: Colors.grey),
-                                      children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Add an entry',
-                                        style:
-                                            TextStyle(color: Colors.blue[300]),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            //navigation
-                                            Get.toNamed('/entriesScreen');
-                                          })
-                                  ])),
+                        Visibility(
+                          visible: noEntriesCount > 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SizedBox(
+                              child: Center(
+                                child: RichText(
+                                    text: TextSpan(
+                                        text: 'You missed ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralGray03),
+                                        children: <TextSpan>[
+                                      TextSpan(
+                                          text: noEntriesCount.toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralGray03)),
+                                      TextSpan(
+                                          text: noEntriesCount == 1
+                                              ? ' day!'
+                                              : ' days!',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralGray03)),
+                                      TextSpan(
+                                          text: ' Add an entry',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .accentBlue02),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              //navigation
+                                              Get.toNamed('/entriesScreen');
+                                            })
+                                    ])),
+                              ),
                             ),
                           ),
                         )
@@ -348,12 +383,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             decoration: BoxDecoration(
                                 color: const Color.fromRGBO(50, 144, 255, 0.4),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(10.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 'Your overall mood for today',
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.white),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01),
                               ),
                             ),
                           ),
