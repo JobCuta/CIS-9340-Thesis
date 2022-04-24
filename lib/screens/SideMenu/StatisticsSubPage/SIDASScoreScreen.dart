@@ -79,7 +79,7 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(children: <TextSpan>[
                           TextSpan(
-                              text: userone.sum != -1 ? userone.sum.toString() : '--',
+                              text: userone.score != -1 ? userone.score.toString() : '--',
                               style: Theme.of(context).textTheme.displaySmall?.copyWith(
                                 color: Theme.of(context).colorScheme.accentBlue02)),
                           TextSpan(
@@ -90,7 +90,7 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        userone.sum > 21 ?'High Ideation' : 'Low Ideation',
+                        userone.score > 21 ?'High Ideation' : 'Low Ideation',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -98,10 +98,10 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 10),
-                      userone.sum > 0 ?
+                      userone.score > 0 ?
                         LinearPercentIndicator(
                           lineHeight: 30,
-                          percent: (userone.sum / 50),
+                          percent: (userone.score / 50),
                           progressColor: Theme.of(context).colorScheme.accentBlue02,
                           backgroundColor: Theme.of(context).colorScheme.accentBlue04,
                           barRadius: const Radius.circular(4),

@@ -27,7 +27,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
     print("EXPERIENCES = " + experiences.toString());
     print("EXPERIENCES SIZE = " + experiences.length.toString());
     List<dynamic> experienceKeys = experiences.keys.toList();
-    // _levelController.clearMapOfAccomplishedWithXp();
+    _levelController.clearMapOfAccomplishedWithXp();
 
     return Scaffold(
       backgroundColor: Colors.transparent,

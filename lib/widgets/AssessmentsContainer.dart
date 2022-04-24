@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/phqController.dart';
+import 'package:flutter_application_1/controllers/sidasController.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -52,7 +53,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
       }
     }
     daysLeft = latestEntry.date.difference(now).inDays;
-    log('how am I here $latestEntry');
+    log('how am I here ${latestEntry.score}');
   }
 
   @override
@@ -91,25 +92,67 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               ),
               InkWell(
                 onTap: () {
-                  Get.toNamed(takeAssessRoute, arguments: {
-                    'home': '/homepage',
-                    'key': latestEntry.date.month.toString() +
-                        '-' +
-                        latestEntry.date.year.toString()
-                  });
+                  if (daysLeft < 1) {
+                    Get.toNamed(takeAssessRoute, arguments: {
+                      'home': '/homepage',
+                      'key': latestEntry.date.month.toString() +
+                          '-' +
+                          latestEntry.date.year.toString()
+                    });
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Take Assessment Now',
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
                             fontWeight: FontWeight.w500,
                             color:
                                 Theme.of(context).colorScheme.neutralBlack02)),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Go',
+                    daysLeft < 1
+                        ? latestEntry.score == -1
+                            ? RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Go',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .accentBlue04)),
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                          Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue04))
+                                ]),
+                              )
+                            : RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Completed ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralGray02)),
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(Icons.check_circle,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentGreen02))
+                                ]),
+                              )
+                        : Text('Not Yet!',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -117,14 +160,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                     fontWeight: FontWeight.w600,
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .accentBlue04)),
-                        WidgetSpan(
-                            alignment: PlaceholderAlignment.middle,
-                            child: Icon(Icons.keyboard_arrow_right_sharp,
-                                color:
-                                    Theme.of(context).colorScheme.accentBlue04))
-                      ]),
-                    ),
+                                        .neutralGray02))
                   ],
                 ),
               ),

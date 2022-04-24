@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 

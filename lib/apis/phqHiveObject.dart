@@ -4,10 +4,14 @@ part 'phqHiveObject.g.dart';
 @HiveType(typeId: 13)
 class phqHiveObj extends HiveObject {
   @HiveField(0)
-  DateTime date;
+  int index;
 
   @HiveField(1)
   int score;
 
-  phqHiveObj({required this.date, required this.score});
+  @HiveField(2)
+  DateTime date;
+  
+
+  phqHiveObj({required this.index, required this.score, required this.date});
 }

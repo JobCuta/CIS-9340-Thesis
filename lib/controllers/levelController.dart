@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
+import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
+import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -139,13 +141,18 @@ class LevelController extends GetxController {
   }
 
   void clearMapOfAccomplishedWithXp() {
-    accomplishedWithXp.value.clear();
+    accomplishedWithXp.value = {};
     update();
   }
+  
 
   void displayLevelXpModal(BuildContext context) {
-    Future.delayed(const Duration(seconds: 0)).then((_) {
-      showModalBottomSheet(
+    
+    if (levelUp.value) {
+      displayRewardsUponLevelUp(context);
+    } else {
+        Future.delayed(const Duration(seconds: 0)).then((_) {
+        showModalBottomSheet(
           context: context,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -158,8 +165,49 @@ class LevelController extends GetxController {
                 height: MediaQuery.of(context).size.height * 0.75,
                 child: const LevelWidgets());
           });
+      });
+    }
 
-      updateRecentlyAddedXp(false);
+    updateRecentlyAddedXp(false);
+  }
+
+  void displayTodaysTaskWithXp(BuildContext context) {}ysTaskWithXp(BuildContext context) {
+    Future.delayed(const Duration(seconds: 0)).then((_) {
+        showModalBottomSheet(
+            context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+            ),
+            useRootNavigator: true,
+            isScrollControlled: true,
+            builder: (context) {
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.75,
+                  child: const LevelTasksTodayWidgets());
+            });
+      });
+  }
+
+  void displayRewardsUponLevelUp(BuildContext context) {
+    Future.delayed(const Duration(seconds: 0)).then((_) {
+      showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(4),
+              topRight: Radius.circular(4)),
+        ),
+        useRootNavigator: true,
+        // isScrollControlled: true,
+        builder: (context) {
+          return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.75,
+              child: const LevelUpRewardWidgets());
+      });
+
+      levelUp.value = false;
+      update();
     });
   }
 

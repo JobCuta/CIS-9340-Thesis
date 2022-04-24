@@ -11,11 +11,11 @@ class sidasHive extends HiveObject {
   List<int> answerValues = [0, 0, 0, 0, 0];
 
   @HiveField(2)
-  int sum = 0;
+  int score = 0;
 
   sidasHive({
     required this.date,
     required this.answerValues,
-    required this.sum,
+    required this.score,
   });
 }

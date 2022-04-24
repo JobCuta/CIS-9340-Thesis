@@ -280,7 +280,7 @@ class _MainState extends State<Main> {
             page: () => const UESFocusedAttentionScreen()),
       ],
       theme: themeData,
-      // home: const Splash()
+      home: const Splash()
     );
   }
 }

@@ -139,63 +139,66 @@ class _SideMenuState extends State<SideMenu> {
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: padding.add(const EdgeInsets.only(top: 10)),
-          child: Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Container(
-                      height: 50.0,
-                      width: 50.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color:
-                              Theme.of(context).colorScheme.sunflowerYellow01,
-                          border: Border.all(
-                              width: 2.0,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .sunflowerYellow01)),
-                      child: Container(
-                          height: 39,
-                          width: 39,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                  width: 2.0,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01)),
-                          child: Center(
-                              child: Text(userLevel.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01)))))),
-              Wrap(
-                direction: Axis.vertical,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 10,
-                children: [
-                  FittedBox(
-                    child: Text('Hey there, $name',
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: Theme.of(context).colorScheme.accentIndigo02,
-                            fontWeight: FontWeight.w600)),
+          child: Expanded(
+            child: Row(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Container(
+                        height: 50.0,
+                        width: 50.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color:
+                                Theme.of(context).colorScheme.sunflowerYellow01,
+                            border: Border.all(
+                                width: 2.0,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .sunflowerYellow01)),
+                        child: Container(
+                            height: 39,
+                            width: 39,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                    width: 2.0,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
+                            child: Center(
+                                child: Text(userLevel.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01)))))),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text('Hey there, $name',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              color: Theme.of(context).colorScheme.accentIndigo02,
+                              fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 10,),
+                      Text('$email ',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.caption!.copyWith(
+                              color: Theme.of(context).colorScheme.accentIndigo02,
+                              fontWeight: FontWeight.w400)),
+                      // ),
+                    ],
                   ),
-                  FittedBox(
-                    child: Text('$email ',
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                            color: Theme.of(context).colorScheme.accentIndigo02,
-                            fontWeight: FontWeight.w400)),
-                  ),
-                  // ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       );

@@ -19,7 +19,7 @@ class sidasHiveAdapter extends TypeAdapter<sidasHive> {
     return sidasHive(
       date: fields[0] as DateTime,
       answerValues: (fields[1] as List).cast<int>(),
-      sum: fields[2] as int,
+      score: fields[2] as int,
     );
   }
 
@@ -32,7 +32,7 @@ class sidasHiveAdapter extends TypeAdapter<sidasHive> {
       ..writeByte(1)
       ..write(obj.answerValues)
       ..writeByte(2)
-      ..write(obj.sum);
+      ..write(obj.score);
   }
 
   @override

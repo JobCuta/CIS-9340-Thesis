@@ -126,7 +126,7 @@ class UserProvider extends GetConnect {
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
       "date_created": entry.date.toString(),
-      "sum": entry.sum,
+      "sum": entry.score,
     }, headers: {
       "Authorization": "Token " + key
     });
@@ -183,6 +183,19 @@ class UserProvider extends GetConnect {
   }
 
   //PUT
+  Future firstLogin() async {
+    String key = "", email = '';
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    await UserSecureStorage.getEmail().then((value) => email = value.toString());
+    final response = await put(domain + paths["getUser"], {"email": email, "first_time_login": false},
+        headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('error ${response.statusText}');
+      return false;
+    }
+    return true;
+  }
+
   Future updatePHQ(int score, String index) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());

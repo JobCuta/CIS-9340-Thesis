@@ -1,22 +1,17 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/phqController.dart';
+import 'package:flutter_application_1/controllers/sidasController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
-import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/AssessmentsContainer.dart';
-import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
-import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,8 +49,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       onWillPop: () async => false, //change to confirm exit modal
       child: Scaffold(
         body: PageTransitionSwitcher(
-          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
-                  Animation<double> secondaryAnimation) =>
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
               SharedAxisTransition(
             animation: primaryAnimation,
             secondaryAnimation: secondaryAnimation,
@@ -106,19 +100,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
           ],
           currentIndex: selectedIndex,
           selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-          unselectedItemColor: selectedIndex < 3
-              ? Theme.of(context).colorScheme.accentBlue04
-              : const Color(0xffA36508),
+          unselectedItemColor: selectedIndex < 3 ? Theme.of(context).colorScheme.accentBlue04 : const Color(0xffA36508),
           iconSize: 32.0,
           type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: Theme.of(context)
-              .textTheme
-              .caption
-              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: Theme.of(context)
-              .textTheme
-              .caption
-              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          selectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
           onTap: _onItemTapped,
         ),
       ),
@@ -143,6 +129,9 @@ class _HomePageState extends State<HomePage> {
   final DailyController _dailyController = Get.put(DailyController());
   final EmotionController _emotionController = Get.put(EmotionController());
   final LevelController _levelController = Get.put(LevelController());
+  // controllers being used in other components DO NOT REMOVE
+  final PHQController _phqController = Get.put(PHQController());
+  final SIDASController _sidasController = Get.put(SIDASController());
 
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
     return (isTaskDone)
@@ -150,26 +139,26 @@ class _HomePageState extends State<HomePage> {
             text: TextSpan(children: [
               TextSpan(
                   text: 'Completed ',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: Icon(Icons.check_circle,
-                      color: Theme.of(context).colorScheme.accentGreen02))
+                  child: Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentGreen02))
             ]),
           )
         : RichText(
             text: TextSpan(children: [
               TextSpan(
                   text: 'Go',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.accentBlue04)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: Icon(Icons.keyboard_arrow_right_sharp,
-                      color: Theme.of(context).colorScheme.accentBlue04))
+                  child: Icon(Icons.keyboard_arrow_right_sharp, color: Theme.of(context).colorScheme.accentBlue04))
             ]),
           );
   }
@@ -177,49 +166,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     print("ENTERED INIT OF HOMEPAGE --------------------");
-    print("Level Controller (Recently added xp) = " +
-        _levelController.recentlyAddedXp.value.toString());
-    print("Daily Controller (Showed available tasks) = " +
-        _dailyController.showedAvailableTasks.value.toString());
+    print("Level Controller (Recently added xp) = " + _levelController.recentlyAddedXp.value.toString());
+    print("Daily Controller (Showed available tasks) = " + _dailyController.showedAvailableTasks.value.toString());
 
     if (_levelController.recentlyAddedXp.value) {
-      Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-            ),
-            useRootNavigator: true,
-            isScrollControlled: true,
-            builder: (context) {
-              return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelWidgets());
-            });
-
-        _levelController.updateRecentlyAddedXp(false);
-      });
+      _levelController.displayLevelXpModal(context);
     } else if (!_dailyController.showedAvailableTasks.value &&
-        (!_dailyController.isDailyEntryDone.value ||
-            !_dailyController.isDailyExerciseDone.value)) {
-      Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-            ),
-            useRootNavigator: true,
-            isScrollControlled: true,
-            builder: (context) {
-              return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelTasksTodayWidgets());
-            });
-
-        _dailyController.updateShowedAvailableTasks(true);
-      });
+        (!_dailyController.isDailyEntryDone.value || !_dailyController.isDailyExerciseDone.value)) {
+      _levelController.displayTodaysTaskWithXp(context);
+      _dailyController.updateShowedAvailableTasks(true);
     }
 
     super.initState();
@@ -259,44 +214,30 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                       alignment: Alignment.center,
                       height: 110,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
                       decoration: BoxDecoration(
                           color: const Color(0xff3290FF).withOpacity(0.60),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4))),
+                          borderRadius: const BorderRadius.all(Radius.circular(4))),
                       child: Column(children: [
                         Text('Welcome!',
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01)),
+                                ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01)),
                         const SizedBox(height: 10),
                         Container(
                           alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .accentBlue04
-                                  .withOpacity(0.20),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10))),
-                          child: Text(
-                              'Remember, all is well and all will be well.',
+                              color: Theme.of(context).colorScheme.accentBlue04.withOpacity(0.20),
+                              borderRadius: const BorderRadius.all(Radius.circular(10))),
+                          child: Text('Remember, all is well and all will be well.',
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
                                   .caption
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
+                                  ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01)),
                         )
                       ])),
                 ),
@@ -306,14 +247,14 @@ class _HomePageState extends State<HomePage> {
                       showUserEngagementDialog(context);
                     }),
                 // ElevatedButton(
-                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11), 
+                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11),
                 //   child: const Text('Test Future Entries')
                 // ),
                 // ElevatedButton(
                 //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
                 //   child: const Text('Test Past Entries')
                 // ),
-                    
+
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
@@ -330,67 +271,31 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                     child: const Text('Test LevelUp'),
                     onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.75,
-                                child: const LevelUpRewardWidgets());
-                          });
-                }),
+                      _levelController.displayRewardsUponLevelUp(context);
+                    }),
                 ElevatedButton(
                     child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
                       _levelController.addXp('Test', 150);
-
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height,
-                                child: const LevelWidgets());
-                          });
+                      _levelController.displayLevelXpModal(context);
                     }),
                 ElevatedButton(
                     child: const Text("Test Today's Task"),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
-                      _levelController.addXp('Test', 150);
-
-                      showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4)),
-                          ),
-                          useRootNavigator: true,
-                          // isScrollControlled: true,
-                          builder: (context) {
-                            return SizedBox(
-                                height: MediaQuery.of(context).size.height,
-                                child: const LevelTasksTodayWidgets());
-                          });
+                      _levelController.displayTodaysTaskWithXp(context);
                     }),
+
+                ElevatedButton(
+                  onPressed: () {
+                    _levelController.setLevel(2);
+                  },
+                  child: const Text('Set level to 2'),
+                ),
                 Center(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 50.0,
                         child: Row(
@@ -404,31 +309,21 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
+                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage(
-                                        'assets/images/entry_morning.png'),
-                                    color: !_isMorningEntryDone
-                                        ? Colors.grey
-                                        : null,
+                                    image: const AssetImage('assets/images/entry_morning.png'),
+                                    color: !_isMorningEntryDone ? Colors.grey : null,
                                   )),
                             ),
                             Container(
                                 alignment: Alignment.centerLeft,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 25.0),
+                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                                 width: 80,
                                 height: 15,
                                 decoration: BoxDecoration(
-                                    color: (_isMorningEntryDone &&
-                                            _isAfternoonEntryDone)
-                                        ? const Color(0x00FFC122)
-                                            .withOpacity(1.0)
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray02)),
+                                    color: (_isMorningEntryDone && _isAfternoonEntryDone)
+                                        ? const Color(0x00FFC122).withOpacity(1.0)
+                                        : Theme.of(context).colorScheme.neutralGray02)),
 
                             // AFTERNOON
                             CircleAvatar(
@@ -438,31 +333,21 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
+                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage(
-                                        'assets/images/entry_afternoon.png'),
-                                    color: !_isAfternoonEntryDone
-                                        ? Colors.grey
-                                        : null,
+                                    image: const AssetImage('assets/images/entry_afternoon.png'),
+                                    color: !_isAfternoonEntryDone ? Colors.grey : null,
                                   )),
                             ),
                             Container(
                                 alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 25.0),
+                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                                 width: 80,
                                 height: 15,
                                 decoration: BoxDecoration(
-                                    color: (_isAfternoonEntryDone &&
-                                            _isEveningEntryDone)
-                                        ? const Color(0x00FFC122)
-                                            .withOpacity(1.0)
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray02)),
+                                    color: (_isAfternoonEntryDone && _isEveningEntryDone)
+                                        ? const Color(0x00FFC122).withOpacity(1.0)
+                                        : Theme.of(context).colorScheme.neutralGray02)),
 
                             // EVENING
                             CircleAvatar(
@@ -472,15 +357,10 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
+                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage(
-                                        'assets/images/entry_evening.png'),
-                                    color: !_isEveningEntryDone
-                                        ? Colors.grey
-                                        : null,
+                                    image: const AssetImage('assets/images/entry_evening.png'),
+                                    color: !_isEveningEntryDone ? Colors.grey : null,
                                   )),
                             ),
                           ],
@@ -488,38 +368,24 @@ class _HomePageState extends State<HomePage> {
                       )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.neutralWhite01,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8))),
+                        borderRadius: const BorderRadius.all(Radius.circular(8))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Your dailies for today',
                             textAlign: TextAlign.left,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue02)),
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue02)),
                         const SizedBox(height: 10.0),
                         Text('Start your journey to wellness!',
                             textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02)),
+                            style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack02)),
                         Divider(
                           color: Theme.of(context).colorScheme.neutralWhite03,
                           height: 25,
@@ -527,8 +393,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                           onTap: () {
-                            _dailyController
-                                .setDailyTaskToDone(DailyTask.Exercise);
+                            _dailyController.setDailyTaskToDone(DailyTask.Exercise);
                             setState(() {
                               _isDailyExerciseDone = true;
                             });
@@ -538,16 +403,10 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Do your daily exercise',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralBlack02)),
-                              displayBasedOnTaskCompleteness(
-                                  _isDailyExerciseDone)
+                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.neutralBlack02)),
+                              displayBasedOnTaskCompleteness(_isDailyExerciseDone)
                             ],
                           ),
                         ),
@@ -569,14 +428,9 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text("Add today's entry",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralBlack02)),
+                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.neutralBlack02)),
                               displayBasedOnTaskCompleteness(_isDailyEntryDone)
                             ],
                           ),
@@ -612,31 +466,17 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          child: Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              direction: Axis.vertical,
-                              children: [
-                                Text('Adventure Mode',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                                const SizedBox(height: 10.0),
-                                Text('Start your journey to wellness!',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                              ]),
+                          child:
+                              Wrap(crossAxisAlignment: WrapCrossAlignment.center, direction: Axis.vertical, children: [
+                            Text('Adventure Mode',
+                                style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
+                            const SizedBox(height: 10.0),
+                            Text('Start your journey to wellness!',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
+                          ]),
                         ),
                       )
                     ]),
@@ -667,23 +507,11 @@ class _HomePageState extends State<HomePage> {
                         direction: Axis.vertical,
                         children: [
                           Text('Daily Wellness Exercise',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
+                              style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                                  fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
                           Text('Keep your mind and body in shape!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
+                              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                  fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
                         ],
                       ),
                     ),

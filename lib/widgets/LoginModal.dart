@@ -274,11 +274,12 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                     setState(() => isLoading = true);
                                     var response = await UserProvider()
                                         .login(LoginForm(emailController.text, passwordController.text));
-                                    Timer(const Duration(seconds: 1), () {
+                                    Timer(const Duration(seconds: 1), () async {
                                       if (response["status"]) {
                                         // Get.offAndToNamed('/homepage');
                                         log('first time? ${response["firstTimeLogin"]}');
                                         if (response["firstTimeLogin"]) {
+                                          bool result = await UserProvider().firstLogin();
                                           Get.offAndToNamed('/assessPHQScreen');
                                         } else {
                                           Get.offAndToNamed('/loginSplashScreen');
