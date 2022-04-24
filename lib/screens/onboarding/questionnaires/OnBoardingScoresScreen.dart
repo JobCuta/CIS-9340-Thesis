@@ -77,11 +77,13 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   void saveSidasEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('sidas');
 
-    var newSidas = sidasHive(index: -1, date: now, answerValues: answerValues, score: sum);
-    var nextSidas = sidasHive(index: -1, date: DateTime(now.year, now.month + 1, now.day), answerValues: [], score: -1);
+    DateTime n1D = now, n2D = DateTime(now.year, now.month + 1, now.day);
 
-    box.add(newSidas);
-    box.add(nextSidas);
+    var newSidas = sidasHive(index: -1, date: n1D, answerValues: answerValues, score: sum);
+    var nextSidas = sidasHive(index: -1, date: n2D, answerValues: [], score: -1);
+
+    box.put(n1D.month.toString() + '-' + n1D.year.toString(), newSidas);
+    box.put(n2D.month.toString() + '-' + n2D.year.toString(), nextSidas);
 
     // Attempt to save entry online
     String title = '', sub = '';
@@ -112,6 +114,9 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
     super.initState();
     savePhqEntry(_phqController.answerValues, _phqController.sum);
     saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
+
+    TableSecureStorage.setLatestPHQ(now.toUtc().toString());
+    TableSecureStorage.setLatestSIDAS(now.toUtc().toString());
   }
 
   @override
