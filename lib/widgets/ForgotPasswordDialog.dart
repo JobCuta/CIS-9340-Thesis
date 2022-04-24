@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 Future verificationDialog(BuildContext context) {
@@ -47,7 +46,7 @@ Future verificationDialog(BuildContext context) {
                 primary: Theme.of(context).colorScheme.intGreenMain,
               ),
               child: Text(
-                'Confirm',
+                'Return to login',
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.neutralWhite01),

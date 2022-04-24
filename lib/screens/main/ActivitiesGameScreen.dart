@@ -21,31 +21,31 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
     return (isTaskDone)
         ? RichText(
-      text: TextSpan(children: [
-        TextSpan(
-            text: 'Completed ',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.neutralGray02)),
-        WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Icon(Icons.check_circle,
-                color: Theme.of(context).colorScheme.accentGreen02))
-      ]),
-    )
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'Completed ',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralGray02)),
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Icon(Icons.check_circle,
+                      color: Theme.of(context).colorScheme.accentGreen02))
+            ]),
+          )
         : RichText(
-      text: TextSpan(children: [
-        TextSpan(
-            text: 'Go',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: const Color(0xffFFC122))),
-        const WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Icon(Icons.keyboard_arrow_right_sharp,
-                color: Color(0xffFFC122)))
-      ]),
-    );
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'Go',
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xffFFC122))),
+              const WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                      color: Color(0xffFFC122)))
+            ]),
+          );
   }
 
   @override
@@ -63,7 +63,7 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                 color: Theme.of(context).colorScheme.neutralWhite01,
                 fontWeight: FontWeight.w400),
           ),
-          leading: BackButton(onPressed: () => {Get.off(HomePageScreen(3))}),
+          leading: BackButton(onPressed: () => {Get.toNamed('/userJourney')}),
           primary: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -101,19 +101,20 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                       .textTheme
                                       .subtitle2
                                       ?.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600)),
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600)),
                               Text('Start your Journey to Wellness!',
                                   textAlign: TextAlign.left,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2
                                       ?.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600)),
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600)),
                               Divider(
-                                color:
-                                Theme.of(context).colorScheme.neutralWhite03,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite03,
                                 height: 10,
                                 thickness: 1,
                               ),
@@ -150,8 +151,9 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                 },
                               ),
                               Divider(
-                                color:
-                                Theme.of(context).colorScheme.neutralWhite03,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite03,
                                 height: 10,
                                 thickness: 1,
                               ),
@@ -188,8 +190,9 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                 },
                               ),
                               Divider(
-                                color:
-                                Theme.of(context).colorScheme.neutralWhite03,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .neutralWhite03,
                                 height: 10,
                                 thickness: 1,
                               ),

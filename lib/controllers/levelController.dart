@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
@@ -28,27 +27,20 @@ class LevelController extends GetxController {
   var levelUp = false.obs;
 
   var levelUpRewards = {
-    2 : {
-      'Kalinga Badge' : 'assets/images/kalinga_badge.svg',
-      'Kalinga Region' : 'assets/images/kalinga_unlock.svg',
-      'Kalinga Frames' : 'assets/images/kalinga_unlock.svg'},
-    3: {
-      'Abra Badge' : '',
-      'Abra Region' : '',
-      'Abra Frames' : ''},
+    2: {
+      'Kalinga Badge': 'assets/images/kalinga_badge.svg',
+      'Kalinga Region': 'assets/images/kalinga_unlock.svg',
+      'Kalinga Frames': 'assets/images/kalinga_unlock.svg'
+    },
+    3: {'Abra Badge': '', 'Abra Region': '', 'Abra Frames': ''},
     4: {
-      'Mt. Province Badge' : '',
-      'Mt. Province Region' : '',
-      'Mt. Province Frames' : ''},
-    5: {
-      'Ifugao Badge' : '',
-      'Ifugao Region' : '',
-      'Ifugao Frames' : ''},
-    6: {
-      'Benguet Badge' : '',
-      'Benguet Region' : '',
-      'Benguet Frames' : ''},
-  }.obs; 
+      'Mt. Province Badge': '',
+      'Mt. Province Region': '',
+      'Mt. Province Frames': ''
+    },
+    5: {'Ifugao Badge': '', 'Ifugao Region': '', 'Ifugao Frames': ''},
+    6: {'Benguet Badge': '', 'Benguet Region': '', 'Benguet Frames': ''},
+  }.obs;
 
   void prepareTheObjects() {
     Box box = Hive.box<Level>('level');
@@ -99,14 +91,13 @@ class LevelController extends GetxController {
     recentlyAddedXp.value = true;
     totalXpToAdd.value = 0;
     checkIfLevelUp();
-    
+
     update();
 
     level.currentLevel = currentLevel.value;
     level.currentXp = currentXp.value;
     level.save();
   }
-
 
   void addXp(String task, int xp) {
     accomplishedWithXp.putIfAbsent(task, () => xp);
@@ -117,7 +108,7 @@ class LevelController extends GetxController {
     recentlyAddedXp.value = true;
     totalXpToAdd.value = 0;
     checkIfLevelUp();
-    
+
     update();
 
     level.currentLevel = currentLevel.value;
@@ -144,35 +135,12 @@ class LevelController extends GetxController {
     accomplishedWithXp.value = {};
     update();
   }
-  
 
   void displayLevelXpModal(BuildContext context) {
-    
     if (levelUp.value) {
       displayRewardsUponLevelUp(context);
     } else {
-        Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-          ),
-          useRootNavigator: true,
-          isScrollControlled: true,
-          builder: (context) {
-            return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: const LevelWidgets());
-          });
-      });
-    }
-
-    updateRecentlyAddedXp(false);
-  }
-
-  void displayTodaysTaskWithXp(BuildContext context) {}ysTaskWithXp(BuildContext context) {
-    Future.delayed(const Duration(seconds: 0)).then((_) {
+      Future.delayed(const Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
             context: context,
             shape: const RoundedRectangleBorder(
@@ -181,30 +149,54 @@ class LevelController extends GetxController {
             ),
             useRootNavigator: true,
             isScrollControlled: true,
+            backgroundColor: Colors.white,
             builder: (context) {
               return SizedBox(
                   height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelTasksTodayWidgets());
+                  child: const LevelWidgets());
             });
       });
+    }
+
+    updateRecentlyAddedXp(false);
+  }
+
+  void displayTodaysTaskWithXp(BuildContext context) {}
+  ysTaskWithXp(BuildContext context) {
+    Future.delayed(const Duration(seconds: 0)).then((_) {
+      showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          backgroundColor: Colors.white,
+          builder: (context) {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: const LevelTasksTodayWidgets());
+          });
+    });
   }
 
   void displayRewardsUponLevelUp(BuildContext context) {
     Future.delayed(const Duration(seconds: 0)).then((_) {
       showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(4),
-              topRight: Radius.circular(4)),
-        ),
-        useRootNavigator: true,
-        // isScrollControlled: true,
-        builder: (context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.75,
-              child: const LevelUpRewardWidgets());
-      });
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          // isScrollControlled: true,
+          backgroundColor: Colors.white,
+          builder: (context) {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: const LevelUpRewardWidgets());
+          });
 
       levelUp.value = false;
       update();

@@ -102,187 +102,191 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     bool _pinned = true;
     bool _snap = true;
     bool _floating = true;
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
-      drawer: const SideMenu(),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: _pinned,
-            snap: _snap,
-            floating: _floating,
-            collapsedHeight: 75,
-            expandedHeight: 50,
-            title: Text('Settings and User Profile',
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    fontWeight: FontWeight.w400)),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(200),
-              child: Wrap(
-                  direction: Axis.vertical,
-                  spacing: 15,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          child: (_settingsController.imagePath.value != '')
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.file(
-                                    File(_settingsController.imagePath.value),
-                                    width: 100.0,
-                                    height: 100.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/default_user_image.svg',
-                                  width: 100),
-                        ),
-                        Visibility(
-                          visible: _settingsController.framePath.value != '',
-                          child: SvgPicture.asset(
-                              _settingsController.framePath.value,
-                              width: 100,
-                              height: 100),
-                        ),
-                      ],
-                    ),
-                    GetBuilder<UserProfileController>(
-                      builder: (value) => Text(
-                          _userProfileController.nicknameController.text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
-                                  fontWeight: FontWeight.w600)),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                          bottom: 20, left: 25, right: 25),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildLevelComponent(dailyTaskCount.toString(),
-                                'Daily tasks finished'),
-                            const SizedBox(width: 30),
-                            _buildLevelComponent(
-                                _levelController.currentLevel.value.toString(),
-                                'Level'),
-                            const SizedBox(width: 30),
-                            _buildLevelComponent(
-                                _emotionController.validEntriesCount.value
-                                    .toString(),
-                                'Entries'),
-                            const SizedBox(width: 30),
-                            _buildLevelComponent('-', 'Achievements'),
-                          ]),
-                    )
-                  ]),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                  decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/background_images/blue_background.png',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              )),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    borderRadius: const BorderRadius.all(Radius.circular(8))),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+        drawer: const SideMenu(),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: _pinned,
+              snap: _snap,
+              floating: _floating,
+              collapsedHeight: 75,
+              expandedHeight: 50,
+              title: Text('Settings and User Profile',
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      fontWeight: FontWeight.w400)),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(200),
                 child: Wrap(
-                  runSpacing: 5,
-                  children: [
-                    _buildFieldComponent(
-                        fieldName: 'Edit Profile',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileEditScreen');
-                        })),
-                    _buildFieldComponent(
-                        fieldName: 'Edit Frame',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileFrameScreen');
-                        })),
-                    Divider(
-                      color: Theme.of(context).colorScheme.neutralWhite03,
-                      height: 25,
-                      thickness: 1,
+                    direction: Axis.vertical,
+                    spacing: 15,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            child: (_settingsController.imagePath.value != '')
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.file(
+                                      File(_settingsController.imagePath.value),
+                                      width: 100.0,
+                                      height: 100.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/default_user_image.svg',
+                                    width: 100),
+                          ),
+                          Visibility(
+                            visible: _settingsController.framePath.value != '',
+                            child: SvgPicture.asset(
+                                _settingsController.framePath.value,
+                                width: 100,
+                                height: 100),
+                          ),
+                        ],
+                      ),
+                      GetBuilder<UserProfileController>(
+                        builder: (value) => Text(
+                            _userProfileController.nicknameController.text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600)),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            bottom: 20, left: 25, right: 25),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildLevelComponent(dailyTaskCount.toString(),
+                                  'Daily tasks finished'),
+                              const SizedBox(width: 30),
+                              _buildLevelComponent(
+                                  _levelController.currentLevel.value
+                                      .toString(),
+                                  'Level'),
+                              const SizedBox(width: 30),
+                              _buildLevelComponent(
+                                  _emotionController.validEntriesCount.value
+                                      .toString(),
+                                  'Entries'),
+                              const SizedBox(width: 30),
+                              _buildLevelComponent('-', 'Achievements'),
+                            ]),
+                      )
+                    ]),
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                    decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/background_images/blue_background.png',
                     ),
-                    _buildFieldComponent(
-                        fieldName: 'Notifications',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileNotificationsScreen');
-                        })),
-                    _buildFieldComponent(
-                        fieldName: 'Language',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileLanguageScreen');
-                        })),
-                    Divider(
-                      color: Theme.of(context).colorScheme.neutralWhite03,
-                      height: 25,
-                      thickness: 1,
-                    ),
-                    _buildFieldComponent(
-                        fieldName: 'Contact Us',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileContactScreen');
-                        })),
-                    _buildFieldComponent(
-                        fieldName: 'Account',
-                        isEditable: true,
-                        onTap: (() {
-                          Get.toNamed('/userProfileAccountScreen');
-                        })),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: TextButton(
-                            onPressed: () {
-                              showLogoutConfirmation(context);
-                            },
-                            child: Text('Logout',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed02,
-                                        fontWeight: FontWeight.w600)),
+                    fit: BoxFit.cover,
+                  ),
+                )),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
+                  child: Wrap(
+                    runSpacing: 5,
+                    children: [
+                      _buildFieldComponent(
+                          fieldName: 'Edit Profile',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileEditScreen');
+                          })),
+                      _buildFieldComponent(
+                          fieldName: 'Edit Frame',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileFrameScreen');
+                          })),
+                      Divider(
+                        color: Theme.of(context).colorScheme.neutralWhite03,
+                        height: 25,
+                        thickness: 1,
+                      ),
+                      _buildFieldComponent(
+                          fieldName: 'Notifications',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileNotificationsScreen');
+                          })),
+                      _buildFieldComponent(
+                          fieldName: 'Language',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileLanguageScreen');
+                          })),
+                      Divider(
+                        color: Theme.of(context).colorScheme.neutralWhite03,
+                        height: 25,
+                        thickness: 1,
+                      ),
+                      _buildFieldComponent(
+                          fieldName: 'Contact Us',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileContactScreen');
+                          })),
+                      _buildFieldComponent(
+                          fieldName: 'Account',
+                          isEditable: true,
+                          onTap: (() {
+                            Get.toNamed('/userProfileAccountScreen');
+                          })),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 25),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: TextButton(
+                              onPressed: () {
+                                showLogoutConfirmation(context);
+                              },
+                              child: Text('Logout',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentRed02,
+                                          fontWeight: FontWeight.w600)),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )),
-          )
-        ],
+                    ],
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

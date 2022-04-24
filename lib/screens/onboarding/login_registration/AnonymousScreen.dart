@@ -45,211 +45,222 @@ class _AnonymousState extends State<AnonymousWidget> {
     email = Get.arguments["email"];
     pass1 = Get.arguments["pass1"];
     pass2 = Get.arguments["pass2"];
-    var response = await UserProvider().register(RegisterForm.anon(email, pass1, pass2, nickName, anon));
+    var response = await UserProvider()
+        .register(RegisterForm.anon(email, pass1, pass2, nickName, anon));
     return response;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.center,
       decoration: const BoxDecoration(
           image: DecorationImage(
         image: AssetImage('assets/background_images/bahag_background.png'),
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       )),
-      child: Center(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Theme.of(context).colorScheme.neutralGray04,
-              ),
-              onPressed: () {
-                Get.back();
-              },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).colorScheme.neutralGray04,
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
+            onPressed: () {
+              Get.back();
+            },
           ),
-          body: SizedBox(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Center(
-                        child: Text(
-                      'Staying anonymous',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralBlack02),
-                    )),
-                  ),
-                  Center(
-                    child: Text(
-                      'What do you want us to call you?',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack03, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 35.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20),
-                    child: Form(
-                      key: _form,
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Text(
-                                'Nickname',
-                                style: Theme.of(context).textTheme.caption?.copyWith(
-                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray04),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5.0,
-                          ),
-                          SizedBox(
-                            child: TextFormField(
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                              ),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                border: const OutlineInputBorder(),
-                                hintText: 'Enter your nickname',
-                                fillColor: Theme.of(context).colorScheme.neutralWhite01,
-                                filled: true,
-                                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context).colorScheme.neutralGray03,
-                                    ),
-                                contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.neutralGray01,
-                                )),
-                              ),
-                              onChanged: (val) {
-                                setState(() => nickName = val);
-                              },
-                              validator: (input) {
-                                if (input == null || input.isEmpty) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 400.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          bottomSheet: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 120,
-            margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-            child: ListView(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: Theme.of(context).colorScheme.intGreenMain,
-                    ),
-                    onPressed: () async {
-                      setState(() => isLoading = true);
-                      if (_form.currentState!.validate()) {
-                        var response = await handleUserInfo();
-                        if (response["status"]) {
-                          var response = await UserProvider().login(LoginForm(email, pass1));
-                          if (response["status"]) {
-                            await UserProvider().user();
-                            log('--[user logged in..]--');
-                          }
-                          registeredDialog(context);
-                          UserSecureStorage.setLoginDetails(
-                              email, nickName, '', '', '', '', 'true');
-                        } else {
-                          errorDialog(context, response["message"]);
-                        }
-                        setState(() => isLoading = false);
-                      }
-                      setState(() => isLoading = false);
-                    },
-                    child: isLoading
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            'Continue',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01),
-                          ),
+          elevation: 0.0,
+          backgroundColor: const Color(0xffF2FFF5).withOpacity(0.40),
+        ),
+        body: SizedBox(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Center(
+                      child: Text(
+                    'Staying anonymous',
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.neutralBlack02),
+                  )),
+                ),
+                Center(
+                  child: Text(
+                    'What do you want us to call you?',
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralBlack03,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
                 const SizedBox(
-                  height: 10.0,
+                  height: 35.0,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      side: BorderSide(color: Theme.of(context).colorScheme.neutralWhite04),
-                      primary: Theme.of(context).colorScheme.neutralWhite01,
-                    ),
-                    onPressed: () {
-                      //navigate to next page
-                      Get.back();
-                    },
-                    child: Text(
-                      'I changed my mind...',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.intGreenMain),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Form(
+                    key: _form,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text(
+                              'Nickname',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray04),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
+                        SizedBox(
+                          child: TextFormField(
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                            ),
+                            decoration: InputDecoration(
+                              isDense: true,
+                              border: const OutlineInputBorder(),
+                              hintText: 'Enter your nickname',
+                              fillColor:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              filled: true,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray03,
+                                  ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 15.0),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color:
+                                    Theme.of(context).colorScheme.neutralGray01,
+                              )),
+                            ),
+                            onChanged: (val) {
+                              setState(() => nickName = val);
+                            },
+                            validator: (input) {
+                              if (input == null || input.isEmpty) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 400.0,
+                        ),
+                      ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
+        bottomSheet: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: Theme.of(context).colorScheme.intGreenMain,
+                  ),
+                  onPressed: () async {
+                    setState(() => isLoading = true);
+                    if (_form.currentState!.validate()) {
+                      var response = await handleUserInfo();
+                      if (response["status"]) {
+                        var response =
+                            await UserProvider().login(LoginForm(email, pass1));
+                        if (response["status"]) {
+                          await UserProvider().user();
+                          log('--[user logged in..]--');
+                        }
+                        registeredDialog(context);
+                        UserSecureStorage.setLoginDetails(
+                            email, nickName, '', '', '', '', 'true');
+                      } else {
+                        errorDialog(context, response["message"]);
+                      }
+                      setState(() => isLoading = false);
+                    }
+                    setState(() => isLoading = false);
+                  },
+                  child: isLoading
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.neutralWhite01,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(
+                          'Continue',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01),
+                        ),
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.neutralWhite04),
+                    primary: Theme.of(context).colorScheme.neutralWhite01,
+                  ),
+                  onPressed: () {
+                    //navigate to next page
+                    Get.back();
+                  },
+                  child: Text(
+                    'I changed my mind...',
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.intGreenMain),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        resizeToAvoidBottomInset: false,
       ),
     );
   }

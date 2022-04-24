@@ -71,7 +71,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Upcoming $title Assessment: ${DateFormat("MMMM-dd").format(latestEntry.date)}',
+              Text(
+                  'Upcoming $title Assessment: ${DateFormat("MMMM dd").format(latestEntry.date)}',
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -81,12 +82,14 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               const SizedBox(
                 height: 10,
               ),
-              Text(daysLeft != 0 ? 'Due in $daysLeft day/s' : 'Your $title assessment is due today',
+              Text(
+                  daysLeft != 0
+                      ? 'Due in $daysLeft day/s'
+                      : 'Your $title assessment is due today',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.neutralGray02)),
               const SizedBox(
                 height: 20,
               ),
@@ -95,7 +98,9 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                   if (daysLeft < 1 || latestEntry.score == -1) {
                     Get.toNamed(takeAssessRoute, arguments: {
                       'home': '/homepage',
-                      'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()
+                      'key': latestEntry.date.month.toString() +
+                          '-' +
+                          latestEntry.date.year.toString()
                     });
                   }
                 },
@@ -116,8 +121,11 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                           color: Theme.of(context).colorScheme.accentBlue04)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
-                                      child: Icon(Icons.keyboard_arrow_right_sharp,
-                                          color: Theme.of(context).colorScheme.accentBlue04))
+                                      child: Icon(
+                                          Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue04))
                                 ]),
                               )
                             : RichText(
@@ -147,10 +155,9 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               InkWell(
                 child: Text('Show previous assessments',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03)),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.neutralGray03)),
                 onTap: () {
                   Get.toNamed(prevAssessRoute);
                 },

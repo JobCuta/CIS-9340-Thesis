@@ -75,98 +75,101 @@ class _ShakeScreenState extends State<ShakeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/background_images/orange_circles_background.png',
-                    ),
-                    fit: BoxFit.cover))),
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Initial countdown beofre the exercise begins
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: const Color(0xffFFA132).withOpacity(0.60),
-                  child: SvgPicture.asset('assets/images/phone.svg',
-                      width: 200, height: 200),
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: const Color(0xffFFA132).withOpacity(0.60),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4))),
-                    child: Column(
-                      children: [
-                        Text(
-                          widget.initialAssessment
-                              ? 'Randomizing...'
-                              : 'Randomizing your exercise...',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01),
-                        ),
-                        Divider(
-                          color: Theme.of(context).colorScheme.neutralWhite01,
-                          height: 25,
-                          thickness: 2,
-                          indent: 5,
-                          endIndent: 5,
-                        ),
-                        Text("Let's see what you'll get!",
+      body: SafeArea(
+        child: Stack(children: [
+          Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/background_images/orange_circles_background.png',
+                      ),
+                      fit: BoxFit.cover))),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Initial countdown beofre the exercise begins
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundColor: const Color(0xffFFA132).withOpacity(0.60),
+                    child: SvgPicture.asset('assets/images/phone.svg',
+                        width: 200, height: 200),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 0),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: const Color(0xffFFA132).withOpacity(0.60),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
+                      child: Column(
+                        children: [
+                          Text(
+                            widget.initialAssessment
+                                ? 'Randomizing...'
+                                : 'Randomizing your exercise...',
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .headline5
                                 ?.copyWith(
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w700,
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .neutralWhite01)),
-                      ],
-                    )),
-              ],
-            )),
-        Visibility(
-          visible: widget.initialAssessment == false,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: Theme.of(context).colorScheme.accentBlue02,
+                                        .neutralWhite01),
+                          ),
+                          Divider(
+                            color: Theme.of(context).colorScheme.neutralWhite01,
+                            height: 25,
+                            thickness: 2,
+                            indent: 5,
+                            endIndent: 5,
+                          ),
+                          Text("Let's see what you'll get!",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
+                        ],
+                      )),
+                ],
+              )),
+          Visibility(
+            visible: widget.initialAssessment == false,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Theme.of(context).colorScheme.accentBlue02,
+                    ),
+                    onPressed: () {
+                      Get.offAndToNamed('/wellnessScreen');
+                    },
+                    child: Text('I want to pick the exercise',
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color:
+                                Theme.of(context).colorScheme.neutralWhite01)),
                   ),
-                  onPressed: () {
-                    Get.offAndToNamed('/wellnessScreen');
-                  },
-                  child: Text('I want to pick the exercise',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.neutralWhite01)),
                 ),
               ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }
@@ -219,154 +222,120 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             : [meditation, breathing];
 
     return Scaffold(
-        body: Stack(children: [
-      // Used to add the background
-      Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                    'assets/background_images/orange_circles_background.png',
-                  ),
-                  fit: BoxFit.cover))),
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-        child: PageView.builder(
-            // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            itemBuilder: (context, position) {
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // For the CountDownTimer Widgets
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 50, 0, 20),
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Visibility(
-                              visible: position == 0,
-                              child: InitialCountdownWidget(
-                                  pageController: _pageController,
-                                  timerController: _timerController,
-                                  position: position)),
-                          Visibility(
-                              visible: position >= 1,
-                              child: MainCountdownWidget(
-                                  pageController: _pageController,
-                                  timerController: _timerController,
-                                  position: position)),
-                        ],
-                      ),
+        body: SafeArea(
+      child: Stack(children: [
+        // Used to add the background
+        Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/background_images/orange_circles_background.png',
                     ),
-                    // Middle Image
-                    Expanded(
-                      flex: 2,
-                      child: SvgPicture.asset(
-                        widget.assetImage,
+                    fit: BoxFit.cover))),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: PageView.builder(
+              // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              itemBuilder: (context, position) {
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // For the CountDownTimer Widgets
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Visibility(
+                                visible: position == 0,
+                                child: InitialCountdownWidget(
+                                    pageController: _pageController,
+                                    timerController: _timerController,
+                                    position: position)),
+                            Visibility(
+                                visible: position >= 1,
+                                child: MainCountdownWidget(
+                                    pageController: _pageController,
+                                    timerController: _timerController,
+                                    position: position)),
+                          ],
+                        ),
                       ),
-                    ),
-                    // Holds the text seen on screen
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 0),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                            color: const Color(0xffFFA132).withOpacity(0.60),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(4))),
-                        child: Column(children: [
-                          // Determines which AnimatedTextKit widget should be shown
-                          (position == 0)
-                              ? Text('Relax and get ready...',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01))
-                              : (position == 1)
-                                  ? SizedBox(
-                                      child: (widget.type == 'Breathing')
-                                          ? const BreathingCycleWidget()
-                                          : (widget.type == 'Walking')
-                                              ? const WalkingCycleWidget()
-                                              : const MeditationCycleWidget(),
-                                      height: 26)
-                                  : Text('Good job!',
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralWhite01)),
-                          Divider(
-                            color: Theme.of(context).colorScheme.neutralWhite01,
-                            height: 25,
-                            thickness: 2,
-                            indent: 5,
-                            endIndent: 5,
-                          ),
-                          Text((position == 2) ? widget.reason : widget.prompt,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
-                        ])),
-                    // Button for the user to randomly generate a new exercise
-                    (position == 1)
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 0),
-                            child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      primary: Theme.of(context)
-                                          .colorScheme
-                                          .accentBlue02,
-                                    ),
-                                    onPressed: () {
-                                      var randomExercise =
-                                          (otherExercises..shuffle()).first;
-                                      Get.offAndToNamed('/exerciseScreen',
-                                          arguments: {
-                                            "assetImage": randomExercise[0],
-                                            "prompt": randomExercise[1],
-                                            "reason": randomExercise[2],
-                                            "type": randomExercise[3],
-                                            "initial?": widget.initialAssessment
-                                          });
-                                    },
-                                    child: Text('I want another exercise',
+                      // Middle Image
+                      Expanded(
+                        flex: 2,
+                        child: SvgPicture.asset(
+                          widget.assetImage,
+                        ),
+                      ),
+                      // Holds the text seen on screen
+                      Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 0),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                              color: const Color(0xffFFA132).withOpacity(0.60),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4))),
+                          child: Column(children: [
+                            // Determines which AnimatedTextKit widget should be shown
+                            (position == 0)
+                                ? Text('Relax and get ready...',
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01))
+                                : (position == 1)
+                                    ? SizedBox(
+                                        child: (widget.type == 'Breathing')
+                                            ? const BreathingCycleWidget()
+                                            : (widget.type == 'Walking')
+                                                ? const WalkingCycleWidget()
+                                                : const MeditationCycleWidget(),
+                                        height: 26)
+                                    : Text('Good job!',
+                                        textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .subtitle2
+                                            .headline5
                                             ?.copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 color: Theme.of(context)
                                                     .colorScheme
-                                                    .neutralWhite01))) // user to the createAccountScreen
-                                ),
-                          )
-                        : (position == 2)
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 0),
-                                child: SizedBox(
+                                                    .neutralWhite01)),
+                            Divider(
+                              color:
+                                  Theme.of(context).colorScheme.neutralWhite01,
+                              height: 25,
+                              thickness: 2,
+                              indent: 5,
+                              endIndent: 5,
+                            ),
+                            Text(
+                                (position == 2) ? widget.reason : widget.prompt,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01)),
+                          ])),
+                      // Button for the user to randomly generate a new exercise
+                      (position == 1)
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 0),
+                              child: SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
                                   child: ElevatedButton(
@@ -377,24 +346,19 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                             .accentBlue02,
                                       ),
                                       onPressed: () {
-                                        _dailyController.setDailyTaskToDone(
-                                            DailyTask.Exercise);
-                                        _levelController.initializeTaskWithXp(
-                                            'Exercise', 10);
-
-                                        if (widget.initialAssessment) {
-                                          Get.offAndToNamed('/accountScreen');
-                                        } else {
-                                          _levelController.finalizeAddingOfXp();
-                                          Get.toNamed('/homepage');
-                                        }
-
-                                        // Get.toNamed('/accountScreen');
+                                        var randomExercise =
+                                            (otherExercises..shuffle()).first;
+                                        Get.offAndToNamed('/exerciseScreen',
+                                            arguments: {
+                                              "assetImage": randomExercise[0],
+                                              "prompt": randomExercise[1],
+                                              "reason": randomExercise[2],
+                                              "type": randomExercise[3],
+                                              "initial?":
+                                                  widget.initialAssessment
+                                            });
                                       },
-                                      child: Text(
-                                          (widget.initialAssessment)
-                                              ? 'Continue...'
-                                              : 'Done',
+                                      child: Text('I want another exercise',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle2
@@ -402,38 +366,83 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                                   fontWeight: FontWeight.w600,
                                                   color: Theme.of(context)
                                                       .colorScheme
-                                                      .neutralWhite01))),
-                                ),
-                              ) // Empty Text widget because the ternary operator needs a widget to be returned
-                            : const Text(''),
-                    // Allows the user to skip the exercises -> proceeds to the createAccountScreen
-                    Visibility(
-                      visible: widget.initialAssessment,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Visibility(
-                          visible: position <= 1,
-                          child: TextButton(
-                            onPressed: () {
-                              Get.offAndToNamed('/accountScreen');
-                            },
-                            child: Text('Skip',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .accentBlue02)),
+                                                      .neutralWhite01))) // user to the createAccountScreen
+                                  ),
+                            )
+                          : (position == 2)
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 0),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          primary: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue02,
+                                        ),
+                                        onPressed: () {
+                                          _dailyController.setDailyTaskToDone(
+                                              DailyTask.Exercise);
+                                          _levelController.initializeTaskWithXp(
+                                              'Exercise', 10);
+
+                                          if (widget.initialAssessment) {
+                                            Get.offAndToNamed('/accountScreen');
+                                          } else {
+                                            _levelController
+                                                .finalizeAddingOfXp();
+                                            Get.toNamed('/homepage');
+                                          }
+
+                                          // Get.toNamed('/accountScreen');
+                                        },
+                                        child: Text(
+                                            (widget.initialAssessment)
+                                                ? 'Continue...'
+                                                : 'Done',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .neutralWhite01))),
+                                  ),
+                                ) // Empty Text widget because the ternary operator needs a widget to be returned
+                              : const Text(''),
+                      // Allows the user to skip the exercises -> proceeds to the createAccountScreen
+                      Visibility(
+                        visible: widget.initialAssessment,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Visibility(
+                            visible: position <= 1,
+                            child: TextButton(
+                              onPressed: () {
+                                Get.offAndToNamed('/accountScreen');
+                              },
+                              child: Text('Skip',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue02)),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]);
-            }),
-      )
-    ]));
+                      )
+                    ]);
+              }),
+        )
+      ]),
+    ));
   }
 }
 

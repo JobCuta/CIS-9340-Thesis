@@ -46,10 +46,7 @@ class HopeBoxController extends GetxController {
     lastNameController.text = hopeBox.contactPerson.getLastName();
     mobileNumberController.text = hopeBox.contactPerson.getMobileNumber();
     messageController.text = hopeBox.contactPerson.getMessage();
-
-    print('HopeBox');
-    print(box.toMap().length);
-    checkValues();
+    // checkValues();
     update();
   }
 

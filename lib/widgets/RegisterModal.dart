@@ -372,7 +372,7 @@ class _RegisterState extends State<RegisterWidget> {
                         const SizedBox(
                           height: 10.0,
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           child: ElevatedButton(

@@ -1,10 +1,6 @@
-// import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
-import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/Mood.dart';
-import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +10,8 @@ import '../apis/EmotionEntryDetail.dart';
 class EmotionController extends GetxController {
   var _selectedEmotionEntry;
 
-  var _selectedPositiveEmotions = [].obs;
-  var _selectedNegativeEmotions = [].obs;
+  var selectedPositiveEmotions = [].obs;
+  var selectedNegativeEmotions = [].obs;
   var mainEmotion = ''.obs;
   var note = ''.obs;
   var dateTime = DateTime.now().obs;
@@ -38,44 +34,16 @@ class EmotionController extends GetxController {
   var longestStreak = 0.obs;
   var monthMoodCount = [0, 0, 0, 0, 0].obs;
 
-  void addPositiveEmotion(emotion) {
-    _selectedPositiveEmotions.add(emotion);
-    isPositiveNotEmpty.value = _selectedPositiveEmotions.isNotEmpty;
+  void updatePositiveEmotions(emotions) {
+    selectedPositiveEmotions.value = emotions;
+    isPositiveNotEmpty.value = selectedPositiveEmotions.isNotEmpty;
     isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
     update();
   }
 
-  void updatePositiveEmotion(emotion) {
-    _selectedPositiveEmotions.value = emotion;
-    isPositiveNotEmpty.value = _selectedPositiveEmotions.isNotEmpty;
-    isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
-    update();
-  }
-
-  void removePositive(emotion) {
-    _selectedPositiveEmotions.remove(emotion);
-    isPositiveNotEmpty.value = _selectedPositiveEmotions.isNotEmpty;
-    isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
-    update();
-  }
-
-  void addNegativeEmotion(emotion) {
-    _selectedNegativeEmotions.add(emotion);
-    isNegativeNotEmpty.value = _selectedNegativeEmotions.isNotEmpty;
-    isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
-    update();
-  }
-
-  void updateNegativeEmotion(emotion) {
-    _selectedNegativeEmotions.value = emotion;
-    isNegativeNotEmpty.value = _selectedNegativeEmotions.isNotEmpty;
-    isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
-    update();
-  }
-
-  void removeNegative(emotion) {
-    _selectedNegativeEmotions.remove(emotion);
-    isNegativeNotEmpty.value = _selectedNegativeEmotions.isNotEmpty;
+  void updateNegativeEmotions(emotions) {
+    selectedNegativeEmotions.value = emotions;
+    isNegativeNotEmpty.value = selectedNegativeEmotions.isNotEmpty;
     isValid.value = isPositiveNotEmpty.value || isNegativeNotEmpty.value;
     update();
   }
@@ -168,8 +136,8 @@ class EmotionController extends GetxController {
   }
 
   void resetAllValues() {
-    _selectedPositiveEmotions.value = [];
-    _selectedNegativeEmotions.value = [];
+    selectedPositiveEmotions.value = [];
+    selectedNegativeEmotions.value = [];
     mainEmotion.value = '';
     note.value = '';
 
@@ -274,11 +242,11 @@ class EmotionController extends GetxController {
       print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
       box.put(date, newEmotionEntry);
-
     } else {
       Box box = Hive.box<EmotionEntryHive>('emotion');
       EmotionEntryHive latestEmotionEntry = box.getAt(box.length - 1);
-      print("Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
+      print(
+          "Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
 
       final latestEmotionEntryDate = DateTime(
           latestEmotionEntry.year,
@@ -336,8 +304,8 @@ class EmotionController extends GetxController {
 
     EmotionEntryHive emotionEntry = box.get(dateToString(dateTime.value));
     Mood? mood = moodMap[mainEmotion.value] as Mood;
-    List<dynamic> positiveEmotions = _selectedPositiveEmotions.value;
-    List<dynamic> negativeEmotions = _selectedNegativeEmotions.value;
+    List<dynamic> positiveEmotions = selectedPositiveEmotions.value;
+    List<dynamic> negativeEmotions = selectedNegativeEmotions.value;
 
     if (!isMorningCheck.value &&
         !isAfternoonCheck.value &&
@@ -708,33 +676,29 @@ class EmotionController extends GetxController {
 
   // ---------------------------------- EVERYTHING BELOW IS ADMIN / TESTING PURPOSES ONLY ----------------------------------
   void testLargeNumberOfFutureEntries(int numberOfEntries) {
-    final latestEmotionEntryDate = DateTime(
-      2022,
-      4,
-      10);
+    final latestEmotionEntryDate = DateTime(2022, 4, 10);
 
     DateTime currentDate = DateTime.now();
     int differenceInDays = daysBetween(latestEmotionEntryDate, currentDate);
 
     for (int i = 1; i <= differenceInDays; i++) {
       DateTime dateTime = latestEmotionEntryDate.add(Duration(days: i));
-      print("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+      print(
+          "DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
     }
     createNewEntriesInStorage(numberOfEntries);
   }
 
   void testLargeNumberOfPastEntries(int numberOfEntries) {
-    final latestEmotionEntryDate = DateTime(
-      2022,
-      4,
-      10);
+    final latestEmotionEntryDate = DateTime(2022, 4, 10);
 
     DateTime currentDate = DateTime.now();
     int differenceInDays = daysBetween(latestEmotionEntryDate, currentDate);
 
     for (int i = 1; i <= differenceInDays; i++) {
       DateTime dateTime = latestEmotionEntryDate.subtract(Duration(days: i));
-      print("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+      print(
+          "DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
     }
     // createNewEntriesInStorage(numberOfEntries);
   }

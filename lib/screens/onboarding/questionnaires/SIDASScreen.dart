@@ -61,7 +61,6 @@ class _SIDASScreenState extends State<SIDASScreen> {
     DateTime nextMonth = DateTime.utc(assessMonth.date.year, assessMonth.date.month, assessMonth.date.day);
     sidasHive nextSidas = sidasHive(index: -1, score: -1, date: nextMonth, answerValues: []);
     String key = nextSidas.date.month.toString() + '-' + nextSidas.date.year.toString();
-
     box.put(key, nextSidas);
 
     String title = '', sub = '';
