@@ -105,7 +105,7 @@ class UserProvider extends GetConnect {
     return {"status": true, "detail": map["detail"]};
   }
 
-  Future<bool> createPHQ(phqHiveObj entry) async {
+  Future<Map<String, dynamic>> createPHQ(phqHiveObj entry) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["PHQ"], {
@@ -116,12 +116,12 @@ class UserProvider extends GetConnect {
     });
     if (response.hasError) {
       log('create PHQ9 entry error ${response.statusText}');
-      return false;
+      return {"status": false};
     }
-    return true;
+    return {"status": true, "body": response.body};
   }
 
-  Future<bool> createSIDAS(sidasHive entry) async {
+  Future<Map<String, dynamic>> createSIDAS(sidasHive entry) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
@@ -132,9 +132,9 @@ class UserProvider extends GetConnect {
     });
     if (response.hasError) {
       log('create SIDAS entry error ${response.statusText}');
-      return false;
+      return {"status": false};
     }
-    return true;
+    return {"status": true, "body": response.body};
   }
 
   //GET

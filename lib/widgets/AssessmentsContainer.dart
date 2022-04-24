@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/phqController.dart';
@@ -43,13 +44,12 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
     if (box.isNotEmpty) {
       if (widget.phq) {
         var monthKey = box.keys.last;
-        var latestMonth = box.get(monthKey);
+        phqHive latestMonth = box.get(monthKey);
         List<phqHiveObj> assessments = latestMonth.assessments;
         latestEntry = assessments.last;
       } else {
         var monthKey = box.keys.last;
         latestEntry = box.get(monthKey);
-        log('latestEntry ${latestEntry.date}');
       }
     }
     daysLeft = latestEntry.date.difference(now).inDays;
@@ -102,14 +102,15 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                     Text('Take Assessment Now',
                         style: Theme.of(context).textTheme.bodyText1?.copyWith(
                             fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.neutralBlack02)),
-                    daysLeft < 1 ?
-                        latestEntry.score == -1
+                    daysLeft < 1
+                        ? latestEntry.score == -1
                             ? RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
                                       text: 'Go',
                                       style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                          fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04)),
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.accentBlue04)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
                                       child: Icon(Icons.keyboard_arrow_right_sharp,
@@ -121,16 +122,17 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                   TextSpan(
                                       text: 'Completed ',
                                       style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                          fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02)),
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.neutralGray02)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
-                                      child: Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentGreen02))
+                                      child:
+                                          Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentGreen02))
                                 ]),
                               )
-                      :
-                        Text('Not Yet!', 
-                          style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02))
+                        : Text('Not Yet!',
+                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02))
                   ],
                 ),
               ),

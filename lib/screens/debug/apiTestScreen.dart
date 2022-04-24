@@ -74,8 +74,10 @@ class DebugScreen extends StatelessWidget {
                       child: const Text('Create PHQ9 Entry'),
                       onPressed: () async {
                         phqHiveObj entry = phqHiveObj(index: -1, date: DateTime.now(), score: random.nextInt(27));
-                        bool scores = await UserProvider().createPHQ(entry);
-                        log('entry made? $scores');
+                        Map scores = await UserProvider().createPHQ(entry);
+                        entry.index = scores["body"]["id"];
+                        entry.save();
+                        log('entry made? ${scores["body"]} | ${entry.index}');
                       }),
                   ElevatedButton(
                       child: const Text('Create SIDAS Entry'),

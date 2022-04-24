@@ -99,10 +99,12 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
         _phqController.sum,
         nextPhq.index.toString()
       );
-      bool result2 = await UserProvider().createPHQ(nextPhq);
+      Map result2 = await UserProvider().createPHQ(nextPhq);
 
       // Check results of saving entry online
-      if (result && result2) {
+      if (result && result2["status"]) {
+        nextPhq.index = result2["body"]["id"];
+        
         title = 'PHQ9 Entry saved!';
         sub = 'Entry was saved to your profile';
       } else {

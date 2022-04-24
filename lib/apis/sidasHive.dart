@@ -5,17 +5,21 @@ part 'sidasHive.g.dart';
 @HiveType(typeId: 1)
 class sidasHive extends HiveObject {
   @HiveField(0)
-  DateTime date;
+  int index;
 
   @HiveField(1)
-  List<int> answerValues = [0, 0, 0, 0, 0];
+  int score;
 
   @HiveField(2)
-  int score = 0;
+  DateTime date;
+
+  @HiveField(3)
+  List<int> answerValues = [0, 0, 0, 0, 0];
 
   sidasHive({
+    required this.index,
+    required this.score,
     required this.date,
     required this.answerValues,
-    required this.score,
   });
 }
