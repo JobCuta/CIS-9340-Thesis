@@ -394,7 +394,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
           ),
           bottomSheet: Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

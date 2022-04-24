@@ -177,7 +177,7 @@ class _AnonymousState extends State<AnonymousWidget> {
         ),
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

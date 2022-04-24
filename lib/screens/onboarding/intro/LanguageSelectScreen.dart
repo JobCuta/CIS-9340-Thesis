@@ -141,33 +141,28 @@ class _LanguageSelectState extends State<LanguageSelect> {
                   ],
                 ),
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            primary:
-                                Theme.of(context).colorScheme.intGreenMain),
-                        onPressed: () {
-                          _settingsController.updateLanguageSettings(
-                              newLanguage: _settingsController.language.value);
-                          Get.toNamed('/introScreen');
-                        },
-                        child: Text('Continue',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01))),
-                  ))
             ],
           ),
+        ),
+      ),
+      bottomSheet: Container(
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+        child: SizedBox(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: Theme.of(context).colorScheme.intGreenMain),
+              onPressed: () {
+                _settingsController.updateLanguageSettings(
+                    newLanguage: _settingsController.language.value);
+                Get.toNamed('/introScreen');
+              },
+              child: Text('Continue',
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralWhite01))),
         ),
       ),
     );

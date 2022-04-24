@@ -232,7 +232,8 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                   if (position == questions.length - 1) {
                                     _emotionController
                                         .updateIfAddingFromOnboarding(true);
-                                    Get.toNamed('/emotionStartScreen');
+                                    Get.toNamed('/emotionStartScreen',
+                                        arguments: {'route': 'onboarding'});
                                   } else {
                                     // Checks if the user selected a valid value
                                     _pageController.jumpToPage(position + 1);

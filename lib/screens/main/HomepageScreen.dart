@@ -49,7 +49,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       onWillPop: () async => false, //change to confirm exit modal
       child: Scaffold(
         body: PageTransitionSwitcher(
-          transitionBuilder: (Widget child, Animation<double> primaryAnimation, Animation<double> secondaryAnimation) =>
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+                  Animation<double> secondaryAnimation) =>
               SharedAxisTransition(
             animation: primaryAnimation,
             secondaryAnimation: secondaryAnimation,
@@ -100,11 +101,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
           ],
           currentIndex: selectedIndex,
           selectedItemColor: Theme.of(context).colorScheme.neutralWhite01,
-          unselectedItemColor: selectedIndex < 3 ? Theme.of(context).colorScheme.accentBlue04 : const Color(0xffA36508),
+          unselectedItemColor: selectedIndex < 3
+              ? Theme.of(context).colorScheme.accentBlue04
+              : const Color(0xffA36508),
           iconSize: 32.0,
           type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: Theme.of(context).textTheme.caption?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          selectedLabelStyle: Theme.of(context)
+              .textTheme
+              .caption
+              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: Theme.of(context)
+              .textTheme
+              .caption
+              ?.copyWith(fontSize: 8, fontWeight: FontWeight.bold),
           onTap: _onItemTapped,
         ),
       ),
@@ -139,26 +148,26 @@ class _HomePageState extends State<HomePage> {
             text: TextSpan(children: [
               TextSpan(
                   text: 'Completed ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralGray02)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentGreen02))
+                  child: Icon(Icons.check_circle,
+                      color: Theme.of(context).colorScheme.accentGreen02))
             ]),
           )
         : RichText(
             text: TextSpan(children: [
               TextSpan(
                   text: 'Go',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04)),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.accentBlue04)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: Icon(Icons.keyboard_arrow_right_sharp, color: Theme.of(context).colorScheme.accentBlue04))
+                  child: Icon(Icons.keyboard_arrow_right_sharp,
+                      color: Theme.of(context).colorScheme.accentBlue04))
             ]),
           );
   }
@@ -166,13 +175,16 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     print("ENTERED INIT OF HOMEPAGE --------------------");
-    print("Level Controller (Recently added xp) = " + _levelController.recentlyAddedXp.value.toString());
-    print("Daily Controller (Showed available tasks) = " + _dailyController.showedAvailableTasks.value.toString());
+    print("Level Controller (Recently added xp) = " +
+        _levelController.recentlyAddedXp.value.toString());
+    print("Daily Controller (Showed available tasks) = " +
+        _dailyController.showedAvailableTasks.value.toString());
 
     if (_levelController.recentlyAddedXp.value) {
       _levelController.displayLevelXpModal(context);
     } else if (!_dailyController.showedAvailableTasks.value &&
-        (!_dailyController.isDailyEntryDone.value || !_dailyController.isDailyExerciseDone.value)) {
+        (!_dailyController.isDailyEntryDone.value ||
+            !_dailyController.isDailyExerciseDone.value)) {
       _levelController.displayTodaysTaskWithXp(context);
       _dailyController.updateShowedAvailableTasks(true);
     }
@@ -214,30 +226,44 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                       alignment: Alignment.center,
                       height: 110,
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 18.0),
                       decoration: BoxDecoration(
                           color: const Color(0xff3290FF).withOpacity(0.60),
-                          borderRadius: const BorderRadius.all(Radius.circular(4))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4))),
                       child: Column(children: [
                         Text('Welcome!',
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01)),
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01)),
                         const SizedBox(height: 10),
                         Container(
                           alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 12.0),
                           decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.accentBlue04.withOpacity(0.20),
-                              borderRadius: const BorderRadius.all(Radius.circular(10))),
-                          child: Text('Remember, all is well and all will be well.',
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .accentBlue04
+                                  .withOpacity(0.20),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10))),
+                          child: Text(
+                              'Remember, all is well and all will be well.',
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
                                   .caption
-                                  ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01)),
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
                         )
                       ])),
                 ),
@@ -246,15 +272,14 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       showUserEngagementDialog(context);
                     }),
-                // ElevatedButton(
-                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11),
-                //   child: const Text('Test Future Entries')
-                // ),
-                // ElevatedButton(
-                //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
-                //   child: const Text('Test Past Entries')
-                // ),
-
+                ElevatedButton(
+                    onPressed: () =>
+                        _emotionController.testLargeNumberOfFutureEntries(3),
+                    child: const Text('Test Future Entries')),
+                ElevatedButton(
+                    onPressed: () =>
+                        _emotionController.testLargeNumberOfPastEntries(44),
+                    child: const Text('Test Past Entries')),
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
@@ -286,7 +311,6 @@ class _HomePageState extends State<HomePage> {
                       _levelController.getLevelFromStorage();
                       _levelController.displayTodaysTaskWithXp(context);
                     }),
-
                 ElevatedButton(
                   onPressed: () {
                     _levelController.setLevel(2);
@@ -295,7 +319,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Center(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 15.0),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 50.0,
                         child: Row(
@@ -309,21 +334,31 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage('assets/images/entry_morning.png'),
-                                    color: !_isMorningEntryDone ? Colors.grey : null,
+                                    image: const AssetImage(
+                                        'assets/images/entry_morning.png'),
+                                    color: !_isMorningEntryDone
+                                        ? Colors.grey
+                                        : null,
                                   )),
                             ),
                             Container(
                                 alignment: Alignment.centerLeft,
-                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 25.0),
                                 width: 80,
                                 height: 15,
                                 decoration: BoxDecoration(
-                                    color: (_isMorningEntryDone && _isAfternoonEntryDone)
-                                        ? const Color(0x00FFC122).withOpacity(1.0)
-                                        : Theme.of(context).colorScheme.neutralGray02)),
+                                    color: (_isMorningEntryDone &&
+                                            _isAfternoonEntryDone)
+                                        ? const Color(0x00FFC122)
+                                            .withOpacity(1.0)
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
 
                             // AFTERNOON
                             CircleAvatar(
@@ -333,21 +368,31 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage('assets/images/entry_afternoon.png'),
-                                    color: !_isAfternoonEntryDone ? Colors.grey : null,
+                                    image: const AssetImage(
+                                        'assets/images/entry_afternoon.png'),
+                                    color: !_isAfternoonEntryDone
+                                        ? Colors.grey
+                                        : null,
                                   )),
                             ),
                             Container(
                                 alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 25.0),
                                 width: 80,
                                 height: 15,
                                 decoration: BoxDecoration(
-                                    color: (_isAfternoonEntryDone && _isEveningEntryDone)
-                                        ? const Color(0x00FFC122).withOpacity(1.0)
-                                        : Theme.of(context).colorScheme.neutralGray02)),
+                                    color: (_isAfternoonEntryDone &&
+                                            _isEveningEntryDone)
+                                        ? const Color(0x00FFC122)
+                                            .withOpacity(1.0)
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray02)),
 
                             // EVENING
                             CircleAvatar(
@@ -357,10 +402,15 @@ class _HomePageState extends State<HomePage> {
                                   : const Color(0xFFACB2B4).withOpacity(1.0)),
                               child: CircleAvatar(
                                   radius: 24.0,
-                                  backgroundColor: Theme.of(context).colorScheme.neutralWhite01,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
                                   child: Image(
-                                    image: const AssetImage('assets/images/entry_evening.png'),
-                                    color: !_isEveningEntryDone ? Colors.grey : null,
+                                    image: const AssetImage(
+                                        'assets/images/entry_evening.png'),
+                                    color: !_isEveningEntryDone
+                                        ? Colors.grey
+                                        : null,
                                   )),
                             ),
                           ],
@@ -368,24 +418,38 @@ class _HomePageState extends State<HomePage> {
                       )),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 15.0),
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.neutralWhite01,
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Your dailies for today',
                             textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue02)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .accentBlue02)),
                         const SizedBox(height: 10.0),
                         Text('Start your journey to wellness!',
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralBlack02)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack02)),
                         Divider(
                           color: Theme.of(context).colorScheme.neutralWhite03,
                           height: 25,
@@ -393,7 +457,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                           onTap: () {
-                            _dailyController.setDailyTaskToDone(DailyTask.Exercise);
+                            _dailyController
+                                .setDailyTaskToDone(DailyTask.Exercise);
                             setState(() {
                               _isDailyExerciseDone = true;
                             });
@@ -403,10 +468,16 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Do your daily exercise',
-                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context).colorScheme.neutralBlack02)),
-                              displayBasedOnTaskCompleteness(_isDailyExerciseDone)
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralBlack02)),
+                              displayBasedOnTaskCompleteness(
+                                  _isDailyExerciseDone)
                             ],
                           ),
                         ),
@@ -420,7 +491,9 @@ class _HomePageState extends State<HomePage> {
                             if (!_isDailyEntryDone) {
                               _emotionController.updateIfAddingFromDaily(true);
                               _emotionController.updateEditMode(false);
-                              Get.toNamed('/emotionStartScreen');
+                              Get.toNamed('/emotionStartScreen', arguments: {
+                                "route": 'homepage',
+                              });
                             }
                           },
                           child: Row(
@@ -428,9 +501,14 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text("Add today's entry",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context).colorScheme.neutralBlack02)),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralBlack02)),
                               displayBasedOnTaskCompleteness(_isDailyEntryDone)
                             ],
                           ),
@@ -466,17 +544,31 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          child:
-                              Wrap(crossAxisAlignment: WrapCrossAlignment.center, direction: Axis.vertical, children: [
-                            Text('Adventure Mode',
-                                style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                                    fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
-                            const SizedBox(height: 10.0),
-                            Text('Start your journey to wellness!',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                    fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
-                          ]),
+                          child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              direction: Axis.vertical,
+                              children: [
+                                Text('Adventure Mode',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01)),
+                                const SizedBox(height: 10.0),
+                                Text('Start your journey to wellness!',
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralWhite01)),
+                              ]),
                         ),
                       )
                     ]),
@@ -507,11 +599,23 @@ class _HomePageState extends State<HomePage> {
                         direction: Axis.vertical,
                         children: [
                           Text('Daily Wellness Exercise',
-                              style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                                  fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
                           Text('Keep your mind and body in shape!',
-                              style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                  fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
                         ],
                       ),
                     ),

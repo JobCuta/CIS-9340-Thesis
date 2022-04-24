@@ -93,7 +93,7 @@ class SettingsController extends GetxController {
 
     imagePath.value = newImage;
     update();
-    checkValues();
+    // checkValues();
   }
 
   void updateFrameSettings({required newFrame}) {
@@ -109,7 +109,7 @@ class SettingsController extends GetxController {
 
     imagePath.value = newFrame;
     update();
-    checkValues();
+    // checkValues();
   }
 
   void resetAllValues() {
@@ -121,7 +121,7 @@ class SettingsController extends GetxController {
     language.value = settings.language;
     imagePath.value = settings.imagePath;
     framePath.value = settings.framePath;
-    checkValues();
+    // checkValues();
   }
 
   void checkValues() {

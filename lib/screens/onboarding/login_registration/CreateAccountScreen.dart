@@ -76,6 +76,7 @@ class CreateAccountScreen extends StatelessWidget {
                             ),
                             useRootNavigator: true,
                             isScrollControlled: true,
+                            backgroundColor: Colors.white,
                             builder: (context) {
                               return SizedBox(
                                   height:
@@ -124,6 +125,7 @@ class CreateAccountScreen extends StatelessWidget {
                             ),
                             useRootNavigator: true,
                             isScrollControlled: true,
+                            backgroundColor: Colors.white,
                             builder: (context) {
                               return SizedBox(
                                   height:
