@@ -45,7 +45,7 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
       box.put(monthKey, phqMonth);
     } else {
       m1.assessments.add(newPhq);
-      m2.assessments.add(newPhq);
+      m2.assessments.add(nextPhq);
 
       String m1Key = now.month.toString() + '-' + now.year.toString();
       String m2Key = next.month.toString() + '-' + next.year.toString();

@@ -43,10 +43,13 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
     box = Hive.box(boxName);
     if (box.isNotEmpty) {
       if (widget.phq) {
+        log('keys? ${box.keys}');
         var monthKey = box.keys.last;
         phqHive latestMonth = box.get(monthKey);
+        log('latest month ${latestMonth.assessments.last.score}');
         List<phqHiveObj> assessments = latestMonth.assessments;
-        latestEntry = assessments.last;
+        log('assessments ${assessments.first.score}');
+        latestEntry = assessments.first;
       } else {
         var monthKey = box.keys.last;
         latestEntry = box.get(monthKey);
@@ -89,7 +92,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               ),
               InkWell(
                 onTap: () {
-                  if (daysLeft < 1) {
+                  if (daysLeft < 1 || latestEntry.score == -1) {
                     Get.toNamed(takeAssessRoute, arguments: {
                       'home': '/homepage',
                       'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()

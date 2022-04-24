@@ -82,8 +82,8 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Create SIDAS Entry'),
                       onPressed: () async {
-                        sidasHive entry = sidasHive(date: DateTime.now(), answerValues: [], score: random.nextInt(50));
-                        bool scores = await UserProvider().createSIDAS(entry);
+                        sidasHive entry = sidasHive(index: -1, date: DateTime.now(), answerValues: [], score: random.nextInt(50));
+                        Map scores = await UserProvider().createSIDAS(entry);
                         log('entry made? ${scores}');
                       }),
                   ElevatedButton(
