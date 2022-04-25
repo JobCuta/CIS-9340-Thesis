@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -33,6 +33,7 @@ class UserProvider extends GetConnect {
     String message = "";
     bool status = false, firstTimeLogin = false;
     if (response.hasError && map.containsKey("non_field_errors")) {
+      log('look ehre');
       message = map["non_field_errors"][0];
     } else {
       if (map.containsKey("key")) {
@@ -105,7 +106,7 @@ class UserProvider extends GetConnect {
     return {"status": true, "detail": map["detail"]};
   }
 
-  Future<Map<String, dynamic>> createPHQ(phqHiveObj entry) async {
+  Future<Map<String, dynamic>> createPHQ(phqHive entry) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["PHQ"], {

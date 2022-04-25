@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -24,13 +23,7 @@ class PHQ9Screen extends StatefulWidget {
 class _PHQ9ScreenState extends State<PHQ9Screen> {
   final PageController _pageController = PageController();
 
-  var options = [
-    'Pick an option',
-    'Nearly every day',
-    'More than half the days',
-    'Several days',
-    'Not at all'
-  ];
+  var options = ['Pick an option', 'Nearly every day', 'More than half the days', 'Several days', 'Not at all'];
 
   // PHQ9 Questions
   final List<String> questions = [
@@ -76,47 +69,41 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
   Widget build(BuildContext context) {
     /// Save PHQ score on both Hive and Backend
     saveEntries() async {
-      Box box = Hive.box('phq');
-      phqHive assessMonth = box.get(Get.arguments["key"]);
+      // Box box = Hive.box('phq');
+      // DateTime now = DateTime.now();
 
-      // update previously made entry's score
-      assessMonth.assessments.first.score = _phqController.sum;
-      assessMonth.save();
+      // // create entry
+      // phqHiveObj entry = phqHiveObj(index: -1, score: _phqController.sum, date: now);
 
-      // create a new entry for the next assessment
-      int nextIndex = assessMonth.assessments.first.index + 1;
-      var nextPhq = phqHiveObj(
-          index: nextIndex, date: assessMonth.assessments.first.date.add(const Duration(days: 14)), score: -1);
+      // //check if current month-year is similar to phqHive date
+      // phqHive loadout
 
-      if (assessMonth.assessments.first.date.month == nextPhq.date.month) {
-        assessMonth.assessments.add(nextPhq);
-        assessMonth.save();
-      } else {
-        var newMonth = phqHive(assessments: [nextPhq]);
-        String monthKey =
-            nextPhq.date.month.toString() + '-' + nextPhq.date.year.toString();
-        box.put(monthKey, newMonth);
-      }
+      // if (assessMonth.assessments.first.date.month == nextPhq.date.month) {
+      //   assessMonth.assessments.add(nextPhq);
+      //   assessMonth.save();
+      // } else {
+      //   var newMonth = phqHive(assessments: [nextPhq]);
+      //   String monthKey = nextPhq.date.month.toString() + '-' + nextPhq.date.year.toString();
+      //   box.put(monthKey, newMonth);
+      // }
 
-      String title = '', sub = '';
-      bool result = await UserProvider().updatePHQ(_phqController.sum, assessMonth.assessments.first.index.toString());
-      Map result2 = await UserProvider().createPHQ(nextPhq);
+      // String title = '', sub = '';
+      // bool result = await UserProvider().updatePHQ(_phqController.sum, assessMonth.assessments.first.index.toString());
+      // Map result2 = await UserProvider().createPHQ(nextPhq);
 
-      // Check results of saving entry online
-      if (result && result2["status"]) {
-        nextPhq.index = result2["body"]["id"];
+      // // Check results of saving entry online
+      // if (result && result2["status"]) {
+      //   nextPhq.index = result2["body"]["id"];
 
-        title = 'PHQ9 Entry saved!';
-        sub = 'Entry was saved to your profile';
-      } else {
-        title = 'PHQ9 Entry not saved';
-        sub = 'There was a problem saving your entry online';
-      }
+      //   title = 'PHQ9 Entry saved!';
+      //   sub = 'Entry was saved to your profile';
+      // } else {
+      //   title = 'PHQ9 Entry not saved';
+      //   sub = 'There was a problem saving your entry online';
+      // }
 
-      Get.snackbar(title, sub,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.white60,
-          colorText: Colors.black87);
+      // Get.snackbar(title, sub,
+      //     snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
     }
 
     checkIfOnboarding() {
@@ -150,8 +137,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             fit: BoxFit.cover))),
                 // Keeps the StepProgressIndicator in the same spot
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+                  padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: StepProgressIndicator(
@@ -160,20 +146,17 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                       roundedEdges: const Radius.circular(4),
                       totalSteps: questions.length,
                       currentStep: position + 1,
-                      selectedColor:
-                          Theme.of(context).colorScheme.neutralWhite01,
+                      selectedColor: Theme.of(context).colorScheme.neutralWhite01,
                       unselectedColor: const Color(0xffA1D6FF),
                     ),
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
                   child: Center(
-                      child:
-                          Wrap(alignment: WrapAlignment.center, runSpacing: 20,
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                      child: Wrap(alignment: WrapAlignment.center, runSpacing: 20,
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                         // PHQ9 Questions
                         SvgPicture.asset(
                           assetImages[position],
@@ -182,37 +165,27 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 13.0, horizontal: 14.0),
+                          padding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 14.0),
                           decoration: BoxDecoration(
                               color: const Color(0xff3290FF).withOpacity(0.60),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8))),
+                              borderRadius: const BorderRadius.all(Radius.circular(8))),
                           child: Center(
                             child: Text(questions[position],
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.subtitle2?.copyWith(
                                       fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
+                                      color: Theme.of(context).colorScheme.neutralWhite01,
                                     )),
                           ),
                         ),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.neutralWhite01,
+                              color: Theme.of(context).colorScheme.neutralWhite01,
                               borderRadius: BorderRadius.circular(8)),
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 30.0, right: 30.0),
+                            padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                             child: DropdownButton(
-                              dropdownColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
+                              dropdownColor: Theme.of(context).colorScheme.neutralWhite01,
                               isExpanded: true,
                               underline: Container(),
                               hint: const Text('Pick an option'),
@@ -227,8 +200,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                       position,
                                       (newValue == 'Nearly every day')
                                           ? 3
-                                          : (newValue ==
-                                                  'More than half the days')
+                                          : (newValue == 'More than half the days')
                                               ? 2
                                               : (newValue == 'Several days')
                                                   ? 1
@@ -240,14 +212,9 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                     value: items,
                                     child: Text(
                                       items,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralGray04),
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.neutralGray04),
                                     ));
                               }).toList(),
                             ),
@@ -270,21 +237,16 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xffFFBE18)),
+                                      ?.copyWith(fontWeight: FontWeight.w600, color: const Color(0xffFFBE18)),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   elevation: 0,
-                                  primary: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
+                                  primary: Theme.of(context).colorScheme.neutralWhite01,
                                 ),
                                 onPressed: () {
                                   (position == 0)
                                       ? Get.toNamed('/assessPHQScreen')
-                                      : _pageController
-                                          .jumpToPage(position - 1);
+                                      : _pageController.jumpToPage(position - 1);
                                 }),
                           ),
                         ),
@@ -295,23 +257,14 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                             child: ElevatedButton(
                                 child: Text(
                                   'Next',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01),
+                                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                      fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   elevation: 0,
-                                  primary:
-                                      (answers[position] == 'Pick an option')
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite04
-                                          : const Color(0xffFFBE18),
+                                  primary: (answers[position] == 'Pick an option')
+                                      ? Theme.of(context).colorScheme.neutralWhite04
+                                      : const Color(0xffFFBE18),
                                 ),
                                 onPressed: () {
                                   (position == questions.length - 1)
@@ -319,8 +272,7 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
                                       // Checks if the user selected a valid value
                                       : (answers[position] == 'Pick an option')
                                           ? null
-                                          : _pageController
-                                              .jumpToPage(position + 1);
+                                          : _pageController.jumpToPage(position + 1);
                                 }),
                           ),
                         ),

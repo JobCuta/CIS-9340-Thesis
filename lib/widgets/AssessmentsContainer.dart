@@ -2,10 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/controllers/phqController.dart';
-import 'package:flutter_application_1/controllers/sidasController.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +18,7 @@ class AssessmentsContainer extends StatefulWidget {
 
 class _AssessmentsContainerState extends State<AssessmentsContainer> {
   String boxName = '', title = '', prevAssessRoute = '', takeAssessRoute = '';
+  late DateTime next;
   int daysLeft = -1;
   late Box box;
 
@@ -42,20 +41,17 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
     }
     box = Hive.box(boxName);
     if (box.isNotEmpty) {
+      var monthKey = box.keys.last;
+      latestEntry = box.get(monthKey);
       if (widget.phq) {
-        log('keys? ${box.keys}');
-        var monthKey = box.keys.last;
-        phqHive latestMonth = box.get(monthKey);
-        log('latest month ${latestMonth.assessments.last.score}');
-        List<phqHiveObj> assessments = latestMonth.assessments;
-        log('assessments ${assessments.first.score}');
-        latestEntry = assessments.first;
+        var p = latestEntry as phqHive;
+        next = p.date.add(const Duration(days: 14));
       } else {
-        var monthKey = box.keys.last;
-        latestEntry = box.get(monthKey);
+        var s = latestEntry as sidasHive;
+        next = DateTime(s.date.year, s.date.month + 1, s.date.day);
       }
+      daysLeft = next.difference(now).inDays;
     }
-    daysLeft = latestEntry.date.difference(now).inDays;
     log('how am I here ${latestEntry.score}');
   }
 
@@ -71,8 +67,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                  'Upcoming $title Assessment: ${DateFormat("MMMM dd").format(latestEntry.date)}',
+              Text('Upcoming $title Assessment: ${DateFormat("MMMM dd").format(latestEntry.date)}',
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -82,14 +77,12 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                  daysLeft != 0
-                      ? 'Due in $daysLeft day/s'
-                      : 'Your $title assessment is due today',
+              Text(daysLeft != 0 ? 'Due in $daysLeft day/s' : 'Your $title assessment is due today',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray02)),
               const SizedBox(
                 height: 20,
               ),
@@ -98,9 +91,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                   if (daysLeft < 1 || latestEntry.score == -1) {
                     Get.toNamed(takeAssessRoute, arguments: {
                       'home': '/homepage',
-                      'key': latestEntry.date.month.toString() +
-                          '-' +
-                          latestEntry.date.year.toString()
+                      'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()
                     });
                   }
                 },
@@ -121,11 +112,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                           color: Theme.of(context).colorScheme.accentBlue04)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                          Icons.keyboard_arrow_right_sharp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .accentBlue04))
+                                      child: Icon(Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context).colorScheme.accentBlue04))
                                 ]),
                               )
                             : RichText(
@@ -155,9 +143,10 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               InkWell(
                 child: Text('Show previous assessments',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.neutralGray03)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03)),
                 onTap: () {
                   Get.toNamed(prevAssessRoute);
                 },

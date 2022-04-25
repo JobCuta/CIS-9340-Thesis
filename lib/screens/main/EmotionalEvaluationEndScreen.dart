@@ -68,6 +68,21 @@ class _EmotionalEvaluationEndScreenState
             _emotionController.isNegativeNotEmpty.value;
   }
 
+  determineNextRoute() {
+    switch (route) {
+      case 'onboarding':
+        return Get.offAllNamed('/entriesDetailScreen');
+      case 'details':
+        return Get.offAllNamed('/entriesDetailScreen');
+      case 'calendar':
+        return Get.off(HomePageScreen(1));
+      case 'entry':
+        return Get.off(HomePageScreen(0));
+      default:
+        return Get.off(HomePageScreen(2));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(route);
@@ -435,13 +450,7 @@ class _EmotionalEvaluationEndScreenState
 
                       (isAddingFromOnboarding)
                           ? setNotificationsAlert(context)
-                          : route == 'details'
-                              ? Get.offAllNamed('/entriesDetailScreen')
-                              : route == 'calendar'
-                                  ? Get.off(HomePageScreen(1))
-                                  : route == 'entry'
-                                      ? Get.off(HomePageScreen(0))
-                                      : Get.off(HomePageScreen(2));
+                          : determineNextRoute();
                     }
                   }),
             )),

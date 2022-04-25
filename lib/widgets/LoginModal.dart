@@ -287,7 +287,7 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                                       } else {
                                         Get.snackbar(
                                           "Log in failed",
-                                          error,
+                                          response["message"],
                                           snackPosition: SnackPosition.BOTTOM,
                                           backgroundColor: Theme.of(context).colorScheme.accentRed02,
                                           colorText: Theme.of(context).colorScheme.neutralWhite01,

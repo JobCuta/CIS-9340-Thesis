@@ -194,12 +194,6 @@ class _AnonymousState extends State<AnonymousWidget> {
                     if (_form.currentState!.validate()) {
                       var response = await handleUserInfo();
                       if (response["status"]) {
-                        var response =
-                            await UserProvider().login(LoginForm(email, pass1));
-                        if (response["status"]) {
-                          await UserProvider().user();
-                          log('--[user logged in..]--');
-                        }
                         registeredDialog(context);
                         UserSecureStorage.setLoginDetails(
                             email, nickName, '', '', '', '', 'true');

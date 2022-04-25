@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -33,35 +32,18 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
   void savePhqEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('phq');
-    DateTime next = now.add(const Duration(days: 14));
-    phqHive m1 = phqHive(assessments: []), m2 = phqHive(assessments: []);
 
-    var newPhq = phqHiveObj(index: -1, date: now, score: sum);
-    var nextPhq = phqHiveObj(index: -1, date: next, score: -1);
+    var entry = phqHive(index: -1, date: now, score: sum);
 
-    if (now.month == next.month) {
-      var phqMonth = phqHive(assessments: [newPhq, nextPhq]);
-      String monthKey = now.month.toString() + '-' + now.year.toString();
-      box.put(monthKey, phqMonth);
-    } else {
-      m1.assessments.add(newPhq);
-      m2.assessments.add(nextPhq);
-
-      String m1Key = now.month.toString() + '-' + now.year.toString();
-      String m2Key = next.month.toString() + '-' + next.year.toString();
-
-      box.put(m1Key, m1);
-      box.put(m2Key, m2);
-    }
+    String monthKey = now.month.toString() + '-' + now.year.toString();
+    box.put(monthKey, entry);
 
     String title = '', sub = '';
-    Map result = await UserProvider().createPHQ(newPhq);
-    Map result2 = await UserProvider().createPHQ(nextPhq);
+    Map result = await UserProvider().createPHQ(entry);
 
     // Check results of saving entry online
-    if (result["status"] && result2["status"]) {
-      newPhq.index = result["body"]["id"];
-      nextPhq.index = result["body"]["id"];
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
 
       title = 'PHQ9 Entry saved!';
       sub = 'Entry was saved to your profile';
@@ -76,24 +58,22 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
   void saveSidasEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('sidas');
+    sidasHive entry = sidasHive(
+      answerValues: _sidasController.answerValues,
+      date: now,
+      index: -1,
+      score: _sidasController.sum,
+    );
 
-    DateTime n1D = now, n2D = DateTime(now.year, now.month + 1, now.day);
+    String monthKey = now.month.toString() + '-' + now.year.toString();
+    box.put(monthKey, entry);
 
-    var newSidas = sidasHive(index: -1, date: n1D, answerValues: answerValues, score: sum);
-    var nextSidas = sidasHive(index: -1, date: n2D, answerValues: [], score: -1);
-
-    box.put(n1D.month.toString() + '-' + n1D.year.toString(), newSidas);
-    box.put(n2D.month.toString() + '-' + n2D.year.toString(), nextSidas);
-
-    // Attempt to save entry online
     String title = '', sub = '';
-    Map result = await UserProvider().createSIDAS(newSidas);
-    Map result2 = await UserProvider().createSIDAS(nextSidas);
+    Map result = await UserProvider().createSIDAS(entry);
 
     // Check results of saving entry online
-    if (result["status"] && result2["status"]) {
-      newSidas.index = result["body"]["id"];
-      nextSidas.index = result2["body"]["id"];
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
 
       title = 'SIDAS Entry saved!';
       sub = 'Entry was saved to your profile';
@@ -104,9 +84,6 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
     Get.snackbar(title, sub,
         snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-
-    // Update latest change of SIDAS storage
-    TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
   }
 
   @override

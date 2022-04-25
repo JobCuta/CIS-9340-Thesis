@@ -1,17 +1,17 @@
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:hive/hive.dart';
 part 'phqHive.g.dart';
 
 @HiveType(typeId: 0)
 class phqHive extends HiveObject {
   @HiveField(0)
-  List<phqHiveObj> assessments;
+  int index;
 
-  List<phqHiveObj> getAssessments() {
-    return assessments;
-  }
+  @HiveField(1)
+  int score;
 
-  phqHive({
-    required this.assessments,
-  });
+  @HiveField(2)
+  DateTime date;
+  
+
+  phqHive({required this.index, required this.score, required this.date});
 }

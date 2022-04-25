@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -19,13 +18,30 @@ class PHQScoreScreen extends StatefulWidget {
 
 class _PHQScoreScreenState extends State<PHQScoreScreen> {
   late final Box box;
-  List list = [];
+  List list = [], uniqueMonths = [];
+  List<List<dynamic>> splitMonths = [];
+
+  sortEntries() {
+    var seenMonths = <DateTime>{};
+    // number of months to divide entries by
+    uniqueMonths = list.where((entry) => seenMonths.add(DateTime(entry.date.year, entry.date.month))).toList();
+
+    // loop through unique months as each card.
+    // filter entries where date matches the unique month
+    for (var date in seenMonths) {
+      List entries = list.where((entry) => (entry.date.year == date.year) && entry.date.month == date.month).toList();
+      splitMonths.add(entries);
+    }
+    // final result is in splitMonths
+    log('split months $splitMonths}');
+  }
 
   @override
   void initState() {
     super.initState();
     box = Hive.box('phq');
-    list= box.values.toList();
+    list = box.values.toList();
+    sortEntries();
   }
 
   @override
@@ -42,11 +58,8 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
         appBar: AppBar(
             title: const Text(
               'PHQ9 Scores',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'Proxima Nova',
-                  fontWeight: FontWeight.w400),
+              style:
+                  TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Proxima Nova', fontWeight: FontWeight.w400),
             ),
             leading: BackButton(onPressed: () {
               Get.back();
@@ -58,13 +71,13 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
           child: Container(
             child: ListView(
               shrinkWrap: true,
-              children: list.map((userone) {
-                log('user $userone');
+              children: splitMonths.map((month) {
+                log('user $month');
                 return Column(children: [
                   Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                       child: ScoreCards(
-                        lists: userone.assessments,
+                        lists: month,
                       )),
                   const SizedBox(height: 20),
                 ]);
@@ -88,18 +101,17 @@ class ScoreCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             DateFormat("MMMM-yyyy").format(lists[0].date).toString(),
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: Theme.of(context).colorScheme.neutralBlack02,
-                fontWeight: FontWeight.w600),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle2
+                ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack02, fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 10,
@@ -111,7 +123,7 @@ class ScoreCards extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          for (phqHiveObj item in lists)
+          for (phqHive item in lists)
             Container(
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: Row(
@@ -120,27 +132,17 @@ class ScoreCards extends StatelessWidget {
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: DateFormat("dd, ")
-                                .format(item.date)
-                                .toString(),
+                            text: DateFormat("dd, ").format(item.date).toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack04)),
+                                ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack04)),
                         TextSpan(
-                            text: DateFormat("EEEE")
-                                .format(item.date)
-                                .toString(),
+                            text: DateFormat("EEEE").format(item.date).toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue04))
+                                ?.copyWith(color: Theme.of(context).colorScheme.accentBlue04))
                       ]),
                     ),
                     item.score != -1
@@ -151,19 +153,13 @@ class ScoreCards extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .accentBlue02)),
+                                      ?.copyWith(color: Theme.of(context).colorScheme.accentBlue02)),
                               TextSpan(
                                   text: ' / 27',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .accentBlue04))
+                                      ?.copyWith(color: Theme.of(context).colorScheme.accentBlue04))
                             ]),
                           )
                         : InkWell(
@@ -172,14 +168,8 @@ class ScoreCards extends StatelessWidget {
                               log('missing');
                             },
                             child: Text('Missing',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed03)),
+                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.accentRed03)),
                           ),
                   ],
                 ))
