@@ -26,21 +26,32 @@ class LevelController extends GetxController {
   var totalXpToAdd = 0.obs;
   var levelUp = false.obs;
 
-  var levelUpRewards = {
-    2: {
-      'Kalinga Badge': 'assets/images/kalinga_badge.svg',
-      'Kalinga Region': 'assets/images/kalinga_unlock.svg',
-      'Kalinga Frames': 'assets/images/kalinga_unlock.svg'
-    },
-    3: {'Abra Badge': '', 'Abra Region': '', 'Abra Frames': ''},
-    4: {
-      'Mt. Province Badge': '',
-      'Mt. Province Region': '',
-      'Mt. Province Frames': ''
-    },
-    5: {'Ifugao Badge': '', 'Ifugao Region': '', 'Ifugao Frames': ''},
-    6: {'Benguet Badge': '', 'Benguet Region': '', 'Benguet Frames': ''},
-  }.obs;
+  var level2Rewards = {
+      'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.svg',
+      'Kalinga Region' : 'assets/images/kalinga_unlock.svg',
+      'Kalinga Frames' : 'assets/frames/kalinga_v2.svg',
+  };
+  var level3Rewards = {
+      'Abra Badge' : 'assets/achievements/abra_adventure_achievements.svg',
+      'Abra Region' : 'assets/images/Abra.svg',
+      'Abra Frames' : 'assets/frames/abra_v2.svg'
+  };
+  var level4Rewards = {
+      'Mt. Province Badge' : 'assets/achievements/mtprovince_adventure_achievements.svg',
+      'Mt. Province Region' : 'assets/images/Mt Province.svg',
+      'Mt. Province Frames' : 'assets/frames/mtProvince_v2.svg'
+  };
+  var level5Rewards = {
+      'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.svg',
+      'Ifugao Region' : 'assets/images/Ifugao.svg',
+      'Ifugao Frames' : 'assets/frames/ifugao_v2.svg'
+  };
+  var level6Rewards = {
+      'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.svg',
+      'Benguet Region' : 'assets/images/Benguet.svg',
+      'Benguet Frames' : 'assets/frames/benguet_v2.svg'
+  };
+
 
   void prepareTheObjects() {
     Box box = Hive.box<Level>('level');
@@ -137,10 +148,33 @@ class LevelController extends GetxController {
   }
 
   void displayLevelXpModal(BuildContext context) {
-    if (levelUp.value) {
+    
+    if (levelUp.value && currentLevel.value < 7) {
       displayRewardsUponLevelUp(context);
     } else {
-      Future.delayed(const Duration(seconds: 0)).then((_) {
+        Future.delayed(const Duration(seconds: 0)).then((_) {
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          builder: (context) {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: const LevelWidgets());
+          });
+      });
+    }
+
+    updateRecentlyAddedXp(false);
+    clearMapOfAccomplishedWithXp();
+  }
+
+  void displayTodaysTaskWithXp(BuildContext context) {
+    Future.delayed(const Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
             context: context,
             shape: const RoundedRectangleBorder(
@@ -156,30 +190,9 @@ class LevelController extends GetxController {
                   child: const LevelWidgets());
             });
       });
-    }
-
-    updateRecentlyAddedXp(false);
+      updateRecentlyAddedXp(false);
   }
 
-  void displayTodaysTaskWithXp(BuildContext context) {}
-  ysTaskWithXp(BuildContext context) {
-    Future.delayed(const Duration(seconds: 0)).then((_) {
-      showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-          ),
-          useRootNavigator: true,
-          isScrollControlled: true,
-          backgroundColor: Colors.white,
-          builder: (context) {
-            return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: const LevelTasksTodayWidgets());
-          });
-    });
-  }
 
   void displayRewardsUponLevelUp(BuildContext context) {
     Future.delayed(const Duration(seconds: 0)).then((_) {

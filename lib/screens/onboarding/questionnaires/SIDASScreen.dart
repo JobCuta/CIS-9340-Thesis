@@ -51,45 +51,14 @@ class _SIDASScreenState extends State<SIDASScreen> {
   final SIDASController _sidasController = Get.put(SIDASController());
   final EmotionController _emotionController = Get.put(EmotionController());
 
-  saveEntries() async {
-    Box box = Hive.box('sidas');
-    sidasHive assessMonth = box.get(Get.arguments["key"]);
-
-    assessMonth.score = _sidasController.sum;
-    assessMonth.save();
-
-    DateTime nextMonth = DateTime.utc(assessMonth.date.year, assessMonth.date.month, assessMonth.date.day);
-    sidasHive nextSidas = sidasHive(index: -1, score: -1, date: nextMonth, answerValues: []);
-    String key = nextSidas.date.month.toString() + '-' + nextSidas.date.year.toString();
-    box.put(key, nextSidas);
-
-    String title = '', sub = '';
-    bool result = await UserProvider().updateSIDAS(_sidasController.sum, assessMonth.index.toString());
-    Map result2 = await UserProvider().createSIDAS(nextSidas);
-
-    // Check results of saving entry online
-    if (result && result2["status"]) {
-      nextSidas.index = result2["body"]["id"];
-
-      title = 'SIDAS Entry saved!';
-      sub = 'Entry was saved to your profile';
-    } else {
-      title = 'SIDAS Entry not saved';
-      sub = 'There was a problem saving your entry online';
-    }
-
-    Get.snackbar(title, sub,
-        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-  }
-
   checkIfOnboarding() {
     if (Get.arguments != null) {
       log('look im saving an entry');
-      saveEntries();
-      TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
+      _sidasController.saveEntries();
       Get.offAndToNamed(Get.arguments["home"]);
     } else {
-      Get.toNamed('/assessSIDASScreen');
+      _emotionController.updateIfAddingFromOnboarding(true);
+      Get.toNamed('/emotionStartScreen', arguments: {'route': 'onboarding'});
     }
   }
 
@@ -99,7 +68,8 @@ class _SIDASScreenState extends State<SIDASScreen> {
       return Expanded(
         child: InkWell(
             onTap: () {
-              _sidasController.updateValues(position, (position != 1) ? initial : reversed);
+              _sidasController.updateValues(
+                  position, (position != 1) ? initial : reversed);
             },
             child: Container(
                 alignment: Alignment.center,
@@ -110,16 +80,16 @@ class _SIDASScreenState extends State<SIDASScreen> {
                             ? _sidasController.answerValues[position] == initial
                                 ? Theme.of(context).colorScheme.neutralWhite01
                                 : Colors.transparent
-                            : _sidasController.answerValues[position] == reversed
+                            : _sidasController.answerValues[position] ==
+                                    reversed
                                 ? Theme.of(context).colorScheme.neutralWhite01
                                 : Colors.transparent,
                         width: 4),
                     color: color),
                 child: Text(initial.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600)))),
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        color: Theme.of(context).colorScheme.neutralWhite01,
+                        fontWeight: FontWeight.w600)))),
       );
     }
 
@@ -139,102 +109,180 @@ class _SIDASScreenState extends State<SIDASScreen> {
                           ),
                           fit: BoxFit.cover))),
               // Keeps the StepProgressIndicator in the same spot
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: StepProgressIndicator(
-                    selectedSize: 8.0,
-                    unselectedSize: 8.0,
-                    roundedEdges: const Radius.circular(4),
-                    totalSteps: questions.length,
-                    currentStep: position + 1,
-                    selectedColor: Theme.of(context).colorScheme.neutralWhite01,
-                    unselectedColor: const Color(0xffA1D6FF),
+              SafeArea(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: StepProgressIndicator(
+                      selectedSize: 8.0,
+                      unselectedSize: 8.0,
+                      roundedEdges: const Radius.circular(4),
+                      totalSteps: questions.length,
+                      currentStep: position + 1,
+                      selectedColor:
+                          Theme.of(context).colorScheme.neutralWhite01,
+                      unselectedColor: const Color(0xffA1D6FF),
+                    ),
                   ),
                 ),
               ),
 
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                 child: Center(
-                    child: Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
-                    padding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 15.0),
-                    decoration: BoxDecoration(
-                        color: const Color(0xff3290FF).withOpacity(0.60),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
-                    child: Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
-                      Text(questions[position],
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                              fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
-                      Text(answer_guide[position],
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption?.copyWith(
-                              fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01))
-                    ]),
-                  ),
-                  GetBuilder<SIDASController>(
-                    builder: (value) => Row(children: [
-                      buildItem(position, 0, 10, const Color(0xffFFB762)),
-                      buildItem(position, 1, 9, const Color(0xffFFAE50)),
-                      buildItem(position, 2, 8, const Color(0xffFFA236)),
-                      buildItem(position, 3, 7, const Color(0xffFF8A00)),
-                      buildItem(position, 4, 6, const Color(0xffFF7A00)),
-                      buildItem(position, 5, 5, const Color(0xffFF6B00)),
-                      buildItem(position, 6, 4, const Color(0xffFF7A00)),
-                      buildItem(position, 7, 3, const Color(0xffFF8A00)),
-                      buildItem(position, 8, 2, const Color(0xffFFA236)),
-                      buildItem(position, 9, 1, const Color(0xffFFAE50)),
-                      buildItem(position, 10, 0, const Color(0xffFFB762)),
-                    ]),
-                  )
-                ])),
+                    child: Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 20,
+                        children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 13.0, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                            color: const Color(0xff3290FF).withOpacity(0.60),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: Wrap(
+                            alignment: WrapAlignment.center,
+                            runSpacing: 20,
+                            children: [
+                              Text(questions[position],
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                              Text(answer_guide[position],
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01))
+                            ]),
+                      ),
+                      GetBuilder<SIDASController>(
+                        builder: (value) => Row(children: [
+                          buildItem(position, 0, 10, const Color(0xffFFB762)),
+                          buildItem(position, 1, 9, const Color(0xffFFAE50)),
+                          buildItem(position, 2, 8, const Color(0xffFFA236)),
+                          buildItem(position, 3, 7, const Color(0xffFF8A00)),
+                          buildItem(position, 4, 6, const Color(0xffFF7A00)),
+                          buildItem(position, 5, 5, const Color(0xffFF6B00)),
+                          buildItem(position, 6, 4, const Color(0xffFF7A00)),
+                          buildItem(position, 7, 3, const Color(0xffFF8A00)),
+                          buildItem(position, 8, 2, const Color(0xffFFA236)),
+                          buildItem(position, 9, 1, const Color(0xffFFAE50)),
+                          buildItem(position, 10, 0, const Color(0xffFFB762)),
+                        ]),
+                      )
+                    ])),
               ),
               // Bottombar
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                              child: Text(
-                                'Previous',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(color: const Color(0xffFFBE18), fontWeight: FontWeight.w600),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
+              Visibility(
+                visible: position != 0,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                                child: Text(
+                                  'Previous',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          color: const Color(0xffFFBE18),
+                                          fontWeight: FontWeight.w600),
                                 ),
-                                padding: const EdgeInsets.all(10),
-                                primary: Theme.of(context).colorScheme.neutralWhite01,
-                              ),
-                              onPressed: () {
-                                (position == 0)
-                                    ? Get.toNamed('/assessSIDASScreen')
-                                    : _pageController.jumpToPage(position - 1);
-                              }),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  padding: const EdgeInsets.all(10),
+                                  primary: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite01,
+                                ),
+                                onPressed: () {
+                                  (position == 0)
+                                      ? Get.toNamed('/assessSIDASScreen')
+                                      : _pageController
+                                          .jumpToPage(position - 1);
+                                }),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                                child: Text(
+                                  'Next',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  primary: const Color(0xffFFBE18),
+                                ),
+                                onPressed: () {
+                                  if (position == questions.length - 1) {
+                                    checkIfOnboarding();
+                                  } else {
+                                    // Checks if the user selected a valid value
+                                    _pageController.jumpToPage(position + 1);
+                                  }
+                                }),
+                          ),
+                        ),
+                      ])),
+                ),
+              ),
+              Visibility(
+                  visible: position == 0,
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 25),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
                         child: SizedBox(
                           height: 50,
+                          width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                               child: Text(
                                 'Next',
-                                style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                                    color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -242,17 +290,19 @@ class _SIDASScreenState extends State<SIDASScreen> {
                               ),
                               onPressed: () {
                                 if (position == questions.length - 1) {
-                                  _emotionController.updateIfAddingFromOnboarding(true);
-                                  Get.toNamed('/emotionStartScreen');
+                                  _emotionController
+                                      .updateIfAddingFromOnboarding(true);
+                                  Get.toNamed('/emotionStartScreen',
+                                      arguments: {
+                                        "route": 'onboarding',
+                                      });
                                 } else {
                                   // Checks if the user selected a valid value
                                   _pageController.jumpToPage(position + 1);
                                 }
                               }),
                         ),
-                      ),
-                    ])),
-              ),
+                      )))
             ]);
           }),
     );

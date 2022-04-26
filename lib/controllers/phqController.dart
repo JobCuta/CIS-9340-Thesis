@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -25,5 +29,35 @@ class PHQController extends GetxController {
     }
     print(sum);
     update();
+  }
+
+  saveEntries() async {
+    DateTime now = DateTime.now();
+    var box = Hive.box('phq');
+
+    var entry = phqHive(index: -1, date: now, score: sum);
+
+    String monthKey = now.month.toString() + '-' + now.year.toString();
+    box.put(monthKey, entry);
+
+    String title = '', sub = '';
+    Map result = await UserProvider().createPHQ(entry);
+
+    // Check results of saving entry online
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
+
+      title = 'PHQ9 Entry saved!';
+      sub = 'Entry was saved to your profile';
+      log('it worked');
+    } else {
+      title = 'PHQ9 Entry not saved';
+      sub = 'There was a problem saving your entry online';
+    }
+
+    TableSecureStorage.setLatestPHQ(now.toUtc().toString());
+
+    Get.snackbar(title, sub,
+        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
   }
 }

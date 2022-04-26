@@ -310,7 +310,8 @@ class CopingGameScreenState extends State<CopingGameScreen> {
               Get.back();
             }),
             elevation: 0,
-            backgroundColor: const Color(0xff216CB2).withOpacity(0.40)),
+            backgroundColor: Colors.transparent),
+        extendBodyBehindAppBar: true,
         body: Stack(children: [
           Container(
               decoration: const BoxDecoration(

@@ -229,13 +229,4 @@ class _SideMenuState extends State<SideMenu> {
           )),
     );
   }
-
-  // void selectedItem(BuildContext context, int index) {
-  //   Navigator.of(context).pop();
-  //   switch (index) {
-  //     case 0:
-  //       Get.toNamed('/homepage');
-  //       break;
-  //   }
-  // }
 }

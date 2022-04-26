@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
@@ -14,8 +13,10 @@ import '../../apis/phqHive.dart';
 import '../onboarding/intro/IntroductionScreen.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter();
   Hive.registerAdapter(phqHiveAdapter());
+  Hive.registerAdapter(sidasHiveAdapter());
+  await Hive.initFlutter();
+  await Hive.openBox('sidas');
   runApp(DebugScreen());
 }
 
@@ -25,14 +26,33 @@ class DebugScreen extends StatelessWidget {
   final PageController _pageController = PageController();
   final lc = [TextEditingController(), TextEditingController()];
 
+  List list = [];
+
   handleLogin() async {
     var response = await UserProvider().login(LoginForm(lc[0].text, lc[1].text));
     log("test $response");
   }
 
+  sortEntries() {
+    List<List<dynamic>> splitMonths = [];
+    var seenMonths = <DateTime>{};
+    // number of months to divide entries by
+    List uniqueMonths = list.where((entry) => seenMonths.add(DateTime(entry.date.year, entry.date.month))).toList();
+    log('unqiue months $uniqueMonths');
+    log('seen months $seenMonths');
+    // loop through unique months as each card.
+    // filter entries where date matches the unique month
+    for (var date in seenMonths) {
+      List entries = list.where((entry) => (entry.date.year == date.year) && entry.date.month == date.month).toList();
+      splitMonths.add(entries);
+    }
+    log('splti months $splitMonths ${splitMonths[0][1].date} | ${splitMonths[1][0].date}');
+  }
+
   @override
   Widget build(BuildContext context) {
     Math.Random random = Math.Random();
+    Hive.openBox('sidas');
 
     return GetMaterialApp(
       title: 'Kasiyanna App',
@@ -73,7 +93,7 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Create PHQ9 Entry'),
                       onPressed: () async {
-                        phqHiveObj entry = phqHiveObj(index: -1, date: DateTime.now(), score: random.nextInt(27));
+                        phqHive entry = phqHive(index: -1, date: DateTime.now(), score: random.nextInt(27));
                         Map scores = await UserProvider().createPHQ(entry);
                         entry.index = scores["body"]["id"];
                         entry.save();
@@ -82,9 +102,12 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Create SIDAS Entry'),
                       onPressed: () async {
-                        sidasHive entry = sidasHive(index: -1, date: DateTime.now(), answerValues: [], score: random.nextInt(50));
-                        Map scores = await UserProvider().createSIDAS(entry);
-                        log('entry made? ${scores}');
+                        var sidas = Hive.box('sidas');
+                        sidasHive entry =
+                            sidasHive(index: -1, date: DateTime.now(), answerValues: [], score: random.nextInt(50));
+                        sidas.add(entry);
+                        // Map scores = await UserProvider().createSIDAS(entry);
+                        // log('entry made? ${scores}');
                       }),
                   ElevatedButton(
                       child: const Text('Get PHQ9 Hive'),
@@ -96,7 +119,8 @@ class DebugScreen extends StatelessWidget {
                       child: const Text('Get SIDAS Hive'),
                       onPressed: () async {
                         var sidas = Hive.box('sidas');
-                        log('sidas ${sidas.keys.toList()}');
+                        list = sidas.values.toList();
+                        log('sidas ${sidas.toMap()}');
                       }),
                   ElevatedButton(
                       child: const Text('Delete PHQ Hive'),
@@ -111,6 +135,12 @@ class DebugScreen extends StatelessWidget {
                         var sidas = Hive.box('sidas');
                         sidas.deleteAll(sidas.keys);
                         log('sidas ${sidas.keys.toList()}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Group SIDAS Hive'),
+                      onPressed: () async {
+                        var sidas = Hive.box('sidas');
+                        sortEntries();
                       }),
                 ],
               );

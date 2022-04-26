@@ -13,9 +13,9 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
             decoration: const BoxDecoration(color: Color(0xffF2FFF5)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
