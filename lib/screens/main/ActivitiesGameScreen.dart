@@ -3,6 +3,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:get/get.dart';
 
@@ -51,7 +52,7 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
   @override
   Widget build(BuildContext context) {
     //bool _isMemoryGameDone = _memoryController.isDailyExerciseDone.value;
-    //bool _isCopingGameDone = _copingController.provinceCompleted.value as bool;
+    bool _isCopingGameDone = _copingController.provinceCompleted.value as bool;
     //bool _isSudokuGameDone = _sudokuController.value;
 
     return Scaffold(
@@ -157,10 +158,10 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                 height: 10,
                                 thickness: 1,
                               ),
-                              /**InkWell(
+                              InkWell(
                                 onTap: () {
                                   _copingController
-                                      .getCompleteStatusOfProvinceCards(province);
+                                      .updateSelectedProvince(Province.Abra);
                                   setState(() {
                                     _isCopingGameDone = true;
                                   });
@@ -182,13 +183,13 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                         _isCopingGameDone)
                                   ],
                                 ),
-                              ),*/
-                              _buildFieldComponent(
+                              ),
+                              /**_buildFieldComponent(
                                 title: 'Coping',
                                 onTap: () {
                                   Get.toNamed('/copingGame');
                                 },
-                              ),
+                              ),*/
                               Divider(
                                 color: Theme.of(context)
                                     .colorScheme
@@ -232,13 +233,6 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/standing_person.png',
-                                  ),
-                                  fit: BoxFit.cover))),
                     ],
                   ),
                 ),

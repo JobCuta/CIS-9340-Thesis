@@ -2,13 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
+import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);
@@ -21,8 +26,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   late EmotionController _emotionController;
   late List<EmotionEntryHive> latestEmotionEntries =
       _emotionController.getEmotionEntriesInTheLastDays(7);
-  int month = DateTime.now().month;
-  int year = DateTime.now().year;
+  late int latestPHQScore;
+  late int latestSIDASScore;
+
+  DateTime now = DateTime.now();
+  late int month = DateTime.now().month;
+  late int year = DateTime.now().year;
   int currentWeekDay = DateTime.now().weekday;
   Map<int, String> weekdayString = {
     1: 'Mon',
@@ -34,6 +43,71 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     7: 'Sun'
   };
 
+  late final Box hiveBox;
+  late final Box sidasBox;
+  List phqList = [], sidasList = [], uniqueMonths = [];
+  List<List<dynamic>> splitMonths = [];
+  List<dynamic> phqEntries = [];
+  List<dynamic> sidasEntries = [];
+
+  List<FlSpot>? phqSpots = [];
+  List<FlSpot>? sidasSpots = [];
+
+  sortEntries() {
+    var seenMonths = <DateTime>{};
+    // number of months to divide entries by
+    uniqueMonths = phqList
+        .where((entry) =>
+            seenMonths.add(DateTime(entry.date.year, entry.date.month)))
+        .toList();
+
+    // loop through unique months as each card.
+    // filter entries where date matches the unique month
+    for (var date in seenMonths) {
+      List entries = phqList
+          .where((entry) =>
+              (entry.date.year == date.year) && entry.date.month == date.month)
+          .toList();
+      splitMonths.add(entries);
+    }
+    // final result is in splitMonths
+    log('split months $splitMonths}');
+    log('unique months $uniqueMonths}');
+  }
+
+  getPHQEntriesForTheYear() {
+    DateTime now = DateTime.now();
+    for (List<dynamic> item in splitMonths) {
+      for (phqHive value in item) {
+        if (value.date.year == now.year) {
+          phqEntries.add(value);
+        }
+      }
+    }
+    for (int i = 0; i < phqEntries.length; i++) {
+      phqSpots!.add(FlSpot(i.toDouble(), phqEntries[i].score.toDouble()));
+      if (i == phqEntries.length - 1) {
+        latestPHQScore = phqEntries[i].score;
+      }
+    }
+  }
+
+  getSIDASEntriesForTheYear() {
+    DateTime now = DateTime.now();
+    for (sidasHive value in sidasList) {
+      if (value.date.year == now.year) {
+        sidasEntries.add(value);
+      }
+    }
+
+    for (int i = 0; i < sidasEntries.length; i++) {
+      sidasSpots!.add(FlSpot(i.toDouble(), sidasEntries[i].score.toDouble()));
+      if (i == sidasEntries.length - 1) {
+        latestSIDASScore = sidasEntries[i].score;
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +118,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       _emotionController.updateCurrentStreakAndMonthMoodCount(
           DateTime.now().month, DateTime.now().year);
     });
+    month = now.month;
+    year = now.year;
+    hiveBox = Hive.box('phq');
+    phqList = hiveBox.values.toList();
+    sidasBox = Hive.box('sidas');
+    sidasList = sidasBox.values.toList();
+    sortEntries();
+    getPHQEntriesForTheYear();
+    getSIDASEntriesForTheYear();
   }
 
   @override
@@ -360,18 +443,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         ),
                       ),
                     ),
-                    const ScoreCards(
+                    ScoreCards(
                         title: 'Your latest PHQ-9 score for this month',
-                        score: 5,
+                        score: latestPHQScore,
                         total: 28,
                         link: '/phqStatScreen'),
                     const SizedBox(height: 20),
-                    const ScoreCards(
+                    phqChart(),
+                    const SizedBox(height: 20),
+                    ScoreCards(
                         title:
                             'Your latest Suicidal Ideation score for this month',
-                        score: 34,
+                        score: latestSIDASScore,
                         total: 50,
                         link: '/sidasStatScreen'),
+                    const SizedBox(height: 20),
+                    sidasChart(),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -379,6 +466,229 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           )
         ]));
+  }
+
+  phqChart() {
+    return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'PHQ Graph',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                    color: Theme.of(context).colorScheme.neutralBlack02,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                child: LineChart(
+                  LineChartData(
+                    lineTouchData: LineTouchData(
+                      touchTooltipData: LineTouchTooltipData(
+                          maxContentWidth: 100,
+                          tooltipBgColor:
+                              Theme.of(context).colorScheme.neutralWhite04,
+                          getTooltipItems: (touchedSpots) {
+                            return touchedSpots.map((LineBarSpot touchedSpot) {
+                              final textStyle = TextStyle(
+                                color: touchedSpot.bar.gradient?.colors[0] ??
+                                    touchedSpot.bar.color,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              );
+                              return LineTooltipItem(
+                                  ' ${touchedSpot.y.toStringAsFixed(0)}',
+                                  textStyle);
+                            }).toList();
+                          }),
+                      handleBuiltInTouches: true,
+                      getTouchLineStart: (data, index) => 0,
+                    ),
+                    lineBarsData: [
+                      LineChartBarData(
+                        color: Theme.of(context).colorScheme.accentBlue02,
+                        spots: phqSpots,
+                        isCurved: true,
+                        isStrokeCapRound: true,
+                        barWidth: 3,
+                        belowBarData: BarAreaData(
+                          show: false,
+                        ),
+                        dotData: FlDotData(show: true),
+                      ),
+                    ],
+                    minY: 0,
+                    maxY: 27,
+                    titlesData: FlTitlesData(
+                      show: true,
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      bottomTitles: AxisTitles(
+                        axisNameWidget: Text(
+                          year.toString(),
+                        ),
+                        sideTitles: SideTitles(
+                          showTitles: false,
+                        ),
+                      ),
+                      leftTitles: AxisTitles(
+                        axisNameSize: 30,
+                        axisNameWidget: const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text('PHQ Score'),
+                        ),
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          interval: 3,
+                          reservedSize: 40,
+                          getTitlesWidget: leftTitleWidgets,
+                        ),
+                      ),
+                    ),
+                    gridData: FlGridData(
+                      show: true,
+                      drawHorizontalLine: true,
+                      drawVerticalLine: true,
+                      horizontalInterval: 1.5,
+                      verticalInterval: 5,
+                      checkToShowHorizontalLine: (value) {
+                        return value.toInt() == 0;
+                      },
+                      checkToShowVerticalLine: (value) {
+                        return value.toInt() == 0;
+                      },
+                    ),
+                    borderData: FlBorderData(show: false),
+                  ),
+                ),
+              )
+            ]));
+  }
+
+  sidasChart() {
+    return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'SIDAS Graph',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                    color: Theme.of(context).colorScheme.neutralBlack02,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                child: LineChart(
+                  LineChartData(
+                    lineTouchData: LineTouchData(
+                      touchTooltipData: LineTouchTooltipData(
+                          maxContentWidth: 100,
+                          tooltipBgColor:
+                              Theme.of(context).colorScheme.neutralWhite04,
+                          getTooltipItems: (touchedSpots) {
+                            return touchedSpots.map((LineBarSpot touchedSpot) {
+                              final textStyle = TextStyle(
+                                color: touchedSpot.bar.gradient?.colors[0] ??
+                                    touchedSpot.bar.color,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              );
+                              return LineTooltipItem(
+                                  ' ${touchedSpot.y.toStringAsFixed(0)}',
+                                  textStyle);
+                            }).toList();
+                          }),
+                      handleBuiltInTouches: true,
+                      getTouchLineStart: (data, index) => 0,
+                    ),
+                    lineBarsData: [
+                      LineChartBarData(
+                        color: Theme.of(context).colorScheme.accentBlue02,
+                        spots: sidasSpots,
+                        isCurved: true,
+                        isStrokeCapRound: true,
+                        barWidth: 3,
+                        belowBarData: BarAreaData(
+                          show: false,
+                        ),
+                        dotData: FlDotData(show: true),
+                      ),
+                    ],
+                    minY: 0,
+                    maxY: 50,
+                    titlesData: FlTitlesData(
+                      show: true,
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      bottomTitles: AxisTitles(
+                        axisNameWidget: Text(
+                          year.toString(),
+                        ),
+                        sideTitles: SideTitles(
+                          showTitles: false,
+                        ),
+                      ),
+                      leftTitles: AxisTitles(
+                        axisNameSize: 30,
+                        axisNameWidget: const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text('SIDAS Score'),
+                        ),
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          interval: 5,
+                          reservedSize: 40,
+                          getTitlesWidget: leftTitleWidgets,
+                        ),
+                      ),
+                    ),
+                    gridData: FlGridData(
+                      show: true,
+                      drawHorizontalLine: true,
+                      drawVerticalLine: true,
+                      horizontalInterval: 1.5,
+                      verticalInterval: 5,
+                      checkToShowHorizontalLine: (value) {
+                        return value.toInt() == 0;
+                      },
+                      checkToShowVerticalLine: (value) {
+                        return value.toInt() == 0;
+                      },
+                    ),
+                    borderData: FlBorderData(show: false),
+                  ),
+                ),
+              )
+            ]));
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.black, fontSize: 12.0);
+    return Text(value.toInt().toString(), style: style);
   }
 }
 
@@ -432,14 +742,33 @@ class ScoreCards extends StatelessWidget {
             barRadius: const Radius.circular(4),
           ),
           const SizedBox(height: 20),
-          Text(
-            'High Ideation',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w600),
-          ),
+          link == '/phqStatScreen'
+              ? Text(
+                  score >= 20
+                      ? 'Severe Depression'
+                      : score >= 15
+                          ? 'Moderately Severe Depression'
+                          : score >= 10
+                              ? 'Moderate Depression'
+                              : score >= 5
+                                  ? 'Mild Depression'
+                                  : 'None - Minimal Depression',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                )
+              : Text(
+                  score >= 21
+                      ? 'High Suicidal Ideation'
+                      : 'Low Suicidal Ideation',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                ),
           const SizedBox(height: 10),
           Text(
             'Seek Treatment',

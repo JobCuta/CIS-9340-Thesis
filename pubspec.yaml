@@ -120,6 +120,9 @@ dependencies:
   flip_card: ^0.6.0
   fluttericon: ^2.0.0
 
+  # for generating the charts for PHQ9 and SIDAS 
+  fl_chart: ^0.50.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

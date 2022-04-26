@@ -520,107 +520,90 @@ class _HomePageState extends State<HomePage> {
                 const AssessmentsContainer(phq: true),
                 const AssessmentsContainer(phq: false),
                 InkWell(
-                  onTap: () {
-                    //Add navigation to the adventure page here
-                  },
-                  child: Container(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    height: 100,
-                    // padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff216CB2).withOpacity(0.55),
-                    ),
-                    child: Stack(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 100),
+                    onTap: () {
+                      Get.to(HomePageScreen(3), preventDuplicates: false);
+                    },
+                    child: Stack(alignment: Alignment.center, children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: SvgPicture.asset(
-                          'assets/images/bahag.svg',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Get.to(HomePageScreen(3), preventDuplicates: false);
-                        },
-                        child: Container(
+                          'assets/images/adventure_mode.svg',
                           alignment: Alignment.center,
-                          child: Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              direction: Axis.vertical,
-                              children: [
-                                Text('Adventure Mode',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                                const SizedBox(height: 10.0),
-                                Text('Start your journey to wellness!',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                              ]),
+                          width: MediaQuery.of(context).size.width,
                         ),
-                      )
-                    ]),
-                  ),
-                ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            direction: Axis.vertical,
+                            spacing: 8,
+                            children: [
+                              Text('Adventure Mode',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                              Text(
+                                  'Begin your interactive wellness experience!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                            ]),
+                      ),
+                    ])),
                 InkWell(
-                  onTap: () {
-                    Get.toNamed('/shakeScreen', arguments: {'initial?': false});
-                  },
-                  child: Stack(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(290, 15, 0, 10),
-                      child: SvgPicture.asset(
-                        'assets/images/meditating.svg',
-                        height: 95,
+                    onTap: () {
+                      Get.toNamed('/shakeScreen',
+                          arguments: {'initial?': false});
+                    },
+                    child: Stack(alignment: Alignment.center, children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                        child: SvgPicture.asset(
+                          'assets/images/daily_wellness.svg',
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                        ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 100,
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xffFFC122).withOpacity(0.60),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            direction: Axis.vertical,
+                            spacing: 8,
+                            children: [
+                              Text('Daily Wellness Exercise',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                              Text('Keep your mind and body in shape!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                            ]),
                       ),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: [
-                          Text('Daily Wellness Exercise',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
-                          Text('Keep your mind and body in shape!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
+                    ])),
               ],
             ),
           ),

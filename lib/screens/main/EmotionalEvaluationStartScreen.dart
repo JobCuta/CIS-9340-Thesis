@@ -169,33 +169,33 @@ class _EmotionalEvaluationStartScreenState
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: Text(
-            _emotionController.isEditMode.value
-                ? 'Edit an Entry'
-                : 'Add an Entry',
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: Theme.of(context).colorScheme.neutralWhite01,
-                fontWeight: FontWeight.w400),
-          ),
-          leading: BackButton(onPressed: () {
-            Get.back();
-          }),
-          elevation: 0,
-          backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text(
+          _emotionController.isEditMode.value
+              ? 'Edit an Entry'
+              : 'Add an Entry',
+          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              color: Theme.of(context).colorScheme.neutralWhite01,
+              fontWeight: FontWeight.w400),
         ),
-        body: Stack(children: [
-          Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/background_images/blue_background.png',
-                      ),
-                      fit: BoxFit.cover))),
-          Padding(
+        leading: BackButton(onPressed: () {
+          Get.back();
+        }),
+        elevation: 0,
+        backgroundColor: const Color(0xff216CB2).withOpacity(0.40),
+      ),
+      body: Stack(children: [
+        Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/background_images/blue_background.png',
+                    ),
+                    fit: BoxFit.cover))),
+        SafeArea(
+          child: Padding(
             padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
             child: ListView(
               children: [
@@ -272,48 +272,34 @@ class _EmotionalEvaluationStartScreenState
               ],
             ),
           ),
-        ]),
-        bottomSheet: Container(
-          margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            child: ElevatedButton(
-                child: Text(
-                  'Next',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                      color: Theme.of(context).colorScheme.neutralWhite01,
-                      fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  primary: (isVeryHappy ||
-                          isHappy ||
-                          isNeutral ||
-                          isBad ||
-                          isVeryBad)
-                      ? Theme.of(context).colorScheme.sunflowerYellow01
-                      : Theme.of(context).colorScheme.neutralWhite04,
-                ),
-                onPressed: () {
-                  if (isVeryHappy ||
-                      isHappy ||
-                      isNeutral ||
-                      isBad ||
-                      isVeryBad) {
-                    _emotionController.updateNotes(_noteController.text);
-                    Get.toNamed('/emotionEndScreen',
-                        arguments: {'route': Get.arguments["route"]!});
-                    // Get.toNamed('/emotionEndScreen');
-                  }
-                }),
-          ),
         ),
+      ]),
+      bottomSheet: Container(
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        child: ElevatedButton(
+            child: Text(
+              'Next',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralWhite01,
+                  fontWeight: FontWeight.w600),
+            ),
+            style: ElevatedButton.styleFrom(
+                elevation: 0,
+                primary:
+                    (isVeryHappy || isHappy || isNeutral || isBad || isVeryBad)
+                        ? Theme.of(context).colorScheme.sunflowerYellow01
+                        : Theme.of(context).colorScheme.neutralWhite04),
+            onPressed: () {
+              if (isVeryHappy || isHappy || isNeutral || isBad || isVeryBad) {
+                _emotionController.updateNotes(_noteController.text);
+                Get.toNamed('/emotionEndScreen',
+                    arguments: {'route': Get.arguments["route"]!});
+                // Get.toNamed('/emotionEndScreen');
+              }
+            }),
       ),
     );
   }

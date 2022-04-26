@@ -83,21 +83,24 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                     'assets/background_images/blue_background.png',
                   ),
                   fit: BoxFit.cover))),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(25, 100, 25, 0),
-        child: Container(
-          alignment: Alignment.center,
-          height: 100,
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-          decoration: BoxDecoration(
-              color: const Color(0xff3290FF).withOpacity(0.60),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: Text(
-              'Set your preferred times for the day for when you want to be notified',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).colorScheme.neutralWhite01)),
+      SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(25, 100, 25, 0),
+          child: Container(
+            alignment: Alignment.center,
+            height: 100,
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+            decoration: BoxDecoration(
+                color: const Color(0xff3290FF).withOpacity(0.60),
+                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            child: Text(
+                'Set your preferred times for the day for when you want to be notified',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.neutralWhite01)),
+          ),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -208,85 +211,84 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
         )
       ]),
       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 0),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: Theme.of(context).colorScheme.sunflowerYellow01,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                margin: const EdgeInsets.only(bottom: 5),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Theme.of(context).colorScheme.sunflowerYellow01,
+                    ),
+                    child: Text(
+                      'Done!',
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color: Theme.of(context).colorScheme.neutralWhite01,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      NotificationService.showMorningNotification(
+                          _timeController.morningTime.value);
+
+                      NotificationService.showAfternoonNotification(
+                          _timeController.afternoonTime.value);
+
+                      NotificationService.showEveningNotification(
+                          _timeController.eveningTime.value);
+
+                      _settingsController.updateNotificationSettings(
+                          newNotificationsEnabled: true,
+                          newNotificationsMorningTime: [
+                            _timeController.morningTime.value.hour.toString(),
+                            _timeController.morningTime.value.minute.toString()
+                          ],
+                          newNotificationsAfternoonTime: [
+                            _timeController.afternoonTime.value.hour.toString(),
+                            _timeController.afternoonTime.value.minute
+                                .toString()
+                          ],
+                          newNotificationsEveningTime: [
+                            _timeController.eveningTime.value.hour.toString(),
+                            _timeController.eveningTime.value.minute.toString()
+                          ]);
+                      Get.toNamed('/loadingScreen');
+                    }),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                margin: const EdgeInsets.only(top: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.neutralWhite04,
+                      width: 1),
                 ),
-                child: Text(
-                  'Done!',
-                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                      color: Theme.of(context).colorScheme.neutralWhite01,
-                      fontWeight: FontWeight.w600),
-                ),
-                onPressed: () {
-                  NotificationService.showMorningNotification(
-                      _timeController.morningTime.value);
-
-                  NotificationService.showAfternoonNotification(
-                      _timeController.afternoonTime.value);
-
-                  NotificationService.showEveningNotification(
-                      _timeController.eveningTime.value);
-
-                  _settingsController.updateNotificationSettings(
-                      newNotificationsEnabled: true,
-                      newNotificationsMorningTime: [
-                        _timeController.morningTime.value.hour.toString(),
-                        _timeController.morningTime.value.minute.toString()
-                      ],
-                      newNotificationsAfternoonTime: [
-                        _timeController.afternoonTime.value.hour.toString(),
-                        _timeController.afternoonTime.value.minute.toString()
-                      ],
-                      newNotificationsEveningTime: [
-                        _timeController.eveningTime.value.hour.toString(),
-                        _timeController.eveningTime.value.minute.toString()
-                      ]);
-                  Get.toNamed('/loadingScreen');
-                }),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Theme.of(context).colorScheme.neutralWhite01,
+                    ),
+                    child: Text(
+                      "I'll do this later...",
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.sunflowerYellow01,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      Get.toNamed('/loadingScreen');
+                    }),
+              ),
+            ],
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            width: double.infinity,
-            height: 50,
-            margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Theme.of(context).colorScheme.neutralWhite04,
-                    width: 1),
-                borderRadius: const BorderRadius.all(Radius.circular(30))),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: Theme.of(context).colorScheme.neutralWhite01,
-                ),
-                child: Text(
-                  "I'll do this later...",
-                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                      color: Theme.of(context).colorScheme.sunflowerYellow01,
-                      fontWeight: FontWeight.w600),
-                ),
-                onPressed: () {
-                  Get.toNamed('/loadingScreen');
-                }),
-          ),
-        ),
-      )
     ]));
   }
 }

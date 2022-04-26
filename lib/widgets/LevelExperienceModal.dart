@@ -49,6 +49,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
         padding: const EdgeInsets.fromLTRB(25, 0, 25, 25),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Center(
                   child: Text('Congratulations',
@@ -80,8 +81,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                     print("KEY = $key && XP = $xp");
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Column(
                         children: [
                           Row(

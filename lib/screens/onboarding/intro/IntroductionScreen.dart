@@ -14,17 +14,17 @@ class IntroductionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                          "assets/background_images/orange_circles_background.png"),
-                      fit: BoxFit.cover)),
-            ),
-            Container(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                        "assets/background_images/orange_circles_background.png"),
+                    fit: BoxFit.cover)),
+          ),
+          SafeArea(
+            child: Container(
               alignment: Alignment.center,
               padding:
                   const EdgeInsets.only(top: 25.0, left: 15.0, right: 15.0),
@@ -115,8 +115,8 @@ class IntroductionScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

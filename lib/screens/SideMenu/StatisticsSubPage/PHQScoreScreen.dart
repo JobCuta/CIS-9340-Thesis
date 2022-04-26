@@ -24,12 +24,18 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
   sortEntries() {
     var seenMonths = <DateTime>{};
     // number of months to divide entries by
-    uniqueMonths = list.where((entry) => seenMonths.add(DateTime(entry.date.year, entry.date.month))).toList();
+    uniqueMonths = list
+        .where((entry) =>
+            seenMonths.add(DateTime(entry.date.year, entry.date.month)))
+        .toList();
 
     // loop through unique months as each card.
     // filter entries where date matches the unique month
     for (var date in seenMonths) {
-      List entries = list.where((entry) => (entry.date.year == date.year) && entry.date.month == date.month).toList();
+      List entries = list
+          .where((entry) =>
+              (entry.date.year == date.year) && entry.date.month == date.month)
+          .toList();
       splitMonths.add(entries);
     }
     // final result is in splitMonths
@@ -58,8 +64,11 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
         appBar: AppBar(
             title: const Text(
               'PHQ9 Scores',
-              style:
-                  TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Proxima Nova', fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: 'Proxima Nova',
+                  fontWeight: FontWeight.w400),
             ),
             leading: BackButton(onPressed: () {
               Get.back();
@@ -101,17 +110,18 @@ class ScoreCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8))),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             DateFormat("MMMM-yyyy").format(lists[0].date).toString(),
             textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle2
-                ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack02, fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                color: Theme.of(context).colorScheme.neutralBlack02,
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 10,
@@ -132,17 +142,27 @@ class ScoreCards extends StatelessWidget {
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: DateFormat("dd, ").format(item.date).toString(),
+                            text: DateFormat("dd, ")
+                                .format(item.date)
+                                .toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
-                                ?.copyWith(color: Theme.of(context).colorScheme.neutralBlack04)),
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralBlack04)),
                         TextSpan(
-                            text: DateFormat("EEEE").format(item.date).toString(),
+                            text: DateFormat("EEEE")
+                                .format(item.date)
+                                .toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
-                                ?.copyWith(color: Theme.of(context).colorScheme.accentBlue04))
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .accentBlue04))
                       ]),
                     ),
                     item.score != -1
@@ -153,13 +173,19 @@ class ScoreCards extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(color: Theme.of(context).colorScheme.accentBlue02)),
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue02)),
                               TextSpan(
                                   text: ' / 27',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(color: Theme.of(context).colorScheme.accentBlue04))
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .accentBlue04))
                             ]),
                           )
                         : InkWell(
@@ -168,8 +194,14 @@ class ScoreCards extends StatelessWidget {
                               log('missing');
                             },
                             child: Text('Missing',
-                                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                                    fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.accentRed03)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .accentRed03)),
                           ),
                   ],
                 ))
