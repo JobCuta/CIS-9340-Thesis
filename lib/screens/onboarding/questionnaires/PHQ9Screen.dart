@@ -72,7 +72,6 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
       if (Get.arguments != null) {
         log('look im saving an entry');
         _phqController.saveEntries();
-        TableSecureStorage.setLatestPHQ(DateTime.now().toUtc().toString());
         Get.offAndToNamed(Get.arguments["home"]);
       } else {
         Get.toNamed('/assessSIDASScreen');
