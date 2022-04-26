@@ -27,28 +27,32 @@ class LevelController extends GetxController {
   var totalXpToAdd = 0.obs;
   var levelUp = false.obs;
 
-  var levelUpRewards = {
-    2 : {
-      'Kalinga Badge' : 'assets/images/kalinga_badge.svg',
+  var level2Rewards = {
+      'Kalinga Badge' : 'assets/images/achievements/kalinga_adventure_achievements.svg',
       'Kalinga Region' : 'assets/images/kalinga_unlock.svg',
-      'Kalinga Frames' : 'assets/images/kalinga_unlock.svg'},
-    3: {
-      'Abra Badge' : '',
+      'Kalinga Frames' : 'assets/images/frames/kalinga_v2.svg',
+  };
+  var level3Rewards = {
+      'Abra Badge' : 'assets/images/achievements/abra_adventure_achievements.svg',
       'Abra Region' : '',
-      'Abra Frames' : ''},
-    4: {
-      'Mt. Province Badge' : '',
+      'Abra Frames' : 'assets/images/frames/abra_v2.svg'
+  };
+  var level4Rewards = {
+      'Mt. Province Badge' : 'assets/images/achievements/mtprovince_adventure_achievements.svg',
       'Mt. Province Region' : '',
-      'Mt. Province Frames' : ''},
-    5: {
-      'Ifugao Badge' : '',
+      'Mt. Province Frames' : 'assets/images/frames/mtProvince_v2.svg'
+  };
+  var level5Rewards = {
+      'Ifugao Badge' : 'assets/images/achievements/ifugao_adventure_achievements.svg',
       'Ifugao Region' : '',
-      'Ifugao Frames' : ''},
-    6: {
-      'Benguet Badge' : '',
+      'Ifugao Frames' : 'assets/images/frames/ifugao_v2.svg'
+  };
+  var level6Rewards = {
+      'Benguet Badge' : 'assets/images/achievements/benguet_adventure_achievements.svg',
       'Benguet Region' : '',
-      'Benguet Frames' : ''},
-  }.obs; 
+      'Benguet Frames' : 'assets/images/frames/benguet_v2.svg'
+  };
+
 
   void prepareTheObjects() {
     Box box = Hive.box<Level>('level');
@@ -148,7 +152,7 @@ class LevelController extends GetxController {
 
   void displayLevelXpModal(BuildContext context) {
     
-    if (levelUp.value) {
+    if (levelUp.value && currentLevel.value < 7) {
       displayRewardsUponLevelUp(context);
     } else {
         Future.delayed(const Duration(seconds: 0)).then((_) {
@@ -169,6 +173,7 @@ class LevelController extends GetxController {
     }
 
     updateRecentlyAddedXp(false);
+    clearMapOfAccomplishedWithXp();
   }
 
   void displayTodaysTaskWithXp(BuildContext context) {
