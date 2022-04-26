@@ -27,29 +27,29 @@ class LevelController extends GetxController {
   var levelUp = false.obs;
 
   var level2Rewards = {
-      'Kalinga Badge' : 'assets/images/achievements/kalinga_adventure_achievements.svg',
+      'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.svg',
       'Kalinga Region' : 'assets/images/kalinga_unlock.svg',
-      'Kalinga Frames' : 'assets/images/frames/kalinga_v2.svg',
+      'Kalinga Frames' : 'assets/frames/kalinga_v2.svg',
   };
   var level3Rewards = {
-      'Abra Badge' : 'assets/images/achievements/abra_adventure_achievements.svg',
-      'Abra Region' : '',
-      'Abra Frames' : 'assets/images/frames/abra_v2.svg'
+      'Abra Badge' : 'assets/achievements/abra_adventure_achievements.svg',
+      'Abra Region' : 'assets/images/Abra.svg',
+      'Abra Frames' : 'assets/frames/abra_v2.svg'
   };
   var level4Rewards = {
-      'Mt. Province Badge' : 'assets/images/achievements/mtprovince_adventure_achievements.svg',
-      'Mt. Province Region' : '',
-      'Mt. Province Frames' : 'assets/images/frames/mtProvince_v2.svg'
+      'Mt. Province Badge' : 'assets/achievements/mtprovince_adventure_achievements.svg',
+      'Mt. Province Region' : 'assets/images/Mt Province.svg',
+      'Mt. Province Frames' : 'assets/frames/mtProvince_v2.svg'
   };
   var level5Rewards = {
-      'Ifugao Badge' : 'assets/images/achievements/ifugao_adventure_achievements.svg',
-      'Ifugao Region' : '',
-      'Ifugao Frames' : 'assets/images/frames/ifugao_v2.svg'
+      'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.svg',
+      'Ifugao Region' : 'assets/images/Ifugao.svg',
+      'Ifugao Frames' : 'assets/frames/ifugao_v2.svg'
   };
   var level6Rewards = {
-      'Benguet Badge' : 'assets/images/achievements/benguet_adventure_achievements.svg',
-      'Benguet Region' : '',
-      'Benguet Frames' : 'assets/images/frames/benguet_v2.svg'
+      'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.svg',
+      'Benguet Region' : 'assets/images/Benguet.svg',
+      'Benguet Frames' : 'assets/frames/benguet_v2.svg'
   };
 
 
