@@ -13,5 +13,14 @@
                 "--no-sound-null-safety"
             ]
         },
+        {
+            "name": "Run API Debug",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/screens/debug/apiTestScreen.dart",
+            "args": [
+                "--no-sound-null-safety"
+            ]
+        },
     ]
 }

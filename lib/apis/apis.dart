@@ -171,7 +171,7 @@ class UserProvider extends GetConnect {
     }
     List<dynamic> body = response.body;
     log('scores body $body');
-    return response.body;
+    return body;
   }
 
   Future sidasScores() async {
@@ -180,7 +180,7 @@ class UserProvider extends GetConnect {
     final response = await get(domain + paths["SIDAS"], headers: {"Authorization": "Token " + key});
     List<dynamic> body = response.body;
     log('scores body $body');
-    return response.body;
+    return body;
   }
 
   //PUT
@@ -188,12 +188,14 @@ class UserProvider extends GetConnect {
     String key = "", email = '';
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     await UserSecureStorage.getEmail().then((value) => email = value.toString());
+    log('first time ${domain + paths["getUser"]} | $key, $email');
     final response = await put(domain + paths["getUser"], {"email": email, "first_time_login": false},
         headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('error ${response.statusText}');
+      log('first time error ${response.statusText}');
       return false;
     }
+    log('first time login ${response.body}');
     return true;
   }
 
