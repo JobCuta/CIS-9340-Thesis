@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +11,7 @@ import 'package:intl/intl.dart';
 class PHQController extends GetxController {
   Box box = Hive.box('phq');
   final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0].obs;
-  int sum = 0;
+  int sum = -1;
 
   final dateFormat = DateFormat('MM-yyyy');
 
@@ -27,36 +31,33 @@ class PHQController extends GetxController {
     update();
   }
 
-  addToHive() async {
-    List<phqHiveObj> assessments = List<phqHiveObj>.empty(growable: true);
-    if (box.isEmpty) {
-      phqHiveObj newAssessment = phqHiveObj(date: DateTime.now(), score: sum);
-      assessments.add(newAssessment);
-      box.put(dateFormat.format(DateTime.now()).toString(),
-          phqHive(assessments: assessments));
-      print('NO ENTRIES');
-      print(box.length);
+  saveEntries() async {
+    DateTime now = DateTime.now();
+    var box = Hive.box('phq');
+
+    var entry = phqHive(index: -1, date: now, score: sum);
+
+    String key = now.month.toString() + '-' + now.day.toString();
+    box.put(key, entry);
+
+    String title = '', sub = '';
+    Map result = await UserProvider().createPHQ(entry);
+
+    // Check results of saving entry online
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
+
+      title = 'PHQ9 Entry saved!';
+      sub = 'Entry was saved to your profile';
+      log('it worked');
     } else {
-      // gets the last key (MM-YYYY) in the box
-      var lastEntryIndex = box.toMap().length - 1;
-      var lastEntry = box.getAt(lastEntryIndex);
-      DateTime lastEntryDate = lastEntry.assessments.last.date;
-
-      // new assessment date
-      DateTime newEntryDate = lastEntryDate.add(const Duration(days: 14));
-      // checks if the entry will be added to the assessments of the last key or to make a new key with the assessment as its first entry
-      var key = dateFormat.format(newEntryDate);
-
-      if (box.containsKey(key.toString())) {
-        var monthYear = box.get(key.toString());
-        print('HAS KEY');
-        monthYear.assessments.add(phqHiveObj(date: newEntryDate, score: sum));
-        box.put(key.toString(), phqHive(assessments: monthYear.assessments));
-      } else {
-        print('NO KEY');
-        assessments.add(phqHiveObj(date: newEntryDate, score: sum));
-        box.put(key.toString(), phqHive(assessments: assessments));
-      }
+      title = 'PHQ9 Entry not saved';
+      sub = 'There was a problem saving your entry online';
     }
+
+    TableSecureStorage.setLatestPHQ(now.toUtc().toString());
+
+    Get.snackbar(title, sub,
+        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
   }
 }

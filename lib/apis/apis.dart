@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -33,6 +33,7 @@ class UserProvider extends GetConnect {
     String message = "";
     bool status = false, firstTimeLogin = false;
     if (response.hasError && map.containsKey("non_field_errors")) {
+      log('look ehre');
       message = map["non_field_errors"][0];
     } else {
       if (map.containsKey("key")) {
@@ -105,7 +106,7 @@ class UserProvider extends GetConnect {
     return {"status": true, "detail": map["detail"]};
   }
 
-  Future<bool> createPHQ(phqHiveObj entry) async {
+  Future<Map<String, dynamic>> createPHQ(phqHive entry) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["PHQ"], {
@@ -116,25 +117,25 @@ class UserProvider extends GetConnect {
     });
     if (response.hasError) {
       log('create PHQ9 entry error ${response.statusText}');
-      return false;
+      return {"status": false};
     }
-    return true;
+    return {"status": true, "body": response.body};
   }
 
-  Future<bool> createSIDAS(sidasHive entry) async {
+  Future<Map<String, dynamic>> createSIDAS(sidasHive entry) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
       "date_created": entry.date.toString(),
-      "sum": entry.sum,
+      "sum": entry.score,
     }, headers: {
       "Authorization": "Token " + key
     });
     if (response.hasError) {
       log('create SIDAS entry error ${response.statusText}');
-      return false;
+      return {"status": false};
     }
-    return true;
+    return {"status": true, "body": response.body};
   }
 
   //GET
@@ -170,7 +171,7 @@ class UserProvider extends GetConnect {
     }
     List<dynamic> body = response.body;
     log('scores body $body');
-    return response.body;
+    return body;
   }
 
   Future sidasScores() async {
@@ -179,7 +180,7 @@ class UserProvider extends GetConnect {
     final response = await get(domain + paths["SIDAS"], headers: {"Authorization": "Token " + key});
     List<dynamic> body = response.body;
     log('scores body $body');
-    return response.body;
+    return body;
   }
 
   //PUT
@@ -187,12 +188,14 @@ class UserProvider extends GetConnect {
     String key = "", email = '';
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     await UserSecureStorage.getEmail().then((value) => email = value.toString());
+    log('first time ${domain + paths["getUser"]} | $key, $email');
     final response = await put(domain + paths["getUser"], {"email": email, "first_time_login": false},
         headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('error ${response.statusText}');
+      log('first time error ${response.statusText}');
       return false;
     }
+    log('first time login ${response.body}');
     return true;
   }
 

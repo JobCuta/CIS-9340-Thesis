@@ -18,7 +18,9 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  EmotionController _emotionController = Get.put(EmotionController());
+  late EmotionController _emotionController;
+  late List<EmotionEntryHive> latestEmotionEntries =
+      _emotionController.getEmotionEntriesInTheLastDays(7);
   int month = DateTime.now().month;
   int year = DateTime.now().year;
   int currentWeekDay = DateTime.now().weekday;
@@ -33,13 +35,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   };
 
   @override
-  Widget build(BuildContext context) {
-    // these 3 methods will update days in a row, longest chain, and mood count for the month
-    List<EmotionEntryHive> latestEmotionEntries = _emotionController.getEmotionEntriesInTheLastDays(7);
-    _emotionController.updateLongestStreak();
-    _emotionController.updateCurrentStreakAndMonthMoodCount(DateTime.now().month, DateTime.now().year);
-    
+  void initState() {
+    super.initState();
+    // these methods will update days in a row, longest chain, and mood count for the month
+    _emotionController = Get.put(EmotionController());
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _emotionController.updateLongestStreak();
+      _emotionController.updateCurrentStreakAndMonthMoodCount(
+          DateTime.now().month, DateTime.now().year);
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           primary: true,
@@ -50,8 +58,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).colorScheme.neutralWhite01)),
         ),
-        drawer: const SideMenu(),
         extendBodyBehindAppBar: true,
+        drawer: const SideMenu(),
         body: Stack(children: [
           Container(
               decoration: const BoxDecoration(
@@ -60,135 +68,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         'assets/background_images/blue_background.png',
                       ),
                       fit: BoxFit.cover))),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(25, 120, 25, 0),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Days in a row',
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralBlack02,
-                                  fontWeight: FontWeight.w600),
-                        ),
-
-                        const SizedBox(height: 10.0),
-
-                        Center(
-                          child: SizedBox(
-                            height: 50,
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: latestEmotionEntries.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        latestEmotionEntries[index]
-                                                    .overallMood !=
-                                                'NoData'
-                                            ? SvgPicture.asset(
-                                                'assets/images/blue_checkmark.svg',
-                                                width: 30)
-                                            : SvgPicture.asset(
-                                                'assets/images/gray_x.svg',
-                                                width: 32),
-                                        Text(
-                                            (latestEmotionEntries[index]
-                                                    .weekday)
-                                                .substring(0, 3),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .neutralBlack02)),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-
-                        const SizedBox(height: 10.0),
-                        Center(
-                          child: Text(
-                            _emotionController.currentStreak.value.toString() +
-                                ' ' +
-                                ((_emotionController.currentStreak.value > 1)
-                                    ? 'days'
-                                    : 'day') +
-                                ' in a row',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02,
-                                    fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        const Divider(
-                          color: Color(0xffF0F1F1),
-                          height: 25,
-                          thickness: 1,
-                        ),
-
-                        RichText(
-                          text: TextSpan(children: [
-                            WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: Icon(Icons.emoji_events_outlined,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .sunflowerYellow03,
-                                      size: 28.0),
-                                )),
-                            TextSpan(
-                                text:
-                                    'Longest chain: ${_emotionController.longestStreak.value}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray03)),
-                          ]),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 25.0, horizontal: 0.0),
-                    child: Container(
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                child: Column(
+                  children: [
+                    Container(
                       padding: const EdgeInsets.all(20.0),
                       decoration: const BoxDecoration(
                           color: Colors.white,
@@ -197,7 +83,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Mood Count for the Month',
+                            'Days in a row',
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
@@ -209,160 +95,286 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                     fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 10.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Image(
-                                        image: moodMap['VeryBad']!.icon,
-                                        width: 42.0),
-                                  ),
-                                  Text(
-                                      '${_emotionController.monthMoodCount[0]}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .moodVeryBad)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Image(
-                                        image: moodMap['Bad']!.icon,
-                                        width: 42.0),
-                                  ),
-                                  Text(
-                                      '${_emotionController.monthMoodCount[1]}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .moodBad)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Image(
-                                        image: moodMap['Neutral']!.icon,
-                                        width: 42.0),
-                                  ),
-                                  Text(
-                                      '${_emotionController.monthMoodCount[2]}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .moodNeutral)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Image(
-                                        image: moodMap['Happy']!.icon,
-                                        width: 42.0),
-                                  ),
-                                  Text(
-                                      '${_emotionController.monthMoodCount[3]}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .moodHappy)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Image(
-                                        image: moodMap['VeryHappy']!.icon,
-                                        width: 42.0),
-                                  ),
-                                  Text(
-                                      '${_emotionController.monthMoodCount[4]}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .moodVeryHappy)),
-                                ],
-                              ),
-                            ],
+                          Center(
+                            child: SizedBox(
+                              height: 50,
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: latestEmotionEntries.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0, right: 5.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          latestEmotionEntries[index]
+                                                      .overallMood !=
+                                                  'NoData'
+                                              ? SvgPicture.asset(
+                                                  'assets/images/blue_checkmark.svg',
+                                                  width: 30)
+                                              : SvgPicture.asset(
+                                                  'assets/images/gray_x.svg',
+                                                  width: 32),
+                                          Text(
+                                              (latestEmotionEntries[index]
+                                                      .weekday)
+                                                  .substring(0, 3),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .neutralBlack02)),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Center(
+                            child: Text(
+                              _emotionController.currentStreak.value
+                                      .toString() +
+                                  ' ' +
+                                  ((_emotionController.currentStreak.value > 1)
+                                      ? 'days'
+                                      : 'day') +
+                                  ' in a row',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralBlack02,
+                                      fontWeight: FontWeight.w600),
+                            ),
                           ),
                           const Divider(
                             color: Color(0xffF0F1F1),
                             height: 25,
                             thickness: 1,
                           ),
-                          Text(
-                              'Total moods: ' +
-                                  (_emotionController.monthMoodCount[0] +
-                                          _emotionController.monthMoodCount[1] +
-                                          _emotionController.monthMoodCount[2] +
-                                          _emotionController.monthMoodCount[3] +
-                                          _emotionController.monthMoodCount[4])
-                                      .toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralGray03)),
+                          RichText(
+                            text: TextSpan(children: [
+                              WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Icon(Icons.emoji_events_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow03,
+                                        size: 28.0),
+                                  )),
+                              TextSpan(
+                                  text:
+                                      'Longest chain: ${_emotionController.longestStreak.value}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralGray03)),
+                            ]),
+                          )
                         ],
                       ),
                     ),
-                  ),
-                  const ScoreCards(
-                      title: 'Your latest PHQ-9 score for this month',
-                      score: 5,
-                      total: 28,
-                      link: '/phqStatScreen'),
-                  const SizedBox(height: 20),
-                  const ScoreCards(
-                      title:
-                          'Your latest Suicidal Ideation score for this month',
-                      score: 34,
-                      total: 50,
-                      link: '/sidasStatScreen'),
-                  const SizedBox(height: 20),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25.0, horizontal: 0.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Mood Count for the Month',
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralBlack02,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Image(
+                                          image: moodMap['VeryBad']!.icon,
+                                          width: 42.0),
+                                    ),
+                                    Text(
+                                        '${_emotionController.monthMoodCount[0]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .moodVeryBad)),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Image(
+                                          image: moodMap['Bad']!.icon,
+                                          width: 42.0),
+                                    ),
+                                    Text(
+                                        '${_emotionController.monthMoodCount[1]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .moodBad)),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Image(
+                                          image: moodMap['Neutral']!.icon,
+                                          width: 42.0),
+                                    ),
+                                    Text(
+                                        '${_emotionController.monthMoodCount[2]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .moodNeutral)),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Image(
+                                          image: moodMap['Happy']!.icon,
+                                          width: 42.0),
+                                    ),
+                                    Text(
+                                        '${_emotionController.monthMoodCount[3]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .moodHappy)),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Image(
+                                          image: moodMap['VeryHappy']!.icon,
+                                          width: 42.0),
+                                    ),
+                                    Text(
+                                        '${_emotionController.monthMoodCount[4]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .moodVeryHappy)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              color: Color(0xffF0F1F1),
+                              height: 25,
+                              thickness: 1,
+                            ),
+                            Text(
+                                'Total moods: ' +
+                                    (_emotionController.monthMoodCount[0] +
+                                            _emotionController
+                                                .monthMoodCount[1] +
+                                            _emotionController
+                                                .monthMoodCount[2] +
+                                            _emotionController
+                                                .monthMoodCount[3] +
+                                            _emotionController
+                                                .monthMoodCount[4])
+                                        .toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralGray03)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const ScoreCards(
+                        title: 'Your latest PHQ-9 score for this month',
+                        score: 5,
+                        total: 28,
+                        link: '/phqStatScreen'),
+                    const SizedBox(height: 20),
+                    const ScoreCards(
+                        title:
+                            'Your latest Suicidal Ideation score for this month',
+                        score: 34,
+                        total: 50,
+                        link: '/sidasStatScreen'),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           )

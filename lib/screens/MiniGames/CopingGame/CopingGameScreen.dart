@@ -23,7 +23,7 @@ class CopingGameScreen extends StatefulWidget {
 class CopingGameScreenState extends State<CopingGameScreen> {
   bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
-  double height = 270;
+  double height = 350;
   double width = 300;
   bool isComplete = false;
 

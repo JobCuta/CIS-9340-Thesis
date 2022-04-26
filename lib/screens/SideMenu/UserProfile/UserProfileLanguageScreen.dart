@@ -117,7 +117,7 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                     )
                   ]),
               Container(
-                  padding:
+                  margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -134,7 +134,9 @@ class _UserProfileLanguageScreenState extends State<UserProfileLanguageScreen> {
                               newLanguage: _settingsController.language.value);
                           Get.snackbar('Edit Language Settings',
                               'Your preferred language has been updated.',
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.white60,
+                              colorText: Colors.black87);
                         },
                         child: Text('Save',
                             style: Theme.of(context)

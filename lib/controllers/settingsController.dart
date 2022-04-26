@@ -27,8 +27,6 @@ class SettingsController extends GetxController {
           framePath: '');
       box.put('settings', settings);
     }
-    // print('Settings');
-    // print(box.toMap().length);
 
     SettingsHive settings = box.get('settings');
     notificationsEnabled.value = settings.notificationsEnabled;
@@ -38,7 +36,7 @@ class SettingsController extends GetxController {
     language.value = settings.language;
     imagePath.value = settings.imagePath;
     framePath.value = settings.framePath;
-    checkValues();
+    // checkValues();
   }
 
   void updateNotificationSettings(
@@ -95,7 +93,7 @@ class SettingsController extends GetxController {
 
     imagePath.value = newImage;
     update();
-    checkValues();
+    // checkValues();
   }
 
   void updateFrameSettings({required newFrame}) {
@@ -111,7 +109,7 @@ class SettingsController extends GetxController {
 
     imagePath.value = newFrame;
     update();
-    checkValues();
+    // checkValues();
   }
 
   void resetAllValues() {
@@ -123,7 +121,7 @@ class SettingsController extends GetxController {
     language.value = settings.language;
     imagePath.value = settings.imagePath;
     framePath.value = settings.framePath;
-    checkValues();
+    // checkValues();
   }
 
   void checkValues() {

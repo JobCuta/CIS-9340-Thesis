@@ -19,19 +19,19 @@ final LevelController _levelController = Get.put(LevelController());
 
 class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
   int currentLevel = _levelController.currentLevel.value;
-  
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> currentLevelRewards = {};
-    if (currentLevel > 2) {
-      currentLevelRewards = _levelController.levelUpRewards.value[currentLevel] as Map<String, String>;
-    }
+    Map<String, String> currentLevelRewards = (currentLevel == 2) ? _levelController.level2Rewards
+            : (currentLevel == 3) ? _levelController.level3Rewards
+            : (currentLevel == 4) ? _levelController.level4Rewards
+            : (currentLevel == 5) ? _levelController.level5Rewards
+            : _levelController.level6Rewards;
 
     List<String> keys = currentLevelRewards.keys.toList();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0.0,
@@ -59,7 +59,7 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                 ),
               ),
               SvgPicture.asset(
-                  'assets/images/levelUp.svg',
+                'assets/images/levelUp.svg',
               ),
               Center(
                 child: Text(
@@ -69,35 +69,36 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                       color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     children: [
-                      SvgPicture.asset('assets/images/kalinga_badge.svg'),
-                      Text(keys[0], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600)),
+                      SvgPicture.asset(currentLevelRewards[keys[0]] as String, width: 42),
+                      FittedBox(
+                        child: Text(keys[0], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
+                      ),
                     ],
                   ),
-
                   Column(
                     children: [
-                      Image.asset('assets/images/kalinga_unlock.png'),    // svg seems to be buggy for this particular image
-                      Text(keys[1], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600)),
+                      SvgPicture.asset(currentLevelRewards[keys[1]] as String, width: 42), 
+                      FittedBox(
+                        child: Text(keys[1], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
+                      ),
                     ],
                   ),
-
                   Column(
                     children: [
-                      Image.asset('assets/images/kalinga_unlock.png'),    // svg seems to be buggy for this particular image
-                      Text(keys[2], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600)),
+                      SvgPicture.asset(currentLevelRewards[keys[2]] as String, width: 42),  
+                      FittedBox(
+                        child: Text(keys[2], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
+                      ),
                     ],
                   ),
                 ],
               ),
-
               const SizedBox(height: 20.0),
-             
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(

@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'Emotion.g.dart';
 
 @HiveType(typeId: 5)
-class Emotion extends HiveObject{
+class Emotion extends HiveObject {
   @HiveField(0)
   int id;
 
@@ -17,4 +17,11 @@ class Emotion extends HiveObject{
 
   @override
   toString() => name;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Emotion &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
 }
