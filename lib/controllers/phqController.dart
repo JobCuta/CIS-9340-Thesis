@@ -37,8 +37,8 @@ class PHQController extends GetxController {
 
     var entry = phqHive(index: -1, date: now, score: sum);
 
-    String monthKey = now.month.toString() + '-' + now.year.toString();
-    box.put(monthKey, entry);
+    String key = now.month.toString() + '-' + now.day.toString();
+    box.put(key, entry);
 
     String title = '', sub = '';
     Map result = await UserProvider().createPHQ(entry);

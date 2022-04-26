@@ -4,6 +4,7 @@ import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
+import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   Hive.registerAdapter(sidasHiveAdapter());
   await Hive.initFlutter();
   await Hive.openBox('sidas');
+  await Hive.openBox('phq');
   runApp(DebugScreen());
 }
 
@@ -52,7 +54,6 @@ class DebugScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Math.Random random = Math.Random();
-    Hive.openBox('sidas');
 
     return GetMaterialApp(
       title: 'Kasiyanna App',
@@ -93,18 +94,19 @@ class DebugScreen extends StatelessWidget {
                   ElevatedButton(
                       child: const Text('Create PHQ9 Entry'),
                       onPressed: () async {
-                        phqHive entry = phqHive(index: -1, date: DateTime.now(), score: random.nextInt(27));
-                        Map scores = await UserProvider().createPHQ(entry);
-                        entry.index = scores["body"]["id"];
-                        entry.save();
-                        log('entry made? ${scores["body"]} | ${entry.index}');
+                        var phq = Hive.box('phq');
+                        phqHive entry = phqHive(index: -1, date: DateTime(2022, 5, 15), score: random.nextInt(27));
+                        // Map scores = await UserProvider().createPHQ(entry);
+                        // entry.index = scores["body"]["id"];
+                        phq.add(entry);
+                        log('created phq entry.');
                       }),
                   ElevatedButton(
                       child: const Text('Create SIDAS Entry'),
                       onPressed: () async {
                         var sidas = Hive.box('sidas');
-                        sidasHive entry =
-                            sidasHive(index: -1, date: DateTime.now(), answerValues: [], score: random.nextInt(50));
+                        sidasHive entry = sidasHive(
+                            index: -1, date: DateTime(2022, 5, 1), answerValues: [], score: random.nextInt(50));
                         sidas.add(entry);
                         // Map scores = await UserProvider().createSIDAS(entry);
                         // log('entry made? ${scores}');
@@ -113,6 +115,7 @@ class DebugScreen extends StatelessWidget {
                       child: const Text('Get PHQ9 Hive'),
                       onPressed: () async {
                         var phq = Hive.box('phq');
+                        list = phq.values.toList();
                         log('phq ${phq.keys.toList()}');
                       }),
                   ElevatedButton(
@@ -141,6 +144,26 @@ class DebugScreen extends StatelessWidget {
                       onPressed: () async {
                         var sidas = Hive.box('sidas');
                         sortEntries();
+                      }),
+                  ElevatedButton(
+                      child: const Text('Update First Time'),
+                      onPressed: () async {
+                        bool result = await UserProvider().firstLogin();
+                      }),
+                  ElevatedButton(
+                      child: const Text('Save latest scores'),
+                      onPressed: () async {
+                        await TableSecureStorage.setLatestPHQ(DateTime.now().toUtc().toString());
+                        await TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
+                        log('saved, ${DateTime.now().toUtc().toString()}');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Check latest scores'),
+                      onPressed: () async {
+                        late String latestPhq = '', latestSidas = '';
+                        await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
+                        await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
+                        log('these dates $latestPhq, $latestSidas');
                       }),
                 ],
               );
