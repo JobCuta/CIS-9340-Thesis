@@ -229,13 +229,6 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/standing_person.png',
-                                  ),
-                                  fit: BoxFit.cover))),
                     ],
                   ),
                 ),
