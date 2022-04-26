@@ -267,60 +267,59 @@ class _HomePageState extends State<HomePage> {
                         )
                       ])),
                 ),
-                ElevatedButton(
-                    child: const Text('Test UES'),
-                    onPressed: () {
-                      showUserEngagementDialog(context);
-                    }),
-                ElevatedButton(
-                    onPressed: () =>
-                        _emotionController.testLargeNumberOfFutureEntries(3),
-                    child: const Text('Test Future Entries')),
-                ElevatedButton(
-                    onPressed: () =>
-                        _emotionController.testLargeNumberOfPastEntries(44),
-                    child: const Text('Test Past Entries')),
-                ElevatedButton(
-                    child: const Text('Test transparent'),
-                    onPressed: () {
-                      // Sample of how to use the talking person alert dialog
-                      // use then after the function to run code (redirect user, show another dialog like this, etc)
-                      showTalkingPerson(
-                        context: context,
-                        dialog:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                      ).then((value) {
-                        // Get.toNamed('/introScreen');
-                      });
-                    }),
-                ElevatedButton(
-                    child: const Text('Test LevelUp'),
-                    onPressed: () {
-                      _levelController.displayRewardsUponLevelUp(context);
-                    }),
-                ElevatedButton(
-                    child: const Text('Test Level XP'),
-                    onPressed: () {
-                      _levelController.getLevelFromStorage();
-                      _levelController.addXp('Test', 150);
-                      _levelController.displayLevelXpModal(context);
-                    }),
-                ElevatedButton(
-                    child: const Text("Test Today's Task"),
-                    onPressed: () {
-                      _levelController.getLevelFromStorage();
-                      _levelController.displayTodaysTaskWithXp(context);
-                    }),
-                ElevatedButton(
-                  onPressed: () {
-                    _levelController.setLevel(2);
-                  },
-                  child: const Text('Set level to 2'),
-                ),
+                // ElevatedButton(
+                //     child: const Text('Test UES'),
+                //     onPressed: () {
+                //       showUserEngagementDialog(context);
+                //     }),
+                // ElevatedButton(
+                //     onPressed: () =>
+                //         _emotionController.testLargeNumberOfFutureEntries(3),
+                //     child: const Text('Test Future Entries')),
+                // ElevatedButton(
+                //     onPressed: () =>
+                //         _emotionController.testLargeNumberOfPastEntries(44),
+                //     child: const Text('Test Past Entries')),
+                // ElevatedButton(
+                //     child: const Text('Test transparent'),
+                //     onPressed: () {
+                //       // Sample of how to use the talking person alert dialog
+                //       // use then after the function to run code (redirect user, show another dialog like this, etc)
+                //       showTalkingPerson(
+                //         context: context,
+                //         dialog:
+                //             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                //       ).then((value) {
+                //         // Get.toNamed('/introScreen');
+                //       });
+                //     }),
+                // ElevatedButton(
+                //     child: const Text('Test LevelUp'),
+                //     onPressed: () {
+                //       _levelController.displayRewardsUponLevelUp(context);
+                //     }),
+                // ElevatedButton(
+                //     child: const Text('Test Level XP'),
+                //     onPressed: () {
+                //       _levelController.getLevelFromStorage();
+                //       _levelController.addXp('Test', 150);
+                //       _levelController.displayLevelXpModal(context);
+                //     }),
+                // ElevatedButton(
+                //     child: const Text("Test Today's Task"),
+                //     onPressed: () {
+                //       _levelController.getLevelFromStorage();
+                //       _levelController.displayTodaysTaskWithXp(context);
+                //     }),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     _levelController.setLevel(2);
+                //   },
+                //   child: const Text('Set level to 2'),
+                // ),
                 Center(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 15.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 50.0,
                         child: Row(

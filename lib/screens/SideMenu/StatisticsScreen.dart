@@ -448,17 +448,20 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         score: latestPHQScore,
                         total: 28,
                         link: '/phqStatScreen'),
-                    const SizedBox(height: 20),
-                    phqChart(),
-                    const SizedBox(height: 20),
+                    Visibility(
+                      visible: phqEntries.length > 1,
+                      child: phqChart(),
+                    ),
                     ScoreCards(
                         title:
                             'Your latest Suicidal Ideation score for this month',
                         score: latestSIDASScore,
                         total: 50,
                         link: '/sidasStatScreen'),
-                    const SizedBox(height: 20),
-                    sidasChart(),
+                    Visibility(
+                      visible: sidasEntries.length > 1,
+                      child: sidasChart(),
+                    ),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -471,6 +474,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   phqChart() {
     return Container(
         padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -486,91 +490,89 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 250,
-                child: LineChart(
-                  LineChartData(
-                    lineTouchData: LineTouchData(
-                      touchTooltipData: LineTouchTooltipData(
-                          maxContentWidth: 100,
-                          tooltipBgColor:
-                              Theme.of(context).colorScheme.neutralWhite04,
-                          getTooltipItems: (touchedSpots) {
-                            return touchedSpots.map((LineBarSpot touchedSpot) {
-                              final textStyle = TextStyle(
-                                color: touchedSpot.bar.gradient?.colors[0] ??
-                                    touchedSpot.bar.color,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              );
-                              return LineTooltipItem(
-                                  ' ${touchedSpot.y.toStringAsFixed(0)}',
-                                  textStyle);
-                            }).toList();
-                          }),
-                      handleBuiltInTouches: true,
-                      getTouchLineStart: (data, index) => 0,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  padding: const EdgeInsets.only(right: 30, top: 10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 300,
+                  child: LineChart(
+                    LineChartData(
+                      clipData: FlClipData.all(),
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                            fitInsideVertically: true,
+                            maxContentWidth: 20,
+                            tooltipBgColor:
+                                Theme.of(context).colorScheme.neutralWhite04,
+                            getTooltipItems: (touchedSpots) {
+                              return touchedSpots
+                                  .map((LineBarSpot touchedSpot) {
+                                final textStyle = TextStyle(
+                                  color: touchedSpot.bar.gradient?.colors[0] ??
+                                      touchedSpot.bar.color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                );
+                                return LineTooltipItem(
+                                    touchedSpot.y.toStringAsFixed(0),
+                                    textStyle);
+                              }).toList();
+                            }),
+                        handleBuiltInTouches: true,
+                        getTouchLineStart: (data, index) => 0,
+                      ),
+                      lineBarsData: [
+                        LineChartBarData(
+                          color: Theme.of(context).colorScheme.accentBlue02,
+                          spots: phqSpots,
+                          isCurved: true,
+                          isStrokeCapRound: true,
+                          barWidth: 5,
+                          belowBarData: BarAreaData(show: false),
+                          dotData: FlDotData(show: true),
+                        ),
+                      ],
+                      minY: 0,
+                      maxY: 27,
+                      titlesData: FlTitlesData(
+                        show: true,
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          axisNameWidget: Text(year.toString()),
+                          sideTitles: SideTitles(
+                              showTitles: true,
+                              interval: 1,
+                              reservedSize: 40,
+                              getTitlesWidget: phqBottomTitleWidgets),
+                        ),
+                        leftTitles: AxisTitles(
+                          axisNameSize: 30,
+                          axisNameWidget: const Padding(
+                            padding: EdgeInsets.only(bottom: 8.0),
+                            child: Text('PHQ Score'),
+                          ),
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 3,
+                            reservedSize: 40,
+                            getTitlesWidget: leftTitleWidgets,
+                          ),
+                        ),
+                      ),
+                      gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: true,
+                          drawHorizontalLine: true,
+                          verticalInterval: 1,
+                          horizontalInterval: 3),
+                      borderData: FlBorderData(show: false),
                     ),
-                    lineBarsData: [
-                      LineChartBarData(
-                        color: Theme.of(context).colorScheme.accentBlue02,
-                        spots: phqSpots,
-                        isCurved: true,
-                        isStrokeCapRound: true,
-                        barWidth: 3,
-                        belowBarData: BarAreaData(
-                          show: false,
-                        ),
-                        dotData: FlDotData(show: true),
-                      ),
-                    ],
-                    minY: 0,
-                    maxY: 27,
-                    titlesData: FlTitlesData(
-                      show: true,
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      bottomTitles: AxisTitles(
-                        axisNameWidget: Text(
-                          year.toString(),
-                        ),
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        axisNameSize: 30,
-                        axisNameWidget: const Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text('PHQ Score'),
-                        ),
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          interval: 3,
-                          reservedSize: 40,
-                          getTitlesWidget: leftTitleWidgets,
-                        ),
-                      ),
-                    ),
-                    gridData: FlGridData(
-                      show: true,
-                      drawHorizontalLine: true,
-                      drawVerticalLine: true,
-                      horizontalInterval: 1.5,
-                      verticalInterval: 5,
-                      checkToShowHorizontalLine: (value) {
-                        return value.toInt() == 0;
-                      },
-                      checkToShowVerticalLine: (value) {
-                        return value.toInt() == 0;
-                      },
-                    ),
-                    borderData: FlBorderData(show: false),
                   ),
                 ),
               )
@@ -580,6 +582,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   sidasChart() {
     return Container(
         padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.only(top: 20),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -595,91 +598,92 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 250,
-                child: LineChart(
-                  LineChartData(
-                    lineTouchData: LineTouchData(
-                      touchTooltipData: LineTouchTooltipData(
-                          maxContentWidth: 100,
-                          tooltipBgColor:
-                              Theme.of(context).colorScheme.neutralWhite04,
-                          getTooltipItems: (touchedSpots) {
-                            return touchedSpots.map((LineBarSpot touchedSpot) {
-                              final textStyle = TextStyle(
-                                color: touchedSpot.bar.gradient?.colors[0] ??
-                                    touchedSpot.bar.color,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              );
-                              return LineTooltipItem(
-                                  ' ${touchedSpot.y.toStringAsFixed(0)}',
-                                  textStyle);
-                            }).toList();
-                          }),
-                      handleBuiltInTouches: true,
-                      getTouchLineStart: (data, index) => 0,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  padding: const EdgeInsets.only(right: 30, top: 10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 300,
+                  child: LineChart(
+                    LineChartData(
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                            maxContentWidth: 100,
+                            tooltipBgColor:
+                                Theme.of(context).colorScheme.neutralWhite04,
+                            getTooltipItems: (touchedSpots) {
+                              return touchedSpots
+                                  .map((LineBarSpot touchedSpot) {
+                                final textStyle = TextStyle(
+                                  color: touchedSpot.bar.gradient?.colors[0] ??
+                                      touchedSpot.bar.color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                );
+                                return LineTooltipItem(
+                                    touchedSpot.y.toStringAsFixed(0),
+                                    textStyle);
+                              }).toList();
+                            }),
+                        handleBuiltInTouches: true,
+                        getTouchLineStart: (data, index) => 0,
+                      ),
+                      lineBarsData: [
+                        LineChartBarData(
+                          color: Theme.of(context).colorScheme.accentBlue02,
+                          spots: sidasSpots,
+                          isCurved: true,
+                          isStrokeCapRound: true,
+                          barWidth: 3,
+                          belowBarData: BarAreaData(
+                            show: false,
+                          ),
+                          dotData: FlDotData(show: true),
+                        ),
+                      ],
+                      minY: 0,
+                      maxY: 50,
+                      titlesData: FlTitlesData(
+                        show: true,
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          axisNameWidget: Text(
+                            year.toString(),
+                          ),
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 1,
+                            reservedSize: 40,
+                            getTitlesWidget: sidasBottomTitleWidgets,
+                          ),
+                        ),
+                        leftTitles: AxisTitles(
+                          axisNameSize: 30,
+                          axisNameWidget: const Padding(
+                            padding: EdgeInsets.only(bottom: 8.0),
+                            child: Text('SIDAS Score'),
+                          ),
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 5,
+                            reservedSize: 40,
+                            getTitlesWidget: leftTitleWidgets,
+                          ),
+                        ),
+                      ),
+                      gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: true,
+                          drawHorizontalLine: true,
+                          verticalInterval: 1,
+                          horizontalInterval: 5),
+                      borderData: FlBorderData(show: false),
                     ),
-                    lineBarsData: [
-                      LineChartBarData(
-                        color: Theme.of(context).colorScheme.accentBlue02,
-                        spots: sidasSpots,
-                        isCurved: true,
-                        isStrokeCapRound: true,
-                        barWidth: 3,
-                        belowBarData: BarAreaData(
-                          show: false,
-                        ),
-                        dotData: FlDotData(show: true),
-                      ),
-                    ],
-                    minY: 0,
-                    maxY: 50,
-                    titlesData: FlTitlesData(
-                      show: true,
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      bottomTitles: AxisTitles(
-                        axisNameWidget: Text(
-                          year.toString(),
-                        ),
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        axisNameSize: 30,
-                        axisNameWidget: const Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text('SIDAS Score'),
-                        ),
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          interval: 5,
-                          reservedSize: 40,
-                          getTitlesWidget: leftTitleWidgets,
-                        ),
-                      ),
-                    ),
-                    gridData: FlGridData(
-                      show: true,
-                      drawHorizontalLine: true,
-                      drawVerticalLine: true,
-                      horizontalInterval: 1.5,
-                      verticalInterval: 5,
-                      checkToShowHorizontalLine: (value) {
-                        return value.toInt() == 0;
-                      },
-                      checkToShowVerticalLine: (value) {
-                        return value.toInt() == 0;
-                      },
-                    ),
-                    borderData: FlBorderData(show: false),
                   ),
                 ),
               )
@@ -687,8 +691,25 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.black, fontSize: 12.0);
-    return Text(value.toInt().toString(), style: style);
+    return Text(value.toInt().toString());
+  }
+
+  Widget phqBottomTitleWidgets(double value, TitleMeta meta) {
+    return Padding(
+        child: Text(
+          '${DateFormat.MMMM().format(phqEntries[value.toInt()].date)} \n${DateFormat.d().format(phqEntries[value.toInt()].date)}',
+          textAlign: TextAlign.center,
+        ),
+        padding: const EdgeInsets.only(top: 8.0));
+  }
+
+  Widget sidasBottomTitleWidgets(double value, TitleMeta meta) {
+    return Padding(
+        child: Text(
+          '${DateFormat.MMMM().format(sidasEntries[value.toInt()].date)} \n${DateFormat.d().format(sidasEntries[value.toInt()].date)}',
+          textAlign: TextAlign.center,
+        ),
+        padding: const EdgeInsets.only(top: 8.0));
   }
 }
 
@@ -708,7 +729,7 @@ class ScoreCards extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+          borderRadius: BorderRadius.all(Radius.circular(4))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -725,11 +746,13 @@ class ScoreCards extends StatelessWidget {
             text: TextSpan(children: <TextSpan>[
               TextSpan(
                   text: score.toString(),
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontFamily: 'Inconsolata',
                       color: Theme.of(context).colorScheme.accentBlue02)),
               TextSpan(
                   text: '/' + total.toString(),
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontFamily: 'Inconsolata',
                       color: Theme.of(context).colorScheme.accentBlue04)),
             ]),
           ),
@@ -754,30 +777,33 @@ class ScoreCards extends StatelessWidget {
                                   ? 'Mild Depression'
                                   : 'None - Minimal Depression',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralBlack02),
                 )
               : Text(
                   score >= 21
                       ? 'High Suicidal Ideation'
                       : 'Low Suicidal Ideation',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.neutralBlack02),
                 ),
           const SizedBox(height: 10),
-          Text(
-            'Seek Treatment',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w400,
-                color: Theme.of(context).colorScheme.neutralGray01),
+          Visibility(
+            visible: link == '/sidasStatScreen',
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                score >= 21 ? 'Seek Treatment' : 'Good job! Keep it up!',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.caption?.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.neutralGray02),
+              ),
+            ),
           ),
-          const SizedBox(height: 10),
           const Divider(
             color: Color(0xffF0F1F1),
             thickness: 1,
