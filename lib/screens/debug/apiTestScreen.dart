@@ -9,6 +9,7 @@ import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 
 import '../../apis/phqHive.dart';
 import '../onboarding/intro/IntroductionScreen.dart';
@@ -182,6 +183,22 @@ class DebugScreen extends StatelessWidget {
                         await TableSecureStorage.getLatestSIDAS()
                             .then((value) => latestSidas = value.toString());
                         log('these dates $latestPhq, $latestSidas');
+                      }),
+                  ElevatedButton(
+                      child: const Text('Update Database'),
+                      onPressed: () async {
+                        late String latestPhq = '';
+                        await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
+                        List phqList = await UserProvider().phqScores();
+                        log('list $phqList');
+                        DateTime phqServer = DateFormat('dd/MM/yyyy HH:mm:ss').parse(phqList.first["date_created"]);
+                        DateTime phqLocal = DateTime.parse(latestPhq);
+                        phqList.first["date_created"] = phqServer.toUtc().toString();
+                        log('these dates $phqServer | $phqLocal');
+                        if (phqServer.isBefore(phqLocal)) {
+                          log('server is outdated');
+                          UserProvider().bulkPhqUpdate(phqList);
+                        } else {}
                       }),
                 ],
               );

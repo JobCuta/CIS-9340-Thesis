@@ -7,6 +7,8 @@ import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
+import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class LoadingSplash extends StatefulWidget {
@@ -23,35 +25,56 @@ class _LoadingSplashState extends State<LoadingSplash> {
   // await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
   /// Get data from online database
   /// Works by checking which storage is more up to date
-  /// 
-  
+  ///
+
   Future<Widget> loadFromFuture() async {
+    // Get latest changes from local storage
     // Get entire database scores of SIDAS, PHQ, HOPEBOX, LEVEL, ACHIEVEMENTS, ETC.
     // compare if the latest entry is much later than the database
     // somehow check if updated missed entries are up-to-date as well
-    await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
+    loadingStatus = 'Getting List from Server..';
+
+    updatePHQ();
+
     await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
 
     log('these dates $latestPhq, $latestSidas');
-    List<phqHive> phqList = await UserProvider().phqScores();
+
     List<sidasHive> sidasList = await UserProvider().sidasScores();
 
-    DateTime phqDate = phqList.first.date;
-    DateTime sidasDate = sidasList.first.date;
+    DateTime sidasServer = sidasList.first.date, sidasLocal = DateTime.parse(latestSidas);
 
-    log('----PHQ SCORES---- \n $phqList');
-    // Check if PHQ date here is more recent that database
+    loadingStatus = 'Updating Lists..';
 
-    // apply to the rest
-
-    // update the database - local overwriting the database with no entries
-    // datebase update the local - datbase might have older entries
+    if (sidasServer.isBefore(sidasLocal)) {
+    } else {}
 
     return Future.value(HomePageScreen(2));
   }
 
-  compareDates() {
-    
+  updatePHQ() async {
+    loadingStatus = 'Updating PHQ Entries..';
+    await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
+    List phqList = await UserProvider().phqScores();
+    DateTime phqServer = phqList.first.date, phqLocal = DateTime.parse(latestPhq);
+
+    for (var entry in phqList) {
+      DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
+      entry["date_created"] = parsed.toUtc().toString();
+    }
+
+    if (phqServer.isBefore(phqLocal)) {
+      UserProvider().bulkPhqUpdate(phqList);
+    } else {
+      var box = Hive.box('phq');
+      box.clear();
+      for (var entry in phqList) {
+        DateTime itemD = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
+        var item = phqHive(date: itemD, index: entry["id"], score: entry["score"]);
+        String key = itemD.month.toString() + '-' + itemD.day.toString();
+        box.put(key, item);
+      }
+    }
   }
 
   @override
