@@ -51,42 +51,10 @@ class _SIDASScreenState extends State<SIDASScreen> {
   final SIDASController _sidasController = Get.put(SIDASController());
   final EmotionController _emotionController = Get.put(EmotionController());
 
-  saveEntries() async {
-    Box box = Hive.box('sidas');
-    sidasHive assessMonth = box.get(Get.arguments["key"]);
-
-    assessMonth.score = _sidasController.sum;
-    assessMonth.save();
-
-    DateTime nextMonth = DateTime.utc(assessMonth.date.year, assessMonth.date.month, assessMonth.date.day);
-    sidasHive nextSidas = sidasHive(index: -1, score: -1, date: nextMonth, answerValues: []);
-    String key = nextSidas.date.month.toString() + '-' + nextSidas.date.year.toString();
-    box.put(key, nextSidas);
-
-    String title = '', sub = '';
-    bool result = await UserProvider().updateSIDAS(_sidasController.sum, assessMonth.index.toString());
-    Map result2 = await UserProvider().createSIDAS(nextSidas);
-
-    // Check results of saving entry online
-    if (result && result2["status"]) {
-      nextSidas.index = result2["body"]["id"];
-
-      title = 'SIDAS Entry saved!';
-      sub = 'Entry was saved to your profile';
-    } else {
-      title = 'SIDAS Entry not saved';
-      sub = 'There was a problem saving your entry online';
-    }
-
-    Get.snackbar(title, sub,
-        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-  }
-
   checkIfOnboarding() {
     if (Get.arguments != null) {
       log('look im saving an entry');
-      saveEntries();
-      TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
+      _sidasController.saveEntries();
       Get.offAndToNamed(Get.arguments["home"]);
     } else {
       Get.toNamed('/assessSIDASScreen');

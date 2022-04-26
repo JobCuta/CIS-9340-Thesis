@@ -27,73 +27,11 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   final PHQController _phqController = Get.put(PHQController());
   final SIDASController _sidasController = Get.put(SIDASController());
 
-  // creating several DatTime.now() makes varying dates. Strictly use one for the same exact dates.
-  DateTime now = DateTime.now();
-
-  void savePhqEntry(List<int> answerValues, int sum) async {
-    var box = Hive.box('phq');
-
-    var entry = phqHive(index: -1, date: now, score: sum);
-
-    String monthKey = now.month.toString() + '-' + now.year.toString();
-    box.put(monthKey, entry);
-
-    String title = '', sub = '';
-    Map result = await UserProvider().createPHQ(entry);
-
-    // Check results of saving entry online
-    if (result["status"]) {
-      entry.index = result["body"]["id"];
-
-      title = 'PHQ9 Entry saved!';
-      sub = 'Entry was saved to your profile';
-    } else {
-      title = 'PHQ9 Entry not saved';
-      sub = 'There was a problem saving your entry online';
-    }
-
-    Get.snackbar(title, sub,
-        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-  }
-
-  void saveSidasEntry(List<int> answerValues, int sum) async {
-    var box = Hive.box('sidas');
-    sidasHive entry = sidasHive(
-      answerValues: _sidasController.answerValues,
-      date: now,
-      index: -1,
-      score: _sidasController.sum,
-    );
-
-    String monthKey = now.month.toString() + '-' + now.year.toString();
-    box.put(monthKey, entry);
-
-    String title = '', sub = '';
-    Map result = await UserProvider().createSIDAS(entry);
-
-    // Check results of saving entry online
-    if (result["status"]) {
-      entry.index = result["body"]["id"];
-
-      title = 'SIDAS Entry saved!';
-      sub = 'Entry was saved to your profile';
-    } else {
-      title = 'SIDAS Entry not saved';
-      sub = 'There was a problem saving your entry online';
-    }
-
-    Get.snackbar(title, sub,
-        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-  }
-
   @override
   void initState() {
     super.initState();
-    savePhqEntry(_phqController.answerValues, _phqController.sum);
-    saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
-
-    TableSecureStorage.setLatestPHQ(now.toUtc().toString());
-    TableSecureStorage.setLatestSIDAS(now.toUtc().toString());
+    _phqController.saveEntries();
+    _sidasController.saveEntries();
   }
 
   @override

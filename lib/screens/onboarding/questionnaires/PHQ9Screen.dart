@@ -67,49 +67,11 @@ class _PHQ9ScreenState extends State<PHQ9Screen> {
 
   @override
   Widget build(BuildContext context) {
-    /// Save PHQ score on both Hive and Backend
-    saveEntries() async {
-      // Box box = Hive.box('phq');
-      // DateTime now = DateTime.now();
-
-      // // create entry
-      // phqHiveObj entry = phqHiveObj(index: -1, score: _phqController.sum, date: now);
-
-      // //check if current month-year is similar to phqHive date
-      // phqHive loadout
-
-      // if (assessMonth.assessments.first.date.month == nextPhq.date.month) {
-      //   assessMonth.assessments.add(nextPhq);
-      //   assessMonth.save();
-      // } else {
-      //   var newMonth = phqHive(assessments: [nextPhq]);
-      //   String monthKey = nextPhq.date.month.toString() + '-' + nextPhq.date.year.toString();
-      //   box.put(monthKey, newMonth);
-      // }
-
-      // String title = '', sub = '';
-      // bool result = await UserProvider().updatePHQ(_phqController.sum, assessMonth.assessments.first.index.toString());
-      // Map result2 = await UserProvider().createPHQ(nextPhq);
-
-      // // Check results of saving entry online
-      // if (result && result2["status"]) {
-      //   nextPhq.index = result2["body"]["id"];
-
-      //   title = 'PHQ9 Entry saved!';
-      //   sub = 'Entry was saved to your profile';
-      // } else {
-      //   title = 'PHQ9 Entry not saved';
-      //   sub = 'There was a problem saving your entry online';
-      // }
-
-      // Get.snackbar(title, sub,
-      //     snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
-    }
 
     checkIfOnboarding() {
       if (Get.arguments != null) {
         log('look im saving an entry');
-        saveEntries();
+        _phqController.saveEntries();
         TableSecureStorage.setLatestPHQ(DateTime.now().toUtc().toString());
         Get.offAndToNamed(Get.arguments["home"]);
       } else {
