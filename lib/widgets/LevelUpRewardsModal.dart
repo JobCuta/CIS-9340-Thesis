@@ -31,7 +31,7 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
     List<String> keys = currentLevelRewards.keys.toList();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0.0,
@@ -59,7 +59,7 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                 ),
               ),
               SvgPicture.asset(
-                  'assets/images/levelUp.svg',
+                'assets/images/levelUp.svg',
               ),
               Center(
                 child: Text(
@@ -69,7 +69,6 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                       color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -81,7 +80,6 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                       ),
                     ],
                   ),
-
                   Column(
                     children: [
                       SvgPicture.asset(currentLevelRewards[keys[1]] as String, width: 42), 
@@ -90,7 +88,6 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                       ),
                     ],
                   ),
-
                   Column(
                     children: [
                       SvgPicture.asset(currentLevelRewards[keys[2]] as String, width: 42),  
@@ -101,9 +98,7 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20.0),
-             
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(

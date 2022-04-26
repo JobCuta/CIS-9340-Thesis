@@ -30,7 +30,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
     _levelController.clearMapOfAccomplishedWithXp();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         // leading: IconButton(

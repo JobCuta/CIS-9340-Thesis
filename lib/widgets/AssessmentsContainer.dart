@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
+import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -18,6 +18,7 @@ class AssessmentsContainer extends StatefulWidget {
 
 class _AssessmentsContainerState extends State<AssessmentsContainer> {
   String boxName = '', title = '', prevAssessRoute = '', takeAssessRoute = '';
+  late DateTime next;
   int daysLeft = -1;
   late Box box;
 
@@ -40,19 +41,18 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
     }
     box = Hive.box(boxName);
     if (box.isNotEmpty) {
+      var monthKey = box.keys.last;
+      latestEntry = box.get(monthKey);
       if (widget.phq) {
-        var monthKey = box.keys.last;
-        var latestMonth = box.get(monthKey);
-        List<phqHiveObj> assessments = latestMonth.assessments;
-        latestEntry = assessments.last;
+        var p = latestEntry as phqHive;
+        next = p.date.add(const Duration(days: 14));
       } else {
-        var monthKey = box.keys.last;
-        latestEntry = box.get(monthKey);
-        log('latestEntry ${latestEntry.date}');
+        var s = latestEntry as sidasHive;
+        next = DateTime(s.date.year, s.date.month + 1, s.date.day);
       }
+      daysLeft = next.difference(now).inDays;
     }
-    daysLeft = latestEntry.date.difference(now).inDays;
-    log('how am I here $latestEntry');
+    log('how am I here ${latestEntry.score}');
   }
 
   @override
@@ -67,18 +67,17 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Upcoming $title Assessment: ${DateFormat("MMMM-dd").format(latestEntry.date)}',
+              Text('Upcoming $title Assessment: ${DateFormat("MMMM dd").format(latestEntry.date)}',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      ?.copyWith(
-                        fontWeight: FontWeight.w600, 
-                        color: daysLeft > 1 ? Theme.of(context).colorScheme.accentBlue02 : Theme.of(context).colorScheme.sunflowerYellow01)),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: daysLeft > 1
+                          ? Theme.of(context).colorScheme.accentBlue02
+                          : Theme.of(context).colorScheme.sunflowerYellow01)),
               const SizedBox(
                 height: 10,
               ),
-              Text( daysLeft != 0 ? 'Due in $daysLeft day/s' : 'Your $title assessment is due today',
+              Text(daysLeft != 0 ? 'Due in $daysLeft day/s' : 'Your $title assessment is due today',
                   textAlign: TextAlign.left,
                   style: Theme.of(context)
                       .textTheme
@@ -89,31 +88,50 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               ),
               InkWell(
                 onTap: () {
-                  Get.toNamed(takeAssessRoute, 
-                    arguments: {
-                      'home':'/homepage', 
+                  if (daysLeft < 1 || latestEntry.score == -1) {
+                    Get.toNamed(takeAssessRoute, arguments: {
+                      'home': '/homepage',
                       'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()
-                    }
-                  );
+                    });
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Take Assessment Now',
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
                             fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.neutralBlack02)),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Go',
+                    daysLeft < 1
+                        ? latestEntry.score == -1
+                            ? RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Go',
+                                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.accentBlue04)),
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context).colorScheme.accentBlue04))
+                                ]),
+                              )
+                            : RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Completed ',
+                                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.neutralGray02)),
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child:
+                                          Icon(Icons.check_circle, color: Theme.of(context).colorScheme.accentGreen02))
+                                ]),
+                              )
+                        : Text('Not Yet!',
                             style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue04)),
-                        WidgetSpan(
-                            alignment: PlaceholderAlignment.middle,
-                            child: Icon(Icons.keyboard_arrow_right_sharp,
-                                color: Theme.of(context).colorScheme.accentBlue04))
-                      ]),
-                    ),
+                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02))
                   ],
                 ),
               ),

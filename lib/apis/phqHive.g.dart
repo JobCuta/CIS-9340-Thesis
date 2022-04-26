@@ -17,16 +17,22 @@ class phqHiveAdapter extends TypeAdapter<phqHive> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return phqHive(
-      assessments: (fields[0] as List).cast<phqHiveObj>(),
+      index: fields[0] as int,
+      score: fields[1] as int,
+      date: fields[2] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, phqHive obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.assessments);
+      ..write(obj.index)
+      ..writeByte(1)
+      ..write(obj.score)
+      ..writeByte(2)
+      ..write(obj.date);
   }
 
   @override

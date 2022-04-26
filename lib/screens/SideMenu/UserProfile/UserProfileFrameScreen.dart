@@ -340,7 +340,9 @@ class _UserProfileFrameScreenState extends State<UserProfileFrameScreen> {
                               newFrame: selectedFrame);
                           Get.snackbar(
                               'Edit Frame', 'Your frame has been updated.',
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.white60,
+                              colorText: Colors.black87);
                         },
                         child: Text('Save',
                             style: Theme.of(context)

@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
-import 'package:flutter_application_1/apis/phqHiveObject.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -31,32 +32,19 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
   void savePhqEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('phq');
-    DateTime next = now.add(const Duration(days: 14));
 
-    var newPhq = phqHiveObj(date: now, score: sum);
-    var nextPhq = phqHiveObj(date: next, score: -1);
+    var entry = phqHive(index: -1, date: now, score: sum);
 
-    if (now.month == next.month) {
-      var phqMonth = phqHive(assessments: [newPhq, nextPhq]);
-      String monthKey = now.month.toString() + '-' + now.year.toString();
-      box.put(monthKey, phqMonth);
-    } else {
-      var m1 = phqHive(assessments: [newPhq]);
-      var m2 = phqHive(assessments: [nextPhq]);
-
-      String m1Key = now.month.toString() + '-' + now.year.toString();
-      String m2Key = next.month.toString() + '-' + next.year.toString();
-
-      box.put(m1Key, m1);
-      box.put(m2Key, m2);
-    }
+    String monthKey = now.month.toString() + '-' + now.year.toString();
+    box.put(monthKey, entry);
 
     String title = '', sub = '';
-    bool result = await UserProvider().createPHQ(newPhq);
-    bool result2 = await UserProvider().createPHQ(nextPhq);
+    Map result = await UserProvider().createPHQ(entry);
 
     // Check results of saving entry online
-    if (result && result2) {
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
+
       title = 'PHQ9 Entry saved!';
       sub = 'Entry was saved to your profile';
     } else {
@@ -70,19 +58,23 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
   void saveSidasEntry(List<int> answerValues, int sum) async {
     var box = Hive.box('sidas');
+    sidasHive entry = sidasHive(
+      answerValues: _sidasController.answerValues,
+      date: now,
+      index: -1,
+      score: _sidasController.sum,
+    );
 
-    var newSidas = sidasHive(date: now, answerValues: answerValues, sum: sum);
-    var nextSidas = sidasHive(date: DateTime(now.year, now.month + 1, now.day), answerValues: [], sum: -1);
-    box.add(newSidas);
-    box.add(nextSidas);
+    String monthKey = now.month.toString() + '-' + now.year.toString();
+    box.put(monthKey, entry);
 
-    // Attempt to save entry online
     String title = '', sub = '';
-    bool result = await UserProvider().createSIDAS(newSidas);
-    bool result2 = await UserProvider().createSIDAS(nextSidas);
+    Map result = await UserProvider().createSIDAS(entry);
 
     // Check results of saving entry online
-    if (result && result2) {
+    if (result["status"]) {
+      entry.index = result["body"]["id"];
+
       title = 'SIDAS Entry saved!';
       sub = 'Entry was saved to your profile';
     } else {
@@ -92,16 +84,20 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
     Get.snackbar(title, sub,
         snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+  }
 
-    // Update latest change of SIDAS storage
-    TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
+  @override
+  void initState() {
+    super.initState();
+    savePhqEntry(_phqController.answerValues, _phqController.sum);
+    saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
+
+    TableSecureStorage.setLatestPHQ(now.toUtc().toString());
+    TableSecureStorage.setLatestSIDAS(now.toUtc().toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    _phqController.addToHive();
-    savePhqEntry(_phqController.answerValues, _phqController.sum);
-    saveSidasEntry(_sidasController.answerValues, _sidasController.sum);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -245,6 +241,8 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                         primary: Theme.of(context).colorScheme.accentBlue02,
                       ),
                       onPressed: () {
+                        _phqController.dispose();
+                        _sidasController.dispose();
                         Get.toNamed('/homepage');
                       }),
                 )))

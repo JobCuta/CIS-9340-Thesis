@@ -1,22 +1,17 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/phqController.dart';
+import 'package:flutter_application_1/controllers/sidasController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
 import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScreen.dart';
-import 'package:flutter_application_1/screens/MiniGames/Sudoku/SudokuScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
 import 'package:flutter_application_1/widgets/AssessmentsContainer.dart';
-import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
-import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -143,6 +138,9 @@ class _HomePageState extends State<HomePage> {
   final DailyController _dailyController = Get.put(DailyController());
   final EmotionController _emotionController = Get.put(EmotionController());
   final LevelController _levelController = Get.put(LevelController());
+  // controllers being used in other components DO NOT REMOVE
+  final PHQController _phqController = Get.put(PHQController());
+  final SIDASController _sidasController = Get.put(SIDASController());
 
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
     return (isTaskDone)
@@ -274,15 +272,14 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       showUserEngagementDialog(context);
                     }),
-                // ElevatedButton(
-                //   onPressed: () => _emotionController.testLargeNumberOfFutureEntries(11), 
-                //   child: const Text('Test Future Entries')
-                // ),
-                // ElevatedButton(
-                //   onPressed: () => _emotionController.testLargeNumberOfPastEntries(44),
-                //   child: const Text('Test Past Entries')
-                // ),
-                    
+                ElevatedButton(
+                    onPressed: () =>
+                        _emotionController.testLargeNumberOfFutureEntries(3),
+                    child: const Text('Test Future Entries')),
+                ElevatedButton(
+                    onPressed: () =>
+                        _emotionController.testLargeNumberOfPastEntries(44),
+                    child: const Text('Test Past Entries')),
                 ElevatedButton(
                     child: const Text('Test transparent'),
                     onPressed: () {
@@ -300,14 +297,13 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Test LevelUp'),
                     onPressed: () {
                       _levelController.displayRewardsUponLevelUp(context);
-                }),
+                    }),
                 ElevatedButton(
                     child: const Text('Test Level XP'),
                     onPressed: () {
                       _levelController.getLevelFromStorage();
                       _levelController.addXp('Test', 150);
                       _levelController.displayLevelXpModal(context);
-   
                     }),
                 ElevatedButton(
                     child: const Text("Test Today's Task"),
@@ -315,11 +311,11 @@ class _HomePageState extends State<HomePage> {
                       _levelController.getLevelFromStorage();
                       _levelController.displayTodaysTaskWithXp(context);
                     }),
-
                 ElevatedButton(
                   onPressed: () {
                     _levelController.setLevel(2);
-                  }, child: const Text('Set level to 2'),
+                  },
+                  child: const Text('Set level to 2'),
                 ),
                 Center(
                   child: Padding(
@@ -495,7 +491,9 @@ class _HomePageState extends State<HomePage> {
                             if (!_isDailyEntryDone) {
                               _emotionController.updateIfAddingFromDaily(true);
                               _emotionController.updateEditMode(false);
-                              Get.toNamed('/emotionStartScreen');
+                              Get.toNamed('/emotionStartScreen', arguments: {
+                                "route": 'homepage',
+                              });
                             }
                           },
                           child: Row(

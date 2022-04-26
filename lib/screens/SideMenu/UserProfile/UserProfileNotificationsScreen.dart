@@ -222,7 +222,7 @@ class UserProfileNotificationsScreenState
               ),
               // Save Button
               Container(
-                  padding:
+                  margin:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -271,7 +271,9 @@ class UserProfileNotificationsScreenState
                           }
                           Get.snackbar('Edit Notification Settings',
                               'Your notification settings have been updated.',
-                              snackPosition: SnackPosition.BOTTOM);
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.white60,
+                              colorText: Colors.black87);
                         },
                         child: Text('Save',
                             style: Theme.of(context)

@@ -123,6 +123,8 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
       }
     }
 
+    print(_profileController.anon);
+
     // ensures that if the user pressed the back button after changing values without saving, the controllers values remain the same
     return WillPopScope(
       onWillPop: () {
@@ -412,10 +414,13 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                 _settingsController.updateImagePathSettings(
                                     newImage: savedImage.path);
                               }
+                              print(_profileController.anon);
                               _profileController.updateValues();
                               Get.snackbar('Edit User Profile',
                                   'Your profile has been updated.',
-                                  snackPosition: SnackPosition.BOTTOM);
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.white60,
+                                  colorText: Colors.black87);
                             }
                           },
                           child: Text('Save',

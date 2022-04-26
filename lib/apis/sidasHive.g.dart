@@ -17,22 +17,25 @@ class sidasHiveAdapter extends TypeAdapter<sidasHive> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return sidasHive(
-      date: fields[0] as DateTime,
-      answerValues: (fields[1] as List).cast<int>(),
-      sum: fields[2] as int,
+      index: fields[0] as int,
+      score: fields[1] as int,
+      date: fields[2] as DateTime,
+      answerValues: (fields[3] as List).cast<int>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, sidasHive obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.date)
+      ..write(obj.index)
       ..writeByte(1)
-      ..write(obj.answerValues)
+      ..write(obj.score)
       ..writeByte(2)
-      ..write(obj.sum);
+      ..write(obj.date)
+      ..writeByte(3)
+      ..write(obj.answerValues);
   }
 
   @override

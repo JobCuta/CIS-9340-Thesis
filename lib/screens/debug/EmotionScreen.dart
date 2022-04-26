@@ -1,317 +1,317 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/svg.dart';
+// import 'package:get/get.dart';
 
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+// import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-import '../../../controllers/emotionController.dart';
+// import '../../../controllers/emotionController.dart';
 
-void main() {
-  runApp(
-      const GetMaterialApp(home: EmotionScreen()));
-}
+// void main() {
+//   runApp(
+//       const GetMaterialApp(home: EmotionScreen()));
+// }
 
-class Emotion {
-  final int id;
-  final String name;
+// class Emotion {
+//   final int id;
+//   final String name;
 
-  Emotion({
-    required this.id,
-    required this.name,
-  });
+//   Emotion({
+//     required this.id,
+//     required this.name,
+//   });
 
-  @override
-  toString() => name;
-}
+//   @override
+//   toString() => name;
+// }
 
-class EmotionScreen extends StatefulWidget {
-  const EmotionScreen({key}) : super(key: key);
+// class EmotionScreen extends StatefulWidget {
+//   const EmotionScreen({key}) : super(key: key);
 
-  @override
-  _EmotionScreenState createState() =>
-      _EmotionScreenState();
-}
+//   @override
+//   _EmotionScreenState createState() =>
+//       _EmotionScreenState();
+// }
 
-class _EmotionScreenState
-    extends State<EmotionScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Emotion> positiveEmotionsList = [
-      Emotion(id: 1, name: 'Good'),
-      Emotion(id: 2, name: 'Happy'),
-      Emotion(id: 3, name: 'Confident'),
-      Emotion(id: 4, name: 'Proud'),
-      Emotion(id: 5, name: 'Test'),
-      Emotion(id: 6, name: 'Test1'),
-      Emotion(id: 7, name: 'Test2'),
-      Emotion(id: 5, name: 'Test'),
-      Emotion(id: 6, name: 'Test1'),
-      Emotion(id: 7, name: 'Test2'),
-      Emotion(id: 5, name: 'Test'),
-      Emotion(id: 6, name: 'Test1'),
-      Emotion(id: 7, name: 'Test2'),
-    ];
+// class _EmotionScreenState
+//     extends State<EmotionScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final List<Emotion> positiveEmotionsList = [
+//       Emotion(id: 1, name: 'Good'),
+//       Emotion(id: 2, name: 'Happy'),
+//       Emotion(id: 3, name: 'Confident'),
+//       Emotion(id: 4, name: 'Proud'),
+//       Emotion(id: 5, name: 'Test'),
+//       Emotion(id: 6, name: 'Test1'),
+//       Emotion(id: 7, name: 'Test2'),
+//       Emotion(id: 5, name: 'Test'),
+//       Emotion(id: 6, name: 'Test1'),
+//       Emotion(id: 7, name: 'Test2'),
+//       Emotion(id: 5, name: 'Test'),
+//       Emotion(id: 6, name: 'Test1'),
+//       Emotion(id: 7, name: 'Test2'),
+//     ];
 
-    final List<Emotion> negativeEmotionsList = [
-      Emotion(id: 1, name: 'Unmotivated'),
-      Emotion(id: 2, name: 'Depressed'),
-      Emotion(id: 3, name: 'Tired'),
-      Emotion(id: 4, name: 'Isolated'),
-    ];
+//     final List<Emotion> negativeEmotionsList = [
+//       Emotion(id: 1, name: 'Unmotivated'),
+//       Emotion(id: 2, name: 'Depressed'),
+//       Emotion(id: 3, name: 'Tired'),
+//       Emotion(id: 4, name: 'Isolated'),
+//     ];
 
-    final _positiveEmotionsItems = positiveEmotionsList
-        .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
-        .toList();
+//     final _positiveEmotionsItems = positiveEmotionsList
+//         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
+//         .toList();
 
-    final _negativeEmotionsItems = negativeEmotionsList
-        .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
-        .toList();
+//     final _negativeEmotionsItems = negativeEmotionsList
+//         .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
+//         .toList();
 
-    final EmotionController _emotionController = Get.put(EmotionController());
+//     final EmotionController _emotionController = Get.put(EmotionController());
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text(
-          'Add an Entry',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontFamily: 'Proxima Nova',
-            fontWeight: FontWeight.w400
-          )
-        ),
+//     return Scaffold(
+//       extendBodyBehindAppBar: true,
+//       appBar: AppBar(
+//         title: const Text(
+//           'Add an Entry',
+//           style: TextStyle(
+//             color: Colors.white,
+//             fontSize: 20,
+//             fontFamily: 'Proxima Nova',
+//             fontWeight: FontWeight.w400
+//           )
+//         ),
 
-        leading: BackButton(onPressed: () {Get.offAndToNamed('.homepage');}),
-        elevation: 0,
-        backgroundColor: Colors.transparent
-      ),
-
-
-      body: Stack(children: [
-        Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/background_images/blue_background.png',
-                    ),
-                    fit: BoxFit.cover))
-        ),
+//         leading: BackButton(onPressed: () {Get.offAndToNamed('.homepage');}),
+//         elevation: 0,
+//         backgroundColor: Colors.transparent
+//       ),
 
 
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-          child: Container(
-            alignment: Alignment.center,
-            child: ListView(
-              children: [
-                const Text('Date & Time',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600)
-                ),
+//       body: Stack(children: [
+//         Container(
+//             decoration: const BoxDecoration(
+//                 image: DecorationImage(
+//                     image: AssetImage(
+//                       'assets/background_images/blue_background.png',
+//                     ),
+//                     fit: BoxFit.cover))
+//         ),
 
-                const SizedBox(height: 35.0),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-                  children: const [
-                    Text('Date',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w400)
-                    ),
+//         Padding(
+//           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+//           child: Container(
+//             alignment: Alignment.center,
+//             child: ListView(
+//               children: [
+//                 const Text('Date & Time',
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 16,
+//                     fontFamily: 'Proxima Nova',
+//                     fontWeight: FontWeight.w600)
+//                 ),
 
-                    Text('Wed, 2 March',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600)
-                    ),
-                  ]),
+//                 const SizedBox(height: 35.0),
 
-                  const SizedBox(height: 25.0),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+//                   children: const [
+//                     Text('Date',
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 16,
+//                         fontFamily: 'Proxima Nova',
+//                         fontWeight: FontWeight.w400)
+//                     ),
 
-                  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-                  children: const [
-                    Text('Time',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w400)
-                    ),
+//                     Text('Wed, 2 March',
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 16,
+//                         fontFamily: 'Proxima Nova',
+//                         fontWeight: FontWeight.w600)
+//                     ),
+//                   ]),
 
-                    Text('22:21, Evening',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600)
-                    ),
-                  ]),
+//                   const SizedBox(height: 25.0),
 
-                  const SizedBox(height: 20.0),
+//                   Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+//                   children: const [
+//                     Text('Time',
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 16,
+//                         fontFamily: 'Proxima Nova',
+//                         fontWeight: FontWeight.w400)
+//                     ),
+
+//                     Text('22:21, Evening',
+//                     textAlign: TextAlign.center,
+//                     style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 16,
+//                         fontFamily: 'Proxima Nova',
+//                         fontWeight: FontWeight.w600)
+//                     ),
+//                   ]),
+
+//                   const SizedBox(height: 20.0),
                   
-                  const Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
+//                   const Divider(
+//                     color: Colors.white,
+//                     thickness: 2,
+//                   ),
 
-                  const SizedBox(height: 20.0),
+//                   const SizedBox(height: 20.0),
 
-                  Container(
-                    alignment: Alignment.center,
-                    height: 100,
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
-                    decoration: BoxDecoration(
-                        color: const Color(0xff3290FF).withOpacity(0.60),
-                        borderRadius: const BorderRadius.all(Radius.circular(4))),
-                    child: const Text('Which emotion best apply to you now?',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontFamily: 'Proxima Nova',
-                            fontWeight: FontWeight.w400)),
-                  ),
+//                   Container(
+//                     alignment: Alignment.center,
+//                     height: 100,
+//                     padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+//                     decoration: BoxDecoration(
+//                         color: const Color(0xff3290FF).withOpacity(0.60),
+//                         borderRadius: const BorderRadius.all(Radius.circular(4))),
+//                     child: const Text('Which emotion best apply to you now?',
+//                         textAlign: TextAlign.center,
+//                         style: TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 24,
+//                             fontFamily: 'Proxima Nova',
+//                             fontWeight: FontWeight.w400)),
+//                   ),
 
 
-                  Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Container(
-                      child:
-                        Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 0),
-                          width: double.infinity,
-                          child: Wrap(runSpacing: 10, children: [
-                            // DROPDOWNS
-                            GetBuilder<EmotionController>(
-                              builder: (value) => Container(
-                                  padding: const EdgeInsets.all(15.0),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(24))),
-                                  child: MultiSelectBottomSheetField<Emotion?>(
-                                    initialChildSize: 0.3,
-                                    listType: MultiSelectListType.CHIP,
-                                    searchable: true,
-                                    buttonText: Text("Positive Emotions",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Proxima Nova',
-                                            color: (_emotionController
-                                                    .isPositiveNotEmpty.value)
-                                                ? const Color(0xff4CA7FC)
-                                                : const Color(0xff778083))),
-                                    title: const Text("Search for your emotion",
-                                        style: TextStyle(fontSize: 16)),
-                                    items: _positiveEmotionsItems,
-                                    onConfirm: (values) {
-                                      _emotionController.updatePositiveEmotion(values);
-                                    },
-                                    chipDisplay: MultiSelectChipDisplay(
-                                      chipColor: const Color(0xff4CA7FC),
-                                      textStyle: const TextStyle(color: Colors.white),
-                                      onTap: (item) {
-                                        setState(() {
-                                          _emotionController.removePositive(item);
-                                        });
-                                      },
-                                    ),
-                                  )),
-                            ),
+//                   Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+//                     Container(
+//                       child:
+//                         Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
+//                         Container(
+//                           padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 0),
+//                           width: double.infinity,
+//                           child: Wrap(runSpacing: 10, children: [
+//                             // DROPDOWNS
+//                             GetBuilder<EmotionController>(
+//                               builder: (value) => Container(
+//                                   padding: const EdgeInsets.all(15.0),
+//                                   decoration: const BoxDecoration(
+//                                       color: Colors.white,
+//                                       borderRadius: BorderRadius.all(Radius.circular(24))),
+//                                   child: MultiSelectBottomSheetField<Emotion?>(
+//                                     initialChildSize: 0.3,
+//                                     listType: MultiSelectListType.CHIP,
+//                                     searchable: true,
+//                                     buttonText: Text("Positive Emotions",
+//                                         style: TextStyle(
+//                                             fontSize: 18,
+//                                             fontWeight: FontWeight.w600,
+//                                             fontFamily: 'Proxima Nova',
+//                                             color: (_emotionController
+//                                                     .isPositiveNotEmpty.value)
+//                                                 ? const Color(0xff4CA7FC)
+//                                                 : const Color(0xff778083))),
+//                                     title: const Text("Search for your emotion",
+//                                         style: TextStyle(fontSize: 16)),
+//                                     items: _positiveEmotionsItems,
+//                                     onConfirm: (values) {
+//                                       _emotionController.updatePositiveEmotion(values);
+//                                     },
+//                                     chipDisplay: MultiSelectChipDisplay(
+//                                       chipColor: const Color(0xff4CA7FC),
+//                                       textStyle: const TextStyle(color: Colors.white),
+//                                       onTap: (item) {
+//                                         setState(() {
+//                                           _emotionController.removePositive(item);
+//                                         });
+//                                       },
+//                                     ),
+//                                   )),
+//                             ),
 
-                            GetBuilder<EmotionController>(
-                              builder: (value) => Container(
-                                  padding: const EdgeInsets.all(15.0),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(24))),
-                                  child: MultiSelectBottomSheetField<Emotion?>(
-                                    initialChildSize: 0.3,
-                                    listType: MultiSelectListType.CHIP,
-                                    searchable: true,
-                                    buttonText: Text("Negative Emotions",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Proxima Nova',
-                                            color: (_emotionController
-                                                    .isNegativeNotEmpty.value)
-                                                ? const Color(0xff4CA7FC)
-                                                : const Color(0xff778083))),
-                                    title: const Text("Search for your emotion",
-                                        style: TextStyle(fontSize: 16)),
-                                    items: _negativeEmotionsItems,
-                                    onConfirm: (values) {
-                                      _emotionController.updateNegativeEmotion(values);
-                                    },
-                                    chipDisplay: MultiSelectChipDisplay(
-                                      chipColor: const Color(0xff4CA7FC),
-                                      textStyle: const TextStyle(color: Colors.white),
-                                      onTap: (item) {
-                                        _emotionController.removeNegative(item);
-                                      },
-                                    ),
-                                  )),
-                            ),
-                          ]),
-                        )
-                      ]),
-                    )
-                  ]),
+//                             GetBuilder<EmotionController>(
+//                               builder: (value) => Container(
+//                                   padding: const EdgeInsets.all(15.0),
+//                                   decoration: const BoxDecoration(
+//                                       color: Colors.white,
+//                                       borderRadius: BorderRadius.all(Radius.circular(24))),
+//                                   child: MultiSelectBottomSheetField<Emotion?>(
+//                                     initialChildSize: 0.3,
+//                                     listType: MultiSelectListType.CHIP,
+//                                     searchable: true,
+//                                     buttonText: Text("Negative Emotions",
+//                                         style: TextStyle(
+//                                             fontSize: 18,
+//                                             fontWeight: FontWeight.w600,
+//                                             fontFamily: 'Proxima Nova',
+//                                             color: (_emotionController
+//                                                     .isNegativeNotEmpty.value)
+//                                                 ? const Color(0xff4CA7FC)
+//                                                 : const Color(0xff778083))),
+//                                     title: const Text("Search for your emotion",
+//                                         style: TextStyle(fontSize: 16)),
+//                                     items: _negativeEmotionsItems,
+//                                     onConfirm: (values) {
+//                                       _emotionController.updateNegativeEmotion(values);
+//                                     },
+//                                     chipDisplay: MultiSelectChipDisplay(
+//                                       chipColor: const Color(0xff4CA7FC),
+//                                       textStyle: const TextStyle(color: Colors.white),
+//                                       onTap: (item) {
+//                                         _emotionController.removeNegative(item);
+//                                       },
+//                                     ),
+//                                   )),
+//                             ),
+//                           ]),
+//                         )
+//                       ]),
+//                     )
+//                   ]),
 
-                  Container(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: GetBuilder<EmotionController>(
-                            builder: (value) => ElevatedButton(
-                                child: const Text(
-                                  'Done!',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      fontFamily: 'Proxima Nova'),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24),
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  primary: (_emotionController.isValid.value)
-                                      ? const Color(0xffFFBE18)
-                                      : const Color(0xffE2E4E4),
-                                ),
-                                onPressed: () {
+//                   Container(
+//                     padding: const EdgeInsets.only(top: 50.0),
+//                     child: Align(
+//                       alignment: Alignment.bottomCenter,
+//                       child: SizedBox(
+//                           width: MediaQuery.of(context).size.width,
+//                           height: 50,
+//                           child: GetBuilder<EmotionController>(
+//                             builder: (value) => ElevatedButton(
+//                                 child: const Text(
+//                                   'Done!',
+//                                   style: TextStyle(
+//                                       color: Colors.white,
+//                                       fontWeight: FontWeight.w600,
+//                                       fontSize: 20,
+//                                       fontFamily: 'Proxima Nova'),
+//                                 ),
+//                                 style: ElevatedButton.styleFrom(
+//                                   elevation: 0,
+//                                   shape: RoundedRectangleBorder(
+//                                     borderRadius: BorderRadius.circular(24),
+//                                   ),
+//                                   padding: const EdgeInsets.all(10),
+//                                   primary: (_emotionController.isValid.value)
+//                                       ? const Color(0xffFFBE18)
+//                                       : const Color(0xffE2E4E4),
+//                                 ),
+//                                 onPressed: () {
 
-                                }),
-                          )),
-                    ),
-                  ),
-              ],
-            ),
-          )
-        ),
+//                                 }),
+//                           )),
+//                     ),
+//                   ),
+//               ],
+//             ),
+//           )
+//         ),
 
-    ]));
-  }
-}
+//     ]));
+//   }
+// }
