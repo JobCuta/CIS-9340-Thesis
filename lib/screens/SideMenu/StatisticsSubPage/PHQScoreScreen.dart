@@ -39,8 +39,7 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
       splitMonths.add(entries);
     }
     // final result is in splitMonths
-    print('split months $splitMonths}');
-    print('unique months $uniqueMonths}');
+    log('split months $splitMonths}');
   }
 
   @override

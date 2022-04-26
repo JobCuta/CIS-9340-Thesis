@@ -58,8 +58,12 @@ class PHQController extends GetxController {
     TableSecureStorage.setLatestPHQ(now.toUtc().toString());
 
     Get.snackbar(title, sub,
+<<<<<<< HEAD
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.white60,
         colorText: Colors.black87);
+=======
+        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+>>>>>>> 428d8d8b40e5b319931e5eec04767c9afc373812
   }
 }
