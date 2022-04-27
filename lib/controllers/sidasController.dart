@@ -15,7 +15,6 @@ class SIDASController extends GetxController {
 
   void updateValues(int position, int i) {
     answerValues[position] = i;
-    print(answerValues);
     calculateSum();
     update();
   }
@@ -25,7 +24,6 @@ class SIDASController extends GetxController {
     for (var num in answerValues) {
       sum += num;
     }
-    print(sum);
     update();
   }
 
@@ -60,6 +58,8 @@ class SIDASController extends GetxController {
     TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
 
     Get.snackbar(title, sub,
-        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white60,
+        colorText: Colors.black87);
   }
 }

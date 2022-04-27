@@ -138,7 +138,7 @@ class SudokuScreenState extends State<SudokuScreen> {
                 context: context,
                 builder: (_) => AlertGameOver()).whenComplete(() {
               if (AlertGameOver.newGame) {
-                newGame();
+                newGame(currentDifficultyLevel);
                 AlertGameOver.newGame = false;
               } else if (AlertGameOver.restartGame) {
                 restartGame();

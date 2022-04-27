@@ -124,7 +124,7 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
                             ]),
                           ),
                           const SizedBox(height: 20),
-                          userone.score > 0
+                          userone.score >= 0
                               ? LinearPercentIndicator(
                                   lineHeight: 30,
                                   percent: (userone.score / 50),

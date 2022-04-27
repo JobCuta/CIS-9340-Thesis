@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class PHQController extends GetxController {
   Box box = Hive.box('phq');
   final List<int> answerValues = [0, 0, 0, 0, 0, 0, 0, 0, 0].obs;
-  int sum = -1;
+  int sum = 0;
 
   final dateFormat = DateFormat('MM-yyyy');
 

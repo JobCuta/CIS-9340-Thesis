@@ -32,7 +32,9 @@ class _LoadingResultsScreenState extends State<LoadingResultsScreenWidget> {
   }
 
   route() => Get.off(const nextScreenModal(),
-      transition: Transition.fadeIn, duration: const Duration(seconds: 1));
+      arguments: {'type': Get.arguments['type']},
+      transition: Transition.fadeIn,
+      duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {

@@ -76,7 +76,7 @@ setNotificationsAlert(context) {
                 ),
                 onPressed: () {
                   Get.back();
-                  Get.toNamed('/loadingScreen');
+                  Get.toNamed('/loadingScreen', arguments: {'type': 'both'});
                 }),
           )
         ]),

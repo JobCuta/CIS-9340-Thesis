@@ -452,6 +452,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       visible: phqEntries.length > 1,
                       child: phqChart(),
                     ),
+                    Visibility(
+                        visible: phqEntries.length <= 1,
+                        child: const SizedBox(height: 20)),
                     ScoreCards(
                         title:
                             'Your latest Suicidal Ideation score for this month',
@@ -477,7 +480,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         margin: const EdgeInsets.symmetric(vertical: 20),
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+            borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -585,7 +588,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         margin: const EdgeInsets.only(top: 20),
         decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+            borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
