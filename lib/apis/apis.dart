@@ -146,13 +146,13 @@ class UserProvider extends GetConnect {
     DateTime date = DateFormat().parse('${entry.month} ${entry.day}, ${entry.year}');
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response = await post(domain + paths["emotion"], {},
-        // { "date": date,
-        //   "date_time_answered": DateTime.now().toString(),
-        //   "time_of_day": ,
-        //   "current_mood",
-        //   "positive_emotions",
-        //   "negative_emotions"},
+    final response = await post(domain + paths["emotion"],
+        { "date": date,
+          "date_time_answered": DateTime.now().toString(),
+          "time_of_day": '',
+          "current_mood": '',
+          "positive_emotions": [],
+          "negative_emotions": []},
         headers: {"Authorization": "Token " + key});
     if (response.hasError) {
       log('create Emotion entry error ${response.statusText}');
