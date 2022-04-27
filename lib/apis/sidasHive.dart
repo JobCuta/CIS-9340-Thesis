@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 part 'sidasHive.g.dart';
 
 @HiveType(typeId: 1)
@@ -22,4 +23,7 @@ class sidasHive extends HiveObject {
     required this.date,
     required this.answerValues,
   });
+
+  @override
+  toString() => DateFormat('MMMM yyyy').format(date);
 }

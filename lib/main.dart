@@ -274,7 +274,7 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
           // Minigames Screens
-          GetPage(name: '/minigames', page: () => MinigamesScreen()),
+          GetPage(name: '/minigames', page: () => const MinigamesScreen()),
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
           GetPage(
