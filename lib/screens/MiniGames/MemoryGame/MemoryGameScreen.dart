@@ -1,5 +1,6 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/memoryController.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:get/get.dart';
 import '../../../controllers/levelController.dart';
@@ -12,16 +13,33 @@ class MemoryGameScreen extends StatefulWidget {
 }
 
 class _MemoryGameState extends State<MemoryGameScreen> {
+  final MemoryController _memoryController = Get.put(MemoryController());
   int _previousIndex = -1;
   bool _flip = false;
   bool _wait = true;
   int _dialogueCounter = 0;
 
-  List<bool> _cardFlips = getInitialItemState();
-  List<bool> _visibility = getInitialItemState();
-  List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
-  List<String> _data = kalingaCards();
-  List<String> _dialogues = getDialogue(Province.kalinga);
+  provinceIndex() {
+    if (_memoryController.getCompleteStatusOfProvinceCards(0) == false) {
+      return Province.Apayao;
+    } else if (_memoryController.getCompleteStatusOfProvinceCards(1) == false) {
+      return Province.Kalinga;
+    } else if (_memoryController.getCompleteStatusOfProvinceCards(2) == false) {
+      return Province.Abra;
+    } else if (_memoryController.getCompleteStatusOfProvinceCards(3) == false) {
+      return Province.MountainProvince;
+    } else if (_memoryController.getCompleteStatusOfProvinceCards(4) == false) {
+      return Province.Ifugao;
+    } else {
+      return Province.Benguet;
+    }
+  }
+
+  final List<bool> _cardFlips = getInitialItemState();
+  final List<bool> _visibility = getInitialItemState();
+  final List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
+  late final List<String> _data = getCards(provinceIndex());
+  late final List<String> _dialogues = getDialogue(provinceIndex());
   bool _completed = false;
   final LevelController _levelController = Get.put(LevelController());
 
@@ -70,7 +88,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
             children: [
               Padding(
                 padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
+                EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
                 child: GridView.builder(
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -86,68 +104,69 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         if (_previousIndex != index) {
                           if (_data[_previousIndex] != _data[index]) {
                             Future.delayed(const Duration(milliseconds: 1000),
-                                () {
-                              setState(() {
-                                _wait = true;
-                              });
-                              _cardStateKeys[_previousIndex]
-                                  .currentState!
-                                  .toggleCard();
-                              _previousIndex = index;
-                              _cardStateKeys[_previousIndex]
-                                  .currentState!
-                                  .toggleCard();
-                            });
+                                    () {
+                                  setState(() {
+                                    _wait = true;
+                                  });
+                                  _cardStateKeys[_previousIndex]
+                                      .currentState!
+                                      .toggleCard();
+                                  _previousIndex = index;
+                                  _cardStateKeys[_previousIndex]
+                                      .currentState!
+                                      .toggleCard();
+                                });
 
                             Future.delayed(const Duration(milliseconds: 160),
-                                () {
-                              setState(() {
-                                _wait = false;
-                              });
-                            });
+                                    () {
+                                  setState(() {
+                                    _wait = false;
+                                  });
+                                });
                           } else {
                             Future.delayed(const Duration(milliseconds: 1000),
-                                () {
-                              setState(() {
-                                _wait = true;
-                              });
+                                    () {
+                                  setState(() {
+                                    _wait = true;
+                                  });
 
-                              _visibility[_previousIndex] = false;
-                              _visibility[index] = false;
-                              _cardFlips[_previousIndex] = false;
-                              _cardFlips[index] = false;
-                              showTalkingPerson(
+                                  _visibility[_previousIndex] = false;
+                                  _visibility[index] = false;
+                                  _cardFlips[_previousIndex] = false;
+                                  _cardFlips[index] = false;
+                                  showTalkingPerson(
                                       context: context,
                                       dialog: _dialogues[_dialogueCounter])
-                                  .then((value) {
-                                _dialogueCounter++;
-                                if (_dialogueCounter == 8) {
-                                  setState(() {
-                                    _completed = true;
-                                  });
-                                  Future.delayed(
-                                      const Duration(milliseconds: 1000), () {
-                                    showTalkingPerson(
-                                      context: context,
-                                      dialog:
+                                      .then((value) {
+                                    _dialogueCounter++;
+                                    if (_dialogueCounter == 8) {
+                                      setState(() {
+                                        _completed = true;
+                                      });
+                                      Future.delayed(
+                                          const Duration(milliseconds: 1000), () {
+                                        showTalkingPerson(
+                                          context: context,
+                                          dialog:
                                           'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
-                                    );
+                                        );
+                                      });
+                                      if (_completed == true) {
+                                        Future.delayed(const Duration(milliseconds: 1000), () {
+                                          _levelController.addXp('Memory Game', 50);
+                                          _levelController.displayLevelXpModal(context);
+                                          _memoryController.updateProvinceCompletion(provinceIndex());
+                                        });
+                                      }
+                                    }
                                   });
-                                  if (_completed == true) {
-                                    Future.delayed(const Duration(milliseconds: 1000), () {
-                                      _levelController.addXp('Memory Game', 50);
-                                      _levelController.displayLevelXpModal(context);
-                                    });
-                                  }
-                                }
-                              });
-                            });
+                                });
                             Future.delayed(const Duration(milliseconds: 160),
-                                () {
-                              setState(() {
-                                _wait = false;
-                              });
-                            });
+                                    () {
+                                  setState(() {
+                                    _wait = false;
+                                  });
+                                });
                             print("counter: " + _dialogueCounter.toString());
                           }
                         }
@@ -160,7 +179,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         child: Center(
                           child: Image(
                               image:
-                                  AssetImage('assets/images/hidden_card.png')),
+                              AssetImage('assets/images/hidden_card.png')),
                         ),
                       ),
                     ),
@@ -177,30 +196,30 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   }
 }
 
-List getCards(Province province) {
+List<String> getCards(Province province) {
   List<String> provinceCardsList = <String>[];
   List cardSource;
-  if (province == Province.abra) {
+  if (province == Province.Abra) {
     cardSource = abraCards();
     for (var element in cardSource) {
       provinceCardsList.add(element);
     }
-  } else if (province == Province.apayao) {
+  } else if (province == Province.Apayao) {
     cardSource = apayaoCards();
     for (var element in cardSource) {
       provinceCardsList.add(element);
     }
-  } else if (province == Province.benguet) {
+  } else if (province == Province.Benguet) {
     cardSource = benguetCards();
     for (var element in cardSource) {
       provinceCardsList.add(element);
     }
-  } else if (province == Province.ifugao) {
+  } else if (province == Province.Ifugao) {
     cardSource = ifugaoCards();
     for (var element in cardSource) {
       provinceCardsList.add(element);
     }
-  } else if (province == Province.kalinga) {
+  } else if (province == Province.Kalinga) {
     cardSource = kalingaCards();
     for (var element in cardSource) {
       provinceCardsList.add(element);
@@ -230,7 +249,7 @@ List<bool> getInitialItemState() {
   return initialItemState;
 }
 
-enum Province { abra, apayao, benguet, ifugao, kalinga, mountainProvince }
+enum Province { Abra, Apayao, Benguet, Ifugao, Kalinga, MountainProvince }
 
 List<String> abraCards() {
   return [
@@ -391,14 +410,14 @@ List<String> kalingaCards() {
 
 List<String> kalingaDialogues() {
   return [
-    'Dialogue',
-    'Dialogue',
-    'Dialogue',
-    'Dialogue',
-    'Dialogue',
-    'Dialogue',
-    'Dialogue',
-    'Dialogue'
+    'The brains of people who suffer from mental illnesses have a difference that sometimes makes them unable to think, feel or act in the way they want to.',
+    'Mental Illnesses are related to problems that start in our brains compared to other general physical illnesses.',
+    'To be diagnosed with a mental illness, negative changes in your thinking and emotions must seriously affect your ability to accomplish things you want to do (Pervasive) and the thoughts stick around longer (Persistent).',
+    'The occurrence of mental illness is more prominent among women, people of color and people among the LGBTQ+ Community.',
+    "A lot of people who experience mental illnesses, do not receive the proper treatment or don't get treatment at all.",
+    'Many people are unaware that they have a mental illness. It may take years before they even get diagnosed.',
+    'Having a mental illness is not your fault. Nobody deserves to have a mental illness, it just happens and usually without a single cause.',
+    'Mental Illness is caused by a variety of risk factors like Genetics, Environment, trauma, etc. These risk factors don’t just affect who develops a mental illness but also affects the severity of their symptoms.'
   ];
 }
 
@@ -439,27 +458,27 @@ List<String> mtProvDialogues() {
 List<String> getDialogue(Province province) {
   List<String> dialogueList = <String>[];
   List dialogueSource;
-  if (province == Province.abra) {
+  if (province == Province.Abra) {
     dialogueSource = abraDialogues();
     for (var element in dialogueSource) {
       dialogueList.add(element);
     }
-  } else if (province == Province.apayao) {
+  } else if (province == Province.Apayao) {
     dialogueSource = apayaoDialogues();
     for (var element in dialogueSource) {
       dialogueList.add(element);
     }
-  } else if (province == Province.benguet) {
+  } else if (province == Province.Benguet) {
     dialogueSource = benguetDialogues();
     for (var element in dialogueSource) {
       dialogueList.add(element);
     }
-  } else if (province == Province.ifugao) {
+  } else if (province == Province.Ifugao) {
     dialogueSource = ifugaoDialogues();
     for (var element in dialogueSource) {
       dialogueList.add(element);
     }
-  } else if (province == Province.kalinga) {
+  } else if (province == Province.Kalinga) {
     dialogueSource = kalingaDialogues();
     for (var element in dialogueSource) {
       dialogueList.add(element);
