@@ -120,7 +120,23 @@ class AlertDifficulty extends State<AlertDifficultyState> {
   }
 }
 
-class AlertExit extends StatelessWidget {
+class AlertExit extends StatefulWidget {
+  static bool get choice {
+    return _AlertExitState.choice;
+  }
+
+  static set choice(bool choice) {
+    _AlertExitState.choice = choice;
+  }
+
+  @override
+  State<AlertExit> createState() => _AlertExitState();
+}
+
+class _AlertExitState extends State<AlertExit> {
+  static bool choice = false;
+  late bool selectedChoice;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -141,7 +157,11 @@ class AlertExit extends StatelessWidget {
               foregroundColor: MaterialStateProperty.all<Color>(
                   Styles.primaryBackgroundColor)),
           onPressed: () {
-            Get.back();
+            setState(() {
+              selectedChoice = false;
+              choice = selectedChoice;
+              Get.back();
+            });
           },
           child: Text('No',
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
@@ -152,9 +172,11 @@ class AlertExit extends StatelessWidget {
               foregroundColor: MaterialStateProperty.all<Color>(
                   Styles.primaryBackgroundColor)),
           onPressed: () {
-            Get.back();
-            // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
-            Get.offAndToNamed('/ActivitiesGameScreen');
+            setState(() {
+              selectedChoice = true;
+              choice = selectedChoice;
+              Get.back();
+            });
           },
           child: Text('Yes',
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
