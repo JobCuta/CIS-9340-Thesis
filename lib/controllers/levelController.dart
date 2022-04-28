@@ -22,33 +22,35 @@ class LevelController extends GetxController {
   var xpForNextLevel = 0.obs;
 
   var recentlyAddedXp = false.obs;
-  var accomplishedWithXp = {}.obs;
+  var accomplishedWithXp = {}.obs;    // cant fix bug of not appearing when it's cleared, will use taskName and taskXp instead
+  var taskName = ''.obs;
+  var taskXp = 0.obs;
   var totalXpToAdd = 0.obs;
   var levelUp = false.obs;
 
   var level2Rewards = {
-      'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.svg',
-      'Kalinga Region' : 'assets/images/kalinga_unlock.svg',
+      'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.png',
+      'Kalinga Region' : 'assets/images/kalinga_unlock.png',
       'Kalinga Frames' : 'assets/frames/kalinga_v2.svg',
   };
   var level3Rewards = {
-      'Abra Badge' : 'assets/achievements/abra_adventure_achievements.svg',
-      'Abra Region' : 'assets/images/Abra.svg',
+      'Abra Badge' : 'assets/achievements/abra_adventure_achievements.png',
+      'Abra Region' : 'assets/images/Abra.png',
       'Abra Frames' : 'assets/frames/abra_v2.svg'
   };
   var level4Rewards = {
-      'Mt. Province Badge' : 'assets/achievements/mtprovince_adventure_achievements.svg',
-      'Mt. Province Region' : 'assets/images/Mt Province.svg',
+      'Mt. Province Badge' : 'assets/achievements/mtprovince_adventure_achievements.png',
+      'Mt. Province Region' : 'assets/images/Mt Province.png',
       'Mt. Province Frames' : 'assets/frames/mtProvince_v2.svg'
   };
   var level5Rewards = {
-      'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.svg',
-      'Ifugao Region' : 'assets/images/Ifugao.svg',
+      'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.png',
+      'Ifugao Region' : 'assets/images/Ifugao.png',
       'Ifugao Frames' : 'assets/frames/ifugao_v2.svg'
   };
   var level6Rewards = {
-      'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.svg',
-      'Benguet Region' : 'assets/images/Benguet.svg',
+      'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.png',
+      'Benguet Region' : 'assets/images/Benguet.png',
       'Benguet Frames' : 'assets/frames/benguet_v2.svg'
   };
 
@@ -111,7 +113,10 @@ class LevelController extends GetxController {
   }
 
   void addXp(String task, int xp) {
-    accomplishedWithXp.putIfAbsent(task, () => xp);
+    // accomplishedWithXp.value.putIfAbsent(task, () => xp);
+    taskName.value = task;
+    taskXp.value = xp;
+
     Box box = Hive.box<Level>('level');
     Level level = box.get('userLevel');
 
@@ -152,6 +157,7 @@ class LevelController extends GetxController {
     if (levelUp.value && currentLevel.value < 7) {
       displayRewardsUponLevelUp(context);
     } else {
+        print("ACCOMPLISHED = " + accomplishedWithXp.value.toString());
         Future.delayed(const Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
           context: context,
@@ -168,7 +174,6 @@ class LevelController extends GetxController {
           });
       });
     }
-
     updateRecentlyAddedXp(false);
     clearMapOfAccomplishedWithXp();
   }
@@ -187,7 +192,7 @@ class LevelController extends GetxController {
             builder: (context) {
               return SizedBox(
                   height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelWidgets());
+                  child: const LevelTasksTodayWidgets());
             });
       });
       updateRecentlyAddedXp(false);
@@ -210,10 +215,10 @@ class LevelController extends GetxController {
                 height: MediaQuery.of(context).size.height * 0.75,
                 child: const LevelUpRewardWidgets());
           });
-
-      levelUp.value = false;
-      update();
     });
+
+    levelUp.value = false;
+    update();
   }
 
   // FOR ADMIN AND TESTING PURPOSES ONLY

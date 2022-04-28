@@ -36,9 +36,9 @@ class _LevelTasksTodayWidgetsState extends State<LevelTasksTodayWidgets> {
   @override
   Widget build(BuildContext context) {
     if (!_dailyController.isDailyEntryDone.value)
-      experiences.putIfAbsent('Daily Entry', () => 50);
+      experiences.putIfAbsent('Daily Entry', () => 5);
     if (!_dailyController.isDailyExerciseDone.value)
-      experiences.putIfAbsent('Exercise', () => 100);
+      experiences.putIfAbsent('Exercise', () => 10);
     print("SHOW AVAILABLE TASKS = " + experiences.toString());
     print("AVILABLE TASKS SIZE = " + experiences.length.toString());
     List<String> experienceKeys = experiences.keys.toList();
