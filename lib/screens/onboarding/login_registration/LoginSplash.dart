@@ -80,7 +80,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
       var box = Hive.box('sidas');
       for (var entry in sidasList) {
         DateTime date = entry["date_created"].toUtc();
-        var item = phqHive(date: entry["date_created"], index: entry["id"], score: entry["sum"]);
+        var item = sidasHive(date: entry["date_created"], index: entry["id"], score: entry["sum"], answerValues: []);
         String key = date.month.toString() + '-' + date.day.toString();
         box.put(key, item);
       }
