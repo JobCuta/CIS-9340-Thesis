@@ -257,7 +257,8 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                             _timeController.eveningTime.value.hour.toString(),
                             _timeController.eveningTime.value.minute.toString()
                           ]);
-                      Get.toNamed('/loadingScreen');
+                      Get.toNamed('/loadingScreen',
+                          arguments: {'type': 'both'});
                     }),
               ),
               Container(
@@ -282,7 +283,8 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           fontWeight: FontWeight.w600),
                     ),
                     onPressed: () {
-                      Get.toNamed('/loadingScreen');
+                      Get.toNamed('/loadingScreen',
+                          arguments: {'type': 'both'});
                     }),
               ),
             ],

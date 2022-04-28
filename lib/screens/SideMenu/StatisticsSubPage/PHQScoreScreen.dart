@@ -62,13 +62,11 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            title: const Text(
+            title: Text(
               'PHQ9 Scores',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'Proxima Nova',
-                  fontWeight: FontWeight.w400),
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: Theme.of(context).colorScheme.neutralWhite01),
             ),
             leading: BackButton(onPressed: () {
               Get.back();
@@ -76,22 +74,31 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
             elevation: 1,
             backgroundColor: Colors.transparent),
         body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Container(
-            child: ListView(
-              shrinkWrap: true,
-              children: splitMonths.map((month) {
-                log('user $month');
-                return Column(children: [
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                      child: ScoreCards(
-                        lists: month,
-                      )),
-                  const SizedBox(height: 20),
-                ]);
-              }).toList(),
-            ),
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+          child: ListView(
+            shrinkWrap: true,
+            children: splitMonths.map((month) {
+              return Column(children: [
+                Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: const Color(0xff3290FF).withOpacity(0.60),
+                      borderRadius: const BorderRadius.all(Radius.circular(4))),
+                  margin: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text('${month[0]}',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralWhite01)),
+                ),
+                ScoreCards(
+                  lists: month,
+                ),
+              ]);
+            }).toList(),
           ),
         ),
       ),
@@ -108,71 +115,49 @@ class ScoreCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double average = 0;
+
+    for (phqHive item in lists) {
+      average += item.score;
+    }
+    average /= lists.length;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+          borderRadius: BorderRadius.all(Radius.circular(4))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            DateFormat("MMMM-yyyy").format(lists[0].date).toString(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: Theme.of(context).colorScheme.neutralBlack02,
-                fontWeight: FontWeight.w600),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              'Your PHQ-9 score for this month',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralBlack02,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(
-            color: Color(0xffC4C4C4),
-            thickness: 1,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          for (phqHive item in lists)
+          for (int i = 0; i < lists.length; i++)
             Container(
-                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: DateFormat("dd, ")
-                                .format(item.date)
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack04)),
-                        TextSpan(
-                            text: DateFormat("EEEE")
-                                .format(item.date)
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .accentBlue04))
-                      ]),
-                    ),
-                    item.score != -1
+                    Text('${getPosition(i)} Entry',
+                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color:
+                                Theme.of(context).colorScheme.neutralGray04)),
+                    lists[i].score != -1
                         ? RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                  text: item.score.toString(),
+                                  text: lists[i].score.toString(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
+                                      .bodyText2
                                       ?.copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -181,7 +166,7 @@ class ScoreCards extends StatelessWidget {
                                   text: ' / 27',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
+                                      .bodyText2
                                       ?.copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -204,9 +189,69 @@ class ScoreCards extends StatelessWidget {
                                             .accentRed03)),
                           ),
                   ],
-                ))
+                )),
+          const SizedBox(
+            height: 10,
+          ),
+          const Divider(
+            color: Color(0xffC4C4C4),
+            thickness: 1,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(getMainDescription(average),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.neutralBlack02)),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(getDescription(average),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.caption?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: Theme.of(context).colorScheme.neutralGray02))
         ],
       ),
     );
+  }
+
+  String getPosition(index) {
+    switch (index) {
+      case 0:
+        return 'First';
+      case 1:
+        return 'Second';
+      case 2:
+        return 'Third';
+      default:
+        return '';
+    }
+  }
+
+  String getMainDescription(average) {
+    return average >= 20
+        ? 'Severe Depression'
+        : average >= 15
+            ? 'Moderately Severe Depression'
+            : average >= 10
+                ? 'Moderate Depression'
+                : average >= 5
+                    ? 'Mild Depression'
+                    : 'None - Minimal Depression';
+  }
+
+  String getDescription(average) {
+    return average >= 20
+        ? 'If you feel that your mental wellbeing is in danger, we recommend seeking therapy and consider pharmacotherapy. Seeking a case manager, therapist, or social worker is also recommended. '
+        : average >= 15
+            ? 'If you feel that your mental wellbeing is in danger, we recommend seeking therapy and consider pharmacotherapy. Seeking a case manager, therapist, or social worker is also recommended. '
+            : average >= 10
+                ? 'If you feel that your mental wellbeing is in danger, we recommend seeking therapy and consider pharmacotherapy. '
+                : average >= 5
+                    ? 'Watchful waiting; daily use of the app is highly recommended to further monitor and update the status of your mental well-being. '
+                    : 'No treatment needed.';
   }
 }

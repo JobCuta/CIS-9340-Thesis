@@ -53,9 +53,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
 
   checkIfOnboarding() {
     if (Get.arguments != null) {
-      log('look im saving an entry');
-      _sidasController.saveEntries();
-      Get.offAndToNamed(Get.arguments["home"]);
+      Get.toNamed('/loadingScreen', arguments: {'type': 'sidas'});
     } else {
       _emotionController.updateIfAddingFromOnboarding(true);
       Get.toNamed('/emotionStartScreen', arguments: {'route': 'onboarding'});
@@ -250,6 +248,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                   primary: const Color(0xffFFBE18),
                                 ),
                                 onPressed: () {
+                                  _sidasController.calculateSum();
                                   if (position == questions.length - 1) {
                                     checkIfOnboarding();
                                   } else {
@@ -297,7 +296,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                         "route": 'onboarding',
                                       });
                                 } else {
-                                  // Checks if the user selected a valid value
+                                  _sidasController.calculateSum();
                                   _pageController.jumpToPage(position + 1);
                                 }
                               }),
