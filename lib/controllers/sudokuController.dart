@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
+import 'package:flutter_application_1/enums/Province.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -60,5 +63,25 @@ class SudokuController extends GetxController {
     box.putAt(0, newSettings);
     currentTheme.value = newSettings.currentTheme;
     update();
+  }
+
+  void updateIfCompleted() {
+    Map<Province, int> provinceIndex = {
+      Province.Apayao: 0,
+      Province.Kalinga: 1,
+      Province.Abra: 2,
+      Province.MountainProvince: 3,
+      Province.Ifugao: 4,
+      Province.Benguet: 5
+    };
+    AdventureController adventureController = Get.put(AdventureController());
+    Province selectedProvince = adventureController.selectedProvince.value;
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress sudokuGame = box.get('adventureProgress');
+
+    sudokuGame.sudokuProvinceCompleted[provinceIndex[selectedProvince] as int] = true;
+    sudokuGame.save();
+
+    print("SUDOKU GAME PROGRESS = " + sudokuGame.sudokuProvinceCompleted.toString());
   }
 }

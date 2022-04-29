@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
@@ -23,6 +24,7 @@ class CopingGameScreen extends StatefulWidget {
 class CopingGameScreenState extends State<CopingGameScreen> {
   bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
+  AdventureController _adventureController = Get.put(AdventureController());
   double height = 350;
   double width = 300;
   bool isComplete = false;
@@ -298,7 +300,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Province selectedProvince = _copingController.selectedProvince.value;
+    Province selectedProvince = _adventureController.selectedProvince.value;
 
     return Scaffold(
         appBar: AppBar(
