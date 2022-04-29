@@ -161,7 +161,7 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                               InkWell(
                                 onTap: () {
                                   _copingController
-                                      .updateSelectedProvince(Province.Abra);
+                                      .updateSelectedProvince(Province.Kalinga);
                                   setState(() {
                                     _isCopingGameDone = true;
                                   });
