@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,7 @@ class UserJourneyScreen extends StatefulWidget {
 }
 
 class _UserJourneyScreenState extends State<UserJourneyScreen> {
+  final AdventureController _adventureController = Get.put(AdventureController());
   final LevelController _levelController = Get.put(LevelController());
 
   @override
@@ -54,6 +57,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 1,
                           image: 'assets/images/Apayao.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.Apayao);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),
@@ -62,6 +66,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 2,
                           image: 'assets/images/Kalinga.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.Kalinga);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),
@@ -70,6 +75,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 3,
                           image: 'assets/images/Abra.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.Abra);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),
@@ -78,6 +84,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 4,
                           image: 'assets/images/Mt Province.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.MountainProvince);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),
@@ -86,6 +93,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 5,
                           image: 'assets/images/Ifugao.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.Ifugao);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),
@@ -94,6 +102,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           requiredLevel: 6,
                           image: 'assets/images/Benguet.png',
                           onTap: () {
+                            _adventureController.updateSelectedProvince(Province.Benguet);
                             Get.off(const UserJourneyModalWidget());
                           },
                         ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/apis/ContactDetails.dart';
-import 'package:flutter_application_1/apis/CopingGame.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
@@ -93,7 +94,7 @@ Future<void> main() async {
   Hive.registerAdapter(HopeBoxObjectAdapter());
   Hive.registerAdapter(ContactDetailsAdapter());
   Hive.registerAdapter(SudokuSettingsAdapter());
-  Hive.registerAdapter(CopingGameAdapter());
+  Hive.registerAdapter(AdventureProgressAdapter());
 
   await Hive.initFlutter();
 
@@ -109,7 +110,7 @@ Future<void> main() async {
   await Hive.openBox<HopeBoxObject>('hopeBoxObj');
   await Hive.openBox<ContactDetails>('contactPerson');
   await Hive.openBox<SudokuSettings>('sudokuBox');
-  await Hive.openBox<CopingGame>('copingGame');
+  await Hive.openBox<AdventureProgress>('adventure');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -125,8 +126,8 @@ Future<void> main() async {
   final SudokuController _sudokuController = Get.put(SudokuController());
   _sudokuController.prepareTheObjects();
 
-  final CopingController _copingController = Get.put(CopingController());
-  _copingController.prepareTheObjects();
+  final AdventureController _adventureController = Get.put(AdventureController());
+  _adventureController.prepareTheObjects();
 
   runApp(const Main());
 }

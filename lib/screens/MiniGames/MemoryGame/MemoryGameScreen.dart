@@ -1,6 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/memoryController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
@@ -16,11 +17,12 @@ class MemoryGameScreen extends StatefulWidget {
 
 class _MemoryGameState extends State<MemoryGameScreen> {
   final MemoryController _memoryController = Get.put(MemoryController());
+  final AdventureController _adventureController = Get.put(AdventureController());
   int _previousIndex = -1;
   bool _flip = false;
   bool _wait = true;
   int _dialogueCounter = 0;
-  late Province selectedProvince = _memoryController.selectedProvince.value;
+  late Province selectedProvince = _adventureController.selectedProvince.value;
 
   final List<bool> _cardFlips = getInitialItemState();
   final List<bool> _visibility = getInitialItemState();

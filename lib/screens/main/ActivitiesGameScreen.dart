@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
@@ -15,6 +16,7 @@ class ActivitiesGameScreen extends StatefulWidget {
 }
 
 class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
+  final AdventureController _adventureController = Get.put(AdventureController());
   final LevelController _levelController = Get.put(LevelController());
   final SudokuController _sudokuController = Get.put(SudokuController());
   final CopingController _copingController = Get.put(CopingController());
@@ -165,8 +167,8 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    _copingController
-                                        .updateSelectedProvince(Province.Abra);
+                                    // _copingController
+                                    //     .updateSelectedProvince(Province.Abra);
                                     // setState(() {
                                     //   _isCopingGameDone = true;
                                     // });
