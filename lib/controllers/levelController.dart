@@ -28,6 +28,7 @@ class LevelController extends GetxController {
   var totalXpToAdd = 0.obs;
   var levelUp = false.obs;
 
+  // it randomly displays an exception if one of the region svg was displayed, that's why png is used here instead for the badge and region
   var level2Rewards = {
       'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.png',
       'Kalinga Region' : 'assets/images/kalinga_unlock.png',
@@ -35,22 +36,22 @@ class LevelController extends GetxController {
   };
   var level3Rewards = {
       'Abra Badge' : 'assets/achievements/abra_adventure_achievements.png',
-      'Abra Region' : 'assets/images/Abra.png',
+      'Abra Region' : 'assets/images/abra_region.png',
       'Abra Frames' : 'assets/frames/abra_v2.svg'
   };
   var level4Rewards = {
-      'Mt. Province Badge' : 'assets/achievements/mtprovince_adventure_achievements.png',
-      'Mt. Province Region' : 'assets/images/Mt Province.png',
-      'Mt. Province Frames' : 'assets/frames/mtProvince_v2.svg'
+      'Mt. Prov Badge' : 'assets/achievements/mtprovince_adventure_achievements.png',
+      'Mt. Prov Region' : 'assets/images/mtprovince_region.png',
+      'Mt. Prov Frames' : 'assets/frames/mtProvince_v2.svg'
   };
   var level5Rewards = {
       'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.png',
-      'Ifugao Region' : 'assets/images/Ifugao.png',
+      'Ifugao Region' : 'assets/images/ifugao_region.png',
       'Ifugao Frames' : 'assets/frames/ifugao_v2.svg'
   };
   var level6Rewards = {
       'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.png',
-      'Benguet Region' : 'assets/images/Benguet.png',
+      'Benguet Region' : 'assets/images/benguet_region.png',
       'Benguet Frames' : 'assets/frames/benguet_v2.svg'
   };
 
@@ -124,6 +125,7 @@ class LevelController extends GetxController {
     recentlyAddedXp.value = true;
     totalXpToAdd.value = 0;
     checkIfLevelUp();
+    updateRecentlyAddedXp(true);
 
     update();
 

@@ -148,5 +148,26 @@ class CopingController extends GetxController {
     selectedProvince.value = province;
     update();
   }
+
+  bool checkIfItWillBeCompletedSoon(Province province) {
+    List<bool> cardsCompleted = (province == Province.Abra) ? abraCardsCompleted.value 
+          : (province == Province.Apayao) ? apayaoCardsCompleted.value
+          : (province == Province.Benguet) ? benguetCardsCompleted.value
+          : (province == Province.Ifugao) ? ifugaoCardsCompleted.value
+          : (province == Province.Kalinga) ? kalingaCardsCompleted.value
+          : benguetCardsCompleted.value;
+    
+    int done = 0;
+    int notDone = 0;
+    for (bool isCompleted in cardsCompleted) {
+      if (isCompleted) {
+        done++;
+      } else {
+        notDone++;
+      }
+    }
+
+    return (notDone == 1);
+  }
   
 }

@@ -69,36 +69,29 @@ class _LevelUpRewardWidgetsState extends State<LevelUpRewardWidgets> {
                       color: Theme.of(context).colorScheme.accentBlue04),
                 ),
               ),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     children: [
                       Image.asset(currentLevelRewards[keys[0]] as String, width: 42),
-                      FittedBox(
-                        child: Text(keys[0], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
-                      ),
+                      const SizedBox(height: 5.0),
+                      Text(keys[0], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
                     ],
                   ),
                   Column(
                     children: [
-                      // THIS IS TEMP, WILL CHANGE TOMORROW
-                      (currentLevel < 3) 
-                          ? Image.asset(currentLevelRewards[keys[1]] as String, width: 42)
-                          : CircleAvatar(
-                            child: Image.asset(currentLevelRewards[keys[1]] as String, width: 42, fit: BoxFit.contain),
-                          ),
-                      FittedBox(
-                        child: Text(keys[1], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
-                      ),
+                      Image.asset(currentLevelRewards[keys[1]] as String, width: 42),
+                      const SizedBox(height: 5.0),
+                      Text(keys[1], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
                     ],
                   ),
                   Column(
                     children: [
                       SvgPicture.asset(currentLevelRewards[keys[2]] as String, width: 42),  
-                      FittedBox(
-                        child: Text(keys[2], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
-                      ),
+                      const SizedBox(height: 5.0),
+                      Text(keys[2], style: Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600))
                     ],
                   ),
                 ],

@@ -26,10 +26,12 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   double height = 350;
   double width = 300;
   bool isComplete = false;
+  bool willBeCompletedOnceOnly = false;
 
   showCardDialog(AssetImage img, String info, String tipsTitle, String tips,
       int index, Province province) {
     setState(() {
+      willBeCompletedOnceOnly = _copingController.checkIfItWillBeCompletedSoon(province);
       _copingController.updateCardCompletion(province, index);
       isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
     });
@@ -212,7 +214,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
             );
           });
         }).then((value) {
-      if (isComplete) {
+      if (isComplete && willBeCompletedOnceOnly) {
         showTalkingPerson(
             context: context,
             dialog:

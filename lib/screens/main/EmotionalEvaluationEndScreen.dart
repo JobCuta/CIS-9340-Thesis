@@ -454,9 +454,7 @@ class _EmotionalEvaluationEndScreenState
                       if (_dailyController.isMorningEntryDone.value &&
                           _dailyController.isAfternoonEntryDone.value &&
                           _dailyController.isEveningEntryDone.value) {
-                        _levelController.initializeTaskWithXp(
-                            'All 3 Entries', 20);
-                        _levelController.finalizeAddingOfXp();
+                        _levelController.addXp('All 3 Entries', 20);
                       }
 
                       (isAddingFromOnboarding)
