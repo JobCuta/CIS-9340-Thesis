@@ -67,7 +67,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           image: 'assets/images/Kalinga.png',
                           onTap: () {
                             _adventureController.updateSelectedProvince(Province.Kalinga);
-                            Get.off(const UserJourneyModalWidget());
+                            Get.offAndToNamed('/ActivitiesGameScreen');
                           },
                         ),
                         _buildLevelComponent(
@@ -76,7 +76,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           image: 'assets/images/Abra.png',
                           onTap: () {
                             _adventureController.updateSelectedProvince(Province.Abra);
-                            Get.off(const UserJourneyModalWidget());
+                            Get.offAndToNamed('/ActivitiesGameScreen');
                           },
                         ),
                         _buildLevelComponent(
@@ -85,7 +85,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           image: 'assets/images/Mt Province.png',
                           onTap: () {
                             _adventureController.updateSelectedProvince(Province.MountainProvince);
-                            Get.off(const UserJourneyModalWidget());
+                            Get.offAndToNamed('/ActivitiesGameScreen');
                           },
                         ),
                         _buildLevelComponent(
@@ -94,7 +94,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           image: 'assets/images/Ifugao.png',
                           onTap: () {
                             _adventureController.updateSelectedProvince(Province.Ifugao);
-                            Get.off(const UserJourneyModalWidget());
+                            Get.offAndToNamed('/ActivitiesGameScreen');
                           },
                         ),
                         _buildLevelComponent(
@@ -103,7 +103,7 @@ class _UserJourneyScreenState extends State<UserJourneyScreen> {
                           image: 'assets/images/Benguet.png',
                           onTap: () {
                             _adventureController.updateSelectedProvince(Province.Benguet);
-                            Get.off(const UserJourneyModalWidget());
+                            Get.offAndToNamed('/ActivitiesGameScreen');
                           },
                         ),
                       ],

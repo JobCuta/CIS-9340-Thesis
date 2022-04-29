@@ -14,7 +14,6 @@ class UserJourneyModalWidget extends StatefulWidget {
 }
 
 class _UserJourneyModalState extends State<UserJourneyModalWidget> {
-
   String first = "We are here in Apayao! Welcome to level 1! in this level,";
   String second =
       "I am here to share to you about mental health. It shows that you are experiencing extreme and unexpected changes in mood. ";
