@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
@@ -16,7 +15,6 @@ class ActivitiesGameScreen extends StatefulWidget {
 }
 
 class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
-  final AdventureController _adventureController = Get.put(AdventureController());
   final LevelController _levelController = Get.put(LevelController());
   final SudokuController _sudokuController = Get.put(SudokuController());
   final CopingController _copingController = Get.put(CopingController());
@@ -54,19 +52,28 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
   @override
   Widget build(BuildContext context) {
     //bool _isMemoryGameDone = _memoryController.isDailyExerciseDone.value;
-    bool _isCopingGameDone = _copingController.provinceCompleted.value as bool;
+    // bool _isCopingGameDone = _copingController.provinceCompleted.value as bool;
     //bool _isSudokuGameDone = _sudokuController.value;
 
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: Text(
-            'Your Adventure',
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: Theme.of(context).colorScheme.neutralWhite01,
-                fontWeight: FontWeight.w400),
+    return WillPopScope(
+      onWillPop: () {
+        Get.offAndToNamed('/userJourney');
+        return Future.value(true);
+      },
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            title: Text(
+              'Your Adventure',
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Theme.of(context).colorScheme.neutralWhite01,
+                  fontWeight: FontWeight.w400),
+            ),
+            leading: BackButton(onPressed: () => {Get.toNamed('/userJourney')}),
+            primary: true,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-        ),
           body: Stack(
             children: [
               Container(
@@ -183,104 +190,66 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                     ],
                                   ),
                                 ),
-                          
-                              _buildFieldComponent(
-                                title: 'Memory',
-                                onTap: () {
-                                  Get.toNamed('/memoryGameScreen');
-                                },
-                              ),
-                              Divider(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite03,
-                                height: 10,
-                                thickness: 1,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  // _copingController
-                                  //     .updateSelectedProvince(Province.Abra);
-                                  setState(() {
-                                    _isCopingGameDone = true;
-                                  });
-                                  Get.offAndToNamed('/copingGame');
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Coping',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralBlack02)),
-                                    displayBasedOnTaskCompleteness(
-                                        _isCopingGameDone)
-                                  ],
+                                /**_buildFieldComponent(
+                                  title: 'Coping',
+                                  onTap: () {
+                                    Get.toNamed('/copingGame');
+                                  },
+                                ),*/
+                                Divider(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .neutralWhite03,
+                                  height: 10,
+                                  thickness: 1,
                                 ),
-                              ),
-                              /**_buildFieldComponent(
-                                title: 'Coping',
-                                onTap: () {
-                                  Get.toNamed('/copingGame');
-                                },
-                              ),*/
-                              Divider(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite03,
-                                height: 10,
-                                thickness: 1,
-                              ),
-                              /**InkWell(
-                                onTap: () {
-                                  _sudokuController
-                                      .getCompleteStatusOfProvinceCards(province);
-                                  setState(() {
-                                    _isCopingGameDone = true;
-                                  });
-                                  Get.offAndToNamed('/copingGame');
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Coping',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralBlack02)),
-                                    displayBasedOnTaskCompleteness(
-                                        _isCopingGameDone)
-                                  ],
+                                /**InkWell(
+                                  onTap: () {
+                                    _sudokuController
+                                        .getCompleteStatusOfProvinceCards(province);
+                                    setState(() {
+                                      _isCopingGameDone = true;
+                                    });
+                                    Get.offAndToNamed('/copingGame');
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Coping',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .neutralBlack02)),
+                                      displayBasedOnTaskCompleteness(
+                                          _isCopingGameDone)
+                                    ],
+                                  ),
+                                ),*/
+                                _buildFieldComponent(
+                                  title: 'Sudoku',
+                                  onTap: () {
+                                    Get.toNamed('/sudoku', arguments: {
+                                      'route': '/ActivitiesGameScreen'
+                                    });
+                                  },
                                 ),
-                              ),*/
-                              _buildFieldComponent(
-                                title: 'Sudoku',
-                                onTap: () {
-                                  Get.toNamed('/sudoku');
-                                },
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ));
+              )
+            ],
+          )),
+    );
   }
-
   _buildFieldComponent({title, onTap}) {
     return InkWell(
       onTap: onTap,
