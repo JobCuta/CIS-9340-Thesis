@@ -6,13 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 void main() => runApp(const UserJourneyModal());
 
-class UserJourneyModal extends StatelessWidget {
-  const UserJourneyModal({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const UserJourneyModalWidget();
-}
-
 class UserJourneyModalWidget extends StatefulWidget {
   const UserJourneyModalWidget({Key? key}) : super(key: key);
 
@@ -21,9 +14,10 @@ class UserJourneyModalWidget extends StatefulWidget {
 }
 
 class _UserJourneyModalState extends State<UserJourneyModalWidget> {
+
   String first = "We are here in Apayao! Welcome to level 1! in this level,";
   String second =
-      "Hello, welcome to Apayao. I am here to share to you about mental health. It shows that you are experiencing extreme and unexpected changes in mood. ";
+      "I am here to share to you about mental health. It shows that you are experiencing extreme and unexpected changes in mood. ";
   String third =
       "Here are the activities that are available  in this level. You need to finish all of the activities so that you can go to the next region. ";
   @override
@@ -61,9 +55,10 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
                 onTap: () {
                   setState(() => first = second);
                   setState(() => second = third);
-                  setState(() => third =
-                      Get.offAndToNamed('/ActivitiesGameScreen') as String);
                 },
+                onDoubleTap: () {
+                  setState(() => third = Get.offAndToNamed('/ActivitiesGameScreen') as String);
+                  },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -120,4 +115,11 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
       ),
     );
   }
+}
+
+class UserJourneyModal extends StatelessWidget {
+  const UserJourneyModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const UserJourneyModalWidget();
 }

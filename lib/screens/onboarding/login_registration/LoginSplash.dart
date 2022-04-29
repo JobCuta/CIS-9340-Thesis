@@ -22,7 +22,6 @@ class _LoadingSplashState extends State<LoadingSplash> {
   String loadingStatus = 'Retrieving user details please wait..';
 
   String latestPhq = '', latestSidas = '';
-  // await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
   /// Get data from online database
   /// Works by checking which storage is more up to date
   ///
@@ -35,19 +34,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
     loadingStatus = 'Getting List from Server..';
 
     updatePHQ();
-
-    await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
-
-    log('these dates $latestPhq, $latestSidas');
-
-    List<sidasHive> sidasList = await UserProvider().sidasScores();
-
-    DateTime sidasServer = sidasList.first.date, sidasLocal = DateTime.parse(latestSidas);
-
-    loadingStatus = 'Updating Lists..';
-
-    if (sidasServer.isBefore(sidasLocal)) {
-    } else {}
+    updateSIDAS();
 
     return Future.value(HomePageScreen(2));
   }
@@ -67,11 +54,34 @@ class _LoadingSplashState extends State<LoadingSplash> {
       UserProvider().bulkPhqUpdate(phqList);
     } else {
       var box = Hive.box('phq');
-      box.clear();
       for (var entry in phqList) {
-        DateTime itemD = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
-        var item = phqHive(date: itemD, index: entry["id"], score: entry["score"]);
-        String key = itemD.month.toString() + '-' + itemD.day.toString();
+        DateTime date = entry["date_created"].toUtc();
+        var item = phqHive(date: entry["date_created"], index: entry["id"], score: entry["score"]);
+        String key = date.month.toString() + '-' + date.day.toString();
+        box.put(key, item);
+      }
+    }
+  }
+
+  updateSIDAS() async {
+    loadingStatus = 'Updating SIDAS Entries..';
+    await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
+    List sidasList = await UserProvider().sidasScores();
+    DateTime sidasServer = sidasList.first.date, sidasLocal = DateTime.parse(latestSidas);
+
+    for (var entry in sidasList) {
+      DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
+      entry["date_created"] = parsed.toUtc().toString();
+    }
+
+    if (sidasServer.isBefore(sidasLocal)) {
+      UserProvider().bulkPhqUpdate(sidasList);
+    } else {
+      var box = Hive.box('sidas');
+      for (var entry in sidasList) {
+        DateTime date = entry["date_created"].toUtc();
+        var item = sidasHive(date: entry["date_created"], index: entry["id"], score: entry["sum"], answerValues: []);
+        String key = date.month.toString() + '-' + date.day.toString();
         box.put(key, item);
       }
     }

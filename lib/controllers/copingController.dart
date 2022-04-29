@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/apis/CopingGame.dart';
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/apis/dailyHive.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
@@ -28,26 +28,12 @@ class CopingController extends GetxController {
   var ifugaoCardsCompleted = [false, false, false, false, false, false, false, false].obs;
   var benguetCardsCompleted = [false, false, false, false, false, false, false, false].obs;
 
-  var selectedProvince = Province.Apayao.obs;
-
 
   void prepareTheObjects() {
-    Box box = Hive.box<CopingGame>('copingGame');
-    if (box.isEmpty) {
-      CopingGame copingGameStatus = CopingGame(
-        provinceCompleted: [false, false, false, false, false, false],
-        apayaoCardsCompleted: [false, false, false, false, false, false, false, false],
-        kalingaCardsCompleted: [false, false, false, false, false, false, false, false],
-        abraCardsCompleted: [false, false, false, false, false, false, false, false],
-        mountainProvinceCardsCompleted: [false, false, false, false, false, false, false, false],
-        ifugaoCardsCompleted: [false, false, false, false, false, false, false, false],
-        benguetCardsCompleted: [false, false, false, false, false, false, false, false]
-      );
-      box.put('copingGameStatus', copingGameStatus);
-    }
+    Box box = Hive.box<AdventureProgress>('adventure');
 
-    CopingGame copingGame = box.get('copingGameStatus');
-    provinceCompleted.value = copingGame.provinceCompleted;
+    AdventureProgress copingGame = box.get('adventureProgress');
+    provinceCompleted.value = copingGame.copingProvinceCompleted;
     apayaoCardsCompleted.value = copingGame.apayaoCardsCompleted;
     kalingaCardsCompleted.value = copingGame.kalingaCardsCompleted;
     abraCardsCompleted.value = copingGame.abraCardsCompleted;
@@ -69,8 +55,8 @@ class CopingController extends GetxController {
   }
 
   void updateCardCompletion(Province province, int gridNum) {
-    Box box = Hive.box<CopingGame>('copingGame');
-    CopingGame copingGame = box.get('copingGameStatus');
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress copingGame = box.get('adventureProgress');
 
     if (province == Province.Abra) {
       abraCardsCompleted.value[gridNum] = true;
@@ -133,10 +119,10 @@ class CopingController extends GetxController {
     print('Mt. Province: ${mountainProvinceCardsCompleted.value.toString()}');
   }
 
-  void checkIfAllProvinceCardsAreComplete(List<bool> provinceCardsCompleted, Province province, CopingGame copingGame) {
+  void checkIfAllProvinceCardsAreComplete(List<bool> provinceCardsCompleted, Province province, AdventureProgress copingGame) {
     if (!provinceCardsCompleted.contains(false)) {
       provinceCompleted.value[provinceIndex[province] as int] = true;
-      copingGame.provinceCompleted[provinceIndex[province] as int] = true;
+      copingGame.copingProvinceCompleted[provinceIndex[province] as int] = true;
     }
   }
 
@@ -144,9 +130,25 @@ class CopingController extends GetxController {
     return provinceCompleted.value[provinceIndex[province] as int];
   }
 
-  void updateSelectedProvince(Province province) {
-    selectedProvince.value = province;
-    update();
+  bool checkIfItWillBeCompletedSoon(Province province) {
+    List<bool> cardsCompleted = (province == Province.Abra) ? abraCardsCompleted.value 
+          : (province == Province.Apayao) ? apayaoCardsCompleted.value
+          : (province == Province.Benguet) ? benguetCardsCompleted.value
+          : (province == Province.Ifugao) ? ifugaoCardsCompleted.value
+          : (province == Province.Kalinga) ? kalingaCardsCompleted.value
+          : benguetCardsCompleted.value;
+    
+    int done = 0;
+    int notDone = 0;
+    for (bool isCompleted in cardsCompleted) {
+      if (isCompleted) {
+        done++;
+      } else {
+        notDone++;
+      }
+    }
+
+    return (notDone == 1);
   }
   
 }

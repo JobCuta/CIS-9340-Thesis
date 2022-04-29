@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/screens/main/SideMenu.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

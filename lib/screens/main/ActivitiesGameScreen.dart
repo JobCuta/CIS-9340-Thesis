@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+enum Activities {
+    Coping,
+    Memory,
+    Sudoku
+}
 
 class ActivitiesGameScreen extends StatefulWidget {
   const ActivitiesGameScreen({key}) : super(key: key);
@@ -15,11 +24,33 @@ class ActivitiesGameScreen extends StatefulWidget {
 }
 
 class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
-  final LevelController _levelController = Get.put(LevelController());
-  final SudokuController _sudokuController = Get.put(SudokuController());
-  final CopingController _copingController = Get.put(CopingController());
+  final AdventureController _adventureController = Get.put(AdventureController());
+  // final LevelController _levelController = Get.put(LevelController());
+  // final SudokuController _sudokuController = Get.put(SudokuController());
+  // final CopingController _copingController = Get.put(CopingController());
 
-  RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
+  // might have to change screen after completing memory or sudoku for the "complete" to reflect in the UI
+  // TODO: will change something later to fix that
+  RichText displayBasedOnTaskCompleteness(Activities activity) {
+    Map<Province, int> provinceIndex = {
+      Province.Apayao: 0,
+      Province.Kalinga: 1,
+      Province.Abra: 2,
+      Province.MountainProvince: 3,
+      Province.Ifugao: 4,
+      Province.Benguet: 5
+    };
+
+    Province selectedProvince = _adventureController.selectedProvince.value;
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress adventureProgress = box.get('adventureProgress');
+
+    List <bool> provinceCompleted = (activity == Activities.Coping) ? adventureProgress.copingProvinceCompleted
+        : (activity == Activities.Memory) ? adventureProgress.memoryProvinceCompleted
+        : adventureProgress.sudokuProvinceCompleted;
+
+    bool isTaskDone = provinceCompleted[provinceIndex[selectedProvince] as int];
+    
     return (isTaskDone)
         ? RichText(
             text: TextSpan(children: [
@@ -51,10 +82,6 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //bool _isMemoryGameDone = _memoryController.isDailyExerciseDone.value;
-    // bool _isCopingGameDone = _copingController.provinceCompleted.value as bool;
-    //bool _isSudokuGameDone = _sudokuController.value;
-
     return WillPopScope(
       onWillPop: () {
         Get.offAndToNamed('/userJourney');
@@ -124,34 +151,34 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                   height: 10,
                                   thickness: 1,
                                 ),
-                                /**InkWell(
-                                  onTap: () {
-                                    _copingController
-                                        .getCompleteStatusOfProvinceCards(province);
-                                    setState(() {
-                                      _isCopingGameDone = true;
-                                    });
-                                    Get.offAndToNamed('/copingGame');
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Coping',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                      displayBasedOnTaskCompleteness(
-                                          _isCopingGameDone)
-                                    ],
-                                  ),
-                                ),*/
+                                // InkWell(
+                                //   onTap: () {
+                                //     _copingController
+                                //         .getCompleteStatusOfProvinceCards(province);
+                                //     setState(() {
+                                //       _isCopingGameDone = true;
+                                //     });
+                                //     Get.offAndToNamed('/copingGame');
+                                //   },
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text('Coping',
+                                //           style: Theme.of(context)
+                                //               .textTheme
+                                //               .bodyText2
+                                //               ?.copyWith(
+                                //               fontWeight: FontWeight.w400,
+                                //               color: Theme.of(context)
+                                //                   .colorScheme
+                                //                   .neutralBlack02)),
+                                //       displayBasedOnTaskCompleteness(
+                                //           _isCopingGameDone)
+                                //     ],
+                                //   ),
+                                // ),
                                 _buildFieldComponent(
-                                  title: 'Memory',
+                                  title: Activities.Memory,
                                   onTap: () {
                                     Get.toNamed('/memoryGameScreen');
                                   },
@@ -163,39 +190,45 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                   height: 10,
                                   thickness: 1,
                                 ),
-                                InkWell(
+                                _buildFieldComponent(
+                                  title: Activities.Coping,
                                   onTap: () {
-                                    _copingController
-                                        .updateSelectedProvince(Province.Abra);
-                                    // setState(() {
-                                    //   _isCopingGameDone = true;
-                                    // });
                                     Get.offAndToNamed('/copingGame');
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Coping',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .neutralBlack02)),
-                                      // displayBasedOnTaskCompleteness(
-                                      //     _isCopingGameDone)
-                                    ],
-                                  ),
+                                  }
                                 ),
-                                /**_buildFieldComponent(
-                                  title: 'Coping',
-                                  onTap: () {
-                                    Get.toNamed('/copingGame');
-                                  },
-                                ),*/
+                                // InkWell(
+                                //   onTap: () {
+                                //     // _copingController
+                                //     //     .updateSelectedProvince(Province.Abra);
+                                //     // setState(() {
+                                //     //   _isCopingGameDone = true;
+                                //     // });
+                                //     Get.offAndToNamed('/copingGame');
+                                //   },
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text('Coping',
+                                //           style: Theme.of(context)
+                                //               .textTheme
+                                //               .bodyText2
+                                //               ?.copyWith(
+                                //                   fontWeight: FontWeight.w400,
+                                //                   color: Theme.of(context)
+                                //                       .colorScheme
+                                //                       .neutralBlack02)),
+                                //       // displayBasedOnTaskCompleteness(
+                                //       //     _isCopingGameDone)
+                                //     ],
+                                //   ),
+                                // ),
+                                // _buildFieldComponent(
+                                //   title: 'Coping',
+                                //   onTap: () {
+                                //     Get.toNamed('/copingGame');
+                                //   },
+                                // ),
                                 Divider(
                                   color: Theme.of(context)
                                       .colorScheme
@@ -203,34 +236,34 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
                                   height: 10,
                                   thickness: 1,
                                 ),
-                                /**InkWell(
-                                  onTap: () {
-                                    _sudokuController
-                                        .getCompleteStatusOfProvinceCards(province);
-                                    setState(() {
-                                      _isCopingGameDone = true;
-                                    });
-                                    Get.offAndToNamed('/copingGame');
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Coping',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                      displayBasedOnTaskCompleteness(
-                                          _isCopingGameDone)
-                                    ],
-                                  ),
-                                ),*/
+                                // InkWell(
+                                //   onTap: () {
+                                //     _sudokuController
+                                //         .getCompleteStatusOfProvinceCards(province);
+                                //     setState(() {
+                                //       _isCopingGameDone = true;
+                                //     });
+                                //     Get.offAndToNamed('/copingGame');
+                                //   },
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Text('Coping',
+                                //           style: Theme.of(context)
+                                //               .textTheme
+                                //               .bodyText2
+                                //               ?.copyWith(
+                                //               fontWeight: FontWeight.w400,
+                                //               color: Theme.of(context)
+                                //                   .colorScheme
+                                //                   .neutralBlack02)),
+                                //       displayBasedOnTaskCompleteness(
+                                //           _isCopingGameDone)
+                                //     ],
+                                //   ),
+                                // ),
                                 _buildFieldComponent(
-                                  title: 'Sudoku',
+                                  title: Activities.Sudoku,
                                   onTap: () {
                                     Get.toNamed('/sudoku', arguments: {
                                       'route': '/ActivitiesGameScreen'
@@ -250,31 +283,32 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
           )),
     );
   }
-
-  _buildFieldComponent({title, onTap}) {
+  _buildFieldComponent({required Activities title, onTap}) {
     return InkWell(
       onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
+          Text(title.name,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).colorScheme.neutralBlack02)),
-          RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                  text: 'Go',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xffFFC122))),
-              const WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: Icon(Icons.keyboard_arrow_right_sharp,
-                      color: Color(0xffFFC122)))
-            ]),
-          ),
+
+          displayBasedOnTaskCompleteness(title),
+          // RichText(
+          //   text: TextSpan(children: [
+          //     TextSpan(
+          //         text: 'Go',
+          //         style: Theme.of(context).textTheme.bodyText1?.copyWith(
+          //             fontWeight: FontWeight.w600,
+          //             color: const Color(0xffFFC122))),
+          //     const WidgetSpan(
+          //         alignment: PlaceholderAlignment.middle,
+          //         child: Icon(Icons.keyboard_arrow_right_sharp,
+          //             color: Color(0xffFFC122)))
+          //   ]),
+          // ),
         ],
       ),
     );

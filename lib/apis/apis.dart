@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
@@ -142,17 +143,18 @@ class UserProvider extends GetConnect {
     return {"status": true, "body": response.body};
   }
 
-  Future<Map<String, dynamic>> createEmotion(EmotionEntryHive entry) async {
-    DateTime date = DateFormat().parse('${entry.month} ${entry.day}, ${entry.year}');
+  Future<Map<String, dynamic>> createEmotion(EmotionEntryDetail entry) async {
+    DateTime date = DateFormat('').parse(entry.time);
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response = await post(domain + paths["emotion"], {},
-        // { "date": date,
-        //   "date_time_answered": DateTime.now().toString(),
-        //   "time_of_day": ,
-        //   "current_mood",
-        //   "positive_emotions",
-        //   "negative_emotions"},
+    final response = await post(domain + paths["emotion"],
+        { "date": date,
+          "date_time_answered": DateTime.now().toString(),
+          "time_of_day": '',
+          "current_mood": entry.mood,
+          "note": entry.note,
+          "positive_emotions": entry.positiveEmotions,
+          "negative_emotions": entry.negativeEmotions},
         headers: {"Authorization": "Token " + key});
     if (response.hasError) {
       log('create Emotion entry error ${response.statusText}');

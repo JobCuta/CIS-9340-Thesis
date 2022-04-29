@@ -1,6 +1,9 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/memoryController.dart';
+import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:get/get.dart';
 import '../../../controllers/levelController.dart';
@@ -14,32 +17,18 @@ class MemoryGameScreen extends StatefulWidget {
 
 class _MemoryGameState extends State<MemoryGameScreen> {
   final MemoryController _memoryController = Get.put(MemoryController());
+  final AdventureController _adventureController = Get.put(AdventureController());
   int _previousIndex = -1;
   bool _flip = false;
   bool _wait = true;
   int _dialogueCounter = 0;
-
-  provinceIndex() {
-    if (_memoryController.getCompleteStatusOfProvinceCards(0) == false) {
-      return Province.Apayao;
-    } else if (_memoryController.getCompleteStatusOfProvinceCards(1) == false) {
-      return Province.Kalinga;
-    } else if (_memoryController.getCompleteStatusOfProvinceCards(2) == false) {
-      return Province.Abra;
-    } else if (_memoryController.getCompleteStatusOfProvinceCards(3) == false) {
-      return Province.MountainProvince;
-    } else if (_memoryController.getCompleteStatusOfProvinceCards(4) == false) {
-      return Province.Ifugao;
-    } else {
-      return Province.Benguet;
-    }
-  }
+  late Province selectedProvince = _adventureController.selectedProvince.value;
 
   final List<bool> _cardFlips = getInitialItemState();
   final List<bool> _visibility = getInitialItemState();
   final List<GlobalKey<FlipCardState>> _cardStateKeys = getCardStateKeys();
-  late final List<String> _data = getCards(provinceIndex());
-  late final List<String> _dialogues = getDialogue(provinceIndex());
+  late final List<String> _data = getCards(selectedProvince);
+  late final List<String> _dialogues = getDialogue(selectedProvince);
   bool _completed = false;
   final LevelController _levelController = Get.put(LevelController());
 
@@ -73,6 +62,19 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: Text(
+            'Memory (${selectedProvince.name})',
+            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                color: Theme.of(context).colorScheme.neutralWhite01,
+                fontWeight: FontWeight.w400),
+          ),
+          leading: BackButton(onPressed: () {
+            Get.back();
+          }),
+          elevation: 0,
+          backgroundColor: Colors.transparent),
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Container(
@@ -155,7 +157,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                         Future.delayed(const Duration(milliseconds: 1000), () {
                                           _levelController.addXp('Memory Game', 50);
                                           _levelController.displayLevelXpModal(context);
-                                          _memoryController.updateProvinceCompletion(provinceIndex());
+                                          _memoryController.updateProvinceCompletion(selectedProvince);
                                         });
                                       }
                                     }
@@ -248,8 +250,6 @@ List<bool> getInitialItemState() {
   }
   return initialItemState;
 }
-
-enum Province { Abra, Apayao, Benguet, Ifugao, Kalinga, MountainProvince }
 
 List<String> abraCards() {
   return [

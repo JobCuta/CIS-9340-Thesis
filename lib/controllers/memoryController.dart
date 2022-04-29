@@ -1,4 +1,5 @@
 
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/apis/MemoryGame.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -16,19 +17,17 @@ class MemoryController extends GetxController{
   };
   var provinceCompleted = [false, false, false, false, false, false].obs;
 
-  var selectedProvince = Province.Apayao.obs;
-
   void prepareTheObjects() {
-    Box box = Hive.box<MemoryGame>('memoryGame');
-    if (box.isEmpty) {
-      MemoryGame memoryGameStatus = MemoryGame(
-        provinceCompleted: [false, false, false, false, false, false],
-      );
-      box.put('memoryGameStatus', memoryGameStatus);
-    }
+    Box box = Hive.box<AdventureProgress>('adventure');
+    // if (box.isEmpty) {
+    //   MemoryGame memoryGameStatus = MemoryGame(
+    //     provinceCompleted: [false, false, false, false, false, false],
+    //   );
+    //   box.put('memoryGameStatus', memoryGameStatus);
+    // }
 
-    MemoryGame memoryGame = box.get('memoryGameStatus');
-    provinceCompleted.value = memoryGame.provinceCompleted;
+    AdventureProgress memoryGame = box.get('adventureProgress');
+    provinceCompleted.value = memoryGame.memoryProvinceCompleted;
 
     update();
   }
@@ -38,8 +37,8 @@ class MemoryController extends GetxController{
   }
 
   void updateProvinceCompletion(Province province) {
-    Box box = Hive.box<MemoryGame>('memoryGame');
-    MemoryGame memoryGame = box.get('memoryGameStatus');
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress memoryGame = box.get('adventureProgress');
 
     if (province == Province.Abra) {
       updateIfCompleted(Province.Abra, memoryGame);
@@ -56,12 +55,10 @@ class MemoryController extends GetxController{
     }
   }
 
-  void updateIfCompleted(Province province, MemoryGame memoryGame) {
-    memoryGame.provinceCompleted[provinceIndex[province] as int] = true;
-  }
+  void updateIfCompleted(Province province, AdventureProgress memoryGame) {
+    memoryGame.memoryProvinceCompleted[provinceIndex[province] as int] = true;
+    memoryGame.save();
 
-  void updateSelectedProvince(Province province) {
-    selectedProvince.value = province;
-    update();
+    print("MEMORY GAME PROGRESS = " + memoryGame.memoryProvinceCompleted.toString());
   }
 }
