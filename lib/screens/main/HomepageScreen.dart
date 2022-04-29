@@ -10,6 +10,7 @@ import 'package:flutter_application_1/screens/MiniGames/MemoryGame/MemoryGameScr
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/CalendarScreen.dart';
 import 'package:flutter_application_1/screens/main/EntriesScreen.dart';
+import 'package:flutter_application_1/screens/main/MinigamesScreen.dart';
 import 'package:flutter_application_1/widgets/AssessmentsContainer.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
@@ -40,7 +41,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     const CalendarScreen(),
     const HomePage(),
     const AdventureHomeScreen(),
-    const MemoryGameScreen()
+    const MinigamesScreen()
   ];
 
   @override
@@ -267,60 +268,59 @@ class _HomePageState extends State<HomePage> {
                         )
                       ])),
                 ),
-                ElevatedButton(
-                    child: const Text('Test UES'),
-                    onPressed: () {
-                      showUserEngagementDialog(context);
-                    }),
-                ElevatedButton(
-                    onPressed: () =>
-                        _emotionController.testLargeNumberOfFutureEntries(3),
-                    child: const Text('Test Future Entries')),
-                ElevatedButton(
-                    onPressed: () =>
-                        _emotionController.testLargeNumberOfPastEntries(44),
-                    child: const Text('Test Past Entries')),
-                ElevatedButton(
-                    child: const Text('Test transparent'),
-                    onPressed: () {
-                      // Sample of how to use the talking person alert dialog
-                      // use then after the function to run code (redirect user, show another dialog like this, etc)
-                      showTalkingPerson(
-                        context: context,
-                        dialog:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                      ).then((value) {
-                        // Get.toNamed('/introScreen');
-                      });
-                    }),
-                ElevatedButton(
-                    child: const Text('Test LevelUp'),
-                    onPressed: () {
-                      _levelController.displayRewardsUponLevelUp(context);
-                    }),
-                ElevatedButton(
-                    child: const Text('Test Level XP'),
-                    onPressed: () {
-                      _levelController.getLevelFromStorage();
-                      _levelController.addXp('Test', 150);
-                      _levelController.displayLevelXpModal(context);
-                    }),
-                ElevatedButton(
-                    child: const Text("Test Today's Task"),
-                    onPressed: () {
-                      _levelController.getLevelFromStorage();
-                      _levelController.displayTodaysTaskWithXp(context);
-                    }),
-                ElevatedButton(
-                  onPressed: () {
-                    _levelController.setLevel(2);
-                  },
-                  child: const Text('Set level to 2'),
-                ),
+                // ElevatedButton(
+                //     child: const Text('Test UES'),
+                //     onPressed: () {
+                //       showUserEngagementDialog(context);
+                //     }),
+                // ElevatedButton(
+                //     onPressed: () =>
+                //         _emotionController.testLargeNumberOfFutureEntries(3),
+                //     child: const Text('Test Future Entries')),
+                // ElevatedButton(
+                //     onPressed: () =>
+                //         _emotionController.testLargeNumberOfPastEntries(44),
+                //     child: const Text('Test Past Entries')),
+                // ElevatedButton(
+                //     child: const Text('Test transparent'),
+                //     onPressed: () {
+                //       // Sample of how to use the talking person alert dialog
+                //       // use then after the function to run code (redirect user, show another dialog like this, etc)
+                //       showTalkingPerson(
+                //         context: context,
+                //         dialog:
+                //             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                //       ).then((value) {
+                //         // Get.toNamed('/introScreen');
+                //       });
+                //     }),
+                // ElevatedButton(
+                //     child: const Text('Test LevelUp'),
+                //     onPressed: () {
+                //       _levelController.displayRewardsUponLevelUp(context);
+                //     }),
+                // ElevatedButton(
+                //     child: const Text('Test Level XP'),
+                //     onPressed: () {
+                //       _levelController.getLevelFromStorage();
+                //       _levelController.addXp('Test', 150);
+                //       _levelController.displayLevelXpModal(context);
+                //     }),
+                // ElevatedButton(
+                //     child: const Text("Test Today's Task"),
+                //     onPressed: () {
+                //       _levelController.getLevelFromStorage();
+                //       _levelController.displayTodaysTaskWithXp(context);
+                //     }),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     _levelController.setLevel(2);
+                //   },
+                //   child: const Text('Set level to 2'),
+                // ),
                 Center(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 15.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 50.0,
                         child: Row(
@@ -520,107 +520,90 @@ class _HomePageState extends State<HomePage> {
                 const AssessmentsContainer(phq: true),
                 const AssessmentsContainer(phq: false),
                 InkWell(
-                  onTap: () {
-                    //Add navigation to the adventure page here
-                  },
-                  child: Container(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    height: 100,
-                    // padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff216CB2).withOpacity(0.55),
-                    ),
-                    child: Stack(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 100),
+                    onTap: () {
+                      Get.to(HomePageScreen(3), preventDuplicates: false);
+                    },
+                    child: Stack(alignment: Alignment.center, children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: SvgPicture.asset(
-                          'assets/images/bahag.svg',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Get.to(HomePageScreen(3), preventDuplicates: false);
-                        },
-                        child: Container(
+                          'assets/images/adventure_mode.svg',
                           alignment: Alignment.center,
-                          child: Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              direction: Axis.vertical,
-                              children: [
-                                Text('Adventure Mode',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                                const SizedBox(height: 10.0),
-                                Text('Start your journey to wellness!',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                              ]),
+                          width: MediaQuery.of(context).size.width,
                         ),
-                      )
-                    ]),
-                  ),
-                ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            direction: Axis.vertical,
+                            spacing: 8,
+                            children: [
+                              Text('Adventure Mode',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                              Text(
+                                  'Begin your interactive wellness experience!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                            ]),
+                      ),
+                    ])),
                 InkWell(
-                  onTap: () {
-                    Get.toNamed('/shakeScreen', arguments: {'initial?': false});
-                  },
-                  child: Stack(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(290, 15, 0, 10),
-                      child: SvgPicture.asset(
-                        'assets/images/meditating.svg',
-                        height: 95,
+                    onTap: () {
+                      Get.toNamed('/shakeScreen',
+                          arguments: {'initial?': false});
+                    },
+                    child: Stack(alignment: Alignment.center, children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                        child: SvgPicture.asset(
+                          'assets/images/daily_wellness.svg',
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                        ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 100,
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xffFFC122).withOpacity(0.60),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            direction: Axis.vertical,
+                            spacing: 8,
+                            children: [
+                              Text('Daily Wellness Exercise',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                              Text('Keep your mind and body in shape!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01)),
+                            ]),
                       ),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: [
-                          Text('Daily Wellness Exercise',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
-                          Text('Keep your mind and body in shape!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01)),
-                        ],
-                      ),
-                    ),
-                  ]),
-                ),
+                    ])),
               ],
             ),
           ),

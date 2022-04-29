@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class UserProvider extends GetConnect {
   static const domain = "https://kasiyanna-efd6n.ondigitalocean.app/";
@@ -24,6 +27,8 @@ class UserProvider extends GetConnect {
     "PHQ": "api/v1/PHQ9/",
     "PHQL": "api/v1/PHQ9-LIST/",
     "SIDAS": "api/v1/SIDAS/",
+    "emotion": "api/v1/EmotionEntry/",
+    "bulkPHQ": "api/v1/PHQ9-UPDATE/"
   };
 
   //POST
@@ -110,7 +115,7 @@ class UserProvider extends GetConnect {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["PHQ"], {
-      "date_created": entry.date.toString(),
+      "date_created": entry.date.toUtc().toString(),
       "score": entry.score,
     }, headers: {
       "Authorization": "Token " + key
@@ -126,7 +131,7 @@ class UserProvider extends GetConnect {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["SIDAS"], {
-      "date_created": entry.date.toString(),
+      "date_created": entry.date.toUtc().toString(),
       "sum": entry.score,
     }, headers: {
       "Authorization": "Token " + key
@@ -136,6 +141,40 @@ class UserProvider extends GetConnect {
       return {"status": false};
     }
     return {"status": true, "body": response.body};
+  }
+
+  Future<Map<String, dynamic>> createEmotion(EmotionEntryDetail entry) async {
+    DateTime date = DateFormat('').parse(entry.time);
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths["emotion"],
+        { "date": date,
+          "date_time_answered": DateTime.now().toString(),
+          "time_of_day": '',
+          "current_mood": entry.mood,
+          "note": entry.note,
+          "positive_emotions": entry.positiveEmotions,
+          "negative_emotions": entry.negativeEmotions},
+        headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('create Emotion entry error ${response.statusText}');
+      return {"status": false};
+    }
+    return {"status": true, "body": response.body};
+  }
+
+  Future<String> bulkPhqUpdate(List entries) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths["bulkPHQ"], entries, headers: {"Authorization": "Token " + key});
+    log('address $domain${paths["bulkPHQ"]}');
+    log('entries $entries');
+    if (response.hasError) {
+      log('bulk phq update error ${response.statusText}');
+      return "whoops";
+    }
+    log('it worked ${response.body}');
+    return "";
   }
 
   //GET

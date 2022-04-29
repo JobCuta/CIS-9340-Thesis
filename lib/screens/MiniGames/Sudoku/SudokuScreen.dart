@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
+import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:flutter_application_1/widgets/TalkingPersonDialog.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +39,7 @@ class SudokuScreenState extends State<SudokuScreen> {
   static String currentAccentColor = '';
   final SudokuController _sudokuController = Get.put(SudokuController());
   final LevelController _levelController = Get.put(LevelController());
+  final String route = Get.arguments["route"]!;
 
   @override
   void initState() {
@@ -56,7 +58,6 @@ class SudokuScreenState extends State<SudokuScreen> {
         currentAccentColor = 'darkGrey';
         setPrefs('currentAccentColor');
       }
-      print(currentTheme);
       newGame(currentDifficultyLevel);
       changeTheme(currentTheme);
     });
@@ -69,14 +70,12 @@ class SudokuScreenState extends State<SudokuScreen> {
       currentTheme = _sudokuController.currentTheme.value;
       currentAccentColor = _sudokuController.currentAccentColor.value;
     });
-    print(currentTheme);
   }
 
   setPrefs(String property) async {
     if (property == 'currentDifficultyLevel') {
       _sudokuController.updateDifficulty(currentDifficultyLevel);
     } else if (property == 'currentTheme') {
-      print(currentTheme);
       _sudokuController.updateTheme(currentTheme);
     } else if (property == 'currentAccentColor') {
       _sudokuController.updateAccent(currentAccentColor);
@@ -119,33 +118,34 @@ class SudokuScreenState extends State<SudokuScreen> {
         gameOver = true;
         Timer(const Duration(milliseconds: 500), () {
           // add if statement with get argument to determine where the user navigated from (adventure tasks or mini games screen)
-          showTalkingPerson(
-            context: context,
-            dialog:
-                'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
-          ).then((value) {
-            Get.offAndToNamed('/ActivitiesGameScreen');
-          });
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            _levelController.addXp('Sudoku', 50);
-            _levelController.displayLevelXpModal(context);
-          });
-
-          // showAnimatedDialog<void>(
-          //     animationType: DialogTransitionType.fadeScale,
-          //     barrierDismissible: true,
-          //     duration: const Duration(milliseconds: 350),
-          //     context: context,
-          //     builder: (_) => AlertGameOver()).whenComplete(() {
-          //   if (AlertGameOver.newGame) {
-          //     newGame();
-          //     AlertGameOver.newGame = false;
-          //   } else if (AlertGameOver.restartGame) {
-          //     restartGame();
-          //     AlertGameOver.restartGame = false;
-          //   }
-          // });
-          // }
+          if (route != '/minigames') {
+            showTalkingPerson(
+              context: context,
+              dialog:
+                  'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
+            ).then((value) {
+              Get.offAndToNamed('/ActivitiesGameScreen');
+            });
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              _levelController.addXp('Sudoku', 50);
+              _levelController.displayLevelXpModal(context);
+            });
+          } else {
+            showAnimatedDialog<void>(
+                animationType: DialogTransitionType.fadeScale,
+                barrierDismissible: true,
+                duration: const Duration(milliseconds: 350),
+                context: context,
+                builder: (_) => AlertGameOver()).whenComplete(() {
+              if (AlertGameOver.newGame) {
+                newGame(currentDifficultyLevel);
+                AlertGameOver.newGame = false;
+              } else if (AlertGameOver.restartGame) {
+                restartGame();
+                AlertGameOver.restartGame = false;
+              }
+            });
+          }
         });
       }
     } on InvalidSudokuConfigurationException {
@@ -530,7 +530,13 @@ class SudokuScreenState extends State<SudokuScreen> {
               barrierDismissible: true,
               duration: const Duration(milliseconds: 350),
               context: context,
-              builder: (_) => AlertExit());
+              builder: (_) => AlertExit()).whenComplete(() {
+            if (AlertExit.choice != false) {
+              route == '/minigames'
+                  ? Get.off(HomePageScreen(4))
+                  : Get.offAndToNamed(route);
+            }
+          });
 
           return true;
         },
@@ -544,6 +550,22 @@ class SudokuScreenState extends State<SudokuScreen> {
                             color:
                                 Theme.of(context).colorScheme.neutralWhite01)),
                     backgroundColor: Colors.transparent,
+                    leading: BackButton(
+                      onPressed: () async {
+                        showAnimatedDialog<void>(
+                            animationType: DialogTransitionType.fadeScale,
+                            barrierDismissible: true,
+                            duration: const Duration(milliseconds: 350),
+                            context: context,
+                            builder: (_) => AlertExit()).whenComplete(() {
+                          if (AlertExit.choice != false) {
+                            route == '/minigames'
+                                ? Get.off(HomePageScreen(4))
+                                : Get.offAndToNamed(route);
+                          }
+                        });
+                      },
+                    ),
                     elevation: 0)),
             extendBodyBehindAppBar: true,
             body: Stack(children: [

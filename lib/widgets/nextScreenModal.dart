@@ -33,11 +33,10 @@ class _nextScreenModalState extends State<nextScreenModalWidget> {
     return Timer(duration, route);
   }
 
-  route() => Get.off(
-    const OnBoardingScoresScreen(),
-    transition: Transition.fadeIn, 
-    duration: const Duration(seconds: 1)
-  );
+  route() => Get.off(const OnBoardingScoresScreen(),
+      arguments: {'type': Get.arguments['type']},
+      transition: Transition.fadeIn,
+      duration: const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,11 @@ class _nextScreenModalState extends State<nextScreenModalWidget> {
                 height: 30.0,
               ),
               Text(
-                'Your results for your first evaluation is ready!',
+                Get.arguments['type'] == 'phq9'
+                    ? 'Your results for your PHQ-9 Assessment is ready!'
+                    : Get.arguments['type'] == 'sidas'
+                        ? 'Your results for your SIDAS Assessment is ready!'
+                        : 'Your results for your first evaluation is ready!',
                 style: Theme.of(context).textTheme.subtitle1?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.neutralGray04),

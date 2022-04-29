@@ -29,6 +29,7 @@ import 'package:flutter_application_1/screens/main/ActivitiesGameScreen.dart';
 import 'package:flutter_application_1/screens/main/AdventureHomeScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationEndScreen.dart';
 import 'package:flutter_application_1/screens/main/EmotionalEvaluationStartScreen.dart';
+import 'package:flutter_application_1/screens/main/MinigamesScreen.dart';
 import 'package:flutter_application_1/screens/main/UserEngagementScaleScreen.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:flutter_application_1/screens/main/WellnessExercisesScreen.dart';
@@ -273,6 +274,7 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/sidasStatScreen', page: () => const SIDASScoreScreen()),
           // Minigames Screens
+          GetPage(name: '/minigames', page: () => const MinigamesScreen()),
           GetPage(name: '/sudoku', page: () => SudokuScreen()),
           GetPage(name: '/copingGame', page: () => CopingGameScreen()),
           GetPage(

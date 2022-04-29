@@ -75,16 +75,16 @@ class _ShakeScreenState extends State<ShakeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(children: [
-          Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/background_images/orange_circles_background.png',
-                      ),
-                      fit: BoxFit.cover))),
-          Container(
+      body: Stack(children: [
+        Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/background_images/orange_circles_background.png',
+                    ),
+                    fit: BoxFit.cover))),
+        SafeArea(
+          child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,35 +141,34 @@ class _ShakeScreenState extends State<ShakeScreen> {
                       )),
                 ],
               )),
-          Visibility(
-            visible: widget.initialAssessment == false,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: Theme.of(context).colorScheme.accentBlue02,
-                    ),
-                    onPressed: () {
-                      Get.offAndToNamed('/wellnessScreen');
-                    },
-                    child: Text('I want to pick the exercise',
-                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color:
-                                Theme.of(context).colorScheme.neutralWhite01)),
+        ),
+        Visibility(
+          visible: widget.initialAssessment == false,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: Theme.of(context).colorScheme.accentBlue02,
                   ),
+                  onPressed: () {
+                    Get.offAndToNamed('/wellnessScreen');
+                  },
+                  child: Text('I want to pick the exercise',
+                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralWhite01)),
                 ),
               ),
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }
@@ -222,17 +221,17 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             : [meditation, breathing];
 
     return Scaffold(
-        body: SafeArea(
-      child: Stack(children: [
-        // Used to add the background
-        Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/background_images/orange_circles_background.png',
-                    ),
-                    fit: BoxFit.cover))),
-        Container(
+        body: Stack(children: [
+      // Used to add the background
+      Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    'assets/background_images/orange_circles_background.png',
+                  ),
+                  fit: BoxFit.cover))),
+      SafeArea(
+        child: Container(
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: PageView.builder(
               // NeverScrollableScrollPhysics to ensure the user can only navigate through the pageviews with the expected interactions
@@ -372,7 +371,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           : (position == 2)
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 0),
+                                      vertical: 20, horizontal: 0),
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     height: 50,
@@ -418,7 +417,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       Visibility(
                         visible: widget.initialAssessment,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: Visibility(
                             visible: position <= 1,
                             child: TextButton(
@@ -440,9 +439,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       )
                     ]);
               }),
-        )
-      ]),
-    ));
+        ),
+      )
+    ]));
   }
 }
 

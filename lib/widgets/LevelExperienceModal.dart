@@ -24,10 +24,13 @@ class _LevelWidgetsState extends State<LevelWidgets> {
 
   @override
   Widget build(BuildContext context) {
+    if (experiences.isEmpty) {
+      experiences = {_levelController.taskName.value : _levelController.taskXp.value};
+    }
+    print("ACCOMPLISHED (in Modal) = " + _levelController.accomplishedWithXp.value.toString());
     print("EXPERIENCES = " + experiences.toString());
     print("EXPERIENCES SIZE = " + experiences.length.toString());
     List<dynamic> experienceKeys = experiences.keys.toList();
-    _levelController.clearMapOfAccomplishedWithXp();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -80,8 +83,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
                     print("KEY = $key && XP = $xp");
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Column(
                         children: [
                           Row(
