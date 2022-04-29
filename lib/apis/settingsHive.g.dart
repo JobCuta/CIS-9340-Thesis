@@ -24,13 +24,15 @@ class SettingsHiveAdapter extends TypeAdapter<SettingsHive> {
       language: fields[4] as String,
       imagePath: fields[5] as String,
       framePath: fields[6] as String,
+      phqNotificationsEnabled: fields[7] as bool,
+      sidasNotificationsEnabled: fields[8] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsHive obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.notificationsEnabled)
       ..writeByte(1)
@@ -44,7 +46,11 @@ class SettingsHiveAdapter extends TypeAdapter<SettingsHive> {
       ..writeByte(5)
       ..write(obj.imagePath)
       ..writeByte(6)
-      ..write(obj.framePath);
+      ..write(obj.framePath)
+      ..writeByte(7)
+      ..write(obj.phqNotificationsEnabled)
+      ..writeByte(8)
+      ..write(obj.sidasNotificationsEnabled);
   }
 
   @override

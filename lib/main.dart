@@ -79,7 +79,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService().init(); //
 
   Hive.registerAdapter(sidasHiveAdapter());
   Hive.registerAdapter<phqHive>(phqHiveAdapter());
@@ -127,6 +126,7 @@ Future<void> main() async {
 
   final CopingController _copingController = Get.put(CopingController());
   _copingController.prepareTheObjects();
+  await NotificationService().init();
 
   runApp(const Main());
 }

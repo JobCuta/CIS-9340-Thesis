@@ -71,7 +71,7 @@ class _SIDASScreenState extends State<SIDASScreen> {
             },
             child: Container(
                 alignment: Alignment.center,
-                height: 40,
+                height: initial != 0 ? 40 : 50,
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: position != 1
@@ -84,7 +84,8 @@ class _SIDASScreenState extends State<SIDASScreen> {
                                 : Colors.transparent,
                         width: 4),
                     color: color),
-                child: Text(initial.toString(),
+                child: Text(
+                    initial != 0 ? initial.toString() : zero_string[position],
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
                         color: Theme.of(context).colorScheme.neutralWhite01,
                         fontWeight: FontWeight.w600)))),
@@ -171,20 +172,41 @@ class _SIDASScreenState extends State<SIDASScreen> {
                             ]),
                       ),
                       GetBuilder<SIDASController>(
-                        builder: (value) => Row(children: [
-                          buildItem(position, 0, 10, const Color(0xffFFB762)),
-                          buildItem(position, 1, 9, const Color(0xffFFAE50)),
-                          buildItem(position, 2, 8, const Color(0xffFFA236)),
-                          buildItem(position, 3, 7, const Color(0xffFF8A00)),
-                          buildItem(position, 4, 6, const Color(0xffFF7A00)),
-                          buildItem(position, 5, 5, const Color(0xffFF6B00)),
-                          buildItem(position, 6, 4, const Color(0xffFF7A00)),
-                          buildItem(position, 7, 3, const Color(0xffFF8A00)),
-                          buildItem(position, 8, 2, const Color(0xffFFA236)),
-                          buildItem(position, 9, 1, const Color(0xffFFAE50)),
-                          buildItem(position, 10, 0, const Color(0xffFFB762)),
-                        ]),
-                      )
+                        builder: (value) => SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 130,
+                          child: Flex(
+                            direction: Axis.vertical,
+                            children: [
+                              Row(children: [
+                                buildItem(
+                                    position, 1, 9, const Color(0xffFFB762)),
+                                buildItem(
+                                    position, 2, 8, const Color(0xffFFAE50)),
+                                buildItem(
+                                    position, 3, 7, const Color(0xffFFA236)),
+                                buildItem(
+                                    position, 4, 6, const Color(0xffFF8A00)),
+                                buildItem(
+                                    position, 5, 5, const Color(0xffFF7A00)),
+                                buildItem(
+                                    position, 6, 4, const Color(0xffFF6B00)),
+                                buildItem(
+                                    position, 7, 3, const Color(0xffFF7A00)),
+                                buildItem(
+                                    position, 8, 2, const Color(0xffFF8A00)),
+                                buildItem(
+                                    position, 9, 1, const Color(0xffFFA236)),
+                                buildItem(
+                                    position, 10, 0, const Color(0xffFFAE50)),
+                              ]),
+                              const SizedBox(height: 40),
+                              buildItem(
+                                  position, 0, 10, const Color(0xffFFA236)),
+                            ],
+                          ),
+                        ),
+                      ),
                     ])),
               ),
               // Bottombar

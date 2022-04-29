@@ -11,6 +11,9 @@ class SettingsController extends GetxController {
   var language = 'English'.obs;
   var imagePath = ''.obs;
   var framePath = ''.obs;
+  var phqNotificationsEnabled = false.obs;
+  var sidasNotificationsEnabled = false.obs;
+
   TimeController timeController = TimeController();
 
   Box box = Hive.box<SettingsHive>('settings');
@@ -18,13 +21,16 @@ class SettingsController extends GetxController {
   void prepareTheObjects() {
     if (box.isEmpty) {
       SettingsHive settings = SettingsHive(
-          notificationsEnabled: false,
-          notificationsMorningTime: ['9', '30'],
-          notificationsAfternoonTime: ['12', '30'],
-          notificationsEveningTime: ['18', '30'],
-          language: 'English',
-          imagePath: '',
-          framePath: '');
+        notificationsEnabled: false,
+        notificationsMorningTime: ['9', '30'],
+        notificationsAfternoonTime: ['12', '30'],
+        notificationsEveningTime: ['18', '30'],
+        language: 'English',
+        imagePath: '',
+        framePath: '',
+        phqNotificationsEnabled: false,
+        sidasNotificationsEnabled: false,
+      );
       box.put('settings', settings);
     }
 
@@ -39,11 +45,14 @@ class SettingsController extends GetxController {
     // checkValues();
   }
 
-  void updateNotificationSettings(
-      {required newNotificationsEnabled,
-      required newNotificationsMorningTime,
-      required newNotificationsAfternoonTime,
-      required newNotificationsEveningTime}) {
+  void updateNotificationSettings({
+    required newNotificationsEnabled,
+    required newNotificationsMorningTime,
+    required newNotificationsAfternoonTime,
+    required newNotificationsEveningTime,
+    required newPHQNotificationsEnabled,
+    required newSIDASNotificationsEnabled,
+  }) {
     SettingsHive newSettings = SettingsHive(
         notificationsEnabled: newNotificationsEnabled,
         notificationsMorningTime: newNotificationsMorningTime,
@@ -51,7 +60,9 @@ class SettingsController extends GetxController {
         notificationsEveningTime: newNotificationsEveningTime,
         language: language.value,
         imagePath: imagePath.value,
-        framePath: framePath.value);
+        framePath: framePath.value,
+        phqNotificationsEnabled: newPHQNotificationsEnabled,
+        sidasNotificationsEnabled: newSIDASNotificationsEnabled);
     box.putAt(0, newSettings);
 
     notificationsEnabled.value = newSettings.notificationsEnabled;
@@ -65,13 +76,16 @@ class SettingsController extends GetxController {
     required newLanguage,
   }) {
     SettingsHive newSettings = SettingsHive(
-        notificationsEnabled: notificationsEnabled.value,
-        notificationsMorningTime: notificationsMorningTime.value,
-        notificationsAfternoonTime: notificationsAfternoonTime.value,
-        notificationsEveningTime: notificationsEveningTime.value,
-        language: newLanguage,
-        imagePath: imagePath.value,
-        framePath: framePath.value);
+      notificationsEnabled: notificationsEnabled.value,
+      notificationsMorningTime: notificationsMorningTime.value,
+      notificationsAfternoonTime: notificationsAfternoonTime.value,
+      notificationsEveningTime: notificationsEveningTime.value,
+      language: newLanguage,
+      imagePath: imagePath.value,
+      framePath: framePath.value,
+      phqNotificationsEnabled: phqNotificationsEnabled.value,
+      sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+    );
     box.putAt(0, newSettings);
 
     language.value = newLanguage;
@@ -82,13 +96,16 @@ class SettingsController extends GetxController {
     required newImage,
   }) {
     SettingsHive newSettings = SettingsHive(
-        notificationsEnabled: notificationsEnabled.value,
-        notificationsMorningTime: notificationsMorningTime.value,
-        notificationsAfternoonTime: notificationsAfternoonTime.value,
-        notificationsEveningTime: notificationsEveningTime.value,
-        language: language.value,
-        imagePath: newImage,
-        framePath: framePath.value);
+      notificationsEnabled: notificationsEnabled.value,
+      notificationsMorningTime: notificationsMorningTime.value,
+      notificationsAfternoonTime: notificationsAfternoonTime.value,
+      notificationsEveningTime: notificationsEveningTime.value,
+      language: language.value,
+      imagePath: newImage,
+      framePath: framePath.value,
+      phqNotificationsEnabled: phqNotificationsEnabled.value,
+      sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+    );
     box.putAt(0, newSettings);
 
     imagePath.value = newImage;
@@ -98,13 +115,16 @@ class SettingsController extends GetxController {
 
   void updateFrameSettings({required newFrame}) {
     SettingsHive newSettings = SettingsHive(
-        notificationsEnabled: notificationsEnabled.value,
-        notificationsMorningTime: notificationsMorningTime.value,
-        notificationsAfternoonTime: notificationsAfternoonTime.value,
-        notificationsEveningTime: notificationsEveningTime.value,
-        language: language.value,
-        imagePath: imagePath.value,
-        framePath: newFrame);
+      notificationsEnabled: notificationsEnabled.value,
+      notificationsMorningTime: notificationsMorningTime.value,
+      notificationsAfternoonTime: notificationsAfternoonTime.value,
+      notificationsEveningTime: notificationsEveningTime.value,
+      language: language.value,
+      imagePath: imagePath.value,
+      framePath: newFrame,
+      phqNotificationsEnabled: phqNotificationsEnabled.value,
+      sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+    );
     box.putAt(0, newSettings);
 
     imagePath.value = newFrame;
@@ -121,6 +141,8 @@ class SettingsController extends GetxController {
     language.value = settings.language;
     imagePath.value = settings.imagePath;
     framePath.value = settings.framePath;
+    phqNotificationsEnabled.value = settings.phqNotificationsEnabled;
+    sidasNotificationsEnabled.value = settings.sidasNotificationsEnabled;
     // checkValues();
   }
 
@@ -134,6 +156,8 @@ class SettingsController extends GetxController {
     print(language.value);
     print(imagePath.value);
     print(framePath.value);
+    print(phqNotificationsEnabled.value);
+    print(sidasNotificationsEnabled.value);
 
     SettingsHive settings = box.get('settings');
     print('Settings in the box (Settings)');
@@ -145,5 +169,7 @@ class SettingsController extends GetxController {
     print(settings.language);
     print(settings.imagePath);
     print(settings.framePath);
+    print(settings.phqNotificationsEnabled);
+    print(settings.sidasNotificationsEnabled);
   }
 }

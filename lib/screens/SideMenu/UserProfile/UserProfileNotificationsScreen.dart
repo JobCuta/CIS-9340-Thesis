@@ -212,10 +212,100 @@ class UserProfileNotificationsScreenState
                                           _timeController.selectEveningTime(
                                             context: context,
                                           );
-                                        })
+                                        }),
+                                    Divider(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite03,
+                                      height: 25,
+                                      thickness: 2,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Text(
+                                                'Show PHQ9 Assessment Notifications',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1
+                                                    ?.copyWith(
+                                                        color: _settingsController
+                                                                .notificationsEnabled
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .neutralGray04
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .neutralGray01))),
+                                        Switch.adaptive(
+                                          value: _settingsController
+                                                  .notificationsEnabled.value
+                                              ? _settingsController
+                                                  .phqNotificationsEnabled.value
+                                              : _settingsController
+                                                  .notificationsEnabled.value,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _settingsController
+                                                  .phqNotificationsEnabled
+                                                  .value = value;
+                                            });
+                                          },
+                                          activeColor: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
+                                          activeTrackColor: Theme.of(context)
+                                              .colorScheme
+                                              .intGreenMain,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Text(
+                                                'Show SIDAS Assessment Notifications',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1
+                                                    ?.copyWith(
+                                                        color: _settingsController
+                                                                .notificationsEnabled
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .neutralGray04
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .neutralGray01))),
+                                        Switch.adaptive(
+                                          value: _settingsController
+                                                  .notificationsEnabled.value
+                                              ? _settingsController
+                                                  .sidasNotificationsEnabled
+                                                  .value
+                                              : _settingsController
+                                                  .notificationsEnabled.value,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _settingsController
+                                                  .sidasNotificationsEnabled
+                                                  .value = value;
+                                            });
+                                          },
+                                          activeColor: Theme.of(context)
+                                              .colorScheme
+                                              .neutralWhite01,
+                                          activeTrackColor: Theme.of(context)
+                                              .colorScheme
+                                              .intGreenMain,
+                                        ),
+                                      ],
+                                    ),
                                   ]),
                             ),
-                          )
+                          ),
                         ]),
                       ),
                     ])),
@@ -236,26 +326,29 @@ class UserProfileNotificationsScreenState
                         ),
                         onPressed: () {
                           _settingsController.updateNotificationSettings(
-                              newNotificationsEnabled: _settingsController
-                                  .notificationsEnabled.value,
-                              newNotificationsMorningTime: [
-                                _timeController.morningTime.value.hour
-                                    .toString(),
-                                _timeController.morningTime.value.minute
-                                    .toString()
-                              ],
-                              newNotificationsAfternoonTime: [
-                                _timeController.afternoonTime.value.hour
-                                    .toString(),
-                                _timeController.afternoonTime.value.minute
-                                    .toString()
-                              ],
-                              newNotificationsEveningTime: [
-                                _timeController.eveningTime.value.hour
-                                    .toString(),
-                                _timeController.eveningTime.value.minute
-                                    .toString()
-                              ]);
+                            newNotificationsEnabled:
+                                _settingsController.notificationsEnabled.value,
+                            newNotificationsMorningTime: [
+                              _timeController.morningTime.value.hour.toString(),
+                              _timeController.morningTime.value.minute
+                                  .toString()
+                            ],
+                            newNotificationsAfternoonTime: [
+                              _timeController.afternoonTime.value.hour
+                                  .toString(),
+                              _timeController.afternoonTime.value.minute
+                                  .toString()
+                            ],
+                            newNotificationsEveningTime: [
+                              _timeController.eveningTime.value.hour.toString(),
+                              _timeController.eveningTime.value.minute
+                                  .toString()
+                            ],
+                            newPHQNotificationsEnabled: _settingsController
+                                .phqNotificationsEnabled.value,
+                            newSIDASNotificationsEnabled: _settingsController
+                                .sidasNotificationsEnabled.value,
+                          );
 
                           if (_settingsController.notificationsEnabled.value) {
                             NotificationService.showMorningNotification(
@@ -266,6 +359,14 @@ class UserProfileNotificationsScreenState
 
                             NotificationService.showEveningNotification(
                                 _timeController.eveningTime.value);
+                            if (_settingsController
+                                .phqNotificationsEnabled.value) {
+                              NotificationService.showPHQNotification();
+                            }
+                            if (_settingsController
+                                .sidasNotificationsEnabled.value) {
+                              NotificationService.showSIDASNotification();
+                            }
                           } else {
                             NotificationService.cancelAllNotifications();
                           }
