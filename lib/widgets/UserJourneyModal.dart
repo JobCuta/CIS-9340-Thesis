@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
-import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,6 +13,13 @@ class UserJourneyModalWidget extends StatefulWidget {
 
   @override
   State<UserJourneyModalWidget> createState() => _UserJourneyModalState();
+}
+
+class UserJourneyModal extends StatelessWidget {
+  const UserJourneyModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const UserJourneyModalWidget();
 }
 
 class _UserJourneyModalState extends State<UserJourneyModalWidget> {
@@ -77,16 +83,12 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: GestureDetector(
                 onTap: () {
-                  // setState(() => first = second);
                   setState(() {
                     first = second;
                     second = third;
                     third = Get.offAndToNamed('/ActivitiesGameScreen') as String;
                   });
                 },
-                // onDoubleTap: () {
-                //   setState(() => third = Get.offAndToNamed('/ActivitiesGameScreen') as String);
-                //   },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -143,11 +145,4 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
       ),
     );
   }
-}
-
-class UserJourneyModal extends StatelessWidget {
-  const UserJourneyModal({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const UserJourneyModalWidget();
 }
