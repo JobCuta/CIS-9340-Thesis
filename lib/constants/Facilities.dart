@@ -1,0 +1,10 @@
+const String paid1 = 'Philippine Mental Health Association-Baguio, BGH Exit Rod, Marcos Highway, Baguio City, 2600';
+const String paid2 = 'Roseville Rehabilitation Center, 59 Balacbac Road, Sto. Tomas Proper, Baguio City';
+const String paid3 = 'Serenity in the Steps, Mararahay Ka Rehab and Treatment Facility, 26 The Steps, Gulf View Horizon, Suello Village, Marcos Hi-way, Baguio City, Benguet, Philippines';
+const String free = 'Shalom House, Incorporated Drug Abuse Prevention, Treatment and Recovery Center, Philippine Nurses Association Building, Upper Session Road Extension, Baguio, Benguet';
+const String support1 = 'Baguio Mental Health Support Group';
+const String support2 = 'Mental Health Matters by Kylie Verzosa';
+const String support3 = 'Mental Health and Psychosocial Support, Philippines';
+const String support4 = 'MentalHealthPH';
+const String support5 = 'No To Mental Health Stigma PH';
+const String support6 = 'Philippine Mental Health Association, Inc.';

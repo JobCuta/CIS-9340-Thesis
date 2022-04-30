@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/controllers/adventureController.dart';
+import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/main/UserJourney.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 void main() => runApp(const UserJourneyModal());
 
@@ -14,13 +17,35 @@ class UserJourneyModalWidget extends StatefulWidget {
 }
 
 class _UserJourneyModalState extends State<UserJourneyModalWidget> {
-  String first = "We are here in Apayao! Welcome to level 1! in this level,";
-  String second =
-      "I am here to share to you about mental health. It shows that you are experiencing extreme and unexpected changes in mood. ";
-  String third =
-      "Here are the activities that are available  in this level. You need to finish all of the activities so that you can go to the next region. ";
+  final AdventureController _adventureController = Get.put(AdventureController());
+  String first ='';
+  String second ='';
+  String third ='';
+
   @override
   Widget build(BuildContext context) {
+    Province selectedProvince = _adventureController.selectedProvince.value;
+
+    if (selectedProvince == Province.Apayao) {
+      first = "Hello! Welcome to your Adventure. On each level, I will be sharing knowledge about mental health.";
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 1: Apayao. Did you know that Apayao is the only province in Cordillera that can be travelled by using boats and rafts on water amidst being a mountainous region.";
+    } else if (selectedProvince == Province.Kalinga) {
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 2: Kalinga. Did you know that Kalinga is was only made an official province back in 1992 under the RA 7878.";
+    } else if (selectedProvince == Province.Abra) {
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 3: Abra. This province is most known for its Abel fabrics, horses and the famous Abra River.";
+    } else if (selectedProvince == Province.MountainProvince) {
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 4: Mt. Province. Did you know that Mt. Province was also known as 'La Montanosa' by the Spanish government for its mountainous landscapes. The province is located in the heart of the Cordillera Region.";
+    } else if (selectedProvince == Province.Ifugao) {
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 5: Ifugao. Back in 1995, the Rice Terraces of the Philippines which was located in Ifugao was declared as one of UNESCO's World Heritage Sites.";
+    } else if (selectedProvince == Province.Benguet) {
+      second = "Play the activities to unlock more levels and awards. The minigames tab contains quick games you can play.";
+      third = "Welcome to Level 6: Benguet. Did you know that Benguet is also known as the 'Salad Bowl of the Philippines' for its massive production of upland vegetables.";
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
