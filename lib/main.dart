@@ -80,7 +80,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService().init(); //
 
   Hive.registerAdapter(sidasHiveAdapter());
   Hive.registerAdapter<phqHive>(phqHiveAdapter());
@@ -126,8 +125,14 @@ Future<void> main() async {
   final SudokuController _sudokuController = Get.put(SudokuController());
   _sudokuController.prepareTheObjects();
 
-  final AdventureController _adventureController = Get.put(AdventureController());
+  final CopingController _copingController = Get.put(CopingController());
+  _copingController.prepareTheObjects();
+
+  final AdventureController _adventureController =
+      Get.put(AdventureController());
   _adventureController.prepareTheObjects();
+
+  await NotificationService().init();
 
   runApp(const Main());
 }

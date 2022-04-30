@@ -81,7 +81,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .accentBlue02))
-                      : daysLeft >= 0
+                      : daysLeft >= -1
                           ? TextSpan(children: <InlineSpan>[
                               TextSpan(
                                   text:
@@ -120,7 +120,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                       ? 'Due in ${daysLeft + 1} days'
                       : daysLeft == 0
                           ? 'Your $title assessment is due tomorrow'
-                          : daysLeft < 0
+                          : daysLeft == -1
                               ? 'Your $title assessment is due today'
                               : 'It seems you’ve missed your assessment. Take the assessment now for accurate tracking of your mental wellness. ',
                   textAlign: TextAlign.left,
@@ -159,7 +159,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .neutralGray02))
-                        : daysLeft >= 0
+                        : daysLeft >= -1
                             ? RichText(
                                 text: TextSpan(children: [
                                   TextSpan(

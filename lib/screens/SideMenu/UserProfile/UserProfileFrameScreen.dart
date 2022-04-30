@@ -134,149 +134,74 @@ class _UserProfileFrameScreenState extends State<UserProfileFrameScreen> {
                         children: [
                           SingleChildScrollView(
                             child: Container(
-                              margin:
-                                  const EdgeInsets.only(top: 250, bottom: 100),
-                              child: GridView.builder(
-                                physics: const ScrollPhysics(),
-                                gridDelegate:
-                                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        childAspectRatio: 1.225,
-                                        maxCrossAxisExtent: 200,
-                                        crossAxisSpacing: 20,
-                                        mainAxisSpacing: 20),
-                                shrinkWrap: true,
-                                itemCount: frames.length,
-                                itemBuilder: (context, index) {
-                                  return Stack(
-                                    children: [
-                                      // selectable card for the frames
-                                      InkWell(
-                                        onTap: () {
-                                          if (selectedFrame !=
-                                              frames[index].image) {
-                                            setState(() {
-                                              selectedFrame =
-                                                  frames[index].image;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              selectedFrame = '';
-                                            });
-                                          }
-                                        },
-                                        child: Card(
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              color: selectedFrame ==
-                                                      frames[index].image
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .accentBlue02
-                                                  : Colors.transparent,
-                                              width: selectedFrame ==
-                                                      frames[index].image
-                                                  ? 2
-                                                  : 1,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Column(children: [
-                                            Container(
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .accentBlue01,
-                                                  borderRadius:
-                                                      const BorderRadius
-                                                              .vertical(
-                                                          top: Radius.circular(
-                                                              10)),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: SvgPicture.asset(
-                                                    frames[index].image),
-                                                height: 100,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width),
-                                            Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8.0),
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .neutralWhite01,
-                                                  border: Border.all(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .neutralWhite04),
-                                                  borderRadius:
-                                                      const BorderRadius
-                                                              .vertical(
-                                                          bottom:
-                                                              Radius.circular(
-                                                                  10)),
-                                                ),
-                                                child: Text(
-                                                  frames[index].name,
-                                                  textAlign: TextAlign.center,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2
-                                                      ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .colorScheme
-                                                              .neutralBlack02),
-                                                ))
-                                          ]),
-                                        ),
-                                      ),
-                                      // checks if the user has access to this frame based on current level
-                                      Visibility(
-                                        visible: currentLevel <
-                                            frames[index].requiredLevel,
-                                        child: Container(
-                                            padding: const EdgeInsets.all(10),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .neutralWhite04),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02
-                                                  .withOpacity(0.5),
-                                            ),
-                                            child: const Icon(
-                                              Icons.lock_outline,
-                                              color: Colors.white,
-                                              size: 50,
-                                            )),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
+                                margin: const EdgeInsets.only(
+                                    top: 250, bottom: 100),
+                                child: Wrap(
+                                  runAlignment: WrapAlignment.center,
+                                  runSpacing: 10,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[0], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[1], currentLevel),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[2], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[3], currentLevel),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[4], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[5], currentLevel),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[6], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[7], currentLevel),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[8], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[9], currentLevel),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _buildFrameContainer(
+                                            frames[10], currentLevel),
+                                        _buildFrameContainer(
+                                            frames[11], currentLevel),
+                                      ],
+                                    ),
+                                  ],
+                                )),
                           ),
                           // User image + frame display
                           Align(
@@ -358,6 +283,96 @@ class _UserProfileFrameScreenState extends State<UserProfileFrameScreen> {
               ),
             ],
           )),
+    );
+  }
+
+  _buildFrameContainer(Frame frame, currentLevel) {
+    return SizedBox(
+      width: 170,
+      height: 140,
+      child: Stack(
+        children: [
+          // selectable card for the frames
+          InkWell(
+            onTap: () {
+              if (selectedFrame != frame.image) {
+                setState(() {
+                  selectedFrame = frame.image;
+                });
+              } else {
+                setState(() {
+                  selectedFrame = '';
+                });
+              }
+            },
+            child: Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: selectedFrame == frame.image
+                      ? Theme.of(context).colorScheme.accentBlue02
+                      : Colors.transparent,
+                  width: selectedFrame == frame.image ? 2 : 1,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(children: [
+                Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.accentBlue01,
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(10)),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: SvgPicture.asset(frame.image),
+                    height: 100,
+                    width: MediaQuery.of(context).size.width),
+                Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: 32,
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.neutralWhite04),
+                      borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(10)),
+                    ),
+                    child: Text(
+                      frame.name,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.neutralBlack02),
+                    ))
+              ]),
+            ),
+          ),
+          // checks if the user has access to this frame based on current level
+          Visibility(
+            visible: currentLevel < frame.requiredLevel,
+            child: Container(
+                padding: const EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.neutralWhite04),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .neutralBlack02
+                      .withOpacity(0.5),
+                ),
+                child: const Icon(
+                  Icons.lock_outline,
+                  color: Colors.white,
+                  size: 50,
+                )),
+          ),
+        ],
+      ),
     );
   }
 }

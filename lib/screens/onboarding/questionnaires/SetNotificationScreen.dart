@@ -256,7 +256,9 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           newNotificationsEveningTime: [
                             _timeController.eveningTime.value.hour.toString(),
                             _timeController.eveningTime.value.minute.toString()
-                          ]);
+                          ],
+                          newPHQNotificationsEnabled: true,
+                          newSIDASNotificationsEnabled: true);
                       Get.toNamed('/loadingScreen',
                           arguments: {'type': 'both'});
                     }),

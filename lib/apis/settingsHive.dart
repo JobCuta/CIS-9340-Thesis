@@ -27,26 +27,38 @@ class SettingsHive extends HiveObject {
   @HiveField(6)
   String framePath;
 
-  SettingsHive(
-      {required this.notificationsEnabled,
-      required this.notificationsMorningTime,
-      required this.notificationsAfternoonTime,
-      required this.notificationsEveningTime,
-      required this.language,
-      required this.imagePath,
-      required this.framePath});
+  @HiveField(7)
+  bool phqNotificationsEnabled;
+
+  @HiveField(8)
+  bool sidasNotificationsEnabled;
+
+  SettingsHive({
+    required this.notificationsEnabled,
+    required this.notificationsMorningTime,
+    required this.notificationsAfternoonTime,
+    required this.notificationsEveningTime,
+    required this.language,
+    required this.imagePath,
+    required this.framePath,
+    required this.phqNotificationsEnabled,
+    required this.sidasNotificationsEnabled,
+  });
 
   @override
   Future<void> init() async {
     var box = await Hive.openBox('settings');
     if (box.toMap().isNotEmpty) return;
     box.add(SettingsHive(
-        notificationsEnabled: false,
-        notificationsMorningTime: ['9', '30'],
-        notificationsAfternoonTime: ['12', '30'],
-        notificationsEveningTime: ['18', '30'],
-        language: 'English',
-        imagePath: '',
-        framePath: ''));
+      notificationsEnabled: false,
+      notificationsMorningTime: ['9', '30'],
+      notificationsAfternoonTime: ['12', '30'],
+      notificationsEveningTime: ['18', '30'],
+      language: 'English',
+      imagePath: '',
+      framePath: '',
+      phqNotificationsEnabled: false,
+      sidasNotificationsEnabled: false,
+    ));
   }
 }
