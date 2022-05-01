@@ -132,6 +132,11 @@ class SudokuScreenState extends State<SudokuScreen> {
               _levelController.displayLevelXpModal(context);
             });
           } else {
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              _sudokuController.updateIfCompleted();
+              _levelController.addXp('Sudoku', 50);
+              _levelController.displayLevelXpModal(context);
+            });
             showAnimatedDialog<void>(
                 animationType: DialogTransitionType.fadeScale,
                 barrierDismissible: true,
