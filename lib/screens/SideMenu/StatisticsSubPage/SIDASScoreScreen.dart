@@ -24,6 +24,8 @@ class _SIDASScoreScreenState extends State<SIDASScoreScreen> {
     super.initState();
     box = Hive.box('sidas');
     list = box.values.toList();
+    // reverses the order of the entries to display in reverse chronological order
+    list = List.from(list.reversed);
     log('list ${list}');
   }
 

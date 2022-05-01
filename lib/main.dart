@@ -119,18 +119,19 @@ Future<void> main() async {
 
   final LevelController _levelController = Get.put(LevelController());
   _levelController.prepareTheObjects();
+
   final HopeBoxController _hopeBoxController = Get.put(HopeBoxController());
   _hopeBoxController.prepareTheObjects();
+
+  final AdventureController _adventureController =
+      Get.put(AdventureController());
+  _adventureController.prepareTheObjects();
 
   final SudokuController _sudokuController = Get.put(SudokuController());
   _sudokuController.prepareTheObjects();
 
   final CopingController _copingController = Get.put(CopingController());
   _copingController.prepareTheObjects();
-
-  final AdventureController _adventureController =
-      Get.put(AdventureController());
-  _adventureController.prepareTheObjects();
 
   await NotificationService().init();
 

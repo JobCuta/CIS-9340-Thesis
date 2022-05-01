@@ -446,7 +446,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     ScoreCards(
                         title: 'Your latest PHQ-9 score for this month',
                         score: latestPHQScore,
-                        total: 28,
+                        total: 27,
                         link: '/phqStatScreen'),
                     Visibility(
                       visible: phqEntries.length > 1,

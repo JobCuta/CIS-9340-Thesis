@@ -29,6 +29,8 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
             seenMonths.add(DateTime(entry.date.year, entry.date.month)))
         .toList();
 
+    uniqueMonths = List.from(uniqueMonths.reversed);
+
     // loop through unique months as each card.
     // filter entries where date matches the unique month
     for (var date in seenMonths) {
@@ -38,6 +40,7 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
           .toList();
       splitMonths.add(entries);
     }
+    splitMonths = List.from(splitMonths.reversed);
     // final result is in splitMonths
     log('split months $splitMonths}');
   }
@@ -139,22 +142,22 @@ class ScoreCards extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          for (int i = 0; i < lists.length; i++)
+          for (var entry in lists)
             Container(
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${getPosition(i)} Entry',
+                    Text(DateFormat("d, EEEE").format(entry.date).toString(),
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.w600,
                             color:
                                 Theme.of(context).colorScheme.neutralGray04)),
-                    lists[i].score != -1
+                    entry.score != -1
                         ? RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                  text: lists[i].score.toString(),
+                                  text: entry.score.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2

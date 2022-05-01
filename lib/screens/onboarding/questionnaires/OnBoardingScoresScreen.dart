@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/hopeBoxController.dart';
 import 'package:get/get.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/phqController.dart';
 import '../../../controllers/sidasController.dart';
@@ -20,6 +22,8 @@ class OnBoardingScoresScreen extends StatefulWidget {
 class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
   final PHQController _phqController = Get.put(PHQController());
   final SIDASController _sidasController = Get.put(SIDASController());
+  final HopeBoxController _hopeController = Get.put(HopeBoxController());
+
   var type = Get.arguments['type'];
 
   @override
@@ -37,6 +41,23 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // verifies that the user has a support person listed
+    String phqPrompt, sidasPrompt;
+    if (_hopeController.firstNameController.text == '') {
+      phqPrompt =
+          'It seems your PHQ-9 score is rather high, would you like to phone a hotline? (Recommended)';
+      sidasPrompt =
+          'It seems your Suicidal Ideation score is rather high, would you like to phone a hotline? (Recommended)';
+    } else {
+      phqPrompt =
+          'It seems your PHQ-9 score is rather high, would you like to phone a hotline or your support person? (Recommended)';
+      sidasPrompt =
+          'It seems your Suicidal Ideation score is rather high, would you like to phone a hotline or your support person? (Recommended)';
+    }
+
+    print(_phqController.sum);
+    print(_sidasController.sum);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -121,14 +142,14 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                                   ),
                                   Text(
                                       _phqController.sum >= 20
-                                          ? 'Severe Depression'
+                                          ? 'Severe'
                                           : _phqController.sum >= 15
-                                              ? 'Moderately Severe Depression'
+                                              ? 'Moderately Severe'
                                               : _phqController.sum >= 10
-                                                  ? 'Moderate Depression'
+                                                  ? 'Moderate'
                                                   : _phqController.sum >= 5
-                                                      ? 'Mild Depression'
-                                                      : 'None - Minimal Depression',
+                                                      ? 'Mild'
+                                                      : 'None - Minimal',
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -137,6 +158,37 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .neutralWhite01)),
+                                  highAlertContainer(
+                                      phqPrompt, _phqController.sum >= 10),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0, horizontal: 10.0),
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffFFA132)
+                                            .withOpacity(0.60),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8))),
+                                    child: Text(
+                                        _phqController.sum >= 20
+                                            ? 'Immediate initiation of pharmacotherapy and, if severe impairment or poor response to therapy, expedited referral to a mental health specialist for psychotherapy and/or collaborative management'
+                                            : _phqController.sum >= 15
+                                                ? 'Active treatment with pharmacotherapy and/or psychotherapy'
+                                                : _phqController.sum >= 10
+                                                    ? 'Treatment plan, considering counseling, follow-up and/or pharmacotherapy'
+                                                    : _phqController.sum >= 5
+                                                        ? 'Watchful waiting; repeat PHQ-9 at follow-up'
+                                                        : 'None',
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralWhite01)),
+                                  ),
                                 ]),
                           ),
                         ),
@@ -195,38 +247,8 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                                 ],
                               )),
                         ),
-                        Visibility(
-                          visible: type == 'phq9' || type == 'both',
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15.0, horizontal: 10.0),
-                            decoration: BoxDecoration(
-                                color:
-                                    const Color(0xffFFA132).withOpacity(0.60),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8))),
-                            child: Text(
-                                _phqController.sum >= 20
-                                    ? 'Immediate initiation of pharmacotherapy and, if severe impairment or poor response to therapy, expedited referral to a mental health specialist for psychotherapy and/or collaborative management'
-                                    : _phqController.sum >= 15
-                                        ? 'Active treatment with pharmacotherapy and/or psychotherapy'
-                                        : _phqController.sum >= 10
-                                            ? 'Treatment plan, considering counseling, follow-up and/or pharmacotherapy'
-                                            : _phqController.sum >= 5
-                                                ? 'Watchful waiting; repeat PHQ-9 at follow-up'
-                                                : 'None',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralWhite01)),
-                          ),
-                        ),
+                        highAlertContainer(
+                            sidasPrompt, _sidasController.sum >= 21)
                       ],
                     ),
                   ])),
@@ -268,6 +290,93 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                       }),
                 )))
       ])),
+    );
+  }
+
+  highAlertContainer(prompt, condition) {
+    return Visibility(
+      visible: condition,
+      child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: const Color(0xffFFA132).withOpacity(0.60),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          child: Wrap(
+            runAlignment: WrapAlignment.center,
+            runSpacing: 20,
+            children: [
+              Text(prompt,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.neutralWhite01)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: _hopeController.firstNameController.text != ''
+                          ? const EdgeInsets.only(right: 10)
+                          : const EdgeInsets.symmetric(horizontal: 20),
+                      height: 38,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Get.offAndToNamed('/MentalHealthOnlineScreen');
+                          },
+                          child: Text('Hotlines',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralWhite01)),
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3)),
+                              primary:
+                                  Theme.of(context).colorScheme.accentBlue02)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _hopeController.firstNameController.text != '',
+                    child: Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        height: 38,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Get.offAndToNamed('/hopeBoxContact');
+                              // launch(
+                              //     'tel:${_hopeController.contactPerson.value.getMobileNumber()}');
+                            },
+                            child: Text('Support Person',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01)),
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3)),
+                                primary: Theme.of(context)
+                                    .colorScheme
+                                    .accentBlue02)),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          )),
     );
   }
 }
