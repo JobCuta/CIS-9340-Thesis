@@ -22,7 +22,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
   int daysLeft = -1;
   late Box box;
 
-  final now = DateTime.now();
+  var now = DateTime.now();
   var latestEntry;
 
   @override
@@ -51,6 +51,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
         var s = latestEntry as sidasHive;
         next = DateTime(s.date.year, s.date.month + 1, s.date.day);
       }
+      // to only use the year, month, and day in the difference
+      now = DateTime(now.year, now.month, now.day);
       daysLeft = next.difference(now).inDays;
     }
     log('how am I here ${latestEntry.score}');
@@ -81,7 +83,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .accentBlue02))
-                      : daysLeft >= -1
+                      : daysLeft >= 0
                           ? TextSpan(children: <InlineSpan>[
                               TextSpan(
                                   text:
@@ -116,11 +118,11 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                 height: 10,
               ),
               Text(
-                  daysLeft >= 1
-                      ? 'Due in ${daysLeft + 1} days'
-                      : daysLeft == 0
+                  daysLeft >= 2
+                      ? 'Due in $daysLeft days'
+                      : daysLeft == 1
                           ? 'Your $title assessment is due tomorrow'
-                          : daysLeft == -1
+                          : daysLeft == 0
                               ? 'Your $title assessment is due today'
                               : 'It seems you’ve missed your assessment. Take the assessment now for accurate tracking of your mental wellness. ',
                   textAlign: TextAlign.left,
@@ -159,7 +161,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .neutralGray02))
-                        : daysLeft >= -1
+                        : daysLeft >= 0
                             ? RichText(
                                 text: TextSpan(children: [
                                   TextSpan(

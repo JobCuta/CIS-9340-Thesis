@@ -148,11 +148,34 @@ class ScoreCards extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(DateFormat("d, EEEE").format(entry.date).toString(),
-                        style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color:
-                                Theme.of(context).colorScheme.neutralGray04)),
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: DateFormat("dd, ")
+                                .format(entry.date)
+                                .toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralGray04)),
+                        TextSpan(
+                            text: DateFormat("EEEE")
+                                .format(entry.date)
+                                .toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .accentBlue04))
+                      ]),
+                    ),
                     entry.score != -1
                         ? RichText(
                             text: TextSpan(children: [

@@ -476,13 +476,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   phqChart() {
     return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 380,
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.symmetric(vertical: 20),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -496,16 +498,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Container(
-                  padding: const EdgeInsets.only(right: 30, top: 10),
-                  width: MediaQuery.of(context).size.width,
+                  constraints:
+                      const BoxConstraints(minWidth: 200, maxWidth: 600),
+                  width: 350,
                   height: 300,
+                  padding: const EdgeInsets.only(right: 30, top: 10),
                   child: LineChart(
                     LineChartData(
-                      clipData: FlClipData.all(),
                       lineTouchData: LineTouchData(
                         touchTooltipData: LineTouchTooltipData(
-                            fitInsideVertically: true,
-                            maxContentWidth: 20,
+                            maxContentWidth: 100,
                             tooltipBgColor:
                                 Theme.of(context).colorScheme.neutralWhite04,
                             getTooltipItems: (touchedSpots) {
@@ -531,8 +533,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           spots: phqSpots,
                           isCurved: true,
                           isStrokeCapRound: true,
-                          barWidth: 5,
-                          belowBarData: BarAreaData(show: false),
+                          barWidth: 3,
+                          belowBarData: BarAreaData(
+                            show: false,
+                          ),
                           dotData: FlDotData(show: true),
                         ),
                       ],
@@ -547,12 +551,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           sideTitles: SideTitles(showTitles: false),
                         ),
                         bottomTitles: AxisTitles(
-                          axisNameWidget: Text(year.toString()),
+                          axisNameWidget: Text(
+                            year.toString(),
+                          ),
                           sideTitles: SideTitles(
-                              showTitles: true,
-                              interval: 1,
-                              reservedSize: 40,
-                              getTitlesWidget: phqBottomTitleWidgets),
+                            showTitles: true,
+                            interval: 1,
+                            reservedSize: 40,
+                            getTitlesWidget: sidasBottomTitleWidgets,
+                          ),
                         ),
                         leftTitles: AxisTitles(
                           axisNameSize: 30,
@@ -573,7 +580,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           drawVerticalLine: true,
                           drawHorizontalLine: true,
                           verticalInterval: 1,
-                          horizontalInterval: 3),
+                          horizontalInterval: 5),
                       borderData: FlBorderData(show: false),
                     ),
                   ),
@@ -605,7 +612,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Container(
                   padding: const EdgeInsets.only(right: 30, top: 10),
-                  width: MediaQuery.of(context).size.width,
+                  constraints:
+                      const BoxConstraints(minWidth: 200, maxWidth: 600),
+                  width: 350,
                   height: 300,
                   child: LineChart(
                     LineChartData(
