@@ -312,12 +312,13 @@ class _HomePageState extends State<HomePage> {
                 //       _levelController.getLevelFromStorage();
                 //       _levelController.displayTodaysTaskWithXp(context);
                 //     }),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     _levelController.setLevel(2);
-                //   },
-                //   child: const Text('Set level to 2'),
-                // ),
+                ElevatedButton(
+                  onPressed: () {
+                    _levelController
+                        .setLevel(_levelController.currentLevel.value + 1);
+                  },
+                  child: const Text('Level UP'),
+                ),
                 Center(
                   child: Padding(
                       padding: const EdgeInsets.all(15.0),
