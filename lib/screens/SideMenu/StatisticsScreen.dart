@@ -61,6 +61,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             seenMonths.add(DateTime(entry.date.year, entry.date.month)))
         .toList();
 
+    uniqueMonths = List.from(uniqueMonths.reversed);
+
     // loop through unique months as each card.
     // filter entries where date matches the unique month
     for (var date in seenMonths) {
@@ -70,9 +72,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           .toList();
       splitMonths.add(entries);
     }
+    splitMonths = List.from(splitMonths.reversed);
     // final result is in splitMonths
     log('split months $splitMonths}');
-    log('unique months $uniqueMonths}');
   }
 
   getPHQEntriesForTheYear() {
@@ -86,7 +88,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     }
     for (int i = 0; i < phqEntries.length; i++) {
       phqSpots!.add(FlSpot(i.toDouble(), phqEntries[i].score.toDouble()));
-      if (i == phqEntries.length - 1) {
+      if (i == 0) {
         latestPHQScore = phqEntries[i].score;
       }
     }
@@ -100,9 +102,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       }
     }
 
+    sidasEntries = List.from(sidasEntries.reversed);
+
     for (int i = 0; i < sidasEntries.length; i++) {
       sidasSpots!.add(FlSpot(i.toDouble(), sidasEntries[i].score.toDouble()));
-      if (i == sidasEntries.length - 1) {
+      if (i == 0) {
         latestSIDASScore = sidasEntries[i].score;
       }
     }
@@ -558,7 +562,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             showTitles: true,
                             interval: 1,
                             reservedSize: 40,
-                            getTitlesWidget: sidasBottomTitleWidgets,
+                            getTitlesWidget: phqBottomTitleWidgets,
                           ),
                         ),
                         leftTitles: AxisTitles(
