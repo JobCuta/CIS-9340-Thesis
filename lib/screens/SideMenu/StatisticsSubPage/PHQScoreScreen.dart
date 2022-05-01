@@ -38,6 +38,7 @@ class _PHQScoreScreenState extends State<PHQScoreScreen> {
           .where((entry) =>
               (entry.date.year == date.year) && entry.date.month == date.month)
           .toList();
+      entries = List.from(entries.reversed);
       splitMonths.add(entries);
     }
     splitMonths = List.from(splitMonths.reversed);
@@ -151,9 +152,8 @@ class ScoreCards extends StatelessWidget {
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: DateFormat("dd, ")
-                                .format(entry.date)
-                                .toString(),
+                            text:
+                                DateFormat("d, ").format(entry.date).toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2

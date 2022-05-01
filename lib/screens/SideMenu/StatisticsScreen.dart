@@ -70,6 +70,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           .where((entry) =>
               (entry.date.year == date.year) && entry.date.month == date.month)
           .toList();
+      entries = List.from(entries.reversed);
+
       splitMonths.add(entries);
     }
     splitMonths = List.from(splitMonths.reversed);
