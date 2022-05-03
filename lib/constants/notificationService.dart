@@ -3,6 +3,8 @@ import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:get/get.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -10,6 +12,7 @@ late Box phqBox;
 late Box sidasBox;
 late DateTime nextPHQ;
 late DateTime nextSIDAS;
+late String timezone;
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -26,6 +29,11 @@ class NotificationService {
     initializeLocalNotificationsPlugin(initializationSettings);
 
     tz.initializeTimeZones();
+    timezone = timezone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timezone));
+    print(timezone);
+    print(tz.local);
+
     phqBox = Hive.box('phq');
     sidasBox = Hive.box('sidas');
     if (phqBox.isNotEmpty) {

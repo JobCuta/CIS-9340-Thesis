@@ -123,6 +123,9 @@ dependencies:
   # for generating the charts for PHQ9 and SIDAS 
   fl_chart: ^0.50.1
 
+  # for getting the user's timezone
+  flutter_native_timezone: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
