@@ -25,15 +25,20 @@ class EmotionEntryDetail extends HiveObject {
   @HiveField(6)
   String timeOfDay;
 
-  EmotionEntryDetail({
-    this.time = '',
-    this.note = '',
-    required this.mood,
-    required this.positiveEmotions,
-    required this.negativeEmotions,
-    required this.isEmpty,
-    required this.timeOfDay
-  });
+  @HiveField(7)
+  int id;
+
+  EmotionEntryDetail(
+      {
+        this.time = '',
+        this.note = '',
+        required this.mood,
+        required this.positiveEmotions,
+        required this.negativeEmotions,
+        required this.isEmpty,
+        required this.timeOfDay,
+        required this.id,
+      });
 
   String getMood() {
     return mood;

@@ -148,15 +148,17 @@ class UserProvider extends GetConnect {
     DateTime date = DateFormat('').parse(entry.time);
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response = await post(domain + paths["emotion"],
-        { "date": date,
-          "date_time_answered": DateTime.now().toString(),
-          "time_of_day": entry.timeOfDay,
-          "current_mood": entry.mood,
-          "note": entry.note,
-          "positive_emotions": entry.positiveEmotions,
-          "negative_emotions": entry.negativeEmotions},
-        headers: {"Authorization": "Token " + key});
+    final response = await post(domain + paths["emotion"], {
+      "date": date,
+      "date_time_answered": DateTime.now().toString(),
+      "time_of_day": entry.timeOfDay,
+      "current_mood": entry.mood,
+      "note": entry.note,
+      "positive_emotions": entry.positiveEmotions,
+      "negative_emotions": entry.negativeEmotions
+    }, headers: {
+      "Authorization": "Token " + key
+    });
     if (response.hasError) {
       log('create Emotion entry error ${response.statusText}');
       return {"status": false};
@@ -175,7 +177,7 @@ class UserProvider extends GetConnect {
     return "";
   }
 
-    Future<String> bulkSidasUpdate(List entries) async {
+  Future<String> bulkSidasUpdate(List entries) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["bulkSIDAS"], entries, headers: {"Authorization": "Token " + key});
@@ -273,5 +275,12 @@ class UserProvider extends GetConnect {
       return false;
     }
     return true;
+  }
+
+  Future updateEmotion(EmotionEntryDetail entry) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response =
+        await put(domain + paths['emotions'] + '${entry.id}/', {}, headers: {"Authorization": "Token" + key});
   }
 }

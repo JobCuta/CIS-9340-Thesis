@@ -93,7 +93,8 @@ class _EmotionalEvaluationStartScreenState
                       positiveEmotions: [],
                       negativeEmotions: [],
                       isEmpty: true,
-                      timeOfDay: 'unknown'
+                      timeOfDay: 'unknown',
+                      id: -1
                       );
 
       isEditMode = _emotionController.isEditMode.value;

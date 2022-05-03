@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
@@ -73,7 +76,7 @@ class EmotionController extends GetxController {
       isAfternoonCheck.value = false;
     }
 
-    print("Part of the Day checks = " +
+    log("Part of the Day checks = " +
         isMorningCheck.value.toString() +
         ", " +
         isAfternoonCheck.value.toString() +
@@ -155,8 +158,16 @@ class EmotionController extends GetxController {
     update();
   }
 
+  emptyMoodEntry(String time) => EmotionEntryDetail(
+      mood: moodMap['NoData']!.name,
+      positiveEmotions: [],
+      negativeEmotions: [],
+      isEmpty: true,
+      timeOfDay: time,
+      id: -1);
+
   // THIS METHOD WILL ONLY BE USED IN DAILYCONTROLLER
-  void createNewEntriesInStorage(int differenceInDays) {
+  Future<void> createNewEntriesInStorage(int differenceInDays) async {
     Map<int, String> weekdayString = {
       1: 'Monday',
       2: 'Tuesday',
@@ -198,8 +209,6 @@ class EmotionController extends GetxController {
     };
 
     Mood mood = moodMap['NoData'] as Mood;
-    List<dynamic> positiveEmotions = [];
-    List<dynamic> negativeEmotions = [];
 
     // 0 = first time users
     // other numbers = this method was called from the dailyController, number is based on the
@@ -215,47 +224,31 @@ class EmotionController extends GetxController {
         month: month[dateTime.month] as String,
         day: dateTime.day,
         year: dateTime.year,
-        morningCheck: EmotionEntryDetail(
-            isEmpty: true,
-            mood: moodMap['NoData']!.name,
-            positiveEmotions: [],
-            negativeEmotions: [],
-            timeOfDay: 'morning'),
-        afternoonCheck: EmotionEntryDetail(
-            isEmpty: true,
-            mood: moodMap['NoData']!.name,
-            positiveEmotions: [],
-            negativeEmotions: [],
-            timeOfDay: 'afternoon'),
-        eveningCheck: EmotionEntryDetail(
-            isEmpty: true,
-            mood: moodMap['NoData']!.name,
-            positiveEmotions: [],
-            negativeEmotions: [],
-            timeOfDay: 'evening'),
+        morningCheck: emptyMoodEntry('morning'),
+        afternoonCheck: emptyMoodEntry('afternoon'),
+        eveningCheck: emptyMoodEntry('evening'),
       );
 
-      print("--------------- ADDING ---------------");
-      print("Emotion box length = " + box.length.toString());
-      print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
-      print("[EEH] Weekday = " + newEmotionEntry.weekday);
-      print("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-      print("[EED] Afternoon Check = " +
+      log("--------------- ADDING ---------------");
+      log("Emotion box length = " + box.length.toString());
+      log("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
+      log("[EEH] Weekday = " + newEmotionEntry.weekday);
+      log("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
+      log("[EED] Afternoon Check = " +
           newEmotionEntry.afternoonCheck.toString());
-      print("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
+      log("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
       box.put(date, newEmotionEntry);
     } else {
       Box box = Hive.box<EmotionEntryHive>('emotion');
       EmotionEntryHive latestEmotionEntry = box.getAt(box.length - 1);
-      print(
-          "Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
+      log("Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
 
       final latestEmotionEntryDate = DateTime(
           latestEmotionEntry.year,
           monthNameToMonthNumber[latestEmotionEntry.month] as int,
           latestEmotionEntry.day);
-      print("Latest Emotion Entry Date = " + latestEmotionEntryDate.toString());
+      log("Latest Emotion Entry Date = " + latestEmotionEntryDate.toString());
 
       for (int i = 1; i <= differenceInDays; i++) {
         DateTime dateTime = latestEmotionEntryDate.add(Duration(days: i));
@@ -268,36 +261,40 @@ class EmotionController extends GetxController {
           month: month[dateTime.month] as String,
           day: dateTime.day,
           year: dateTime.year,
-          morningCheck: EmotionEntryDetail(
-              isEmpty: true,
-              mood: moodMap['NoData']!.name,
-              positiveEmotions: [],
-              negativeEmotions: [],
-              timeOfDay: 'morning'),
-          afternoonCheck: EmotionEntryDetail(
-              isEmpty: true,
-              mood: moodMap['NoData']!.name,
-              positiveEmotions: [],
-              negativeEmotions: [],
-              timeOfDay: 'afternoon'),
-          eveningCheck: EmotionEntryDetail(
-              isEmpty: true,
-              mood: moodMap['NoData']!.name,
-              positiveEmotions: [],
-              negativeEmotions: [],
-              timeOfDay: 'evening'),
+          morningCheck: emptyMoodEntry('morning'),
+          afternoonCheck: emptyMoodEntry('afternoon'),
+          eveningCheck: emptyMoodEntry('evening'),
         );
 
-        print("--------------- ADDING ---------------");
-        print("Emotion box length = " + box.length.toString());
-        print("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
-        print("[EEH] Weekday = " + newEmotionEntry.weekday);
-        print(
-            "[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-        print("[EED] Afternoon Check = " +
+        /// creating entries in the backend
+        var uploadM =
+            await UserProvider().createEmotion(emptyMoodEntry('morning'));
+        var uploadN =
+            await UserProvider().createEmotion(emptyMoodEntry('afternoon'));
+        var uploadE =
+            await UserProvider().createEmotion(emptyMoodEntry('evening'));
+
+        if (uploadM['status'] == true) {
+          newEmotionEntry.morningCheck.id = uploadM['body']['id'];
+          log('morning saved');
+        }
+        if (uploadN['status'] == true) {
+          newEmotionEntry.morningCheck.id = uploadN['body']['id'];
+          log('afternoon saved');
+        }
+        if (uploadE['status'] == true) {
+          newEmotionEntry.morningCheck.id = uploadE['body']['id'];
+          log('evening saved');
+        }
+
+        log("--------------- ADDING ---------------");
+        log("Emotion box length = " + box.length.toString());
+        log("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
+        log("[EEH] Weekday = " + newEmotionEntry.weekday);
+        log("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
+        log("[EED] Afternoon Check = " +
             newEmotionEntry.afternoonCheck.toString());
-        print(
-            "[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
+        log("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
         box.put(date, newEmotionEntry);
       }
@@ -351,12 +348,12 @@ class EmotionController extends GetxController {
     calculateOverallMood(emotionEntry);
     emotionEntry.save();
 
-    print("--------------- UPDATING ---------------");
-    print("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
-    print("[EEH] Weekday = " + emotionEntry.weekday);
-    print("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
-    print("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
-    print("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
+    log("--------------- UPDATING ---------------");
+    log("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
+    log("[EEH] Weekday = " + emotionEntry.weekday);
+    log("[EED] Morning Check = " + emotionEntry.morningCheck.toString());
+    log("[EED] Afternoon Check = " + emotionEntry.afternoonCheck.toString());
+    log("[EED] Evening Check = " + emotionEntry.eveningCheck.toString());
     resetAllValues();
   }
 
@@ -448,8 +445,8 @@ class EmotionController extends GetxController {
       }
     }
 
-    print("CURRENT STREAK VALUE = $currentStreak");
-    print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
+    log("CURRENT STREAK VALUE = $currentStreak");
+    log("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
 
     // update();
     return emotionEntries;
@@ -504,8 +501,8 @@ class EmotionController extends GetxController {
       }
     }
 
-    print("CURRENT STREAK VALUE = $currentStreak");
-    print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
+    log("CURRENT STREAK VALUE = $currentStreak");
+    log("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
 
     update();
   }
@@ -574,25 +571,31 @@ class EmotionController extends GetxController {
 
     if (part == PartOfTheDay.Morning) {
       emotionEntry.morningCheck = EmotionEntryDetail(
-          isEmpty: true,
-          mood: moodMap['NoData']!.name,
-          positiveEmotions: [],
-          negativeEmotions: [],
-          timeOfDay: 'morning');
+        isEmpty: true,
+        mood: moodMap['NoData']!.name,
+        positiveEmotions: [],
+        negativeEmotions: [],
+        timeOfDay: 'morning',
+        id: -1,
+      );
     } else if (part == PartOfTheDay.Afternoon) {
       emotionEntry.afternoonCheck = EmotionEntryDetail(
-          isEmpty: true,
-          mood: moodMap['NoData']!.name,
-          positiveEmotions: [],
-          negativeEmotions: [],
-          timeOfDay: 'afternoon');
+        isEmpty: true,
+        mood: moodMap['NoData']!.name,
+        positiveEmotions: [],
+        negativeEmotions: [],
+        timeOfDay: 'afternoon',
+        id: -1,
+      );
     } else if (part == PartOfTheDay.Evening) {
       emotionEntry.eveningCheck = EmotionEntryDetail(
-          isEmpty: true,
-          mood: moodMap['NoData']!.name,
-          positiveEmotions: [],
-          negativeEmotions: [],
-          timeOfDay: 'evening');
+        isEmpty: true,
+        mood: moodMap['NoData']!.name,
+        positiveEmotions: [],
+        negativeEmotions: [],
+        timeOfDay: 'evening',
+        id: -1,
+      );
     }
 
     calculateOverallMood(emotionEntry);
@@ -607,13 +610,13 @@ class EmotionController extends GetxController {
     String day =
         dateTime.day < 10 ? '0${dateTime.day}' : dateTime.day.toString();
     String date = dateTime.year.toString() + "-" + month + "-" + day;
-    print("KEY IS $date");
+    log("KEY IS $date");
 
     return date;
   }
 
   String timeToString(DateTime dateTime) {
-    print(dateTime);
+    log('$dateTime');
     return DateFormat.Hm().format(dateTime);
   }
 
@@ -693,8 +696,7 @@ class EmotionController extends GetxController {
 
     for (int i = 1; i <= differenceInDays; i++) {
       DateTime dateTime = latestEmotionEntryDate.add(Duration(days: i));
-      print(
-          "DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+      log("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
     }
     createNewEntriesInStorage(numberOfEntries);
   }
@@ -707,8 +709,7 @@ class EmotionController extends GetxController {
 
     for (int i = 1; i <= differenceInDays; i++) {
       DateTime dateTime = latestEmotionEntryDate.subtract(Duration(days: i));
-      print(
-          "DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
+      log("DATETIME $i is ${dateTime.month} ${dateTime.day} ${dateTime.year}");
     }
     // createNewEntriesInStorage(numberOfEntries);
   }
