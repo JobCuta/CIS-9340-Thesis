@@ -258,88 +258,86 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                                     fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 5.0),
-                          SizedBox(
-                            height: 50,
-                            child: DropdownButtonFormField(
-                              dropdownColor:
-                                  Theme.of(context).colorScheme.neutralWhite01,
-                              style: const TextStyle(fontSize: 14.0),
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText: 'Select your gender',
-                                fillColor: Theme.of(context)
+                          DropdownButtonFormField(
+                            isExpanded: true,
+                            dropdownColor:
+                                Theme.of(context).colorScheme.neutralWhite01,
+                            style: const TextStyle(fontSize: 14.0),
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              hintText: 'Select your gender',
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .neutralWhite01,
+                              filled: true,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .neutralGray03),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 15.0),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Theme.of(context)
                                     .colorScheme
-                                    .neutralWhite01,
-                                filled: true,
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .neutralGray03),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralGray01,
-                                )),
-                              ),
-                              value: gender,
-                              icon: const Icon(Icons.arrow_drop_down),
-                              items: [
-                                DropdownMenuItem<String>(
-                                  child: Text('Male',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                  value: 'M',
-                                ),
-                                DropdownMenuItem<String>(
-                                  child: Text('Female',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                  value: 'F',
-                                ),
-                                DropdownMenuItem<String>(
-                                  child: Text('Rather not say...',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralBlack02)),
-                                  value: 'P',
-                                ),
-                              ],
-                              onChanged: (String? value) {
-                                setState(() {
-                                  gender = value!;
-                                });
-                              },
-                              validator: (input) {
-                                if (input == null) {
-                                  return 'This field is required.';
-                                }
-                                return null;
-                              },
+                                    .neutralGray01,
+                              )),
                             ),
+                            value: gender,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items: [
+                              DropdownMenuItem<String>(
+                                child: Text('Male',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02)),
+                                value: 'M',
+                              ),
+                              DropdownMenuItem<String>(
+                                child: Text('Female',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02)),
+                                value: 'F',
+                              ),
+                              DropdownMenuItem<String>(
+                                child: Text('Rather not say...',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .neutralBlack02)),
+                                value: 'P',
+                              ),
+                            ],
+                            onChanged: (String? value) {
+                              setState(() {
+                                gender = value!;
+                              });
+                            },
+                            validator: (input) {
+                              if (input == null) {
+                                return 'This field is required.';
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 20.0),
                           Text(
@@ -384,6 +382,7 @@ class _AboutSelfState extends State<AboutSelfWidget> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 100,)
                         ],
                       ),
                     ),
