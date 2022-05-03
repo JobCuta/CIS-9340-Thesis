@@ -22,17 +22,18 @@ class _LoadingSplashState extends State<LoadingSplash> {
   String loadingStatus = 'Retrieving user details please wait..';
 
   String latestPhq = '', latestSidas = '';
+
   /// Get data from online database
   /// Works by checking which storage is more up to date
-  ///
+  /// By comparing dates of latest entry from database with most recent change in local storage
+  /// If the backend is outdated, entries of the list are 'updated', the list is not replaced.
+  /// If the local storage is outdated, the entire Hive is replaced not updated.
 
   Future<Widget> loadFromFuture() async {
-    // Get latest changes from local storage
-    // Get entire database scores of SIDAS, PHQ, HOPEBOX, LEVEL, ACHIEVEMENTS, ETC.
-    // compare if the latest entry is much later than the database
-    // somehow check if updated missed entries are up-to-date as well
-    loadingStatus = 'Getting List from Server..';
-
+    Future.delayed(const Duration(milliseconds: 500), () {
+      loadingStatus = 'Getting List from Server..';
+    });
+    
     updatePHQ();
     updateSIDAS();
 
@@ -40,20 +41,25 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updatePHQ() async {
-    loadingStatus = 'Updating PHQ Entries..';
+    Future.delayed(const Duration(milliseconds: 500), () {
+      loadingStatus = 'Updating PHQ Entries..';
+    });
+    
     await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
     List phqList = await UserProvider().phqScores();
-    DateTime phqServer = phqList.first.date, phqLocal = DateTime.parse(latestPhq);
-
+    log('phq List ${phqList.first}');
+    
     for (var entry in phqList) {
       DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
       entry["date_created"] = parsed.toUtc().toString();
     }
 
-    if (phqServer.isBefore(phqLocal)) {
+    DateTime phqServer = DateTime.parse(phqList.first['date_created']), phqLocal = DateTime.parse(latestPhq);
+
+    var box = Hive.box('phq');
+    if (phqServer.isBefore(phqLocal) || box.length == 0) {
       UserProvider().bulkPhqUpdate(phqList);
     } else {
-      var box = Hive.box('phq');
       for (var entry in phqList) {
         DateTime date = entry["date_created"].toUtc();
         var item = phqHive(date: entry["date_created"], index: entry["id"], score: entry["score"]);
@@ -64,15 +70,20 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updateSIDAS() async {
-    loadingStatus = 'Updating SIDAS Entries..';
+    Future.delayed(const Duration(milliseconds: 500), () {
+      loadingStatus = 'Updating SIDAS Entries..';
+    });
+    
     await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
     List sidasList = await UserProvider().sidasScores();
-    DateTime sidasServer = sidasList.first.date, sidasLocal = DateTime.parse(latestSidas);
-
+    log('sidas List $sidasList');
+    
     for (var entry in sidasList) {
       DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
       entry["date_created"] = parsed.toUtc().toString();
     }
+
+    DateTime sidasServer = DateTime.parse(sidasList.first['date_created']) , sidasLocal = DateTime.parse(latestSidas);
 
     if (sidasServer.isBefore(sidasLocal)) {
       UserProvider().bulkPhqUpdate(sidasList);

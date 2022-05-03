@@ -23,16 +23,14 @@ class EmotionalEvaluationEndScreen extends StatefulWidget {
   const EmotionalEvaluationEndScreen({key}) : super(key: key);
 
   @override
-  _EmotionalEvaluationEndScreenState createState() =>
-      _EmotionalEvaluationEndScreenState();
+  _EmotionalEvaluationEndScreenState createState() => _EmotionalEvaluationEndScreenState();
 }
 
 final EmotionController _emotionController = Get.put(EmotionController());
 final DailyController _dailyController = Get.put(DailyController());
 final LevelController _levelController = Get.put(LevelController());
 
-class _EmotionalEvaluationEndScreenState
-    extends State<EmotionalEvaluationEndScreen> {
+class _EmotionalEvaluationEndScreenState extends State<EmotionalEvaluationEndScreen> {
   bool isEditMode = false;
   String route = Get.arguments['route']!;
 
@@ -40,32 +38,23 @@ class _EmotionalEvaluationEndScreenState
   void initState() {
     super.initState();
     if (_emotionController.isEditMode.value) {
-      EmotionEntryDetail emotionEntryDetail = (_emotionController
-              .isMorningCheck.value)
+      EmotionEntryDetail emotionEntryDetail = (_emotionController.isMorningCheck.value)
           ? _emotionController.getSelectedEmotionEntry().morningCheck
           : (_emotionController.isAfternoonCheck.value)
               ? _emotionController.getSelectedEmotionEntry().afternoonCheck
               : (_emotionController.isEveningCheck.value)
                   ? _emotionController.getSelectedEmotionEntry().eveningCheck
                   : EmotionEntryDetail(
-                      mood: '',
-                      positiveEmotions: [],
-                      negativeEmotions: [],
-                      isEmpty: true);
+                      mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true, timeOfDay: 'unknown');
 
       isEditMode = _emotionController.isEditMode.value;
-      _emotionController.selectedPositiveEmotions.value =
-          emotionEntryDetail.positiveEmotions;
-      _emotionController.selectedNegativeEmotions.value =
-          emotionEntryDetail.negativeEmotions;
+      _emotionController.selectedPositiveEmotions.value = emotionEntryDetail.positiveEmotions;
+      _emotionController.selectedNegativeEmotions.value = emotionEntryDetail.negativeEmotions;
     }
-    _emotionController.isPositiveNotEmpty.value =
-        _emotionController.selectedPositiveEmotions.value.isNotEmpty;
-    _emotionController.isNegativeNotEmpty.value =
-        _emotionController.selectedNegativeEmotions.value.isNotEmpty;
+    _emotionController.isPositiveNotEmpty.value = _emotionController.selectedPositiveEmotions.value.isNotEmpty;
+    _emotionController.isNegativeNotEmpty.value = _emotionController.selectedNegativeEmotions.value.isNotEmpty;
     _emotionController.isValid.value =
-        _emotionController.isPositiveNotEmpty.value ||
-            _emotionController.isNegativeNotEmpty.value;
+        _emotionController.isPositiveNotEmpty.value || _emotionController.isNegativeNotEmpty.value;
   }
 
   determineNextRoute() {
@@ -109,13 +98,11 @@ class _EmotionalEvaluationEndScreenState
       Emotion(id: 7, name: 'Upset')
     ];
 
-    final _positiveEmotionsItems = positiveEmotionsList
-        .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
-        .toList();
+    final _positiveEmotionsItems =
+        positiveEmotionsList.map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name)).toList();
 
-    final _negativeEmotionsItems = negativeEmotionsList
-        .map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name))
-        .toList();
+    final _negativeEmotionsItems =
+        negativeEmotionsList.map((emotion) => MultiSelectItem<Emotion>(emotion, emotion.name)).toList();
 
     DateTime dateTime = _emotionController.dateTime.value;
 
@@ -135,12 +122,11 @@ class _EmotionalEvaluationEndScreenState
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           title: Text(
-            _emotionController.isEditMode.value
-                ? 'Edit an Entry'
-                : 'Add an Entry',
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: Theme.of(context).colorScheme.neutralWhite01,
-                fontWeight: FontWeight.w400),
+            _emotionController.isEditMode.value ? 'Edit an Entry' : 'Add an Entry',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle2
+                ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w400),
           ),
           leading: BackButton(onPressed: () {
             Get.back();
@@ -165,70 +151,41 @@ class _EmotionalEvaluationEndScreenState
                     Text(
                       'Date & Time',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color: Theme.of(context).colorScheme.neutralWhite01,
-                          fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 35.0),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Date',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            DateFormat.E().format(dateTime) +
-                                ', ' +
-                                DateFormat.MMMMd().format(dateTime),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
-                          ),
-                        ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Text(
+                        'Date',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        DateFormat.E().format(dateTime) + ', ' + DateFormat.MMMMd().format(dateTime),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
+                      ),
+                    ]),
                     const SizedBox(height: 25.0),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Time',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            DateFormat.Hm().format(dateTime) + ", " + partOfDay,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
-                          ),
-                        ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Text(
+                        'Time',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        DateFormat.Hm().format(dateTime) + ", " + partOfDay,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
+                      ),
+                    ]),
                     const SizedBox(height: 20.0),
                     Divider(
                       color: Theme.of(context).colorScheme.neutralWhite01,
@@ -237,179 +194,105 @@ class _EmotionalEvaluationEndScreenState
                     const SizedBox(height: 20.0),
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 18.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
                       decoration: BoxDecoration(
                           color: const Color(0xff3290FF).withOpacity(0.60),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4))),
+                          borderRadius: const BorderRadius.all(Radius.circular(4))),
                       child: Text('Which emotion best apply to you now?',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .neutralWhite01,
-                                  fontWeight: FontWeight.w400)),
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w400)),
                     ),
-                    Wrap(
-                        alignment: WrapAlignment.center,
-                        runSpacing: 20,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 0),
-                            width: double.infinity,
-                            child: Wrap(runSpacing: 10, children: [
-                              GetBuilder<EmotionController>(
-                                builder: (value) => Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(24)),
+                    Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                        width: double.infinity,
+                        child: Wrap(runSpacing: 10, children: [
+                          GetBuilder<EmotionController>(
+                            builder: (value) => Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(Radius.circular(24)),
+                              ),
+                              child: ExpandablePanel(
+                                theme: const ExpandableThemeData(hasIcon: true),
+                                header: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Text('Positive Emotions',
+                                      textAlign: TextAlign.left,
+                                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: _emotionController.isPositiveNotEmpty.value
+                                              ? Theme.of(context).colorScheme.accentBlue02
+                                              : Theme.of(context).colorScheme.neutralGray03)),
+                                ),
+                                collapsed: Container(),
+                                expanded: MultiSelectChipField<Emotion?>(
+                                  showHeader: false,
+                                  scroll: false,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+                                  textStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue02),
+                                  selectedChipColor: Theme.of(context).colorScheme.accentBlue02,
+                                  selectedTextStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01),
+                                  initialValue: List.castFrom(_emotionController.selectedPositiveEmotions.value),
+                                  items: _positiveEmotionsItems,
+                                  onTap: (values) {
+                                    _emotionController.updatePositiveEmotions(values);
+                                    print(_emotionController.selectedPositiveEmotions.value);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 50),
+                            child: GetBuilder<EmotionController>(
+                              builder: (value) => Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(24)),
+                                ),
+                                child: ExpandablePanel(
+                                  theme: const ExpandableThemeData(hasIcon: true),
+                                  header: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Text('Negative Emotions',
+                                        textAlign: TextAlign.left,
+                                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: _emotionController.isNegativeNotEmpty.value
+                                                ? Theme.of(context).colorScheme.accentRed02
+                                                : Theme.of(context).colorScheme.neutralGray03)),
                                   ),
-                                  child: ExpandablePanel(
-                                    theme: const ExpandableThemeData(
-                                        hasIcon: true),
-                                    header: Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Text('Positive Emotions',
-                                          textAlign: TextAlign.left,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: _emotionController
-                                                          .isPositiveNotEmpty
-                                                          .value
-                                                      ? Theme.of(context)
-                                                          .colorScheme
-                                                          .accentBlue02
-                                                      : Theme.of(context)
-                                                          .colorScheme
-                                                          .neutralGray03)),
-                                    ),
-                                    collapsed: Container(),
-                                    expanded: MultiSelectChipField<Emotion?>(
-                                      showHeader: false,
-                                      scroll: false,
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.white)),
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .accentBlue02),
-                                      selectedChipColor: Theme.of(context)
-                                          .colorScheme
-                                          .accentBlue02,
-                                      selectedTextStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .neutralWhite01),
-                                      initialValue: List.castFrom(
-                                          _emotionController
-                                              .selectedPositiveEmotions.value),
-                                      items: _positiveEmotionsItems,
-                                      onTap: (values) {
-                                        _emotionController
-                                            .updatePositiveEmotions(values);
-                                        print(_emotionController
-                                            .selectedPositiveEmotions.value);
-                                      },
-                                    ),
+                                  collapsed: Container(),
+                                  expanded: MultiSelectChipField<Emotion?>(
+                                    showHeader: false,
+                                    scroll: false,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+                                    textStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                        fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentRed02),
+                                    selectedChipColor: Theme.of(context).colorScheme.accentRed02,
+                                    selectedTextStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).colorScheme.neutralWhite01),
+                                    initialValue: List.castFrom(_emotionController.selectedNegativeEmotions.value),
+                                    items: _negativeEmotionsItems,
+                                    onTap: (values) {
+                                      _emotionController.updateNegativeEmotions(values);
+                                      print(_emotionController.selectedNegativeEmotions.value);
+                                    },
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 50),
-                                child: GetBuilder<EmotionController>(
-                                  builder: (value) => Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(24)),
-                                    ),
-                                    child: ExpandablePanel(
-                                      theme: const ExpandableThemeData(
-                                          hasIcon: true),
-                                      header: Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Text('Negative Emotions',
-                                            textAlign: TextAlign.left,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: _emotionController
-                                                            .isNegativeNotEmpty
-                                                            .value
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .accentRed02
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .neutralGray03)),
-                                      ),
-                                      collapsed: Container(),
-                                      expanded: MultiSelectChipField<Emotion?>(
-                                        showHeader: false,
-                                        scroll: false,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.white)),
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .accentRed02),
-                                        selectedChipColor: Theme.of(context)
-                                            .colorScheme
-                                            .accentRed02,
-                                        selectedTextStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .neutralWhite01),
-                                        initialValue: List.castFrom(
-                                            _emotionController
-                                                .selectedNegativeEmotions
-                                                .value),
-                                        items: _negativeEmotionsItems,
-                                        onTap: (values) {
-                                          _emotionController
-                                              .updateNegativeEmotions(values);
-                                          print(_emotionController
-                                              .selectedNegativeEmotions.value);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ]),
+                            ),
                           )
                         ]),
+                      )
+                    ]),
                   ],
                 ),
               )),
@@ -424,9 +307,10 @@ class _EmotionalEvaluationEndScreenState
               builder: (value) => ElevatedButton(
                   child: Text(
                     'Save',
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.neutralWhite01),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01),
                   ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -441,13 +325,11 @@ class _EmotionalEvaluationEndScreenState
                   onPressed: () {
                     Future.delayed(Duration.zero, () async {
                       if (_emotionController.isValid.value) {
-                        bool isAddingFromOnboarding =
-                            _emotionController.isAddingFromOnboarding.value;
+                        bool isAddingFromOnboarding = _emotionController.isAddingFromOnboarding.value;
                         _emotionController.updateEntryInStorage();
 
                         if (!_dailyController.isDailyEntryDone.value) {
-                          _dailyController
-                              .setDailyTaskToDone(DailyTask.EmotionEntry);
+                          _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                           _levelController.addXp('Daily Entry', 5);
                           _levelController.displayLevelXpModal(context);
                         }
@@ -463,12 +345,17 @@ class _EmotionalEvaluationEndScreenState
                           _levelController.displayLevelXpModal(context);
                         }
 
-                        (isAddingFromOnboarding)
-                            ? setNotificationsAlert(context)
-                            : determineNextRoute();
+                        (isAddingFromOnboarding) ? setNotificationsAlert(context) : determineNextRoute();
+
+                        if (_dailyController.isMorningEntryDone.value &&
+                            _dailyController.isAfternoonEntryDone.value &&
+                            _dailyController.isEveningEntryDone.value) {
+                          _levelController.addXp('All 3 Entries', 20);
+                        }
+
+                        (isAddingFromOnboarding) ? setNotificationsAlert(context) : determineNextRoute();
                       }
                     });
-                    
                   }),
             )),
       ),

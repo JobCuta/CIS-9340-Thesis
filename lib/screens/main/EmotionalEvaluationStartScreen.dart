@@ -92,7 +92,9 @@ class _EmotionalEvaluationStartScreenState
                       mood: '',
                       positiveEmotions: [],
                       negativeEmotions: [],
-                      isEmpty: true);
+                      isEmpty: true,
+                      timeOfDay: 'unknown'
+                      );
 
       isEditMode = _emotionController.isEditMode.value;
       _noteController.text =
@@ -298,7 +300,6 @@ class _EmotionalEvaluationStartScreenState
                 _emotionController.updateNotes(_noteController.text);
                 Get.toNamed('/emotionEndScreen',
                     arguments: {'route': Get.arguments["route"]!});
-                // Get.toNamed('/emotionEndScreen');
               }
             }),
       ),

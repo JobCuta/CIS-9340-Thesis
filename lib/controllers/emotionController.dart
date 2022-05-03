@@ -219,17 +219,23 @@ class EmotionController extends GetxController {
             isEmpty: true,
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
-            negativeEmotions: []),
+            negativeEmotions: [],
+            timeOfDay: 'morning'
+            ),
         afternoonCheck: EmotionEntryDetail(
             isEmpty: true,
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
-            negativeEmotions: []),
+            negativeEmotions: [],
+            timeOfDay: 'afternoon'
+            ),
         eveningCheck: EmotionEntryDetail(
             isEmpty: true,
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
-            negativeEmotions: []),
+            negativeEmotions: [],
+            timeOfDay: 'evening'
+            ),
       );
 
       print("--------------- ADDING ---------------");
@@ -269,17 +275,23 @@ class EmotionController extends GetxController {
               isEmpty: true,
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
-              negativeEmotions: []),
+              negativeEmotions: [],
+              timeOfDay: 'morning'
+              ),
           afternoonCheck: EmotionEntryDetail(
               isEmpty: true,
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
-              negativeEmotions: []),
+              negativeEmotions: [],
+              timeOfDay: 'afternoon'
+              ),
           eveningCheck: EmotionEntryDetail(
               isEmpty: true,
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
-              negativeEmotions: []),
+              negativeEmotions: [],
+              timeOfDay: 'evening'
+              ),
         );
 
         print("--------------- ADDING ---------------");
@@ -414,7 +426,7 @@ class EmotionController extends GetxController {
     List<EmotionEntryHive> emotionEntries = [];
     currentStreak.value = 0;
     monthMoodCount.value = [0, 0, 0, 0, 0];
-    update();
+    // update();
 
     String selectedMonth = monthStr[month] as String;
 
@@ -445,7 +457,7 @@ class EmotionController extends GetxController {
     print("CURRENT STREAK VALUE = $currentStreak");
     print("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
 
-    update();
+    // update();
     return emotionEntries;
   }
 
@@ -532,7 +544,7 @@ class EmotionController extends GetxController {
         noEntriesCount.value++;
       }
     }
-    update();
+    // update();
     return emotionEntries;
   }
 
@@ -546,7 +558,7 @@ class EmotionController extends GetxController {
         noEntriesCount.value++;
       }
     }
-    update();
+    // update();
   }
 
   void checkValidEntriesCount() {
@@ -571,19 +583,25 @@ class EmotionController extends GetxController {
           isEmpty: true,
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
-          negativeEmotions: []);
+          negativeEmotions: [],
+          timeOfDay: 'morning'
+          );
     } else if (part == PartOfTheDay.Afternoon) {
       emotionEntry.afternoonCheck = EmotionEntryDetail(
           isEmpty: true,
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
-          negativeEmotions: []);
+          negativeEmotions: [],
+          timeOfDay: 'afternoon'
+          );
     } else if (part == PartOfTheDay.Evening) {
       emotionEntry.eveningCheck = EmotionEntryDetail(
           isEmpty: true,
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
-          negativeEmotions: []);
+          negativeEmotions: [],
+          timeOfDay: 'evening'
+          );
     }
 
     calculateOverallMood(emotionEntry);

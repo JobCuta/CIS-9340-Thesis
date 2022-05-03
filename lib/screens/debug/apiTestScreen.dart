@@ -2,7 +2,9 @@
 import 'dart:developer';
 import 'dart:math' as Math;
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -11,15 +13,21 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 
+import '../../apis/EmotionEntryDetail.dart';
 import '../../apis/phqHive.dart';
 import '../onboarding/intro/IntroductionScreen.dart';
 
 Future<void> main() async {
   Hive.registerAdapter(phqHiveAdapter());
   Hive.registerAdapter(sidasHiveAdapter());
+  Hive.registerAdapter<EmotionEntryHive>(EmotionEntryHiveAdapter());
+  Hive.registerAdapter<EmotionEntryDetail>(EmotionEntryDetailAdapter());
+  Hive.registerAdapter(EmotionAdapter());
   await Hive.initFlutter();
   await Hive.openBox('sidas');
   await Hive.openBox('phq');
+  await Hive.openBox('emotion');
+  await Hive.openBox<EmotionEntryDetail>('emotionEntry');
   runApp(DebugScreen());
 }
 
@@ -137,6 +145,15 @@ class DebugScreen extends StatelessWidget {
                           var sidas = Hive.box('sidas');
                           list = sidas.values.toList();
                           log('sidas ${sidas.toMap()}');
+                        }),
+                    ElevatedButton(
+                        child: const Text('Get Emotion Hive'),
+                        onPressed: () async {
+                          var emotion = Hive.box('emotion');
+                          list = emotion.values.toList();
+                          log('emotion ${emotion.toMap()}');
+                          EmotionEntryHive ee = list.first;
+                          log('emotion entry ${ee.morningCheck.timeOfDay}');
                         }),
                     ElevatedButton(
                         child: const Text('Delete PHQ Hive'),
