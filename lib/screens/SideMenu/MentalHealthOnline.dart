@@ -122,6 +122,128 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                               ),
                               const SizedBox(height: 15.0),
                               Text(
+                                'Suicide Crisis Lines:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8893-7603', constants.suicideCrisis),
+                              _buildNumberField(
+                                  'Globe: 0917-800-1123', constants.globeSuicideCrisis),
+                              Text(
+                                'HopeLine:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8804-4673', constants.hopeLine),
+                              _buildNumberField(
+                                  'Globe: 0917-558-4673', constants.globeHopeLine),
+                              _buildNumberField(
+                                  'Smart: 0918-8784673', constants.smartHopeLine),
+                              Text(
+                                'Mood Harmony(Support Group for Mood Disorders):',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8844-2941', constants.moodHarmony),
+                              Text(
+                                'Dial-a-Friend:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8525-1743', constants.dialAFriend),
+                              Text(
+                                'Philippine General Hospital:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 554-8400', constants.PGH),
+                              Text(
+                                'Local 2436 or 2440:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8554-88470', constants.local1),
+                              _buildNumberField(
+                                  'Landline: (02) 8526-0150', constants.local2),
+                              _buildNumberField(
+                                  'Landline: (02) 554-8469', constants.local3),
+                              Text(
+                                'Living Free Foundation:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  'Landline: (02) 8406-1611', constants.LFF),
+                              Text(
+                                'Local 4012:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .neutralWhite01,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              _buildNumberField(
+                                  '(0917) 322-7807', constants.local4),
+                              Text(
                                 'Luzon-wide Landline toll-free:',
                                 textAlign: TextAlign.left,
                                 style: Theme.of(context)
@@ -151,8 +273,6 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                   '0966-351-4518', constants.globeSubscribers1),
                               _buildNumberField(
                                   '0917-899-8727', constants.globeSubscribers2),
-                              _buildNumberField(
-                                  '0917-899-USAP', constants.globeSubscribers3),
                               Text(
                                 'National Center for Mental Health 24/7:',
                                 textAlign: TextAlign.left,
@@ -169,8 +289,6 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                   '0966-351-4518', constants.nationalCenter1),
                               _buildNumberField(
                                   '0917-899-8727', constants.nationalCenter2),
-                              _buildNumberField(
-                                  '0917-899-USAP', constants.nationalCenter3),
                               Text(
                                 'SMART/SUN/TNT Subscribers:',
                                 textAlign: TextAlign.left,
@@ -185,6 +303,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                               ),
                               _buildNumberField(
                                   '0908-639-2672', constants.smartSubscribers),
+
                             ],
                           ),
                           SizedBox(height: 100)
