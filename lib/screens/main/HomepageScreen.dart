@@ -458,11 +458,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                           onTap: () {
-                            _dailyController
-                                .setDailyTaskToDone(DailyTask.Exercise);
-                            setState(() {
-                              _isDailyExerciseDone = true;
-                            });
                             Get.toNamed('/wellnessScreen');
                           },
                           child: Row(

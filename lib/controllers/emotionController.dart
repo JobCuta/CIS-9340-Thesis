@@ -604,6 +604,7 @@ class EmotionController extends GetxController {
   }
 
   String timeToString(DateTime dateTime) {
+    print(dateTime);
     return DateFormat.Hm().format(dateTime);
   }
 

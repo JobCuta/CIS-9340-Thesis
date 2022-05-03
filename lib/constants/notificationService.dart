@@ -174,7 +174,7 @@ class NotificationService {
   static tz.TZDateTime _nextInstanceOfPHQEntry() {
     tz.TZDateTime scheduledDate = tz.TZDateTime(
         tz.local, nextPHQ.year, nextPHQ.month, nextPHQ.day, 12, 30);
-
+    print('PHQ: $scheduledDate');
     return scheduledDate;
   }
 
@@ -197,6 +197,7 @@ class NotificationService {
   static tz.TZDateTime _nextInstanceOfSIDASEntry() {
     tz.TZDateTime scheduledDate = tz.TZDateTime(
         tz.local, nextSIDAS.year, nextSIDAS.month, nextSIDAS.day, 12, 30);
+    print('SIDAS: $scheduledDate');
 
     return scheduledDate;
   }

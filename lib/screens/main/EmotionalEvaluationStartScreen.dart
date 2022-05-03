@@ -274,6 +274,7 @@ class _EmotionalEvaluationStartScreenState
           ),
         ),
       ]),
+      resizeToAvoidBottomInset: false,
       bottomSheet: Container(
         margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
         width: MediaQuery.of(context).size.width,

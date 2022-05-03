@@ -332,8 +332,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       // Button for the user to randomly generate a new exercise
                       (position == 1)
                           ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 0),
+                              padding:
+                                  const EdgeInsets.only(bottom: 10, top: 15),
                               child: SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   height: 50,
@@ -417,7 +417,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       Visibility(
                         visible: widget.initialAssessment,
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
+                          padding: const EdgeInsets.only(bottom: 15),
                           child: Visibility(
                             visible: position <= 1,
                             child: TextButton(
@@ -524,23 +524,29 @@ class BreathingCycleWidgetState extends State<BreathingCycleWidget> {
             textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.neutralWhite01),
-            fadeInEnd: 0.2,
-            fadeOutBegin: 0.7,
+            fadeInEnd: 0.1,
+            fadeOutBegin: 0.95,
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
             textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.neutralWhite01),
+            fadeInEnd: 0.1,
+            fadeOutBegin: 0.9,
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Exhale...',
             textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.neutralWhite01),
+            fadeInEnd: 0.1,
+            fadeOutBegin: 0.9,
             duration: const Duration(seconds: 4)),
         FadeAnimatedText('Hold...',
             textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.neutralWhite01),
+            fadeInEnd: 0.1,
+            fadeOutBegin: 0.9,
             duration: const Duration(seconds: 4)),
       ],
       totalRepeatCount: 4,

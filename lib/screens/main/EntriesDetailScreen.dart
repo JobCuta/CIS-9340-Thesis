@@ -292,7 +292,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                 color: Theme.of(context).colorScheme.neutralGray01));
   }
 
-  _buildEmotionContainer(entryCheck, partofDay, title) {
+  _buildEmotionContainer(entryCheck, partOfDay, title) {
     return Padding(
       padding: const EdgeInsets.all(25),
       child: Container(
@@ -363,7 +363,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                               onSelected: (value) {
                                 if (value == 'Edit') {
                                   _emotionController
-                                      .updatePartOfTheDayCheck(partofDay);
+                                      .updatePartOfTheDayCheck(partOfDay);
                                   _emotionController
                                       .updateSelectedEmotionEntry(emotionEntry);
                                   _emotionController.updateEditMode(true);
@@ -379,7 +379,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                         "route": 'details',
                                       });
                                 } else if (value == 'Delete') {
-                                  showDeleteConfirmation(partofDay);
+                                  showDeleteConfirmation(partOfDay);
                                 }
                               },
                               itemBuilder: (BuildContext context) =>
@@ -451,7 +451,7 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                             : IconButton(
                                 onPressed: () {
                                   _emotionController
-                                      .updatePartOfTheDayCheck(partofDay);
+                                      .updatePartOfTheDayCheck(partOfDay);
                                   _emotionController
                                       .updateIfAddingFromDaily(false);
                                   _emotionController.updateEditMode(false);

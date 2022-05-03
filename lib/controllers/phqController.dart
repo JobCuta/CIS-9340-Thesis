@@ -18,7 +18,6 @@ class PHQController extends GetxController {
   void updateValues(int position, int i) {
     answerValues[position] = i;
     calculateSum();
-    print(answerValues);
     update();
   }
 
@@ -27,7 +26,6 @@ class PHQController extends GetxController {
     for (var num in answerValues) {
       sum += num;
     }
-    print(sum);
     update();
   }
 
