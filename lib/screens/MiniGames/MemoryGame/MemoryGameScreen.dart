@@ -82,8 +82,6 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
