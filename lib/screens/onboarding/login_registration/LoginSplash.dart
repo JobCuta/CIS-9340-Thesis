@@ -30,10 +30,11 @@ class _LoadingSplashState extends State<LoadingSplash> {
   /// If the local storage is outdated, the entire Hive is replaced not updated.
 
   Future<Widget> loadFromFuture() async {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(seconds: 10), () {
       loadingStatus = 'Getting List from Server..';
+      log('test setetsets etsetet');
     });
-    
+
     updatePHQ();
     updateSIDAS();
 
@@ -41,14 +42,14 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updatePHQ() async {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       loadingStatus = 'Updating PHQ Entries..';
     });
-    
+
     await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
     List phqList = await UserProvider().phqScores();
     log('phq List ${phqList.first}');
-    
+
     for (var entry in phqList) {
       DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
       entry["date_created"] = parsed.toUtc().toString();
@@ -70,20 +71,20 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updateSIDAS() async {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       loadingStatus = 'Updating SIDAS Entries..';
     });
-    
+
     await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
     List sidasList = await UserProvider().sidasScores();
     log('sidas List $sidasList');
-    
+
     for (var entry in sidasList) {
       DateTime parsed = DateFormat('dd/MM/yyyy HH:mm:ss').parse(entry["date_created"]);
       entry["date_created"] = parsed.toUtc().toString();
     }
 
-    DateTime sidasServer = DateTime.parse(sidasList.first['date_created']) , sidasLocal = DateTime.parse(latestSidas);
+    DateTime sidasServer = DateTime.parse(sidasList.first['date_created']), sidasLocal = DateTime.parse(latestSidas);
 
     if (sidasServer.isBefore(sidasLocal)) {
       UserProvider().bulkPhqUpdate(sidasList);

@@ -45,7 +45,12 @@ class _EmotionalEvaluationEndScreenState extends State<EmotionalEvaluationEndScr
               : (_emotionController.isEveningCheck.value)
                   ? _emotionController.getSelectedEmotionEntry().eveningCheck
                   : EmotionEntryDetail(
-                      mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true, timeOfDay: 'unknown');
+                      mood: '',
+                      positiveEmotions: [],
+                      negativeEmotions: [],
+                      isEmpty: true,
+                      timeOfDay: 'unknown',
+                      id: -1);
 
       isEditMode = _emotionController.isEditMode.value;
       _emotionController.selectedPositiveEmotions.value = emotionEntryDetail.positiveEmotions;
