@@ -8,7 +8,7 @@ import 'package:flutter_application_1/models/Mood.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'SideMenu.dart';
+import '../SideMenu/SideMenu.dart';
 
 class EntriesDetailScreen extends StatefulWidget {
   const EntriesDetailScreen({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/screens/main/SideMenu.dart';
+import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
@@ -128,15 +128,15 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
-                              _buildNumberField(
-                                  'Landline: (02) 8893-7603', constants.suicideCrisis),
-                              _buildNumberField(
-                                  'Globe: 0917-800-1123', constants.globeSuicideCrisis),
+                              _buildNumberField('Landline: (02) 8893-7603',
+                                  constants.suicideCrisis),
+                              _buildNumberField('Globe: 0917-800-1123',
+                                  constants.globeSuicideCrisis),
                               Text(
                                 'HopeLine:',
                                 textAlign: TextAlign.left,
@@ -144,17 +144,17 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
-                              _buildNumberField(
-                                  'Landline: (02) 8804-4673', constants.hopeLine),
-                              _buildNumberField(
-                                  'Globe: 0917-558-4673', constants.globeHopeLine),
-                              _buildNumberField(
-                                  'Smart: 0918-8784673', constants.smartHopeLine),
+                              _buildNumberField('Landline: (02) 8804-4673',
+                                  constants.hopeLine),
+                              _buildNumberField('Globe: 0917-558-4673',
+                                  constants.globeHopeLine),
+                              _buildNumberField('Smart: 0918-8784673',
+                                  constants.smartHopeLine),
                               Text(
                                 'Mood Harmony(Support Group for Mood Disorders):',
                                 textAlign: TextAlign.left,
@@ -162,13 +162,13 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
-                              _buildNumberField(
-                                  'Landline: (02) 8844-2941', constants.moodHarmony),
+                              _buildNumberField('Landline: (02) 8844-2941',
+                                  constants.moodHarmony),
                               Text(
                                 'Dial-a-Friend:',
                                 textAlign: TextAlign.left,
@@ -176,13 +176,13 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
-                              _buildNumberField(
-                                  'Landline: (02) 8525-1743', constants.dialAFriend),
+                              _buildNumberField('Landline: (02) 8525-1743',
+                                  constants.dialAFriend),
                               Text(
                                 'Philippine General Hospital:',
                                 textAlign: TextAlign.left,
@@ -190,10 +190,10 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
                               _buildNumberField(
                                   'Landline: (02) 554-8400', constants.PGH),
@@ -204,13 +204,13 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
-                              _buildNumberField(
-                                  'Landline: (02) 8554-88470', constants.local1),
+                              _buildNumberField('Landline: (02) 8554-88470',
+                                  constants.local1),
                               _buildNumberField(
                                   'Landline: (02) 8526-0150', constants.local2),
                               _buildNumberField(
@@ -222,10 +222,10 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
                               _buildNumberField(
                                   'Landline: (02) 8406-1611', constants.LFF),
@@ -236,10 +236,10 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                    fontWeight: FontWeight.w600),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        fontWeight: FontWeight.w600),
                               ),
                               _buildNumberField(
                                   '(0917) 322-7807', constants.local4),
@@ -303,7 +303,6 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                               ),
                               _buildNumberField(
                                   '0908-639-2672', constants.smartSubscribers),
-
                             ],
                           ),
                           SizedBox(height: 100)

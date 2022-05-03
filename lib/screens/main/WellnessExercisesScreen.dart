@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
-import 'package:flutter_application_1/screens/main/SideMenu.dart';
+import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:get/get.dart';
 
 class WellnessExercisesScreen extends StatefulWidget {

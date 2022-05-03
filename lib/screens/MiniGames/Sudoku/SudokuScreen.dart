@@ -40,7 +40,8 @@ class SudokuScreenState extends State<SudokuScreen> {
   static String currentAccentColor = '';
   final SudokuController _sudokuController = Get.put(SudokuController());
   final LevelController _levelController = Get.put(LevelController());
-  final AdventureController _adventureController = Get.put(AdventureController());
+  final AdventureController _adventureController =
+      Get.put(AdventureController());
   final String route = Get.arguments["route"]!;
 
   @override
@@ -126,15 +127,14 @@ class SudokuScreenState extends State<SudokuScreen> {
               dialog:
                   'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
             ).then((value) {
-              _adventureController.checkIfItWillAddXpForCompletingAllActivities();
-
-              Future.delayed(const Duration(milliseconds: 0), () {
-                _sudokuController.updateIfCompleted();
-                _levelController.addXp('Sudoku', 50);
-                _levelController.displayLevelXpModal(context);
-              });
-
+              _adventureController
+                  .checkIfItWillAddXpForCompletingAllActivities();
               Get.offAndToNamed('/ActivitiesGameScreen');
+            });
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              _sudokuController.updateIfCompleted();
+              _levelController.addXp('Sudoku', 50);
+              _levelController.displayLevelXpModal(context);
             });
           } else {
             Future.delayed(const Duration(milliseconds: 1000), () {

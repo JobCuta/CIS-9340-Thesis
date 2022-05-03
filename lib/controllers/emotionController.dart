@@ -220,22 +220,19 @@ class EmotionController extends GetxController {
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
             negativeEmotions: [],
-            timeOfDay: 'morning'
-            ),
+            timeOfDay: 'morning'),
         afternoonCheck: EmotionEntryDetail(
             isEmpty: true,
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
             negativeEmotions: [],
-            timeOfDay: 'afternoon'
-            ),
+            timeOfDay: 'afternoon'),
         eveningCheck: EmotionEntryDetail(
             isEmpty: true,
             mood: moodMap['NoData']!.name,
             positiveEmotions: [],
             negativeEmotions: [],
-            timeOfDay: 'evening'
-            ),
+            timeOfDay: 'evening'),
       );
 
       print("--------------- ADDING ---------------");
@@ -276,22 +273,19 @@ class EmotionController extends GetxController {
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
               negativeEmotions: [],
-              timeOfDay: 'morning'
-              ),
+              timeOfDay: 'morning'),
           afternoonCheck: EmotionEntryDetail(
               isEmpty: true,
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
               negativeEmotions: [],
-              timeOfDay: 'afternoon'
-              ),
+              timeOfDay: 'afternoon'),
           eveningCheck: EmotionEntryDetail(
               isEmpty: true,
               mood: moodMap['NoData']!.name,
               positiveEmotions: [],
               negativeEmotions: [],
-              timeOfDay: 'evening'
-              ),
+              timeOfDay: 'evening'),
         );
 
         print("--------------- ADDING ---------------");
@@ -584,24 +578,21 @@ class EmotionController extends GetxController {
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
           negativeEmotions: [],
-          timeOfDay: 'morning'
-          );
+          timeOfDay: 'morning');
     } else if (part == PartOfTheDay.Afternoon) {
       emotionEntry.afternoonCheck = EmotionEntryDetail(
           isEmpty: true,
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
           negativeEmotions: [],
-          timeOfDay: 'afternoon'
-          );
+          timeOfDay: 'afternoon');
     } else if (part == PartOfTheDay.Evening) {
       emotionEntry.eveningCheck = EmotionEntryDetail(
           isEmpty: true,
           mood: moodMap['NoData']!.name,
           positiveEmotions: [],
           negativeEmotions: [],
-          timeOfDay: 'evening'
-          );
+          timeOfDay: 'evening');
     }
 
     calculateOverallMood(emotionEntry);

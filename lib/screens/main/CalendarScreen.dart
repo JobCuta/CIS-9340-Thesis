@@ -2,7 +2,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:intl/intl.dart';
-import 'SideMenu.dart';
+import '../SideMenu/SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -37,8 +37,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Color veryBadColor = const Color.fromRGBO(78, 72, 146, 1);
   Color badColor = const Color.fromRGBO(69, 69, 69, 1);
   Color neutralColor = const Color.fromRGBO(17, 172, 221, 1);
-  Color goodColor = const Color.fromRGBO(255, 178, 89, 1);
-  Color veryGoodColor = const Color.fromRGBO(0, 191, 88, 1);
+  Color happyColor = const Color.fromRGBO(255, 178, 89, 1);
+  Color veryHappyColor = const Color.fromRGBO(0, 191, 88, 1);
 
   //Status colors
   Color? filled = Colors.grey[700];
@@ -78,7 +78,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       );
 
   Widget _goodIcon(String day) => CircleAvatar(
-        backgroundColor: goodColor,
+        backgroundColor: happyColor,
         child: Text(
           day,
           style: const TextStyle(fontSize: 11, color: Colors.black),
@@ -86,7 +86,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       );
 
   Widget _veryGoodIcon(String day) => CircleAvatar(
-        backgroundColor: veryGoodColor,
+        backgroundColor: veryHappyColor,
         child: Text(
           day,
           style: const TextStyle(fontSize: 11, color: Colors.black),
@@ -285,7 +285,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 Container(
                                   height: 50.0,
                                   width: 50.0,
-                                  decoration: emotionCounterStyle(goodColor),
+                                  decoration: emotionCounterStyle(happyColor),
                                   child: Container(
                                       height: 39,
                                       width: 39,
@@ -300,7 +300,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   height: 50.0,
                                   width: 50.0,
                                   decoration:
-                                      emotionCounterStyle(veryGoodColor),
+                                      emotionCounterStyle(veryHappyColor),
                                   child: Container(
                                       height: 39,
                                       width: 39,
@@ -496,11 +496,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                                 TextSpan>[
                                                               TextSpan(
                                                                   text: (selectedDayEntry
-                                                                              .overallMood !=
+                                                                              .overallMood ==
                                                                           'NoData'
-                                                                      ? selectedDayEntry
-                                                                          .overallMood
-                                                                      : 'Empty'),
+                                                                      ? 'Empty'
+                                                                      : selectedDayEntry.overallMood ==
+                                                                              'VeryHappy'
+                                                                          ? 'Very Happy'
+                                                                          : selectedDayEntry.overallMood ==
+                                                                                  'VeryBad'
+                                                                              ? 'Very Bad'
+                                                                              : selectedDayEntry
+                                                                                  .overallMood),
                                                                   style: Theme.of(
                                                                           context)
                                                                       .textTheme
@@ -693,10 +699,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
       return badColor;
     } else if (mood == 'Neutral') {
       return neutralColor;
-    } else if (mood == 'Good') {
-      return goodColor;
-    } else if (mood == 'VeryGood') {
-      return veryGoodColor;
+    } else if (mood == 'Happy') {
+      return happyColor;
+    } else if (mood == 'VeryHappy') {
+      return veryHappyColor;
     } else {
       return Colors.black;
     }

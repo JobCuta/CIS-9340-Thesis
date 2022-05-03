@@ -346,8 +346,8 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                     RichText(
                                       text: TextSpan(children: <InlineSpan>[
                                         TextSpan(
-                                            text: _profileController
-                                                .birthdayController.text,
+                                            text:
+                                                '${_profileController.birthdayController.text}  ',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1
@@ -361,9 +361,8 @@ class _UserProfileEditScreenState extends State<UserProfileEditScreen> {
                                             alignment:
                                                 PlaceholderAlignment.middle,
                                             child: Icon(
-                                                Icons
-                                                    .keyboard_arrow_right_sharp,
-                                                size: 30,
+                                                Icons.calendar_today_outlined,
+                                                size: 20,
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .neutralGray01))

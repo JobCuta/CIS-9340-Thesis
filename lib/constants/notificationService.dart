@@ -31,8 +31,6 @@ class NotificationService {
     tz.initializeTimeZones();
     timezone = timezone = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timezone));
-    print(timezone);
-    print(tz.local);
 
     phqBox = Hive.box('phq');
     sidasBox = Hive.box('sidas');
@@ -165,12 +163,12 @@ class NotificationService {
 
   static Future<void> showPHQNotification() async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        1,
+        4,
         "Kasiyanna",
         "Hey there! It's time for your PHQ-9 entry",
         _nextInstanceOfPHQEntry(),
         const NotificationDetails(
-            android: AndroidNotificationDetails('1', 'PHQ-9 Reminder',
+            android: AndroidNotificationDetails('4', 'PHQ-9 Reminder',
                 channelDescription:
                     'Reminds the user to do their PHQ-9 entry.')),
         androidAllowWhileIdle: true,
@@ -188,12 +186,12 @@ class NotificationService {
 
   static Future<void> showSIDASNotification() async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        1,
+        5,
         "Kasiyanna",
         "Hey there! It's time for your SIDAS entry",
         _nextInstanceOfSIDASEntry(),
         const NotificationDetails(
-            android: AndroidNotificationDetails('1', 'SIDAS Reminder',
+            android: AndroidNotificationDetails('5', 'SIDAS Reminder',
                 channelDescription:
                     'Reminds the user to do their SIDAS entry.')),
         androidAllowWhileIdle: true,
