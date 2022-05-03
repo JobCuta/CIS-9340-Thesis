@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class AdventureController extends GetxController {
   var selectedProvince = Province.Apayao.obs;
+  var willAddXpOnce = false.obs;
 
   void prepareTheObjects() {
     Box box = Hive.box<AdventureProgress>('adventure');
@@ -33,6 +34,44 @@ class AdventureController extends GetxController {
 
   void updateSelectedProvince(Province province) {
     selectedProvince.value = province;
+    update();
+  }
+
+  void checkIfItWillAddXpForCompletingAllActivities() {
+    Province province = selectedProvince.value;
+    Map<Province, int> provinceIndex = {
+      Province.Apayao: 0,
+      Province.Kalinga: 1,
+      Province.Abra: 2,
+      Province.MountainProvince: 3,
+      Province.Ifugao: 4,
+      Province.Benguet: 5
+    };
+    
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress adventureProgress = box.get('adventureProgress');
+
+    List <bool> copingProvinceCompleted = adventureProgress.copingProvinceCompleted;
+    List <bool> memoryProvinceCompleted = adventureProgress.memoryProvinceCompleted;
+    List <bool> sudokuProvinceCompleted = adventureProgress.sudokuProvinceCompleted;
+
+    bool isMemoryDone = memoryProvinceCompleted[provinceIndex[province] as int];
+    bool isCopingDone = copingProvinceCompleted[provinceIndex[province] as int];
+    bool isSudokuDone = sudokuProvinceCompleted[provinceIndex[province] as int];
+
+    int completeCount = 0;
+    if (isMemoryDone) completeCount++;
+    if (isCopingDone) completeCount++;
+    if (isSudokuDone) completeCount++;
+
+    if (completeCount == 2) {
+      willAddXpOnce.value = true;
+      update();
+    }
+  }
+
+  void setAddingOfXpForCompletingAllActivitiesToFalse() {
+    willAddXpOnce.value = false;
     update();
   }
 }

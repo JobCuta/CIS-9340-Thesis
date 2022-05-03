@@ -154,6 +154,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                         );
                                       });
                                       if (_completed == true) {
+                                        _adventureController.checkIfItWillAddXpForCompletingAllActivities();
                                         Future.delayed(const Duration(milliseconds: 0), () {
                                           _levelController.addXp('Memory Game', 50);
                                           _levelController.displayLevelXpModal(context);

@@ -59,10 +59,14 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
         isSudokuDone = sudokuProvinceCompleted[provinceIndex[selectedProvince] as int];
     });
 
-    if (isMemoryDone && isCopingDone && isSudokuDone) {
+    bool willAddXp = _adventureController.willAddXpOnce.value;
+
+    if (isMemoryDone && isCopingDone && isSudokuDone && willAddXp) {
       Future.delayed(const Duration(milliseconds: 1000), () {
           _levelController.addXp('All 3 Activities', 150);
           _levelController.displayLevelXpModal(context);
+
+          _adventureController.setAddingOfXpForCompletingAllActivitiesToFalse();
       });
     }
 

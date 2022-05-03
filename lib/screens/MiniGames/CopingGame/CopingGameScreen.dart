@@ -24,7 +24,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   bool _infoSelected = false;
   CopingController _copingController = Get.put(CopingController());
   AdventureController _adventureController = Get.put(AdventureController());
-  double height = 350;
+  double height = 430;
   double width = 300;
   bool isComplete = false;
   bool willBeCompletedOnceOnly = false;
@@ -216,6 +216,8 @@ class CopingGameScreenState extends State<CopingGameScreen> {
           });
         }).then((value) {
       if (isComplete && willBeCompletedOnceOnly) {
+        _adventureController.checkIfItWillAddXpForCompletingAllActivities();
+
         showTalkingPerson(
             context: context,
             dialog:
