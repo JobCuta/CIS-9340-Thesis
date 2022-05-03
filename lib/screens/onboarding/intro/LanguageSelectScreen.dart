@@ -24,7 +24,7 @@ class _LanguageSelectState extends State<LanguageSelect> {
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+          padding: const EdgeInsets.fromLTRB(12, 20, 12, 80),
           child: Stack(
             children: [
               SingleChildScrollView(

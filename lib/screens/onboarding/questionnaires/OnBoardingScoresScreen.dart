@@ -71,16 +71,14 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                     fit: BoxFit.cover))),
         SafeArea(
           child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 25),
-              child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 100,
-                  runSpacing: 20,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 25),
-                      child: Text(
+              padding: const EdgeInsets.fromLTRB(25, 40, 25, 20),
+              child: SingleChildScrollView(
+                child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 100,
+                    runSpacing: 20,
+                    children: [
+                      Text(
                           type == 'both'
                               ? 'Here is your PHQ-9 and Suicidal Ideation Score'
                               : type == 'phq9'
@@ -95,163 +93,165 @@ class _OnBoardingScoresScreenState extends State<OnBoardingScoresScreen> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .neutralWhite01)),
-                    ),
-                    Wrap(
-                      runSpacing: 10,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: type == 'phq9' || type == 'both',
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Wrap(
-                                alignment: WrapAlignment.center,
-                                runSpacing: 10,
-                                children: [
-                                  Text.rich(TextSpan(children: <InlineSpan>[
-                                    TextSpan(
-                                        text: _phqController.sum.toString(),
-                                        style: TextStyle(
-                                            fontSize: 64,
-                                            fontFamily: 'Inconsolata',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                                    TextSpan(
-                                        text: '/27',
-                                        style: TextStyle(
-                                            fontSize: 64,
-                                            fontFamily: 'Inconsolata',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .sunflowerYellow04))
-                                  ])),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: LinearPercentIndicator(
-                                      barRadius: const Radius.circular(4),
-                                      lineHeight: 20,
-                                      percent: _phqController.sum / 27,
-                                      progressColor: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .sunflowerYellow03,
-                                    ),
-                                  ),
-                                  Text(
-                                      _phqController.sum >= 20
-                                          ? 'Severe'
-                                          : _phqController.sum >= 15
-                                              ? 'Moderately Severe'
-                                              : _phqController.sum >= 10
-                                                  ? 'Moderate'
-                                                  : _phqController.sum >= 5
-                                                      ? 'Mild'
-                                                      : 'None - Minimal',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
+                      Wrap(
+                        runSpacing: 10,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Visibility(
+                            visible: type == 'phq9' || type == 'both',
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  runSpacing: 10,
+                                  children: [
+                                    Text.rich(TextSpan(children: <InlineSpan>[
+                                      TextSpan(
+                                          text: _phqController.sum.toString(),
+                                          style: TextStyle(
+                                              fontSize: 64,
+                                              fontFamily: 'Inconsolata',
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .neutralWhite01)),
-                                  highAlertContainer(
-                                      phqPrompt, _phqController.sum >= 10),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15.0, horizontal: 10.0),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffFFA132)
-                                            .withOpacity(0.60),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8))),
-                                    child: Text(
+                                      TextSpan(
+                                          text: '/27',
+                                          style: TextStyle(
+                                              fontSize: 64,
+                                              fontFamily: 'Inconsolata',
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .sunflowerYellow04))
+                                    ])),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: LinearPercentIndicator(
+                                        barRadius: const Radius.circular(4),
+                                        lineHeight: 20,
+                                        percent: _phqController.sum / 27,
+                                        progressColor: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow03,
+                                      ),
+                                    ),
+                                    Text(
                                         _phqController.sum >= 20
-                                            ? 'Immediate initiation of pharmacotherapy and, if severe impairment or poor response to therapy, expedited referral to a mental health specialist for psychotherapy and/or collaborative management'
+                                            ? 'Severe'
                                             : _phqController.sum >= 15
-                                                ? 'Active treatment with pharmacotherapy and/or psychotherapy'
+                                                ? 'Moderately Severe'
                                                 : _phqController.sum >= 10
-                                                    ? 'Treatment plan, considering counseling, follow-up and/or pharmacotherapy'
+                                                    ? 'Moderate'
                                                     : _phqController.sum >= 5
-                                                        ? 'Watchful waiting; repeat PHQ-9 at follow-up'
-                                                        : 'None',
-                                        textAlign: TextAlign.center,
+                                                        ? 'Mild'
+                                                        : 'None - Minimal',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2
+                                            .subtitle1
                                             ?.copyWith(
-                                                fontWeight: FontWeight.w400,
+                                                fontWeight: FontWeight.w600,
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .neutralWhite01)),
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        Visibility(
-                          visible: type == 'sidas' || type == 'both',
-                          child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                runSpacing: 10,
-                                children: [
-                                  Text.rich(TextSpan(children: <InlineSpan>[
-                                    TextSpan(
-                                        text: _sidasController.sum.toString(),
-                                        style: TextStyle(
-                                            fontSize: 64,
-                                            fontFamily: 'Inconsolata',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralWhite01)),
-                                    TextSpan(
-                                        text: '/50',
-                                        style: TextStyle(
-                                            fontSize: 64,
-                                            fontFamily: 'Inconsolata',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .sunflowerYellow04))
-                                  ])),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: LinearPercentIndicator(
-                                      barRadius: const Radius.circular(4),
-                                      lineHeight: 20,
-                                      percent: _sidasController.sum / 50,
-                                      progressColor: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .sunflowerYellow03,
+                                    highAlertContainer(
+                                        phqPrompt, _phqController.sum >= 10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15.0, horizontal: 10.0),
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xffFFA132)
+                                              .withOpacity(0.60),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8))),
+                                      child: Text(
+                                          _phqController.sum >= 20
+                                              ? 'Immediate initiation of pharmacotherapy and, if severe impairment or poor response to therapy, expedited referral to a mental health specialist for psychotherapy and/or collaborative management'
+                                              : _phqController.sum >= 15
+                                                  ? 'Active treatment with pharmacotherapy and/or psychotherapy'
+                                                  : _phqController.sum >= 10
+                                                      ? 'Treatment plan, considering counseling, follow-up and/or pharmacotherapy'
+                                                      : _phqController.sum >= 5
+                                                          ? 'Watchful waiting; repeat PHQ-9 at follow-up'
+                                                          : 'None',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .neutralWhite01)),
                                     ),
-                                  ),
-                                  Text(
-                                      _sidasController.sum >= 21
-                                          ? 'High Suicidal Ideation'
-                                          : 'Low Suicidal Ideation',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
+                                  ]),
+                            ),
+                          ),
+                          Visibility(
+                            visible: type == 'sidas' || type == 'both',
+                            child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  runSpacing: 10,
+                                  children: [
+                                    Text.rich(TextSpan(children: <InlineSpan>[
+                                      TextSpan(
+                                          text: _sidasController.sum.toString(),
+                                          style: TextStyle(
+                                              fontSize: 64,
+                                              fontFamily: 'Inconsolata',
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .neutralWhite01)),
-                                ],
-                              )),
-                        ),
-                        highAlertContainer(
-                            sidasPrompt, _sidasController.sum >= 21)
-                      ],
-                    ),
-                  ])),
+                                      TextSpan(
+                                          text: '/50',
+                                          style: TextStyle(
+                                              fontSize: 64,
+                                              fontFamily: 'Inconsolata',
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .sunflowerYellow04))
+                                    ])),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: LinearPercentIndicator(
+                                        barRadius: const Radius.circular(4),
+                                        lineHeight: 20,
+                                        percent: _sidasController.sum / 50,
+                                        progressColor: Theme.of(context)
+                                            .colorScheme
+                                            .neutralWhite01,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .sunflowerYellow03,
+                                      ),
+                                    ),
+                                    Text(
+                                        _sidasController.sum >= 21
+                                            ? 'High Suicidal Ideation'
+                                            : 'Low Suicidal Ideation',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .neutralWhite01)),
+                                  ],
+                                )),
+                          ),
+                          highAlertContainer(
+                              sidasPrompt, _sidasController.sum >= 21)
+                        ],
+                      ),
+                      const SizedBox(height: 50)
+                    ]),
+              )),
         ),
         Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
