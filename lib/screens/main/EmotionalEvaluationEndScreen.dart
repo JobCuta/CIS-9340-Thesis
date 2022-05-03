@@ -439,28 +439,36 @@ class _EmotionalEvaluationEndScreenState
                         : Theme.of(context).colorScheme.neutralWhite04,
                   ),
                   onPressed: () {
-                    if (_emotionController.isValid.value) {
-                      bool isAddingFromOnboarding =
-                          _emotionController.isAddingFromOnboarding.value;
-                      _emotionController.updateEntryInStorage();
+                    Future.delayed(Duration.zero, () async {
+                      if (_emotionController.isValid.value) {
+                        bool isAddingFromOnboarding =
+                            _emotionController.isAddingFromOnboarding.value;
+                        _emotionController.updateEntryInStorage();
 
-                      if (!_dailyController.isDailyEntryDone.value) {
-                        _dailyController
-                            .setDailyTaskToDone(DailyTask.EmotionEntry);
-                        _levelController.initializeTaskWithXp('Daily Entry', 5);
-                        _levelController.finalizeAddingOfXp();
+                        if (!_dailyController.isDailyEntryDone.value) {
+                          _dailyController
+                              .setDailyTaskToDone(DailyTask.EmotionEntry);
+                          _levelController.addXp('Daily Entry', 5);
+                          _levelController.displayLevelXpModal(context);
+                        }
+
+                        _dailyController.checkIfEntriesDone();
+                        if (_dailyController.isMorningEntryDone.value &&
+                            _dailyController.isAfternoonEntryDone.value &&
+                            _dailyController.isEveningEntryDone.value &&
+                            dateTime.month == DateTime.now().month &&
+                            dateTime.day == DateTime.now().day &&
+                            dateTime.year == DateTime.now().year) {
+                          _levelController.addXp('All 3 Entries', 20);
+                          _levelController.displayLevelXpModal(context);
+                        }
+
+                        (isAddingFromOnboarding)
+                            ? setNotificationsAlert(context)
+                            : determineNextRoute();
                       }
-
-                      if (_dailyController.isMorningEntryDone.value &&
-                          _dailyController.isAfternoonEntryDone.value &&
-                          _dailyController.isEveningEntryDone.value) {
-                        _levelController.addXp('All 3 Entries', 20);
-                      }
-
-                      (isAddingFromOnboarding)
-                          ? setNotificationsAlert(context)
-                          : determineNextRoute();
-                    }
+                    });
+                    
                   }),
             )),
       ),

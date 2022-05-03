@@ -70,7 +70,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                 fontWeight: FontWeight.w400),
           ),
           leading: BackButton(onPressed: () {
-            Get.back();
+            Get.offAndToNamed('/ActivitiesGameScreen');
           }),
           elevation: 0,
           backgroundColor: Colors.transparent),
@@ -146,7 +146,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                         _completed = true;
                                       });
                                       Future.delayed(
-                                          const Duration(milliseconds: 1000), () {
+                                          const Duration(milliseconds: 0), () {
                                         showTalkingPerson(
                                           context: context,
                                           dialog:
@@ -154,7 +154,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                         );
                                       });
                                       if (_completed == true) {
-                                        Future.delayed(const Duration(milliseconds: 1000), () {
+                                        Future.delayed(const Duration(milliseconds: 0), () {
                                           _levelController.addXp('Memory Game', 50);
                                           _levelController.displayLevelXpModal(context);
                                           _memoryController.updateProvinceCompletion(selectedProvince);

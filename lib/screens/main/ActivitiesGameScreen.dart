@@ -25,13 +25,15 @@ class ActivitiesGameScreen extends StatefulWidget {
 
 class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
   final AdventureController _adventureController = Get.put(AdventureController());
-  // final LevelController _levelController = Get.put(LevelController());
+  final LevelController _levelController = Get.put(LevelController());
   // final SudokuController _sudokuController = Get.put(SudokuController());
   // final CopingController _copingController = Get.put(CopingController());
+  bool isMemoryDone = false;
+  bool isCopingDone = false;
+  bool isSudokuDone = false;
 
-  // might have to change screen after completing memory or sudoku for the "complete" to reflect in the UI
-  // TODO: will change something later to fix that
-  RichText displayBasedOnTaskCompleteness(Activities activity) {
+  @override
+  void initState() {
     Map<Province, int> provinceIndex = {
       Province.Apayao: 0,
       Province.Kalinga: 1,
@@ -41,16 +43,37 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
       Province.Benguet: 5
     };
 
+    print("ENTERED INIT OF ACTIVITIES GAME SCREEN --------------------");
     Province selectedProvince = _adventureController.selectedProvince.value;
+
     Box box = Hive.box<AdventureProgress>('adventure');
     AdventureProgress adventureProgress = box.get('adventureProgress');
 
-    List <bool> provinceCompleted = (activity == Activities.Coping) ? adventureProgress.copingProvinceCompleted
-        : (activity == Activities.Memory) ? adventureProgress.memoryProvinceCompleted
-        : adventureProgress.sudokuProvinceCompleted;
+    List <bool> copingProvinceCompleted = adventureProgress.copingProvinceCompleted;
+    List <bool> memoryProvinceCompleted = adventureProgress.memoryProvinceCompleted;
+    List <bool> sudokuProvinceCompleted = adventureProgress.sudokuProvinceCompleted;
 
-    bool isTaskDone = provinceCompleted[provinceIndex[selectedProvince] as int];
-    
+    setState(() {
+        isMemoryDone = memoryProvinceCompleted[provinceIndex[selectedProvince] as int];
+        isCopingDone = copingProvinceCompleted[provinceIndex[selectedProvince] as int];
+        isSudokuDone = sudokuProvinceCompleted[provinceIndex[selectedProvince] as int];
+    });
+
+    if (isMemoryDone && isCopingDone && isSudokuDone) {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+          _levelController.addXp('All 3 Activities', 150);
+          _levelController.displayLevelXpModal(context);
+      });
+    }
+
+    super.initState();
+  }
+
+  RichText displayBasedOnTaskCompleteness(Activities activity) {
+    bool isTaskDone = activity == Activities.Coping ? isCopingDone
+        : activity == Activities.Memory ? isMemoryDone
+        : isSudokuDone;
+
     return (isTaskDone)
         ? RichText(
             text: TextSpan(children: [

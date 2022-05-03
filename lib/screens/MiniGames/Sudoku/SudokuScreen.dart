@@ -124,12 +124,13 @@ class SudokuScreenState extends State<SudokuScreen> {
               dialog:
                   'Congratulations! You beat the Sudoku Portion of the level! I’ll bring you back to the list of tasks.',
             ).then((value) {
+              Future.delayed(const Duration(milliseconds: 0), () {
+                _sudokuController.updateIfCompleted();
+                _levelController.addXp('Sudoku', 50);
+                _levelController.displayLevelXpModal(context);
+              });
+
               Get.offAndToNamed('/ActivitiesGameScreen');
-            });
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              _sudokuController.updateIfCompleted();
-              _levelController.addXp('Sudoku', 50);
-              _levelController.displayLevelXpModal(context);
             });
           } else {
             Future.delayed(const Duration(milliseconds: 1000), () {

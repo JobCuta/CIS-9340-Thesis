@@ -9,7 +9,6 @@ import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/ProvinceCards.dart';
-import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -311,7 +310,7 @@ class CopingGameScreenState extends State<CopingGameScreen> {
                   fontWeight: FontWeight.w400),
             ),
             leading: BackButton(onPressed: () {
-              Get.back();
+              Get.offAndToNamed('/ActivitiesGameScreen');
             }),
             elevation: 0,
             backgroundColor: Colors.transparent),
