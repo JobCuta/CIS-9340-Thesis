@@ -23,13 +23,14 @@ class EmotionEntryDetailAdapter extends TypeAdapter<EmotionEntryDetail> {
       positiveEmotions: (fields[3] as List).cast<dynamic>(),
       negativeEmotions: (fields[4] as List).cast<dynamic>(),
       isEmpty: fields[5] as bool,
+      timeOfDay: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, EmotionEntryDetail obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.time)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class EmotionEntryDetailAdapter extends TypeAdapter<EmotionEntryDetail> {
       ..writeByte(4)
       ..write(obj.negativeEmotions)
       ..writeByte(5)
-      ..write(obj.isEmpty);
+      ..write(obj.isEmpty)
+      ..writeByte(6)
+      ..write(obj.timeOfDay);
   }
 
   @override

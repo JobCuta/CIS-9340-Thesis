@@ -51,7 +51,9 @@ class _EmotionalEvaluationEndScreenState
                       mood: '',
                       positiveEmotions: [],
                       negativeEmotions: [],
-                      isEmpty: true);
+                      isEmpty: true,
+                      timeOfDay: 'unknown'
+                      );
 
       isEditMode = _emotionController.isEditMode.value;
       _emotionController.selectedPositiveEmotions.value =
@@ -456,7 +458,6 @@ class _EmotionalEvaluationEndScreenState
                           _dailyController.isEveningEntryDone.value) {
                         _levelController.addXp('All 3 Entries', 20);
                       }
-
                       (isAddingFromOnboarding)
                           ? setNotificationsAlert(context)
                           : determineNextRoute();

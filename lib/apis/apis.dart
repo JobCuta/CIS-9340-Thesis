@@ -28,7 +28,8 @@ class UserProvider extends GetConnect {
     "PHQL": "api/v1/PHQ9-LIST/",
     "SIDAS": "api/v1/SIDAS/",
     "emotion": "api/v1/EmotionEntry/",
-    "bulkPHQ": "api/v1/PHQ9-UPDATE/"
+    "bulkPHQ": "api/v1/PHQ9-UPDATE/",
+    'bulkSIDAS': "api/v1/SIDAS-UPDATE/"
   };
 
   //POST
@@ -150,7 +151,7 @@ class UserProvider extends GetConnect {
     final response = await post(domain + paths["emotion"],
         { "date": date,
           "date_time_answered": DateTime.now().toString(),
-          "time_of_day": '',
+          "time_of_day": entry.timeOfDay,
           "current_mood": entry.mood,
           "note": entry.note,
           "positive_emotions": entry.positiveEmotions,
@@ -167,13 +168,21 @@ class UserProvider extends GetConnect {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["bulkPHQ"], entries, headers: {"Authorization": "Token " + key});
-    log('address $domain${paths["bulkPHQ"]}');
-    log('entries $entries');
     if (response.hasError) {
       log('bulk phq update error ${response.statusText}');
       return "whoops";
     }
-    log('it worked ${response.body}');
+    return "";
+  }
+
+    Future<String> bulkSidasUpdate(List entries) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths["bulkSIDAS"], entries, headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('bulk sidas update error ${response.statusText}');
+      return "whoops";
+    }
     return "";
   }
 
@@ -205,7 +214,7 @@ class UserProvider extends GetConnect {
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["PHQ"], headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('error ${response.statusText}');
+      log('phq scores error ${response.statusText}');
       return response.statusText;
     }
     List<dynamic> body = response.body;
@@ -217,6 +226,10 @@ class UserProvider extends GetConnect {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["SIDAS"], headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('sidas scores error ${response.statusText}');
+      return response.statusText;
+    }
     List<dynamic> body = response.body;
     log('scores body $body');
     return body;
