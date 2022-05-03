@@ -1,6 +1,7 @@
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:intl/intl.dart';
 import 'SideMenu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,9 @@ class CalendarScreen extends StatefulWidget {
 final EmotionController _emotionController = Get.put(EmotionController());
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  DateTime installedDate = DateTime.now();
+  late DateTime installedDate;
   CalendarFormat format = CalendarFormat.month;
-  DateTime selectedDay = DateTime.now();
+  late DateTime selectedDay = DateTime.now();
 
   List<EmotionEntryHive> emotionEntries =
       _emotionController.getAllEmotionEntries();
@@ -116,7 +117,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (!mounted) return;
 
     setState(() {
-      installedDate = DateTime.parse(installDate);
+      print('install date is' + installDate);
+      installedDate = DateFormat('yyyy-MM-dd').parse(installDate);
     });
   }
 
@@ -221,6 +223,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               onDayPressed: (date, event) {
                                 setState(() {
                                   selectedDay = date;
+                                  print(selectedDay);
                                 });
                               },
                             ),

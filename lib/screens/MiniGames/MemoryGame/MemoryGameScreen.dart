@@ -31,6 +31,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   late final List<String> _dialogues = getDialogue(selectedProvince);
   bool _completed = false;
   final LevelController _levelController = Get.put(LevelController());
+  String previousRoute = Get.previousRoute;
 
   @override
   void initState() {
@@ -57,6 +58,28 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         ),
       );
     }
+  }
+
+  void checkResult() {
+        if (previousRoute != '/') {
+          showTalkingPerson(
+            context: context,
+            dialog:
+            'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
+          ).then((value) {
+            Get.offAndToNamed('/ActivitiesGameScreen');
+          });
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            _levelController.addXp('Memory Game', 50);
+            _levelController.displayLevelXpModal(context);
+            _memoryController.updateProvinceCompletion(selectedProvince);
+          });
+        } else {
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            _levelController.addXp('Memory Game', 50);
+            _levelController.displayLevelXpModal(context);
+          });
+        }
   }
 
   @override
@@ -131,6 +154,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                   setState(() {
                                     _wait = true;
                                   });
+                                  print('previous route is ' + previousRoute);
 
                                   _visibility[_previousIndex] = false;
                                   _visibility[index] = false;
@@ -144,21 +168,16 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                     if (_dialogueCounter == 8) {
                                       setState(() {
                                         _completed = true;
-                                      });
-                                      Future.delayed(
-                                          const Duration(milliseconds: 1000), () {
-                                        showTalkingPerson(
-                                          context: context,
-                                          dialog:
-                                          'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
-                                        );
+                                        _dialogueCounter == 0;
                                       });
                                       if (_completed == true) {
-                                        Future.delayed(const Duration(milliseconds: 1000), () {
+                                        _adventureController.checkIfItWillAddXpForCompletingAllActivities();
+                                        Future.delayed(const Duration(milliseconds: 0), () {
                                           _levelController.addXp('Memory Game', 50);
                                           _levelController.displayLevelXpModal(context);
                                           _memoryController.updateProvinceCompletion(selectedProvince);
                                         });
+                                        checkResult();
                                       }
                                     }
                                   });
