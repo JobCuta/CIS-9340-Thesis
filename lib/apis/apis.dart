@@ -144,18 +144,19 @@ class UserProvider extends GetConnect {
     return {"status": true, "body": response.body};
   }
 
-  Future<Map<String, dynamic>> createEmotion(EmotionEntryDetail entry) async {
-    DateTime date = DateFormat('').parse(entry.time);
+  Future<Map<String, dynamic>> createEmotion(EmotionEntryDetail entry, DateTime date) async {
+    List pList = entry.positiveEmotions.map((e) => e.name).toList();
+    List nList = entry.negativeEmotions.map((e) => e.name).toList();
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["emotion"], {
-      "date": date,
-      "date_time_answered": DateTime.now().toString(),
+      "date": '${date.year}-${date.month}-${date.day}',
+      "date_time_answered": DateTime.now().toUtc().toString(),
       "time_of_day": entry.timeOfDay,
       "current_mood": entry.mood,
       "note": entry.note,
-      "positive_emotions": entry.positiveEmotions,
-      "negative_emotions": entry.negativeEmotions
+      "positive_emotions": pList,
+      "negative_emotions": nList,
     }, headers: {
       "Authorization": "Token " + key
     });
@@ -238,7 +239,7 @@ class UserProvider extends GetConnect {
   }
 
   //PUT
-  Future firstLogin() async {
+  Future<bool> firstLogin() async {
     String key = "", email = '';
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     await UserSecureStorage.getEmail().then((value) => email = value.toString());
@@ -253,7 +254,7 @@ class UserProvider extends GetConnect {
     return true;
   }
 
-  Future updatePHQ(int score, String index) async {
+  Future<bool> updatePHQ(int score, String index) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response =
@@ -265,7 +266,7 @@ class UserProvider extends GetConnect {
     return true;
   }
 
-  Future updateSIDAS(int score, String index) async {
+  Future<bool> updateSIDAS(int score, String index) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response =
@@ -277,10 +278,28 @@ class UserProvider extends GetConnect {
     return true;
   }
 
-  Future updateEmotion(EmotionEntryDetail entry) async {
+  Future<Map<String, String>> updateEmotion(EmotionEntryDetail entry, DateTime date) async {
+    List pList = entry.positiveEmotions.map((e) => e.name).toList();
+    List nList = entry.negativeEmotions.map((e) => e.name).toList();
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response =
-        await put(domain + paths['emotions'] + '${entry.id}/', {}, headers: {"Authorization": "Token" + key});
+    final response = await put(domain + paths['emotion'] + '${entry.id}/', {
+      "date": '${date.year}-${date.month}-${date.day}',
+      "date_time_answered": DateTime.now().toUtc().toString(),
+      "time_of_day": entry.timeOfDay,
+      "current_mood": entry.mood,
+      "positive_emotions": pList,
+      "negative_emotions": nList,
+    }, headers: {
+      "Authorization": "Token " + key
+    });
+    if (response.hasError) {
+      log('update emotion entry error ${response.statusText}');
+      if (response.statusText == "Not Found") {
+        return {"status": "Not Found"};
+      }
+      return {"status": "Error"};
+    }
+    return {"status": "Updated"};
   }
 }

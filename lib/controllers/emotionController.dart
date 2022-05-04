@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
@@ -36,6 +37,36 @@ class EmotionController extends GetxController {
   var currentStreak = 0.obs;
   var longestStreak = 0.obs;
   var monthMoodCount = [0, 0, 0, 0, 0].obs;
+
+  Map<int, String> monthStr = {
+    1: 'January',
+    2: 'Febuary',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December'
+  };
+
+  Map<String, int> monthNameToMonthNumber = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August': 8,
+    'September': 9,
+    'October': 10,
+    'November': 11,
+    'December': 12
+  };
 
   void updatePositiveEmotions(emotions) {
     selectedPositiveEmotions.value = emotions;
@@ -86,21 +117,6 @@ class EmotionController extends GetxController {
   }
 
   void updateDateTime(String month, int day, int year) {
-    Map<String, int> monthNameToMonthNumber = {
-      'January': 1,
-      'February': 2,
-      'March': 3,
-      'April': 4,
-      'May': 5,
-      'June': 6,
-      'July': 7,
-      'August': 8,
-      'September': 9,
-      'October': 10,
-      'November': 11,
-      'December': 12
-    };
-
     dateTime.value = (DateTime.now().year != year ||
             (DateTime.now().month != monthNameToMonthNumber[month] && DateTime.now().day != day))
         ? DateTime(year = year, monthNameToMonthNumber[month] as int, day)
@@ -155,12 +171,47 @@ class EmotionController extends GetxController {
     update();
   }
 
-  emptyMoodEntry(String time) => EmotionEntryDetail(
+  updateEmotionBackend(EmotionEntryDetail entry) async {
+    /// update entry in the backend
+    /// if the entry does not exist in the backend, it is created instead.
+    log('this the entry ${entry.toString()}');
+    Map<String, String> result = await UserProvider().updateEmotion(entry, dateTime.value);
+    String title = '', sub = '';
+    log('saving emotion to backend.. ${result}');
+    switch (result['status']) {
+      case 'Not Found':
+        Map<String, dynamic> create = await UserProvider().createEmotion(entry, dateTime.value);
+        log('not found.. creating emotion entry.. ${create}');
+        if (create["status"]) {
+          log('successfully created.');
+          entry.id = create['body']['id'];
+          title = 'Emotion Entry saved!';
+          sub = 'Entry was saved to your profile';
+        } else {
+          title = 'Emotion Entry not saved';
+          sub = 'There was a problem saving your entry online';
+        }
+        break;
+      case 'Updated':
+        title = 'Emotion Entry saved!';
+        sub = 'Entry was saved to your profile';
+        break;
+      case 'Error':
+        title = 'Emotion Entry not saved';
+        sub = 'There was a problem saving your entry online';
+        break;
+      default:
+    }
+    Get.snackbar(title, sub,
+        snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+  }
+
+  emptyMoodEntry(String timeOfDay) => EmotionEntryDetail(
       mood: moodMap['NoData']!.name,
       positiveEmotions: [],
       negativeEmotions: [],
       isEmpty: true,
-      timeOfDay: time,
+      timeOfDay: timeOfDay,
       id: -1);
 
   // THIS METHOD WILL ONLY BE USED IN DAILYCONTROLLER
@@ -173,36 +224,6 @@ class EmotionController extends GetxController {
       5: 'Friday',
       6: 'Saturday',
       7: 'Sunday'
-    };
-
-    Map<int, String> month = {
-      1: 'January',
-      2: 'Febuary',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December'
-    };
-
-    Map<String, int> monthNameToMonthNumber = {
-      'January': 1,
-      'February': 2,
-      'March': 3,
-      'April': 4,
-      'May': 5,
-      'June': 6,
-      'July': 7,
-      'August': 8,
-      'September': 9,
-      'October': 10,
-      'November': 11,
-      'December': 12
     };
 
     Mood mood = moodMap['NoData'] as Mood;
@@ -218,13 +239,31 @@ class EmotionController extends GetxController {
       EmotionEntryHive newEmotionEntry = EmotionEntryHive(
         overallMood: mood.name,
         weekday: weekdayString[dateTime.weekday] as String,
-        month: month[dateTime.month] as String,
+        month: monthStr[dateTime.month] as String,
         day: dateTime.day,
         year: dateTime.year,
         morningCheck: emptyMoodEntry('morning'),
         afternoonCheck: emptyMoodEntry('afternoon'),
         eveningCheck: emptyMoodEntry('evening'),
       );
+
+      /// creating entries in the backend
+      var uploadM = await UserProvider().createEmotion(emptyMoodEntry('morning'), dateTime);
+      var uploadN = await UserProvider().createEmotion(emptyMoodEntry('afternoon'), dateTime);
+      var uploadE = await UserProvider().createEmotion(emptyMoodEntry('evening'), dateTime);
+
+      if (uploadM['status'] == true) {
+        newEmotionEntry.morningCheck.id = uploadM['body']['id'];
+        log('morning saved');
+      }
+      if (uploadN['status'] == true) {
+        newEmotionEntry.morningCheck.id = uploadN['body']['id'];
+        log('afternoon saved');
+      }
+      if (uploadE['status'] == true) {
+        newEmotionEntry.morningCheck.id = uploadE['body']['id'];
+        log('evening saved');
+      }
 
       log("--------------- ADDING ---------------");
       log("Emotion box length = " + box.length.toString());
@@ -252,7 +291,7 @@ class EmotionController extends GetxController {
         EmotionEntryHive newEmotionEntry = EmotionEntryHive(
           overallMood: mood.name,
           weekday: weekdayString[dateTime.weekday] as String,
-          month: month[dateTime.month] as String,
+          month: monthStr[dateTime.month] as String,
           day: dateTime.day,
           year: dateTime.year,
           morningCheck: emptyMoodEntry('morning'),
@@ -261,9 +300,9 @@ class EmotionController extends GetxController {
         );
 
         /// creating entries in the backend
-        var uploadM = await UserProvider().createEmotion(emptyMoodEntry('morning'));
-        var uploadN = await UserProvider().createEmotion(emptyMoodEntry('afternoon'));
-        var uploadE = await UserProvider().createEmotion(emptyMoodEntry('evening'));
+        var uploadM = await UserProvider().createEmotion(emptyMoodEntry('morning'), dateTime);
+        var uploadN = await UserProvider().createEmotion(emptyMoodEntry('afternoon'), dateTime);
+        var uploadE = await UserProvider().createEmotion(emptyMoodEntry('evening'), dateTime);
 
         if (uploadM['status'] == true) {
           newEmotionEntry.morningCheck.id = uploadM['body']['id'];
@@ -291,7 +330,7 @@ class EmotionController extends GetxController {
     }
   }
 
-  void updateEntryInStorage() {
+  Future<void> updateEntryInStorage() async {
     Box box = Hive.box<EmotionEntryHive>('emotion');
     String time = timeToString(dateTime.value);
 
@@ -317,6 +356,7 @@ class EmotionController extends GetxController {
       emotionEntry.morningCheck.positiveEmotions = positiveEmotions;
       emotionEntry.morningCheck.negativeEmotions = negativeEmotions;
       emotionEntry.morningCheck.isEmpty = false;
+      updateEmotionBackend(emotionEntry.morningCheck);
     } else if (isAfternoonCheck.value) {
       emotionEntry.afternoonCheck.time = time;
       emotionEntry.afternoonCheck.note = note.value;
@@ -324,6 +364,7 @@ class EmotionController extends GetxController {
       emotionEntry.afternoonCheck.positiveEmotions = positiveEmotions;
       emotionEntry.afternoonCheck.negativeEmotions = negativeEmotions;
       emotionEntry.afternoonCheck.isEmpty = false;
+      updateEmotionBackend(emotionEntry.afternoonCheck);
     } else if (isEveningCheck.value) {
       emotionEntry.eveningCheck.time = time;
       emotionEntry.eveningCheck.note = note.value;
@@ -331,6 +372,7 @@ class EmotionController extends GetxController {
       emotionEntry.eveningCheck.positiveEmotions = positiveEmotions;
       emotionEntry.eveningCheck.negativeEmotions = negativeEmotions;
       emotionEntry.eveningCheck.isEmpty = false;
+      updateEmotionBackend(emotionEntry.eveningCheck);
     }
 
     calculateOverallMood(emotionEntry);
@@ -385,21 +427,6 @@ class EmotionController extends GetxController {
   }
 
   List<EmotionEntryHive> getEmotionEntriesForMonth(int month, int year) {
-    Map<int, String> monthStr = {
-      1: 'January',
-      2: 'Febuary',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December'
-    };
-
     Box box = Hive.box<EmotionEntryHive>('emotion');
     final emotionEntryKeys = box.keys;
     List<EmotionEntryHive> emotionEntries = [];
@@ -441,21 +468,6 @@ class EmotionController extends GetxController {
   }
 
   void updateCurrentStreakAndMonthMoodCount(int month, int year) {
-    Map<int, String> monthStr = {
-      1: 'January',
-      2: 'Febuary',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December'
-    };
-
     Box box = Hive.box<EmotionEntryHive>('emotion');
     final emotionEntryKeys = box.keys;
     List<EmotionEntryHive> emotionEntries = [];

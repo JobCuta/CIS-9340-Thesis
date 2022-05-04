@@ -125,12 +125,15 @@ class DebugScreen extends StatelessWidget {
                     ElevatedButton(
                         child: const Text('Create Emotion Entry'),
                         onPressed: () async {
-                          var sidas = Hive.box('sidas');
-                          sidasHive entry = sidasHive(
-                              index: -1, date: DateTime(2022, 5, 1), answerValues: [], score: random.nextInt(50));
-                          sidas.add(entry);
-                          // Map scores = await UserProvider().createSIDAS(entry);
-                          // log('entry made? ${scores}');
+                          EmotionEntryDetail entry = EmotionEntryDetail(
+                              mood: 'Happy',
+                              positiveEmotions: ['test'],
+                              negativeEmotions: [],
+                              isEmpty: true,
+                              timeOfDay: 'evening',
+                              id: -1);
+                          var result = UserProvider().createEmotion(entry, DateTime.now());
+                          log('emotion result $result');
                         }),
                     ElevatedButton(
                         child: const Text('Get PHQ9 Hive'),
@@ -224,6 +227,21 @@ class DebugScreen extends StatelessWidget {
                               log('hive ${box.values.toList()}');
                             }
                           }
+                        }),
+                    ElevatedButton(
+                        child: const Text('Update Emotion Entry'),
+                        onPressed: () async {
+                          var sidas = Hive.box('sidas');
+                          EmotionEntryDetail entry = EmotionEntryDetail(
+                              mood: 'Happy',
+                              positiveEmotions: ['test'],
+                              negativeEmotions: [],
+                              isEmpty: true,
+                              timeOfDay: 'evening',
+                              id: 29);
+                          sidas.add(entry);
+                          var result = UserProvider().updateEmotion(entry, DateTime(2022, 04, 18));
+                          log('emotion result $result');
                         }),
                   ],
                 ),

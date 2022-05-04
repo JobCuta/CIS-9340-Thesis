@@ -52,8 +52,13 @@ class EmotionEntryDetail extends HiveObject {
         ", " +
         mood +
         ", " +
-        positiveEmotions.length.toString() +
+        positiveEmotions.toString() +
         ", " +
-        negativeEmotions.length.toString();
+        negativeEmotions.toString() +
+        ", " +
+        id.toString() +
+        ", " +
+        timeOfDay
+        ;
   }
 }
