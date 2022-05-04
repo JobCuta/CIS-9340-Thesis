@@ -29,7 +29,8 @@ class UserProvider extends GetConnect {
     "SIDAS": "api/v1/SIDAS/",
     "emotion": "api/v1/EmotionEntry/",
     "bulkPHQ": "api/v1/PHQ9-UPDATE/",
-    'bulkSIDAS': "api/v1/SIDAS-UPDATE/"
+    'bulkSIDAS': "api/v1/SIDAS-UPDATE/",
+    'bulkEmotion': "api/v1/EMOTIONS-UPDATE/",
   };
 
   //POST
@@ -189,6 +190,17 @@ class UserProvider extends GetConnect {
     return "";
   }
 
+  Future<String> bulkEmotionUpdate(List entries) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths['bulkEmotion'], entries, headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('bulk emotion update error ${response.statusText}');
+      return 'whoops';
+    }
+    return "";
+  }
+
   //GET
   Future<Response> logout() async {
     var response = await get(domain + paths["logout"]);
@@ -232,6 +244,19 @@ class UserProvider extends GetConnect {
     if (response.hasError) {
       log('sidas scores error ${response.statusText}');
       return response.statusText;
+    }
+    List<dynamic> body = response.body;
+    log('scores body $body');
+    return body;
+  }
+
+  Future emotionScores() async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["emotion"], headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('emotion scores error ${response.statusText}');
+      return false;
     }
     List<dynamic> body = response.body;
     log('scores body $body');

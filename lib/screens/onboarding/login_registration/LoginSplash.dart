@@ -21,7 +21,7 @@ class LoadingSplash extends StatefulWidget {
 class _LoadingSplashState extends State<LoadingSplash> {
   String loadingStatus = 'Retrieving user details please wait..';
 
-  String latestPhq = '', latestSidas = '';
+  String latestPhq = '', latestSidas = '', latestEmotion = '';
 
   /// Get data from online database
   /// Works by checking which storage is more up to date
@@ -30,13 +30,9 @@ class _LoadingSplashState extends State<LoadingSplash> {
   /// If the local storage is outdated, the entire Hive is replaced not updated.
 
   Future<Widget> loadFromFuture() async {
-    Future.delayed(const Duration(seconds: 10), () {
-      loadingStatus = 'Getting List from Server..';
-      log('test setetsets etsetet');
-    });
-
-    updatePHQ();
-    updateSIDAS();
+    await updatePHQ();
+    await updateSIDAS();
+    // await updateEmotions();
 
     return Future.value(HomePageScreen(2));
   }
@@ -55,17 +51,30 @@ class _LoadingSplashState extends State<LoadingSplash> {
       entry["date_created"] = parsed.toUtc().toString();
     }
 
-    DateTime phqServer = DateTime.parse(phqList.first['date_created']), phqLocal = DateTime.parse(latestPhq);
-
     var box = Hive.box('phq');
-    if (phqServer.isBefore(phqLocal) || box.length == 0) {
-      UserProvider().bulkPhqUpdate(phqList);
-    } else {
+
+    if (latestPhq == 'null') {
+      box.clear();
       for (var entry in phqList) {
-        DateTime date = entry["date_created"].toUtc();
-        var item = phqHive(date: entry["date_created"], index: entry["id"], score: entry["score"]);
+        DateTime date = DateTime.parse(entry["date_created"]);
+        var item = phqHive(date: date, index: entry["id"], score: entry["score"].round());
         String key = date.month.toString() + '-' + date.day.toString();
         box.put(key, item);
+      }
+      return;
+    } else {
+      DateTime phqServer = DateTime.parse(phqList.first['date_created']), phqLocal = DateTime.parse(latestPhq);
+
+      if (phqServer.isBefore(phqLocal) || box.length == 0) {
+        UserProvider().bulkPhqUpdate(phqList);
+      } else {
+        box.clear();
+        for (var entry in phqList) {
+          DateTime date = DateTime.parse(entry["date_created"]);
+          var item = phqHive(date: entry["date_created"], index: entry["id"], score: entry["score"].round());
+          String key = date.month.toString() + '-' + date.day.toString();
+          box.put(key, item);
+        }
       }
     }
   }
@@ -84,17 +93,49 @@ class _LoadingSplashState extends State<LoadingSplash> {
       entry["date_created"] = parsed.toUtc().toString();
     }
 
-    DateTime sidasServer = DateTime.parse(sidasList.first['date_created']), sidasLocal = DateTime.parse(latestSidas);
+    var box = Hive.box('sidas');
 
-    if (sidasServer.isBefore(sidasLocal)) {
-      UserProvider().bulkPhqUpdate(sidasList);
-    } else {
-      var box = Hive.box('sidas');
+    if (latestSidas == 'null') {
+      box.clear();
       for (var entry in sidasList) {
-        DateTime date = entry["date_created"].toUtc();
-        var item = sidasHive(date: entry["date_created"], index: entry["id"], score: entry["sum"], answerValues: []);
+        DateTime date = DateTime.parse(entry["date_created"]);
+        var item = sidasHive(date: date, index: entry["id"], score: entry["sum"].round(), answerValues: []);
         String key = date.month.toString() + '-' + date.day.toString();
         box.put(key, item);
+      }
+      return;
+    } else {
+      DateTime sidasServer = DateTime.parse(sidasList.first['date_created']), sidasLocal = DateTime.parse(latestSidas);
+
+      if (sidasServer.isBefore(sidasLocal)) {
+        UserProvider().bulkPhqUpdate(sidasList);
+      } else {
+        for (var entry in sidasList) {
+          DateTime date = entry["date_created"].toUtc();
+          var item = sidasHive(date: date, index: entry["id"], score: entry["sum"].round(), answerValues: []);
+          String key = date.month.toString() + '-' + date.day.toString();
+          box.put(key, item);
+        }
+      }
+    }
+  }
+
+  updateEmotions() async {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      loadingStatus = 'Updating Emotion Entries..';
+    });
+
+    await TableSecureStorage.getLatestEmotion().then((value) => latestEmotion);
+    List<dynamic> emotionList = await UserProvider().emotionScores();
+    log('emotion List $emotionList');
+
+    var box = Hive.box('emotions');
+
+    if (latestEmotion == 'null') {
+    } else {
+      DateTime emotionServer = DateTime.parse(''), emotionLocal = DateTime.parse(latestEmotion);
+      if (emotionServer.isBefore(emotionLocal)) {
+        UserProvider().bulkEmotionUpdate([]);
       }
     }
   }
