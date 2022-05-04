@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
+import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
@@ -326,6 +327,7 @@ class EmotionController extends GetxController {
         log("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
         box.put(date, newEmotionEntry);
+        TableSecureStorage.setLatestEmotion(DateTime.now().toUtc().toString());
       }
     }
   }
@@ -377,6 +379,7 @@ class EmotionController extends GetxController {
 
     calculateOverallMood(emotionEntry);
     emotionEntry.save();
+    TableSecureStorage.setLatestEmotion(DateTime.now().toUtc().toString());
 
     log("--------------- UPDATING ---------------");
     log("[EEH] Overall Mood Name = " + emotionEntry.overallMood);
