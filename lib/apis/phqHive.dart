@@ -17,4 +17,11 @@ class phqHive extends HiveObject {
 
   @override
   toString() => DateFormat('MMMM yyyy').format(date);
+
+  Map toJson() => {
+        'id': index,
+        'score': score,
+        'date_created': date.toUtc().toString(),
+        'date_modified': DateTime.now().toUtc().toString()
+      };
 }

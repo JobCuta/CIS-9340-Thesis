@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 part 'EmotionEntryDetail.g.dart';
 
@@ -28,17 +29,16 @@ class EmotionEntryDetail extends HiveObject {
   @HiveField(7)
   int id;
 
-  EmotionEntryDetail(
-      {
-        this.time = '',
-        this.note = '',
-        required this.mood,
-        required this.positiveEmotions,
-        required this.negativeEmotions,
-        required this.isEmpty,
-        required this.timeOfDay,
-        required this.id,
-      });
+  EmotionEntryDetail({
+    this.time = '',
+    this.note = '',
+    required this.mood,
+    required this.positiveEmotions,
+    required this.negativeEmotions,
+    required this.isEmpty,
+    required this.timeOfDay,
+    required this.id,
+  });
 
   String getMood() {
     return mood;
@@ -58,7 +58,6 @@ class EmotionEntryDetail extends HiveObject {
         ", " +
         id.toString() +
         ", " +
-        timeOfDay
-        ;
+        timeOfDay;
   }
 }

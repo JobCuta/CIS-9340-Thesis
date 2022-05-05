@@ -334,7 +334,7 @@ class EmotionController extends GetxController {
 
   Future<void> updateEntryInStorage() async {
     Box box = Hive.box<EmotionEntryHive>('emotion');
-    String time = timeToString(dateTime.value);
+    String time = dateTime.value.toUtc().toString();
 
     EmotionEntryHive emotionEntry = box.get(dateToString(dateTime.value));
     Mood? mood = moodMap[mainEmotion.value] as Mood;
@@ -614,11 +614,6 @@ class EmotionController extends GetxController {
     log("KEY IS $date");
 
     return date;
-  }
-
-  String timeToString(DateTime dateTime) {
-    log('$dateTime');
-    return DateFormat.Hm().format(dateTime);
   }
 
   void calculateOverallMood(EmotionEntryHive emotionEntry) {

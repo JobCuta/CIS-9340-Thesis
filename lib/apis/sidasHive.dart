@@ -26,4 +26,6 @@ class sidasHive extends HiveObject {
 
   @override
   toString() => DateFormat('MMMM yyyy').format(date);
+
+  Map toJson() => {'id': index, 'date_created': date.toUtc().toString(), 'sum': score};
 }

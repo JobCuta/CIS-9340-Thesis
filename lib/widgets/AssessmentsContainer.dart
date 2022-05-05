@@ -18,9 +18,8 @@ class AssessmentsContainer extends StatefulWidget {
 
 class _AssessmentsContainerState extends State<AssessmentsContainer> {
   String boxName = '', title = '', prevAssessRoute = '', takeAssessRoute = '';
-  late DateTime next;
+  late DateTime next = DateTime(0);
   int daysLeft = -1;
-  late Box box;
 
   var now = DateTime.now();
   var latestEntry;
@@ -39,7 +38,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
       prevAssessRoute = '/sidasStatScreen';
       takeAssessRoute = '/sidasScreen';
     }
-    box = Hive.box(boxName);
+    Box box = Hive.box(boxName);
+    log('box info $boxName ${box.isEmpty} | ${box.length}');
     if (box.isNotEmpty) {
       var monthKey = box.keys.last;
       latestEntry = box.get(monthKey);
@@ -54,8 +54,8 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
       // to only use the year, month, and day in the difference
       now = DateTime(now.year, now.month, now.day);
       daysLeft = next.difference(now).inDays;
+      log('how am I here ${latestEntry.score}');
     }
-    log('how am I here ${latestEntry.score}');
   }
 
   @override
@@ -73,47 +73,24 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               RichText(
                   text: daysLeft >= 2
                       ? TextSpan(
-                          text:
-                              'Upcoming Assessment: ${DateFormat("MMMM d").format(next)}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .accentBlue02))
+                          text: 'Upcoming Assessment: ${DateFormat("MMMM d").format(next)}',
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentBlue02))
                       : daysLeft >= 0
                           ? TextSpan(children: <InlineSpan>[
                               TextSpan(
-                                  text:
-                                      'Upcoming Assessment: ${DateFormat("MMMM d").format(next)} ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .sunflowerYellow01)),
+                                  text: 'Upcoming Assessment: ${DateFormat("MMMM d").format(next)} ',
+                                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context).colorScheme.sunflowerYellow01)),
                               WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
-                                  child: Icon(Icons.error,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .anzac01))
+                                  child: Icon(Icons.error, color: Theme.of(context).colorScheme.anzac01))
                             ])
                           : TextSpan(
-                              text:
-                                  'Missing Assessment: ${DateFormat("MMMM d").format(next)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .accentRed02))),
+                              text: 'Missing Assessment: ${DateFormat("MMMM d").format(next)}',
+                              style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                  fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.accentRed02))),
               const SizedBox(
                 height: 10,
               ),
@@ -126,9 +103,10 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                               ? 'Your $title assessment is due today'
                               : 'It seems you’ve missed your assessment. Take the assessment now for accurate tracking of your mental wellness. ',
                   textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.neutralGray02)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray02)),
               const SizedBox(
                 height: 20,
               ),
@@ -137,9 +115,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                   if (daysLeft <= 1 || latestEntry.score == -1) {
                     Get.toNamed(takeAssessRoute, arguments: {
                       'home': '/homepage',
-                      'key': latestEntry.date.month.toString() +
-                          '-' +
-                          latestEntry.date.year.toString()
+                      'key': latestEntry.date.month.toString() + '-' + latestEntry.date.year.toString()
                     });
                   }
                 },
@@ -148,60 +124,35 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
                   children: [
                     Text(title,
                         style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color:
-                                Theme.of(context).colorScheme.neutralBlack02)),
+                            fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.neutralBlack02)),
                     daysLeft >= 2
                         ? Text('Not Yet!',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralGray02))
+                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralGray02))
                         : daysLeft >= 0
                             ? RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
                                       text: 'Go',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .anzac01)),
+                                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                          fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.anzac01)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                          Icons.keyboard_arrow_right_sharp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .anzac01))
+                                      child: Icon(Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context).colorScheme.anzac01))
                                 ]),
                               )
                             : RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
                                       text: 'Go',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .accentRed02)),
+                                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context).colorScheme.accentRed02)),
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.middle,
-                                      child: Icon(
-                                          Icons.keyboard_arrow_right_sharp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .accentRed02))
+                                      child: Icon(Icons.keyboard_arrow_right_sharp,
+                                          color: Theme.of(context).colorScheme.accentRed02))
                                 ]),
                               )
                   ],
@@ -214,9 +165,10 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
               ),
               InkWell(
                 child: Text('Show previous assessments',
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.neutralGray03)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralGray03)),
                 onTap: () {
                   Get.toNamed(prevAssessRoute);
                 },
