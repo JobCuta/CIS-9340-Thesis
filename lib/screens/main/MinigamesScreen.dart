@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'SideMenu.dart';
+import '../SideMenu/SideMenu.dart';
 
 class MinigamesScreen extends StatefulWidget {
   const MinigamesScreen({Key? key}) : super(key: key);

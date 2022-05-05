@@ -110,6 +110,14 @@ class _SideMenuState extends State<SideMenu> {
                       : Get.back(),
                 ),
                 buildMenuItem(
+                  text: 'Let us know what you think',
+                  icon: 'assets/images/star_icon.svg',
+                  onClicked: () =>
+                      ModalRoute.of(context)!.settings.name != '/contactScreen'
+                          ? Get.offAndToNamed('/contactScreen')
+                          : Get.back(),
+                ),
+                buildMenuItem(
                   text: 'Settings and User Profile',
                   icon: 'assets/images/settings_icon.svg',
                   onClicked: () => ModalRoute.of(context)!.settings.name !=
@@ -183,15 +191,23 @@ class _SideMenuState extends State<SideMenu> {
                       Text('Hey there, $name',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                              color: Theme.of(context).colorScheme.accentIndigo02,
-                              fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 10,),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .accentIndigo02,
+                                  fontWeight: FontWeight.w600)),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text('$email ',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.caption!.copyWith(
-                              color: Theme.of(context).colorScheme.accentIndigo02,
+                              color:
+                                  Theme.of(context).colorScheme.accentIndigo02,
                               fontWeight: FontWeight.w400)),
                       // ),
                     ],

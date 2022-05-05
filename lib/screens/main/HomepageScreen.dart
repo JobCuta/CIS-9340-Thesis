@@ -18,7 +18,7 @@ import 'package:flutter_application_1/widgets/UserEngagementDialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../custom_icons_icons.dart';
-import 'SideMenu.dart';
+import '../SideMenu/SideMenu.dart';
 
 class HomePageScreen extends StatefulWidget {
   late int selectedIndex;

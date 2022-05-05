@@ -6,7 +6,7 @@ import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/userProfileController.dart';
-import 'package:flutter_application_1/screens/main/SideMenu.dart';
+import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,6 +34,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void initState() {
     super.initState();
     _settingsController.resetAllValues();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _emotionController.checkValidEntriesCount();
+    });
     if (_dailyController.isDailyEntryDone.value) {
       dailyTaskCount++;
     }
@@ -245,12 +248,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         height: 25,
                         thickness: 1,
                       ),
-                      _buildFieldComponent(
-                          fieldName: 'Contact Us',
-                          isEditable: true,
-                          onTap: (() {
-                            Get.toNamed('/userProfileContactScreen');
-                          })),
                       _buildFieldComponent(
                           fieldName: 'Account',
                           isEditable: true,

@@ -3,6 +3,8 @@ import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:get/get.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -10,6 +12,7 @@ late Box phqBox;
 late Box sidasBox;
 late DateTime nextPHQ;
 late DateTime nextSIDAS;
+late String timezone;
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -26,6 +29,9 @@ class NotificationService {
     initializeLocalNotificationsPlugin(initializationSettings);
 
     tz.initializeTimeZones();
+    timezone = timezone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timezone));
+
     phqBox = Hive.box('phq');
     sidasBox = Hive.box('sidas');
     if (phqBox.isNotEmpty) {
@@ -157,12 +163,12 @@ class NotificationService {
 
   static Future<void> showPHQNotification() async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        1,
+        4,
         "Kasiyanna",
         "Hey there! It's time for your PHQ-9 entry",
         _nextInstanceOfPHQEntry(),
         const NotificationDetails(
-            android: AndroidNotificationDetails('1', 'PHQ-9 Reminder',
+            android: AndroidNotificationDetails('4', 'PHQ-9 Reminder',
                 channelDescription:
                     'Reminds the user to do their PHQ-9 entry.')),
         androidAllowWhileIdle: true,
@@ -180,12 +186,12 @@ class NotificationService {
 
   static Future<void> showSIDASNotification() async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        1,
+        5,
         "Kasiyanna",
         "Hey there! It's time for your SIDAS entry",
         _nextInstanceOfSIDASEntry(),
         const NotificationDetails(
-            android: AndroidNotificationDetails('1', 'SIDAS Reminder',
+            android: AndroidNotificationDetails('5', 'SIDAS Reminder',
                 channelDescription:
                     'Reminds the user to do their SIDAS entry.')),
         androidAllowWhileIdle: true,

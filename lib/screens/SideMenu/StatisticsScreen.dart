@@ -7,7 +7,7 @@ import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/models/Mood.dart';
-import 'package:flutter_application_1/screens/main/SideMenu.dart';
+import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';

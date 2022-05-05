@@ -49,7 +49,7 @@ import 'screens/SideMenu/HopeBox/HopeBoxContactScreen.dart';
 import 'screens/SideMenu/HopeBox/HopeBoxContactSetupScreen.dart';
 import 'screens/SideMenu/HopeBox/HopeBoxMainScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileAccountScreen.dart';
-import 'screens/SideMenu/UserProfile/UserProfileContactSupportScreen.dart';
+import 'screens/SideMenu/ContactSupportScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileDeactivateAccountScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileDeactivateSucessfulScreen.dart';
 import 'screens/SideMenu/UserProfile/UserProfileEditScreen.dart';
@@ -235,9 +235,6 @@ class _MainState extends State<Main> {
               name: '/userProfileLanguageScreen',
               page: () => const UserProfileLanguageScreen()),
           GetPage(
-              name: '/userProfileContactScreen',
-              page: () => const UserProfileContactSupportScreen()),
-          GetPage(
               name: '/userProfileAccountScreen',
               page: () => const UserProfileAccountScreen()),
           GetPage(
@@ -274,6 +271,9 @@ class _MainState extends State<Main> {
           GetPage(
               name: '/MentalHealthOnlineScreen',
               page: () => const MentalHealthOnlineScreen()),
+          // Contact Support Page
+          GetPage(
+              name: '/contactScreen', page: () => const ContactSupportScreen()),
           // Statistics Page
           GetPage(
               name: '/statisticsScreen', page: () => const StatisticsScreen()),

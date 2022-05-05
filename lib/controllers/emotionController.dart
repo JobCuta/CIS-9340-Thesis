@@ -119,11 +119,14 @@ class EmotionController extends GetxController {
 
   void updateDateTime(String month, int day, int year) {
     dateTime.value = (DateTime.now().year != year ||
-            (DateTime.now().month != monthNameToMonthNumber[month] && DateTime.now().day != day))
+            (DateTime.now().month != monthNameToMonthNumber[month] &&
+                DateTime.now().day != day))
         ? DateTime(year = year, monthNameToMonthNumber[month] as int, day)
-        : DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
+        : DateTime(year = year, monthNameToMonthNumber[month] as int, day,
+            DateTime.now().hour, DateTime.now().minute);
 
-    DateTime(year = year, monthNameToMonthNumber[month] as int, day, DateTime.now().hour, DateTime.now().minute);
+    DateTime(year = year, monthNameToMonthNumber[month] as int, day,
+        DateTime.now().hour, DateTime.now().minute);
 
     update();
   }
@@ -271,7 +274,8 @@ class EmotionController extends GetxController {
       log("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
       log("[EEH] Weekday = " + newEmotionEntry.weekday);
       log("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-      log("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
+      log("[EED] Afternoon Check = " +
+          newEmotionEntry.afternoonCheck.toString());
       log("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
       box.put(date, newEmotionEntry);
@@ -281,7 +285,9 @@ class EmotionController extends GetxController {
       log("Emotion Entry received was from ${latestEmotionEntry.month} + ${latestEmotionEntry.day} + ${latestEmotionEntry.year}");
 
       final latestEmotionEntryDate = DateTime(
-          latestEmotionEntry.year, monthNameToMonthNumber[latestEmotionEntry.month] as int, latestEmotionEntry.day);
+          latestEmotionEntry.year,
+          monthNameToMonthNumber[latestEmotionEntry.month] as int,
+          latestEmotionEntry.day);
       log("Latest Emotion Entry Date = " + latestEmotionEntryDate.toString());
 
       for (int i = 1; i <= differenceInDays; i++) {
@@ -323,7 +329,8 @@ class EmotionController extends GetxController {
         log("[EEH] Overall Mood Name = " + newEmotionEntry.overallMood);
         log("[EEH] Weekday = " + newEmotionEntry.weekday);
         log("[EED] Morning Check = " + newEmotionEntry.morningCheck.toString());
-        log("[EED] Afternoon Check = " + newEmotionEntry.afternoonCheck.toString());
+        log("[EED] Afternoon Check = " +
+            newEmotionEntry.afternoonCheck.toString());
         log("[EED] Evening Check = " + newEmotionEntry.eveningCheck.toString());
 
         box.put(date, newEmotionEntry);
@@ -341,7 +348,9 @@ class EmotionController extends GetxController {
     List<dynamic> positiveEmotions = selectedPositiveEmotions.value;
     List<dynamic> negativeEmotions = selectedNegativeEmotions.value;
 
-    if (!isMorningCheck.value && !isAfternoonCheck.value && !isEveningCheck.value) {
+    if (!isMorningCheck.value &&
+        !isAfternoonCheck.value &&
+        !isEveningCheck.value) {
       if (dateTime.value.hour < 12 && dateTime.value.hour > 23) {
         isMorningCheck.value = true;
       } else if (dateTime.value.hour > 11 && dateTime.value.hour < 18) {
@@ -608,8 +617,10 @@ class EmotionController extends GetxController {
 
   // KEY FOR THE BOX
   String dateToString(DateTime dateTime) {
-    String month = dateTime.month < 10 ? '0${dateTime.month}' : dateTime.month.toString();
-    String day = dateTime.day < 10 ? '0${dateTime.day}' : dateTime.day.toString();
+    String month =
+        dateTime.month < 10 ? '0${dateTime.month}' : dateTime.month.toString();
+    String day =
+        dateTime.day < 10 ? '0${dateTime.day}' : dateTime.day.toString();
     String date = dateTime.year.toString() + "-" + month + "-" + day;
     log("KEY IS $date");
 

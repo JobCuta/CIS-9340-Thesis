@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/apis/ContactDetails.dart';
@@ -202,6 +203,7 @@ class _UserProfileDeactivateAccountScreenState
     var hopeBoxObj = await Hive.openBox<HopeBoxObject>('hopeBoxObj');
     var contactBox = await Hive.openBox<ContactDetails>('contactPerson');
     var sudokuBox = await Hive.openBox<SudokuSettings>('sudokuBox');
+    var adventureBox = await Hive.openBox<AdventureProgress>('adventure');
 
     // Gets the no. of entries in the HIVE boxes
     print('START');
@@ -217,6 +219,7 @@ class _UserProfileDeactivateAccountScreenState
     print(hopeBoxObj.length);
     print(contactBox.length);
     print(sudokuBox.length);
+    print(adventureBox.length);
 
     await phqBox.clear();
     await sidasBox.clear();
@@ -230,6 +233,7 @@ class _UserProfileDeactivateAccountScreenState
     await hopeBoxObj.clear();
     await contactBox.clear();
     await sudokuBox.clear();
+    await adventureBox.clear();
 
     // Verifies that all entries have been removed from the HIVE boxes
     print('CLEARED');
@@ -245,5 +249,6 @@ class _UserProfileDeactivateAccountScreenState
     print(hopeBoxObj.length);
     print(contactBox.length);
     print(sudokuBox.length);
+    print(adventureBox.length);
   }
 }

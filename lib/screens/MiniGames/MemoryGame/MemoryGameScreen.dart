@@ -17,7 +17,8 @@ class MemoryGameScreen extends StatefulWidget {
 
 class _MemoryGameState extends State<MemoryGameScreen> {
   final MemoryController _memoryController = Get.put(MemoryController());
-  final AdventureController _adventureController = Get.put(AdventureController());
+  final AdventureController _adventureController =
+      Get.put(AdventureController());
   int _previousIndex = -1;
   bool _flip = false;
   bool _wait = true;
@@ -61,25 +62,25 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   }
 
   void checkResult() {
-        if (previousRoute != '/') {
-          showTalkingPerson(
-            context: context,
-            dialog:
+    if (previousRoute != '/') {
+      showTalkingPerson(
+        context: context,
+        dialog:
             'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
-          ).then((value) {
-            Get.offAndToNamed('/ActivitiesGameScreen');
-          });
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            _levelController.addXp('Memory Game', 50);
-            _levelController.displayLevelXpModal(context);
-            _memoryController.updateProvinceCompletion(selectedProvince);
-          });
-        } else {
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            _levelController.addXp('Memory Game', 50);
-            _levelController.displayLevelXpModal(context);
-          });
-        }
+      ).then((value) {
+        Get.offAndToNamed('/ActivitiesGameScreen');
+      });
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        _levelController.addXp('Memory Game', 50);
+        _levelController.displayLevelXpModal(context);
+        _memoryController.updateProvinceCompletion(selectedProvince);
+      });
+    } else {
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        _levelController.addXp('Memory Game', 50);
+        _levelController.displayLevelXpModal(context);
+      });
+    }
   }
 
   @override
@@ -113,7 +114,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
             children: [
               Padding(
                 padding:
-                EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
                 child: GridView.builder(
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -129,65 +130,61 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         if (_previousIndex != index) {
                           if (_data[_previousIndex] != _data[index]) {
                             Future.delayed(const Duration(milliseconds: 1000),
-                                    () {
-                                  setState(() {
-                                    _wait = true;
-                                  });
-                                  _cardStateKeys[_previousIndex]
-                                      .currentState!
-                                      .toggleCard();
-                                  _previousIndex = index;
-                                  _cardStateKeys[_previousIndex]
-                                      .currentState!
-                                      .toggleCard();
-                                });
+                                () {
+                              setState(() {
+                                _wait = true;
+                              });
+                              _cardStateKeys[_previousIndex]
+                                  .currentState!
+                                  .toggleCard();
+                              _previousIndex = index;
+                              _cardStateKeys[_previousIndex]
+                                  .currentState!
+                                  .toggleCard();
+                            });
 
                             Future.delayed(const Duration(milliseconds: 160),
-                                    () {
-                                  setState(() {
-                                    _wait = false;
-                                  });
-                                });
+                                () {
+                              setState(() {
+                                _wait = false;
+                              });
+                            });
                           } else {
                             Future.delayed(const Duration(milliseconds: 1000),
-                                    () {
-                                  setState(() {
-                                    _wait = true;
-                                  });
-                                  print('previous route is ' + previousRoute);
+                                () {
+                              setState(() {
+                                _wait = true;
+                              });
+                              print('previous route is ' + previousRoute);
 
-                                  _visibility[_previousIndex] = false;
-                                  _visibility[index] = false;
-                                  _cardFlips[_previousIndex] = false;
-                                  _cardFlips[index] = false;
-                                  showTalkingPerson(
+                              _visibility[_previousIndex] = false;
+                              _visibility[index] = false;
+                              _cardFlips[_previousIndex] = false;
+                              _cardFlips[index] = false;
+                              showTalkingPerson(
                                       context: context,
                                       dialog: _dialogues[_dialogueCounter])
-                                      .then((value) {
-                                    _dialogueCounter++;
-                                    if (_dialogueCounter == 8) {
-                                      setState(() {
-                                        _completed = true;
-                                        _dialogueCounter == 0;
-                                      });
-                                      if (_completed == true) {
-                                        _adventureController.checkIfItWillAddXpForCompletingAllActivities();
-                                        Future.delayed(const Duration(milliseconds: 0), () {
-                                          _levelController.addXp('Memory Game', 50);
-                                          _levelController.displayLevelXpModal(context);
-                                          _memoryController.updateProvinceCompletion(selectedProvince);
-                                        });
-                                        checkResult();
-                                      }
-                                    }
-                                  });
-                                });
-                            Future.delayed(const Duration(milliseconds: 160),
-                                    () {
+                                  .then((value) {
+                                _dialogueCounter++;
+                                if (_dialogueCounter == 8) {
                                   setState(() {
-                                    _wait = false;
+                                    _completed = true;
+                                    _dialogueCounter == 0;
                                   });
-                                });
+                                  if (_completed == true) {
+                                    _adventureController
+                                        .checkIfItWillAddXpForCompletingAllActivities();
+                                    checkResult();
+                                  }
+                                }
+                              });
+                            });
+                            Future.delayed(const Duration(milliseconds: 160),
+                                () {
+                              setState(() {
+                                _wait = false;
+                              });
+                            });
                             print("counter: " + _dialogueCounter.toString());
                           }
                         }
@@ -200,7 +197,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                         child: Center(
                           child: Image(
                               image:
-                              AssetImage('assets/images/hidden_card.png')),
+                                  AssetImage('assets/images/hidden_card.png')),
                         ),
                       ),
                     ),

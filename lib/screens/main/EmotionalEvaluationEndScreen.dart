@@ -333,9 +333,19 @@ class _EmotionalEvaluationEndScreenState extends State<EmotionalEvaluationEndScr
                         bool isAddingFromOnboarding = _emotionController.isAddingFromOnboarding.value;
                         _emotionController.updateEntryInStorage();
 
-                        if (!_dailyController.isDailyEntryDone.value) {
+                        if (!_dailyController.isDailyEntryDone.value && !isAddingFromOnboarding) {
                           _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                           _levelController.addXp('Daily Entry', 5);
+                          _levelController.displayLevelXpModal(context);
+                        }
+
+                        if (isAddingFromOnboarding) {
+                          if (_dailyController.isDailyExerciseDone.value) {
+                            _levelController.addXp('Daily Entry & Exercise', 15);
+                          } else {
+                            _levelController.addXp('Daily Entry', 5);
+                          }
+                          _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
                           _levelController.displayLevelXpModal(context);
                         }
 
@@ -348,14 +358,6 @@ class _EmotionalEvaluationEndScreenState extends State<EmotionalEvaluationEndScr
                             dateTime.year == DateTime.now().year) {
                           _levelController.addXp('All 3 Entries', 20);
                           _levelController.displayLevelXpModal(context);
-                        }
-
-                        (isAddingFromOnboarding) ? setNotificationsAlert(context) : determineNextRoute();
-
-                        if (_dailyController.isMorningEntryDone.value &&
-                            _dailyController.isAfternoonEntryDone.value &&
-                            _dailyController.isEveningEntryDone.value) {
-                          _levelController.addXp('All 3 Entries', 20);
                         }
 
                         (isAddingFromOnboarding) ? setNotificationsAlert(context) : determineNextRoute();

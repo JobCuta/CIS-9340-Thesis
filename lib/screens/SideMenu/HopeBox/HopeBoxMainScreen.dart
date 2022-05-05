@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
-import '../../main/SideMenu.dart';
+import '../SideMenu.dart';
 
 class HopeBoxMainScreen extends StatefulWidget {
   const HopeBoxMainScreen({Key? key}) : super(key: key);

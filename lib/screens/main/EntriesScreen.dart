@@ -6,7 +6,7 @@ import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/enums/PartOfTheDay.dart';
 import 'package:flutter_application_1/models/Mood.dart';
 import 'package:get/get.dart';
-import 'SideMenu.dart';
+import '../SideMenu/SideMenu.dart';
 
 class EntriesScreen extends StatefulWidget {
   const EntriesScreen({Key? key}) : super(key: key);
