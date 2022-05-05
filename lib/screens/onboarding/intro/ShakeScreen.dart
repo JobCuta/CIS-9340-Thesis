@@ -383,16 +383,19 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                               .accentBlue02,
                                         ),
                                         onPressed: () {
-                                          _dailyController.setDailyTaskToDone(
-                                              DailyTask.Exercise);
-                                          _levelController.initializeTaskWithXp(
-                                              'Exercise', 10);
-
                                           if (widget.initialAssessment) {
+                                            _dailyController.setDailyTaskToDone(
+                                                  DailyTask.Exercise);
                                             Get.offAndToNamed('/accountScreen');
                                           } else {
-                                            _levelController
-                                                .finalizeAddingOfXp();
+                                            if (!_dailyController.isDailyExerciseDone.value) {
+                                              _dailyController.setDailyTaskToDone(
+                                                  DailyTask.Exercise);
+                                              _levelController.addXp(
+                                                  'Exercise', 10);
+                                              _levelController
+                                                  .displayLevelXpModal(context);
+                                            }
                                             Get.toNamed('/homepage');
                                           }
 
