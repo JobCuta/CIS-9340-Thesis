@@ -32,7 +32,8 @@ class CopingGameScreenState extends State<CopingGameScreen> {
   showCardDialog(AssetImage img, String info, String tipsTitle, String tips,
       int index, Province province) {
     setState(() {
-      willBeCompletedOnceOnly = _copingController.checkIfItWillBeCompletedSoon(province);
+      willBeCompletedOnceOnly =
+          _copingController.checkIfItWillBeCompletedSoon(province);
       _copingController.updateCardCompletion(province, index);
       isComplete = _copingController.getCompleteStatusOfProvinceCards(province);
     });
@@ -219,9 +220,12 @@ class CopingGameScreenState extends State<CopingGameScreen> {
         _adventureController.checkIfItWillAddXpForCompletingAllActivities();
 
         showTalkingPerson(
-            context: context,
-            dialog:
-                "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task.");
+                context: context,
+                dialog:
+                    "Congratulations! You beat the Coping Portion of the level! I'll bring you back to the list of task.")
+            .then((value) {
+          Get.offAndToNamed('/ActivitiesGameScreen');
+        });
 
         LevelController _levelController = Get.put(LevelController());
         _levelController.addXp('Coping (${province.name})', 50);
