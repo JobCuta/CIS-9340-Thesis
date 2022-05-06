@@ -11,9 +11,9 @@ import 'package:hive/hive.dart';
       2. All 3 Entries - 20xp         - EmotionalEvaluationEndScreen
       3. Daily Exercise - 10xp        - ShakeScreen
 
-      4. One Game - 50xp                - not yet added
-      5. All Games in a Region - 250xp  - not yet added
-      6. Mini Games - 10xp              - not yet added
+      4. One Game - 50xp                - done
+      5. All Games in a Region - 250xp  - done
+      6. Mini Games - 10xp              - done
 */
 
 class LevelController extends GetxController {
@@ -22,7 +22,7 @@ class LevelController extends GetxController {
   var xpForNextLevel = 0.obs;
 
   var recentlyAddedXp = false.obs;
-  var accomplishedWithXp = {}.obs;    // cant fix bug of not appearing when it's cleared, will use taskName and taskXp instead
+  final accomplishedWithXp = {}.obs;    // cant fix bug of not appearing when it's cleared, will use taskName and taskXp instead
   var taskName = ''.obs;
   var taskXp = 0.obs;
   var totalXpToAdd = 0.obs;
@@ -150,7 +150,7 @@ class LevelController extends GetxController {
   }
 
   void clearMapOfAccomplishedWithXp() {
-    accomplishedWithXp.value = {};
+    accomplishedWithXp.value.clear();
     update();
   }
 
@@ -177,7 +177,6 @@ class LevelController extends GetxController {
       });
     }
     updateRecentlyAddedXp(false);
-    clearMapOfAccomplishedWithXp();
   }
 
   void displayTodaysTaskWithXp(BuildContext context) {

@@ -62,7 +62,7 @@ class _ActivitiesGameScreenState extends State<ActivitiesGameScreen> {
     bool willAddXp = _adventureController.willAddXpOnce.value;
 
     if (isMemoryDone && isCopingDone && isSudokuDone && willAddXp) {
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
           _levelController.addXp('All 3 Activities', 150);
           _levelController.displayLevelXpModal(context);
 

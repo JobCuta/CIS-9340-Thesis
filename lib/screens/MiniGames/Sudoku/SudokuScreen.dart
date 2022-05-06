@@ -131,7 +131,7 @@ class SudokuScreenState extends State<SudokuScreen> {
                   .checkIfItWillAddXpForCompletingAllActivities();
               Get.offAndToNamed('/ActivitiesGameScreen');
             });
-            Future.delayed(const Duration(milliseconds: 1000), () {
+            Future.delayed(const Duration(milliseconds: 0), () {
               _sudokuController.updateIfCompleted();
               _levelController.addXp('Sudoku', 50);
               _levelController.displayLevelXpModal(context);

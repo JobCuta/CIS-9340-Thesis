@@ -386,6 +386,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                                           if (widget.initialAssessment) {
                                             _dailyController.setDailyTaskToDone(
                                                   DailyTask.Exercise);
+                                            _levelController.initializeTaskWithXp('Exercise', 10);
                                             Get.offAndToNamed('/accountScreen');
                                           } else {
                                             if (!_dailyController.isDailyExerciseDone.value) {

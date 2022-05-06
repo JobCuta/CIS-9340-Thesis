@@ -68,9 +68,11 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         dialog:
             'Congratulations! You beat the Memory Portion of the level! I’ll bring you back to the list of tasks.',
       ).then((value) {
+        _adventureController
+                  .checkIfItWillAddXpForCompletingAllActivities();
         Get.offAndToNamed('/ActivitiesGameScreen');
       });
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      Future.delayed(const Duration(milliseconds: 0), () {
         _levelController.addXp('Memory Game', 50);
         _levelController.displayLevelXpModal(context);
         _memoryController.updateProvinceCompletion(selectedProvince);
@@ -172,8 +174,6 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                     _dialogueCounter == 0;
                                   });
                                   if (_completed == true) {
-                                    _adventureController
-                                        .checkIfItWillAddXpForCompletingAllActivities();
                                     checkResult();
                                   }
                                 }

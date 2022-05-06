@@ -17,13 +17,14 @@ class LevelWidgets extends StatefulWidget {
   State<LevelWidgets> createState() => _LevelWidgetsState();
 }
 
-final LevelController _levelController = Get.put(LevelController());
-
 class _LevelWidgetsState extends State<LevelWidgets> {
-  Map<dynamic, dynamic> experiences = _levelController.accomplishedWithXp.value;
+  // List<Experience> experiences = List.from(_levelController.experiences.value);
+  final LevelController _levelController = Get.put(LevelController());
 
   @override
   Widget build(BuildContext context) {
+    Map<dynamic, dynamic> experiences = Map.from(_levelController.accomplishedWithXp.value);
+
     if (experiences.isEmpty) {
       experiences = {_levelController.taskName.value : _levelController.taskXp.value};
     }
@@ -31,6 +32,7 @@ class _LevelWidgetsState extends State<LevelWidgets> {
     print("EXPERIENCES = " + experiences.toString());
     print("EXPERIENCES SIZE = " + experiences.length.toString());
     List<dynamic> experienceKeys = experiences.keys.toList();
+    _levelController.clearMapOfAccomplishedWithXp();
 
     return Scaffold(
       backgroundColor: Colors.white,

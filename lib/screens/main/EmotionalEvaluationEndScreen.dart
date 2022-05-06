@@ -340,13 +340,9 @@ class _EmotionalEvaluationEndScreenState extends State<EmotionalEvaluationEndScr
                         }
 
                         if (isAddingFromOnboarding) {
-                          if (_dailyController.isDailyExerciseDone.value) {
-                            _levelController.addXp('Daily Entry & Exercise', 15);
-                          } else {
-                            _levelController.addXp('Daily Entry', 5);
-                          }
+                          _levelController.initializeTaskWithXp('Daily Entry', 5);
+                          _levelController.finalizeAddingOfXp();
                           _dailyController.setDailyTaskToDone(DailyTask.EmotionEntry);
-                          _levelController.displayLevelXpModal(context);
                         }
 
                         _dailyController.checkIfEntriesDone();
