@@ -106,6 +106,7 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                           ),
                           const SizedBox(height: 20.0),
                           ListView(
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             children: [
                               Text(
@@ -305,7 +306,6 @@ class _MentalHealthOnlineScreenState extends State<MentalHealthOnlineScreen> {
                                   '0908-639-2672', constants.smartSubscribers),
                             ],
                           ),
-                          SizedBox(height: 100)
                         ]),
                   ),
                 ),

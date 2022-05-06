@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_application_1/constants/Facilities.dart' as constants;
 
@@ -16,21 +15,51 @@ class MentalHealthFacilitiesScreen extends StatefulWidget {
 
 class _MentalHealthFacilitiesScreenState
     extends State<MentalHealthFacilitiesScreen> {
-  _buildTextField(text, value) {
+  _buildTextFieldURL(text, value) {
     return Container(
         height: 40,
         padding: const EdgeInsets.only(left: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: Theme.of(context).colorScheme.neutralWhite01,
-                    fontWeight: FontWeight.w400)),
+            Flexible(
+              child: Text(text,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      fontWeight: FontWeight.w400)),
+            ),
             GestureDetector(
                 onTap: () {
-                  //  Clipboard.setData(ClipboardData(text: value));
-                  launch('tel:$value');
+                  launch('https:$value');
+                },
+                child: SvgPicture.asset('assets/images/copy_icon.svg')),
+          ],
+        ));
+  }
+
+  _buildTextFieldGeo(text, coordinates) {
+    return Container(
+        // height: 40,
+        padding: const EdgeInsets.only(left: 20, bottom: 10, top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(text,
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Theme.of(context).colorScheme.neutralWhite01,
+                      fontWeight: FontWeight.w400)),
+            ),
+            GestureDetector(
+                onTap: () async {
+                  String query = Uri.encodeComponent(text);
+                  var mapSchema =
+                      'geo:${coordinates[0]},${coordinates[1]}?q=$query';
+                  if (await canLaunch(mapSchema)) {
+                    await launch(mapSchema);
+                  } else {
+                    throw 'Could not launch $mapSchema';
+                  }
                 },
                 child: SvgPicture.asset('assets/images/copy_icon.svg')),
           ],
@@ -98,6 +127,7 @@ class _MentalHealthFacilitiesScreenState
                         ),
                         const SizedBox(height: 20.0),
                         ListView(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           children: [
                             Text(
@@ -125,15 +155,12 @@ class _MentalHealthFacilitiesScreenState
                                           .neutralWhite01,
                                       fontWeight: FontWeight.w600),
                             ),
-                            _buildTextField(
-                                'Philippine Mental Health Association-Baguio, BGH Exit Rod, Marcos Highway, Baguio City, 2600',
-                                constants.paid1),
-                            _buildTextField(
-                                'Roseville Rehabilitation Center, 59 Balacbac Road, Sto. Tomas Proper, Baguio City',
-                                constants.paid2),
-                            _buildTextField(
-                                'Serenity in the Steps, Mararahay Ka Rehab and Treatment Facility, 26 The Steps, Gulf View Horizon, Suello Village, Marcos Hi-way, Baguio City, Benguet, Philippines',
-                                constants.paid3),
+                            _buildTextFieldGeo(
+                                constants.paid1, constants.paid1Coordinates),
+                            _buildTextFieldGeo(
+                                constants.paid2, constants.paid2Coordinates),
+                            _buildTextFieldGeo(
+                                constants.paid3, constants.paid3Coordinates),
                             Text(
                               'Free Facility:',
                               textAlign: TextAlign.left,
@@ -146,11 +173,10 @@ class _MentalHealthFacilitiesScreenState
                                           .neutralWhite01,
                                       fontWeight: FontWeight.w600),
                             ),
-                            _buildTextField(
-                                'Shalom House, Incorporated Drug Abuse Prevention, Treatment and Recovery Center, Philippine Nurses Association Building, Upper Session Road Extension, Baguio, Benguet',
-                                constants.free),
+                            _buildTextFieldGeo(
+                                constants.free, constants.freeCoordinates),
                             Text(
-                              'Support Groups accessible through FB:',
+                              'Facebook Support Groups:',
                               textAlign: TextAlign.left,
                               style: Theme.of(context)
                                   .textTheme
@@ -161,31 +187,31 @@ class _MentalHealthFacilitiesScreenState
                                           .neutralWhite01,
                                       fontWeight: FontWeight.w600),
                             ),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'Baguio Mental Health Support Group',
                                 constants.support1),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'Mental Health Matters by Kylie Verzosa',
                                 constants.support2),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'MentalHealthPH', constants.support4),
-                            _buildTextField('No To Mental Health Stigma PH',
+                            _buildTextFieldURL('No To Mental Health Stigma PH',
                                 constants.support5),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'Philippine Mental Health Association, Inc.',
                                 constants.support6),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'Anxiety and Depression Support Philippines',
                                 constants.support7),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'SOS Philippines', constants.support8),
-                            _buildTextField(
+                            _buildTextFieldURL(
                                 'Tala Mental Wellness', constants.support9),
-                            _buildTextField('Youth For Mental Health Coalition',
+                            _buildTextFieldURL(
+                                'Youth For Mental Health Coalition',
                                 constants.support10),
                           ],
                         ),
-                        SizedBox(height: 100)
                       ]),
                 ),
               ),

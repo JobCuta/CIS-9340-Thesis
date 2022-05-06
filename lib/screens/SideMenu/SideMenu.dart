@@ -102,6 +102,14 @@ class _SideMenuState extends State<SideMenu> {
                   thickness: 1.5,
                 ),
                 buildMenuItem(
+                  text: 'Mental Health Facilities',
+                  icon: 'assets/images/facilities_icon.svg',
+                  onClicked: () => ModalRoute.of(context)!.settings.name !=
+                          '/MentalHealthFacilitiesScreen'
+                      ? Get.offAndToNamed('/MentalHealthFacilitiesScreen')
+                      : Get.back(),
+                ),
+                buildMenuItem(
                   text: 'Mental Health Hotline',
                   icon: 'assets/images/hotline_icon.svg',
                   onClicked: () => ModalRoute.of(context)!.settings.name !=
