@@ -7,7 +7,10 @@ import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+import '../../apis/AdventureProgress.dart';
 
 class AchievementsScreen extends StatefulWidget {
   const AchievementsScreen({Key? key}) : super(key: key);
@@ -19,6 +22,20 @@ class AchievementsScreen extends StatefulWidget {
 class _AchievementsScreenState extends State<AchievementsScreen> {
   final LevelController _levelController = Get.put(LevelController());
   final SettingsController _settingsController = Get.put(SettingsController());
+
+  Box box = Hive.box<AdventureProgress>('adventure');
+  late AdventureProgress adventureProgress = box.get('adventureProgress');
+
+  late List <bool> copingProvinceCompleted = adventureProgress.copingProvinceCompleted;
+  late List <bool> memoryProvinceCompleted = adventureProgress.memoryProvinceCompleted;
+  late List <bool> sudokuProvinceCompleted = adventureProgress.sudokuProvinceCompleted;
+
+  late List <bool> apayaoAchievements = [memoryProvinceCompleted[0], copingProvinceCompleted[0], sudokuProvinceCompleted[0]];
+  late List <bool> kalingaAchievements = [memoryProvinceCompleted[1], copingProvinceCompleted[1], sudokuProvinceCompleted[1]];
+  late List <bool> abraAchievements = [memoryProvinceCompleted[2], copingProvinceCompleted[2], sudokuProvinceCompleted[2]];
+  late List <bool> mtProvAchievements = [memoryProvinceCompleted[3], copingProvinceCompleted[3], sudokuProvinceCompleted[3]];
+  late List <bool> ifugaoAchievements = [memoryProvinceCompleted[4], copingProvinceCompleted[4], sudokuProvinceCompleted[4]];
+  late List <bool> benguetAchievements = [memoryProvinceCompleted[5], copingProvinceCompleted[5], sudokuProvinceCompleted[5]];
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +68,23 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           alignment: Alignment.center,
                           decoration:
-                              const BoxDecoration(shape: BoxShape.circle),
+                          const BoxDecoration(shape: BoxShape.circle),
                           height: 200,
                           child: (_settingsController.imagePath.value != '')
                               ? CircleAvatar(
-                                  radius: 80,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.file(
-                                      File(_settingsController.imagePath.value),
-                                      width: 160.0,
-                                      height: 160.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ))
+                              radius: 80,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.file(
+                                  File(_settingsController.imagePath.value),
+                                  width: 160.0,
+                                  height: 160.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ))
                               : SvgPicture.asset(
-                                  'assets/images/default_user_image.svg',
-                                  width: 160),
+                              'assets/images/default_user_image.svg',
+                              width: 160),
                         ),
                         Visibility(
                           visible: _settingsController.framePath.value != '',
@@ -91,12 +108,17 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text('Achievements',
                           style:
-                              Theme.of(context).textTheme.subtitle1?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01,
-                                  )),
+                          Theme
+                              .of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .neutralWhite01,
+                          )),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
@@ -110,16 +132,19 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                'Current Level: Level ${_levelController.currentLevel.value}',
-                                style: Theme.of(context)
+                                'Current Level: Level ${_levelController
+                                    .currentLevel.value}',
+                                style: Theme
+                                    .of(context)
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .sunflowerYellow01,
-                                    )),
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme
+                                      .of(context)
+                                      .colorScheme
+                                      .sunflowerYellow01,
+                                )),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               child: LinearPercentIndicator(
@@ -127,10 +152,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                 curve: Curves.easeIn,
                                 lineHeight: 25,
                                 percent: _levelController.currentXp / 1000,
-                                progressColor: Theme.of(context)
+                                progressColor: Theme
+                                    .of(context)
                                     .colorScheme
                                     .sunflowerYellow01,
-                                backgroundColor: Theme.of(context)
+                                backgroundColor: Theme
+                                    .of(context)
                                     .colorScheme
                                     .neutralWhite04,
                                 animation: true,
@@ -140,16 +167,20 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                               ),
                             ),
                             Text(
-                              '${_levelController.currentXp} / ${_levelController.xpForNextLevel} to unlock next level',
-                              style: Theme.of(context)
+                              '${_levelController
+                                  .currentXp} / ${_levelController
+                                  .xpForNextLevel} to unlock next level',
+                              style: Theme
+                                  .of(context)
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralBlack02,
-                                  ),
+                                fontWeight: FontWeight.w400,
+                                color: Theme
+                                    .of(context)
+                                    .colorScheme
+                                    .neutralBlack02,
+                              ),
                             ),
                             const SizedBox(height: 7),
                             InkWell(
@@ -158,37 +189,42 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                               },
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Continue Adventure',
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .bodyText1
                                           ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .neutralBlack02,
-                                          )),
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .neutralBlack02,
+                                      )),
                                   RichText(
                                     text: TextSpan(children: [
                                       TextSpan(
                                           text: 'Go',
-                                          style: Theme.of(context)
+                                          style: Theme
+                                              .of(context)
                                               .textTheme
                                               .bodyText1
                                               ?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .neutralGray02)),
+                                              fontWeight: FontWeight.w700,
+                                              color: Theme
+                                                  .of(context)
+                                                  .colorScheme
+                                                  .neutralGray02)),
                                       WidgetSpan(
                                           alignment:
-                                              PlaceholderAlignment.middle,
+                                          PlaceholderAlignment.middle,
                                           child: Icon(
                                               Icons.keyboard_arrow_right_sharp,
                                               size: 30,
-                                              color: Theme.of(context)
+                                              color: Theme
+                                                  .of(context)
                                                   .colorScheme
                                                   .neutralGray02))
                                     ]),
@@ -205,13 +241,13 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         achievementContainers(
                             'assets/achievements/general_adventure_achievements.svg',
                             'General Achievements',
-                            '40',
-                            '60'),
+                            generalAchievements(),
+                            '7'),
                         achievementContainers(
                             'assets/achievements/apayao_adventure_achievements.svg',
                             'Apayao Adventure',
-                            '10',
-                            '10')
+                            provinceAchievements(apayaoAchievements),
+                            '4')
                       ],
                     ),
                     Row(
@@ -220,13 +256,13 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         achievementContainers(
                             'assets/achievements/kalinga_adventure_achievements.svg',
                             'Kalinga Adventure',
-                            '5',
-                            '10'),
+                            provinceAchievements(kalingaAchievements),
+                            '4'),
                         achievementContainers(
                             'assets/achievements/abra_adventure_achievements.svg',
                             'Abra Adventure',
-                            '7',
-                            '10'),
+                            provinceAchievements(abraAchievements),
+                            '4'),
                       ],
                     ),
                     Row(
@@ -235,13 +271,13 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         achievementContainers(
                             'assets/achievements/mtprovince_adventure_achievements.svg',
                             'Mt. Province Adventure',
-                            '9',
-                            '10'),
+                            provinceAchievements(mtProvAchievements),
+                            '4'),
                         achievementContainers(
                             'assets/achievements/ifugao_adventure_achievements.svg',
                             'Ifugao Adventure',
-                            '1',
-                            '10'),
+                            provinceAchievements(ifugaoAchievements),
+                            '4'),
                       ],
                     ),
                     Row(
@@ -250,12 +286,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         achievementContainers(
                             'assets/achievements/benguet_adventure_achievements.svg',
                             'Benguet Adventure',
-                            '5',
-                            '10'),
+                            provinceAchievements(benguetAchievements),
+                            '4'),
                         achievementContainers(
                             'assets/achievements/warrior_adventure_achievements.svg',
                             'Mini Games Warrior',
-                            '3',
+                            0,
                             '10'),
                       ],
                     )
@@ -269,7 +305,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
     );
   }
 
-  achievementContainers(path, String title, String noOfCurrAchievements,
+  achievementContainers(path, String title, int noOfCurrAchievements,
       String noOfTotalAchievements) {
     return Expanded(
       child: Container(
@@ -291,8 +327,14 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Theme.of(context).colorScheme.neutralWhite01,
-                          Theme.of(context).colorScheme.sunflowerYellow04,
+                          Theme
+                              .of(context)
+                              .colorScheme
+                              .neutralWhite01,
+                          Theme
+                              .of(context)
+                              .colorScheme
+                              .sunflowerYellow04,
                         ],
                       )),
                   child: Stack(
@@ -303,14 +345,15 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         child: SvgPicture.asset(path),
                       ),
                       Visibility(
-                        visible: int.parse(noOfCurrAchievements) <
+                        visible: noOfCurrAchievements <
                             int.parse(noOfTotalAchievements),
                         child: Container(
                             width: 100,
                             height: 100,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Theme.of(context)
+                              color: Theme
+                                  .of(context)
                                   .colorScheme
                                   .neutralBlack02
                                   .withOpacity(0.5),
@@ -324,30 +367,98 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                     ],
                   )),
               Text(title,
-                  style: Theme.of(context).textTheme.caption?.copyWith(
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .caption
+                      ?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.neutralBlack02)),
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .neutralBlack02)),
               LinearPercentIndicator(
                 barRadius: const Radius.circular(24),
                 curve: Curves.easeIn,
                 lineHeight: 10,
-                percent: int.parse(noOfCurrAchievements) /
+                percent: noOfCurrAchievements /
                     int.parse(noOfTotalAchievements),
-                progressColor: Theme.of(context).colorScheme.intGreen05,
+                progressColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .intGreen05,
                 backgroundColor: const Color(0xffC4C4C4),
                 animation: true,
                 animationDuration: 1500,
                 animateFromLastPercent: true,
                 addAutomaticKeepAlive: true,
               ),
-              Text(noOfCurrAchievements + ' out of ' + noOfTotalAchievements,
-                  style: Theme.of(context).textTheme.caption?.copyWith(
+              Text(noOfCurrAchievements.toString() + ' out of ' + noOfTotalAchievements,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .caption
+                      ?.copyWith(
                       fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.neutralBlack02))
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .neutralBlack02))
             ],
           ),
         ),
       ),
     );
+  }
+
+  int provinceAchievements(achievementList) {
+    int achievements = 0;
+    late bool completedAll;
+
+    if (achievementList[0] == true && achievementList[1] == true && achievementList[2] == true) {
+      completedAll = true;
+    } else {
+      completedAll = false;
+    }
+
+    List<bool> completion = [achievementList[0], achievementList[1], achievementList[2], completedAll];
+    for (int i = 0; i < completion.length; i++) {
+      bool idx = completion[i];
+      if (idx == true) {
+        achievements++;
+      }
+    }
+    return achievements;
+  }
+
+  int generalAchievements() {
+    int apayaoGeneral = provinceAchievements(apayaoAchievements);
+    int kalingaGeneral = provinceAchievements(kalingaAchievements);
+    int abraGeneral = provinceAchievements(abraAchievements);
+    int mtProvGeneral = provinceAchievements(mtProvAchievements);
+    int ifugaoGeneral = provinceAchievements(ifugaoAchievements);
+    int benguetGeneral = provinceAchievements(benguetAchievements);
+    int generalAchievements = 0;
+
+    if (apayaoGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (kalingaGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (abraGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (mtProvGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (ifugaoGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (benguetGeneral == 4) {
+      generalAchievements += 1;
+    }
+
+    return generalAchievements;
   }
 }

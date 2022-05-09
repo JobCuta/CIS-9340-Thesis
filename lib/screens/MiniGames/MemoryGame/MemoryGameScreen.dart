@@ -84,6 +84,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         _levelController.displayLevelXpModal(context);
       });
       print('previus route is' + previousRoute);
+      _memoryController.incrementMiniGamesWarrior();
     }
   }
 
@@ -155,9 +156,9 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                           if (_data[_previousIndex] != _data[index]) {
                             Future.delayed(const Duration(milliseconds: 1000),
                                 () {
-                              setState(() {
-                                _wait = true;
-                              });
+                                  setState(() {
+                                    _wait = true;
+                                  });
                               _cardStateKeys[_previousIndex]
                                   .currentState!
                                   .toggleCard();
@@ -166,34 +167,26 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                                   .currentState!
                                   .toggleCard();
                             });
-
-                            Future.delayed(const Duration(milliseconds: 160),
-                                () {
                               setState(() {
                                 _wait = false;
                               });
-                            });
                           } else {
-
                             Future.delayed(const Duration(milliseconds: 1000),
                                 () {
+                              print('previous route is ' + previousRoute);
                               setState(() {
                                 _wait = true;
                               });
-                              print('previous route is ' + previousRoute);
-
                               _visibility[_previousIndex] = false;
                               _visibility[index] = false;
                               _cardFlips[_previousIndex] = false;
                               _cardFlips[index] = false;
                               memoryGameMan();
                             });
-                            Future.delayed(const Duration(milliseconds: 160),
-                                () {
                               setState(() {
                                 _wait = false;
                               });
-                            });
+
                             print("counter: " + _dialogueCounter.toString());
                           }
                         }

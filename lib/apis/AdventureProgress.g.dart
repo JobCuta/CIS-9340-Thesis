@@ -26,13 +26,14 @@ class AdventureProgressAdapter extends TypeAdapter<AdventureProgress> {
       mountainProvinceCardsCompleted: (fields[6] as List).cast<bool>(),
       ifugaoCardsCompleted: (fields[7] as List).cast<bool>(),
       benguetCardsCompleted: (fields[8] as List).cast<bool>(),
+      miniGamesWarrior: fields[9] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, AdventureProgress obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.memoryProvinceCompleted)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class AdventureProgressAdapter extends TypeAdapter<AdventureProgress> {
       ..writeByte(7)
       ..write(obj.ifugaoCardsCompleted)
       ..writeByte(8)
-      ..write(obj.benguetCardsCompleted);
+      ..write(obj.benguetCardsCompleted)
+      ..writeByte(9)
+      ..write(obj.miniGamesWarrior);
   }
 
   @override

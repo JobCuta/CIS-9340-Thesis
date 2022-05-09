@@ -32,6 +32,9 @@ class AdventureProgress extends HiveObject{
   @HiveField(8)
   List<bool> benguetCardsCompleted = [false, false, false, false, false, false, false, false];
 
+  @HiveField(9)
+  int miniGamesWarrior = 0;
+
   AdventureProgress({
     required this.memoryProvinceCompleted,
     required this.sudokuProvinceCompleted,
@@ -41,6 +44,7 @@ class AdventureProgress extends HiveObject{
     required this.abraCardsCompleted,
     required this.mountainProvinceCardsCompleted,
     required this.ifugaoCardsCompleted,
-    required this.benguetCardsCompleted
+    required this.benguetCardsCompleted,
+    required this.miniGamesWarrior
   });
 }

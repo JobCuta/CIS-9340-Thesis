@@ -61,4 +61,16 @@ class MemoryController extends GetxController{
 
     print("MEMORY GAME PROGRESS = " + memoryGame.memoryProvinceCompleted.toString());
   }
+
+  void incrementMiniGamesWarrior() {
+    Box box = Hive.box<AdventureProgress>('adventure');
+    AdventureProgress sudokuGame = box.get('adventureProgress');
+
+    int i = sudokuGame.miniGamesWarrior;
+    if (i < 10) {
+      i += 1;
+    }
+    sudokuGame.miniGamesWarrior = i;
+    sudokuGame.save();
+  }
 }

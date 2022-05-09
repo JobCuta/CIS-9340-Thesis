@@ -156,6 +156,7 @@ class SudokuScreenState extends State<SudokuScreen> {
                 AlertGameOver.restartGame = false;
               }
             });
+            _sudokuController.incrementMiniGamesWarrior();
           }
         });
       }
