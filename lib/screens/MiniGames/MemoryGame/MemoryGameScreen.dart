@@ -77,10 +77,32 @@ class _MemoryGameState extends State<MemoryGameScreen> {
         _levelController.displayLevelXpModal(context);
         _memoryController.updateProvinceCompletion(selectedProvince);
       });
+      print('previus route is' + previousRoute);
     } else {
       Future.delayed(const Duration(milliseconds: 1000), () {
         _levelController.addXp('Memory Game', 50);
         _levelController.displayLevelXpModal(context);
+      });
+      print('previus route is' + previousRoute);
+    }
+  }
+
+  void memoryGameMan() {
+    if (previousRoute != '/') {
+      showTalkingPerson(
+          context: context,
+          dialog: _dialogues[_dialogueCounter])
+          .then((value) {
+        _dialogueCounter++;
+        if (_dialogueCounter == 8) {
+          setState(() {
+            _completed = true;
+            _dialogueCounter == 0;
+          });
+          if (_completed == true) {
+            checkResult();
+          }
+        }
       });
     }
   }
@@ -152,6 +174,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                               });
                             });
                           } else {
+
                             Future.delayed(const Duration(milliseconds: 1000),
                                 () {
                               setState(() {
@@ -163,21 +186,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                               _visibility[index] = false;
                               _cardFlips[_previousIndex] = false;
                               _cardFlips[index] = false;
-                              showTalkingPerson(
-                                      context: context,
-                                      dialog: _dialogues[_dialogueCounter])
-                                  .then((value) {
-                                _dialogueCounter++;
-                                if (_dialogueCounter == 8) {
-                                  setState(() {
-                                    _completed = true;
-                                    _dialogueCounter == 0;
-                                  });
-                                  if (_completed == true) {
-                                    checkResult();
-                                  }
-                                }
-                              });
+                              memoryGameMan();
                             });
                             Future.delayed(const Duration(milliseconds: 160),
                                 () {
