@@ -485,7 +485,6 @@ class EmotionController extends GetxController {
     List<EmotionEntryHive> emotionEntries = [];
     currentStreak.value = 0;
     monthMoodCount.value = [0, 0, 0, 0, 0];
-    update();
 
     String selectedMonth = monthStr[month] as String;
 
@@ -512,27 +511,24 @@ class EmotionController extends GetxController {
         currentStreak.value = 0;
       }
     }
-
-    log("CURRENT STREAK VALUE = $currentStreak");
-    log("MONTH MOOD COUNT = ${monthMoodCount.toString()}");
-
     update();
   }
 
   void updateLongestStreak() {
     int longestStreakTemp = 0;
+    int maxStreak = 0;
     Box box = Hive.box<EmotionEntryHive>('emotion');
     final emotionEntryKeys = box.keys;
     for (var key in emotionEntryKeys) {
       EmotionEntryHive emotionEntry = box.get(key);
       if (emotionEntry.overallMood == 'NoData') {
+        if (longestStreakTemp > maxStreak) maxStreak = longestStreakTemp;
         longestStreakTemp = 0;
       } else {
         longestStreakTemp++;
       }
     }
-
-    longestStreak.value = longestStreakTemp;
+    longestStreak.value = (longestStreakTemp > maxStreak) ? longestStreakTemp : maxStreak;
     update();
   }
 
@@ -579,7 +575,7 @@ class EmotionController extends GetxController {
 
   void deleteEmotionEntry(PartOfTheDay part) {
     Box box = Hive.box<EmotionEntryHive>('emotion');
-    EmotionEntryHive emotionEntry = box.get(dateToString(DateTime.now()));
+    EmotionEntryHive emotionEntry = box.get(dateToString(dateTime.value));
 
     if (part == PartOfTheDay.Morning) {
       emotionEntry.morningCheck = EmotionEntryDetail(

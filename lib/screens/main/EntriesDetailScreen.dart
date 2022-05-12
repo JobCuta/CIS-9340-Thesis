@@ -87,7 +87,12 @@ class _EntriesDetailScreenState extends State<EntriesDetailScreen> {
                                       fontWeight: FontWeight.w600),
                             ),
                             onPressed: () async {
+                              _emotionController.updateDateTime(
+                                      emotionEntry.month,
+                                      emotionEntry.day,
+                                      emotionEntry.year);
                               _emotionController.deleteEmotionEntry(part);
+                              
                               Get.back();
                               Get.offAndToNamed('/entriesDetailScreen');
                             },

@@ -122,7 +122,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _emotionController.updateLongestStreak();
       _emotionController.updateCurrentStreakAndMonthMoodCount(
-          DateTime.now().month, DateTime.now().year);
+          now.month, now.year);
     });
     month = now.month;
     year = now.year;
