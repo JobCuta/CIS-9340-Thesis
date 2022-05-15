@@ -7,6 +7,7 @@ import 'package:flutter_application_1/enums/Province.dart';
 import 'package:flutter_application_1/widgets/talkingPersonDialog.dart';
 import 'package:get/get.dart';
 import '../../../controllers/levelController.dart';
+import '../../../controllers/miniGamesWarriorController.dart';
 
 class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   late final List<String> _dialogues = getDialogue(selectedProvince);
   bool _completed = false;
   final LevelController _levelController = Get.put(LevelController());
+  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
   String previousRoute = Get.previousRoute;
 
   @override
@@ -62,7 +64,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
   }
 
   void checkResult() {
-    if (previousRoute != '/') {
+    if (previousRoute == '/ActivitiesGamesScreen') {
       showTalkingPerson(
         context: context,
         dialog:
@@ -79,17 +81,15 @@ class _MemoryGameState extends State<MemoryGameScreen> {
       });
       print('previus route is' + previousRoute);
     } else {
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        _levelController.addXp('Memory Game', 50);
-        _levelController.displayLevelXpModal(context);
-      });
+      _miniGamesWarriorController.updateMGWCompletion();
+      _levelController.addXp('Memory Game', 50);
+      _levelController.displayLevelXpModal(context);
       print('previus route is' + previousRoute);
-      _memoryController.incrementMiniGamesWarrior();
     }
   }
 
   void memoryGameMan() {
-    if (previousRoute != '/') {
+    if (previousRoute == '/ActivitiesGameScreen') {
       showTalkingPerson(
           context: context,
           dialog: _dialogues[_dialogueCounter])
@@ -148,6 +148,7 @@ class _MemoryGameState extends State<MemoryGameScreen> {
                     key: _cardStateKeys[index],
                     onFlip: () {
                       if (!_flip) {
+                        print('previus route is' + previousRoute);
                         _flip = true;
                         _previousIndex = index;
                       } else {

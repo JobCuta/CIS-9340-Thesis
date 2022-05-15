@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/miniGamesWarriorController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/screens/SideMenu/SideMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,6 +23,7 @@ class AchievementsScreen extends StatefulWidget {
 class _AchievementsScreenState extends State<AchievementsScreen> {
   final LevelController _levelController = Get.put(LevelController());
   final SettingsController _settingsController = Get.put(SettingsController());
+  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
 
   Box box = Hive.box<AdventureProgress>('adventure');
   late AdventureProgress adventureProgress = box.get('adventureProgress');
@@ -291,7 +293,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         achievementContainers(
                             'assets/achievements/warrior_adventure_achievements.svg',
                             'Mini Games Warrior',
-                            0,
+                            _miniGamesWarriorController.miniGamesWarrior,
                             '10'),
                       ],
                     )
@@ -428,6 +430,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
         achievements++;
       }
     }
+    print('mgw is ' + _miniGamesWarriorController.miniGamesWarrior.toString());
     return achievements;
   }
 
@@ -456,6 +459,9 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
       generalAchievements += 1;
     }
     if (benguetGeneral == 4) {
+      generalAchievements += 1;
+    }
+    if (_miniGamesWarriorController.miniGamesWarrior == 10) {
       generalAchievements += 1;
     }
 

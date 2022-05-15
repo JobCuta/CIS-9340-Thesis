@@ -4,12 +4,14 @@ import 'package:flutter_application_1/apis/ContactDetails.dart';
 import 'package:flutter_application_1/apis/Emotion.dart';
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/Level.dart';
+import 'package:flutter_application_1/apis/MiniGamesWarrior.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
 import 'package:flutter_application_1/controllers/adventureController.dart';
 import 'package:flutter_application_1/controllers/copingController.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
 import 'package:flutter_application_1/controllers/hopeBoxController.dart';
+import 'package:flutter_application_1/controllers/miniGamesWarriorController.dart';
 import 'package:flutter_application_1/controllers/settingsController.dart';
 import 'package:flutter_application_1/controllers/sudokuController.dart';
 import 'package:flutter_application_1/screens/MiniGames/CopingGame/CopingGameScreen.dart';
@@ -95,6 +97,7 @@ Future<void> main() async {
   Hive.registerAdapter(ContactDetailsAdapter());
   Hive.registerAdapter(SudokuSettingsAdapter());
   Hive.registerAdapter(AdventureProgressAdapter());
+  Hive.registerAdapter(MiniGamesWarriorAdapter());
 
   await Hive.initFlutter();
 
@@ -111,6 +114,7 @@ Future<void> main() async {
   await Hive.openBox<ContactDetails>('contactPerson');
   await Hive.openBox<SudokuSettings>('sudokuBox');
   await Hive.openBox<AdventureProgress>('adventure');
+  await Hive.openBox<MiniGamesWarrior>('miniGamesWarrior');
 
   final DailyController _dailyController = Get.put(DailyController());
   _dailyController.prepareTheObjects();
@@ -133,6 +137,9 @@ Future<void> main() async {
 
   final CopingController _copingController = Get.put(CopingController());
   _copingController.prepareTheObjects();
+
+  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
+  _miniGamesWarriorController.prepareTheObjects();
 
   await NotificationService().init();
 

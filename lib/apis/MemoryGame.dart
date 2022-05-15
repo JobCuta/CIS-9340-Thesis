@@ -8,6 +8,6 @@ class MemoryGame extends HiveObject{
   List<bool> provinceCompleted;
 
   MemoryGame({
-    required this.provinceCompleted
+    required this.provinceCompleted,
   });
 }

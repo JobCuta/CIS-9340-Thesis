@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/dailyController.dart';
 import 'package:flutter_application_1/controllers/emotionController.dart';
 import 'package:flutter_application_1/controllers/levelController.dart';
+import 'package:flutter_application_1/controllers/miniGamesWarriorController.dart';
 import 'package:flutter_application_1/controllers/phqController.dart';
 import 'package:flutter_application_1/controllers/sidasController.dart';
 import 'package:flutter_application_1/enums/DailyTask.dart';
@@ -142,6 +143,7 @@ class _HomePageState extends State<HomePage> {
   // controllers being used in other components DO NOT REMOVE
   final PHQController _phqController = Get.put(PHQController());
   final SIDASController _sidasController = Get.put(SIDASController());
+  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
 
   RichText displayBasedOnTaskCompleteness(bool isTaskDone) {
     return (isTaskDone)
@@ -318,6 +320,12 @@ class _HomePageState extends State<HomePage> {
                         .setLevel(_levelController.currentLevel.value + 1);
                   },
                   child: const Text('Level UP'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _miniGamesWarriorController.updateMGWCompletion();
+                  },
+                  child: const Text('MGW'),
                 ),
                 Center(
                   child: Padding(
