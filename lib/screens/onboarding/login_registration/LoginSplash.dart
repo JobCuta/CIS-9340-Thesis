@@ -34,7 +34,8 @@ class _LoadingSplashState extends State<LoadingSplash> {
   Future<Widget> loadFromFuture() async {
     await updatePHQ();
     await updateSIDAS();
-    // await updateEmotions();
+    await updateEmotions();
+    await updateUserDetails();
 
     return Future.value(HomePageScreen(2));
   }
@@ -62,7 +63,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
         DateTime date = DateTime.parse(entry["date_created"]);
         var item = phqHive(date: date, index: entry["id"], score: entry["score"].round());
         String key = date.month.toString() + '-' + date.day.toString();
-        box.put(key, item);
+        await box.put(key, item);
       }
       TableSecureStorage.setLatestPHQ(DateTime.now().toUtc().toString());
       log('new phq box items ${box.keys}');
@@ -79,7 +80,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
           DateTime date = DateTime.parse(entry["date_created"]);
           var item = phqHive(date: date, index: entry["id"], score: entry["score"].round());
           String key = date.month.toString() + '-' + date.day.toString();
-          box.put(key, item);
+          await box.put(key, item);
         }
         TableSecureStorage.setLatestPHQ(DateTime.now().toUtc().toString());
         log('new phq box items ${box.keys}');
@@ -111,7 +112,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
         DateTime date = DateTime.parse(entry["date_created"]);
         var item = sidasHive(date: date, index: entry["id"], score: entry["sum"].round(), answerValues: []);
         String key = date.month.toString() + '-' + date.day.toString();
-        box.put(key, item);
+        await box.put(key, item);
       }
       log('new sidas box items ${box.keys}');
     } else {
@@ -127,7 +128,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
           DateTime date = entry["date_created"].toUtc();
           var item = sidasHive(date: date, index: entry["id"], score: entry["sum"].round(), answerValues: []);
           String key = date.month.toString() + '-' + date.day.toString();
-          box.put(key, item);
+          await box.put(key, item);
         }
         TableSecureStorage.setLatestSIDAS(DateTime.now().toUtc().toString());
         log('new phq box items ${box.keys}');
@@ -136,74 +137,155 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updateEmotions() async {
-    // Future.delayed(const Duration(milliseconds: 1000), () {
-    //   loadingStatus = 'Updating Emotion Entries..';
-    // });
+    // emotionList is empty, update Server
+    // latestEmotion is empty. update Local
+    // latestEmotion is more recent than Server, update Server
+    // Server is more recent than LatestEmotion, update Local
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      loadingStatus = 'Updating Emotion Entries..';
+    });
 
     await TableSecureStorage.getLatestEmotion().then((value) => latestEmotion);
-    Map<String, dynamic> emotionList = await UserProvider().emotionScores();
+    List emotionList = await UserProvider().emotionScores();
     log('emotion List $emotionList');
 
-    var box = Hive.box('emotion');
+    var box = Hive.box<EmotionEntryHive>('emotion');
 
-    if (latestEmotion == 'null') {
-    } else {
-      DateTime emotionServer = DateTime.parse(''), emotionLocal = DateTime.parse(latestEmotion);
-      if (emotionServer.isBefore(emotionLocal)) {
-        List emotionLocalList = [];
-        box.values.map(
-          (e) {
-            e as EmotionEntryHive;
-            DateTime date = DateFormat('MMMM-dd-yyyy').parse('${e.month}-${e.day}-${e.year}');
-            String dateString = DateFormat('yyyy-MM-dd').format(date);
-            emotionLocalList.add(// Morning
-                {
-              'id': e.morningCheck.id,
-              'date': dateString,
-              'date_time_answered': e.morningCheck.time,
-              'time_of_day': e.morningCheck.timeOfDay,
-              'current_mood': e.morningCheck.mood,
-              'positive_emotions': e.morningCheck.positiveEmotions.map((e) => e.name).toList(),
-              'negative_emotions': e.morningCheck.negativeEmotions.map((e) => e.name).toList(),
-            });
-            emotionLocalList.add(// Afternoon
-                {
-              'id': e.afternoonCheck.id,
-              'date': dateString,
-              'date_time_answered': e.afternoonCheck.time,
-              'time_of_day': e.afternoonCheck.timeOfDay,
-              'current_mood': e.afternoonCheck.mood,
-              'positive_emotions': e.afternoonCheck.positiveEmotions.map((e) => e.name).toList(),
-              'negative_emotions': e.afternoonCheck.negativeEmotions.map((e) => e.name).toList(),
-            });
-            emotionLocalList.add(// Evening
-                {
-              'id': e.eveningCheck.id,
-              'date': dateString,
-              'date_time_answered': e.eveningCheck.time,
-              'time_of_day': e.eveningCheck.timeOfDay,
-              'current_mood': e.eveningCheck.mood,
-              'positive_emotions': e.eveningCheck.positiveEmotions.map((e) => e.name).toList(),
-              'negative_emotions': e.eveningCheck.negativeEmotions.map((e) => e.name).toList(),
-            });
-          },
-        );
-        UserProvider().bulkEmotionUpdate(emotionLocalList);
+    Map intToEmo = {0: 'NoData', 1: 'VeryBad', 2: 'Bad', 3: 'Neutral', 4: 'Happy', 5: 'VeryHappy'};
+    DateTime now = DateTime.now();
+
+    // Check if list is empty from the server
+    if (emotionList.isNotEmpty) {
+      // Check if there is an entry in the latestEmotion to check if the user has used this device before or not.
+      if (latestEmotion == 'null' || latestEmotion.isEmpty) {
+        log('latestEmotion is empty, update Local Storage');
+        box.clear();
+        log('emotion box ${box.keys}');
+        // Empty mood entry to fill out
+        emptyMoodEntry(String timeOfDay) => EmotionEntryDetail(
+            mood: 'NoData', positiveEmotions: [], negativeEmotions: [], isEmpty: true, timeOfDay: timeOfDay, id: -1);
+        // Go through each entry in emotionList and fill out the empty mood entry and save to Hive.
+        for (var entry in emotionList) {
+          DateTime date = DateTime.parse(entry["date"]).toUtc();
+          var item = EmotionEntryHive(
+            overallMood: intToEmo[entry['overallMood']],
+            weekday: DateFormat.EEEE().format(date),
+            month: DateFormat.MMM().format(date),
+            day: date.day,
+            year: date.year,
+            morningCheck: emptyMoodEntry('morning'),
+            afternoonCheck: emptyMoodEntry('afternoon'),
+            eveningCheck: emptyMoodEntry('evening'),
+          );
+          for (var emotion in entry['entries']) {
+            switch (emotion['time_of_day']) {
+              case 'morning':
+                var m = EmotionEntryDetail(
+                    mood: intToEmo[entry['overallMood']],
+                    positiveEmotions: emotion['positive_emotions'],
+                    negativeEmotions: emotion['negative_emotions'],
+                    isEmpty: false,
+                    timeOfDay: emotion['time_of_day'],
+                    id: emotion['id']);
+                item.morningCheck = m;
+                break;
+              case 'afternoon':
+                var a = EmotionEntryDetail(
+                    mood: intToEmo[entry['overallMood']],
+                    positiveEmotions: emotion['positive_emotions'],
+                    negativeEmotions: emotion['negative_emotions'],
+                    isEmpty: false,
+                    timeOfDay: emotion['time_of_day'],
+                    id: emotion['id']);
+                item.morningCheck = a;
+                break;
+              case 'evening':
+                var e = EmotionEntryDetail(
+                    mood: intToEmo[entry['overallMood']],
+                    positiveEmotions: emotion['positive_emotions'],
+                    negativeEmotions: emotion['negative_emotions'],
+                    isEmpty: false,
+                    timeOfDay: emotion['time_of_day'],
+                    id: emotion['id']);
+                item.morningCheck = e;
+                break;
+              default:
+            }
+          }
+          await box.put(dateToString(date), item);
+        }
+        if (!box.containsKey(dateToString(now))) {
+          log('current date NOT in box. Adding current date.');
+          var currentEmotion = EmotionEntryHive(
+              overallMood: 'NoData',
+              weekday: DateFormat.EEEE().format(now),
+              month: DateFormat.MMM().format(now),
+              day: now.day,
+              year: now.year,
+              morningCheck: emptyMoodEntry('morning'),
+              afternoonCheck: emptyMoodEntry('afternoon'),
+              eveningCheck: emptyMoodEntry('evening'));
+          await box.put(dateToString(now), currentEmotion);
+        }
+        TableSecureStorage.setLatestEmotion(DateTime.now().toString());
+        log('saved latest emotion');
+        log('emotion box contents ${box.keys}');
       } else {
-        DateTime emotionServer = DateTime.parse(emotionList['date_created']),
-            emotionLocal = DateTime.parse(latestSidas);
-
+        // LatestEmotion entry exists, comparing storage date with server's latest entry.
+        DateTime emotionServer = DateFormat('yyyy-MM-dd').parse(emotionList[0]['date_time_answered']),
+            emotionLocal = DateTime.parse(latestEmotion);
+        // Server is outdated, updating Server.
         if (emotionServer.isBefore(emotionLocal)) {
-          List sidasLocalList = box.values.map((e) => e.toJson()).toList();
-          UserProvider().bulkPhqUpdate(sidasLocalList);
+          log('latestEmotion is more recent than Server, update Server');
+          List emotionLocalList = [];
+          box.values.map(
+            (e) {
+              DateTime date = DateFormat('MMMM-dd-yyyy').parse('${e.month}-${e.day}-${e.year}');
+              String dateString = DateFormat('yyyy-MM-dd').format(date);
+              emotionLocalList.add(// Morning
+                  {
+                'id': e.morningCheck.id,
+                'date': dateString,
+                'date_time_answered': e.morningCheck.time,
+                'time_of_day': e.morningCheck.timeOfDay,
+                'current_mood': e.morningCheck.mood,
+                'positive_emotions': e.morningCheck.positiveEmotions.map((e) => e.name).toList(),
+                'negative_emotions': e.morningCheck.negativeEmotions.map((e) => e.name).toList(),
+              });
+              emotionLocalList.add(// Afternoon
+                  {
+                'id': e.afternoonCheck.id,
+                'date': dateString,
+                'date_time_answered': e.afternoonCheck.time,
+                'time_of_day': e.afternoonCheck.timeOfDay,
+                'current_mood': e.afternoonCheck.mood,
+                'positive_emotions': e.afternoonCheck.positiveEmotions.map((e) => e.name).toList(),
+                'negative_emotions': e.afternoonCheck.negativeEmotions.map((e) => e.name).toList(),
+              });
+              emotionLocalList.add(// Evening
+                  {
+                'id': e.eveningCheck.id,
+                'date': dateString,
+                'date_time_answered': e.eveningCheck.time,
+                'time_of_day': e.eveningCheck.timeOfDay,
+                'current_mood': e.eveningCheck.mood,
+                'positive_emotions': e.eveningCheck.positiveEmotions.map((e) => e.name).toList(),
+                'negative_emotions': e.eveningCheck.negativeEmotions.map((e) => e.name).toList(),
+              });
+            },
+          );
+          UserProvider().bulkEmotionUpdate(emotionLocalList);
         } else {
+          // Local Storage is outdated, updating Local Storage.
+          log('Local Storage is outdated, updating Local Storage.');
           box.clear();
           emptyMoodEntry(String timeOfDay) => EmotionEntryDetail(
               mood: '', positiveEmotions: [], negativeEmotions: [], isEmpty: true, timeOfDay: timeOfDay, id: -1);
-          for (var entry in emotionList['entries']) {
+          for (var entry in emotionList) {
             DateTime date = DateTime.parse(entry["date_created"]).toUtc();
             var item = EmotionEntryHive(
-              overallMood: entry['overallMood'],
+              overallMood: intToEmo[entry['overallMood']],
               weekday: DateFormat.EEEE().format(date),
               month: DateFormat.MMM().format(date),
               day: date.day,
@@ -216,7 +298,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
               switch (emotion['time_of_day']) {
                 case 'morning':
                   var m = EmotionEntryDetail(
-                      mood: emotion['current_mood'],
+                      mood: intToEmo[entry['overallMood']],
                       positiveEmotions: emotion['positive_emotions'],
                       negativeEmotions: emotion['negative_emotions'],
                       isEmpty: false,
@@ -226,7 +308,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
                   break;
                 case 'afternoon':
                   var a = EmotionEntryDetail(
-                      mood: emotion['current_mood'],
+                      mood: intToEmo[entry['overallMood']],
                       positiveEmotions: emotion['positive_emotions'],
                       negativeEmotions: emotion['negative_emotions'],
                       isEmpty: false,
@@ -236,7 +318,7 @@ class _LoadingSplashState extends State<LoadingSplash> {
                   break;
                 case 'evening':
                   var e = EmotionEntryDetail(
-                      mood: emotion['current_mood'],
+                      mood: intToEmo[entry['overallMood']],
                       positiveEmotions: emotion['positive_emotions'],
                       negativeEmotions: emotion['negative_emotions'],
                       isEmpty: false,
@@ -247,12 +329,78 @@ class _LoadingSplashState extends State<LoadingSplash> {
                 default:
               }
             }
-            String key = date.month.toString() + '-' + date.day.toString();
-            box.put(key, item);
+            await box.put(dateToString(date), item);
           }
+          if (!box.containsKey(dateToString(now))) {
+            log('current date NOT in box. Adding current date.');
+            var currentEmotion = EmotionEntryHive(
+                overallMood: 'NoData',
+                weekday: DateFormat.EEEE().format(now),
+                month: DateFormat.MMM().format(now),
+                day: now.day,
+                year: now.year,
+                morningCheck: emptyMoodEntry('morning'),
+                afternoonCheck: emptyMoodEntry('afternoon'),
+                eveningCheck: emptyMoodEntry('evening'));
+            await box.put(dateToString(now), currentEmotion);
+          }
+          TableSecureStorage.setLatestEmotion(DateTime.now().toString());
+          log('saved latest emotion');
         }
       }
+    } else {
+      log('emotionList from Server is empty. Server should be updated.');
+      // emotionList from Server is empty. Server should be updated.
+      List emotionLocalList = [];
+      box.values.map(
+        (e) {
+          DateTime date = DateFormat('MMMM-dd-yyyy').parse('${e.month}-${e.day}-${e.year}');
+          String dateString = DateFormat('yyyy-MM-dd').format(date);
+          emotionLocalList.add(// Morning
+              {
+            'id': e.morningCheck.id,
+            'date': dateString,
+            'date_time_answered': e.morningCheck.time,
+            'time_of_day': e.morningCheck.timeOfDay,
+            'current_mood': e.morningCheck.mood,
+            'positive_emotions': e.morningCheck.positiveEmotions.map((e) => e.name).toList(),
+            'negative_emotions': e.morningCheck.negativeEmotions.map((e) => e.name).toList(),
+          });
+          emotionLocalList.add(// Afternoon
+              {
+            'id': e.afternoonCheck.id,
+            'date': dateString,
+            'date_time_answered': e.afternoonCheck.time,
+            'time_of_day': e.afternoonCheck.timeOfDay,
+            'current_mood': e.afternoonCheck.mood,
+            'positive_emotions': e.afternoonCheck.positiveEmotions.map((e) => e.name).toList(),
+            'negative_emotions': e.afternoonCheck.negativeEmotions.map((e) => e.name).toList(),
+          });
+          emotionLocalList.add(// Evening
+              {
+            'id': e.eveningCheck.id,
+            'date': dateString,
+            'date_time_answered': e.eveningCheck.time,
+            'time_of_day': e.eveningCheck.timeOfDay,
+            'current_mood': e.eveningCheck.mood,
+            'positive_emotions': e.eveningCheck.positiveEmotions.map((e) => e.name).toList(),
+            'negative_emotions': e.eveningCheck.negativeEmotions.map((e) => e.name).toList(),
+          });
+        },
+      );
+      UserProvider().bulkEmotionUpdate(emotionLocalList);
     }
+  }
+
+  updateUserDetails() async {
+    
+  }
+
+  String dateToString(DateTime dateTime) {
+    String month = dateTime.month < 10 ? '0${dateTime.month}' : dateTime.month.toString();
+    String day = dateTime.day < 10 ? '0${dateTime.day}' : dateTime.day.toString();
+    String date = dateTime.year.toString() + "-" + month + "-" + day;
+    return date;
   }
 
   @override

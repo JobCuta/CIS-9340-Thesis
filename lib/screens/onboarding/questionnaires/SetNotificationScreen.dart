@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -21,8 +25,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final TimeController _timeController = Get.put(TimeController());
-    final SettingsController _settingsController =
-        Get.put(SettingsController());
+    final SettingsController _settingsController = Get.put(SettingsController());
 
     _timeController.morningTime.value = TimeOfDay(
         hour: int.parse(_settingsController.notificationsMorningTime[0]),
@@ -34,39 +37,29 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
         hour: int.parse(_settingsController.notificationsEveningTime[0]),
         minute: int.parse(_settingsController.notificationsEveningTime[1]));
 
-    _buildFieldComponent(
-        {required label, required timeValue, required enabled, onPressed}) {
+    _buildFieldComponent({required label, required timeValue, required enabled, onPressed}) {
       return InkWell(
         splashColor: Theme.of(context).colorScheme.neutralGray02,
         onTap: onPressed,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(label,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.neutralWhite01)),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
             GetBuilder<TimeController>(
                 builder: (value) => RichText(
                       text: TextSpan(children: [
                         TextSpan(
                             text: timeValue,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .neutralWhite01)),
+                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Icon(Icons.keyboard_arrow_right_sharp,
-                                size: 30,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .neutralWhite01))
+                                size: 30, color: Theme.of(context).colorScheme.neutralWhite01))
                       ]),
                     ))
           ]),
@@ -89,30 +82,29 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
           child: Container(
             alignment: Alignment.center,
             height: 100,
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
             decoration: BoxDecoration(
                 color: const Color(0xff3290FF).withOpacity(0.60),
                 borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Text(
-                'Set your preferred times for the day for when you want to be notified',
+            child: Text('Set your preferred times for the day for when you want to be notified',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.neutralWhite01)),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    ?.copyWith(fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.neutralWhite01)),
           ),
         ),
       ),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
-          child:
-              Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
+          child: Wrap(alignment: WrapAlignment.center, runSpacing: 20, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Morning',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.neutralWhite01)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
                     _timeController.selectMorningTime(context: context);
@@ -121,31 +113,23 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       builder: (value) => RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                  text: _timeController.morningTime.value
-                                      .format(context),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01)),
+                                  text: _timeController.morningTime.value.format(context),
+                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.neutralWhite01)),
                               WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      size: 30,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01))
+                                      size: 30, color: Theme.of(context).colorScheme.neutralWhite01))
                             ]),
                           )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Afternoon',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.neutralWhite01)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
                     _timeController.selectAfternoonTime(context: context);
@@ -154,31 +138,23 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       builder: (value) => RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                  text: _timeController.afternoonTime.value
-                                      .format(context),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01)),
+                                  text: _timeController.afternoonTime.value.format(context),
+                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.neutralWhite01)),
                               WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      size: 30,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01))
+                                      size: 30, color: Theme.of(context).colorScheme.neutralWhite01))
                             ]),
                           )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text('Evening',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.neutralWhite01)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.neutralWhite01)),
               TextButton(
                   onPressed: () {
                     _timeController.selectEveningTime(context: context);
@@ -187,23 +163,14 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                       builder: (value) => RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                  text: _timeController.eveningTime.value
-                                      .format(context),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .neutralWhite01)),
+                                  text: _timeController.eveningTime.value.format(context),
+                                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.neutralWhite01)),
                               WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.keyboard_arrow_right_sharp,
-                                      size: 30,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .neutralWhite01))
+                                      size: 30, color: Theme.of(context).colorScheme.neutralWhite01))
                             ]),
                           ))),
             ]),
@@ -228,39 +195,55 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                     ),
                     child: Text(
                       'Done!',
-                      style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color: Theme.of(context).colorScheme.neutralWhite01,
-                          fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
                     ),
-                    onPressed: () {
-                      NotificationService.showMorningNotification(
-                          _timeController.morningTime.value);
+                    onPressed: () async {
+                      Map result = await UserProvider().createNotifs(_timeController.morningTime.value.toString(),
+                          _timeController.afternoonTime.value.toString(), _timeController.eveningTime.value.toString());
 
-                      NotificationService.showAfternoonNotification(
-                          _timeController.afternoonTime.value);
+                      if (result.isNotEmpty) {
+                        _settingsController.notifID = result['id'];
+                        UserSecureStorage.setNotifID(result['id']);
+                        log('notif ID saved. ${_settingsController.notifID}');
+                        Get.snackbar('Notification Saved', 'Your notification settings were saved in the backend!',
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.white60,
+                            colorText: Colors.black87);
+                      } else {
+                        Get.snackbar('There was a problem saving your settings',
+                            'Your notification settings were not saved in the backend',
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.white60,
+                            colorText: Colors.black87);
+                      }
 
-                      NotificationService.showEveningNotification(
-                          _timeController.eveningTime.value);
+                      NotificationService.showMorningNotification(_timeController.morningTime.value);
+
+                      NotificationService.showAfternoonNotification(_timeController.afternoonTime.value);
+
+                      NotificationService.showEveningNotification(_timeController.eveningTime.value);
 
                       _settingsController.updateNotificationSettings(
-                          newNotificationsEnabled: true,
-                          newNotificationsMorningTime: [
-                            _timeController.morningTime.value.hour.toString(),
-                            _timeController.morningTime.value.minute.toString()
-                          ],
-                          newNotificationsAfternoonTime: [
-                            _timeController.afternoonTime.value.hour.toString(),
-                            _timeController.afternoonTime.value.minute
-                                .toString()
-                          ],
-                          newNotificationsEveningTime: [
-                            _timeController.eveningTime.value.hour.toString(),
-                            _timeController.eveningTime.value.minute.toString()
-                          ],
-                          newPHQNotificationsEnabled: true,
-                          newSIDASNotificationsEnabled: true);
-                      Get.toNamed('/loadingScreen',
-                          arguments: {'type': 'both'});
+                        newNotificationsEnabled: true,
+                        newNotificationsMorningTime: [
+                          _timeController.morningTime.value.hour.toString(),
+                          _timeController.morningTime.value.minute.toString()
+                        ],
+                        newNotificationsAfternoonTime: [
+                          _timeController.afternoonTime.value.hour.toString(),
+                          _timeController.afternoonTime.value.minute.toString()
+                        ],
+                        newNotificationsEveningTime: [
+                          _timeController.eveningTime.value.hour.toString(),
+                          _timeController.eveningTime.value.minute.toString()
+                        ],
+                        newPHQNotificationsEnabled: true,
+                        newSIDASNotificationsEnabled: true,
+                      );
+                      Get.toNamed('/loadingScreen', arguments: {'type': 'both'});
                     }),
               ),
               Container(
@@ -268,9 +251,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                 height: 50,
                 margin: const EdgeInsets.only(top: 5),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.neutralWhite04,
-                      width: 1),
+                  border: Border.all(color: Theme.of(context).colorScheme.neutralWhite04, width: 1),
                 ),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -280,13 +261,10 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                     child: Text(
                       "I'll do this later...",
                       style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.sunflowerYellow01,
-                          fontWeight: FontWeight.w600),
+                          color: Theme.of(context).colorScheme.sunflowerYellow01, fontWeight: FontWeight.w600),
                     ),
                     onPressed: () {
-                      Get.toNamed('/loadingScreen',
-                          arguments: {'type': 'both'});
+                      Get.toNamed('/loadingScreen', arguments: {'type': 'both'});
                     }),
               ),
             ],

@@ -39,7 +39,7 @@ class _AssessmentsContainerState extends State<AssessmentsContainer> {
       takeAssessRoute = '/sidasScreen';
     }
     Box box = Hive.box(boxName);
-    log('box info $boxName ${box.isEmpty} | ${box.length}');
+    // log('box info $boxName ${box.isEmpty} | ${box.length}');
     if (box.isNotEmpty) {
       var monthKey = box.keys.last;
       latestEntry = box.get(monthKey);

@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
+import 'package:flutter_application_1/apis/Level.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
+import 'package:flutter_application_1/apis/settingsHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/constants/forms.dart';
@@ -31,6 +33,8 @@ class UserProvider extends GetConnect {
     "bulkPHQ": "api/v1/PHQ9-UPDATE/",
     'bulkSIDAS': "api/v1/SIDAS-UPDATE/",
     'bulkEmotion': "api/v1/EMOTIONS-UPDATE/",
+    'feedback': "api/v1/CustomerSupport/",
+    'notifs': "api/v1/NotificationSettings/"
   };
 
   //POST
@@ -50,13 +54,14 @@ class UserProvider extends GetConnect {
         await UserSecureStorage.setKeyLogin(map["key"]);
         var user = Map<String, dynamic>.from(map["user"]);
         await UserSecureStorage.setLoginDetails(
-            user["email"],
-            user["nickname"] == "" ? user["first_name"] : user["nickname"],
-            user["first_name"],
-            user["last_name"],
-            user["date_of_birth"],
-            user["gender"],
-            user["anon"].toString());
+          user["email"],
+          user["nickname"] == "" ? user["first_name"] : user["nickname"],
+          user["first_name"],
+          user["last_name"],
+          user["date_of_birth"],
+          user["gender"],
+          user["anon"].toString(),
+        );
         firstTimeLogin = user["first_time_login"];
       } else if (map.containsKey("email")) {
         message = map["email"][0];
@@ -123,7 +128,7 @@ class UserProvider extends GetConnect {
       "Authorization": "Token " + key
     });
     if (response.hasError) {
-      log('create PHQ9 entry error ${response.statusText}');
+      log('create PHQ9 entry error ${response.statusText} ${response.body}');
       return {"status": false};
     }
     return {"status": true, "body": response.body};
@@ -139,7 +144,7 @@ class UserProvider extends GetConnect {
       "Authorization": "Token " + key
     });
     if (response.hasError) {
-      log('create SIDAS entry error ${response.statusText}');
+      log('create SIDAS entry error ${response.statusText} ${response.body}');
       return {"status": false};
     }
     return {"status": true, "body": response.body};
@@ -162,53 +167,87 @@ class UserProvider extends GetConnect {
       "Authorization": "Token " + key
     });
     if (response.hasError) {
-      log('create Emotion entry error ${response.statusText}');
+      log('create Emotion entry error ${response.statusText} ${response.body}');
       return {"status": false};
     }
     return {"status": true, "body": response.body};
   }
 
-  Future<String> bulkPhqUpdate(List entries) async {
+  Future<bool> bulkPhqUpdate(List entries) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["bulkPHQ"], entries, headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('bulk phq update error ${response.statusText}');
-      return "whoops";
+      log('bulk phq update error ${response.statusText} ${response.body}');
+      return false;
     }
-    return "";
+    return true;
   }
 
-  Future<String> bulkSidasUpdate(List entries) async {
+  Future<bool> bulkSidasUpdate(List entries) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths["bulkSIDAS"], entries, headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('bulk sidas update error ${response.statusText}');
-      return "whoops";
+      log('bulk sidas update error ${response.statusText} ${response.body}');
+      return false;
     }
-    return "";
+    return true;
   }
 
-  Future<String> bulkEmotionUpdate(List entries) async {
+  Future<bool> bulkEmotionUpdate(List entries) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await post(domain + paths['bulkEmotion'], entries, headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('bulk emotion update error ${response.statusText}');
-      return 'whoops';
+      log('bulk emotion update error ${response.statusText} ${response.body}');
+      return false;
     }
-    return "";
+    return true;
+  }
+
+  Future<bool> sendCustomerFeedback(String text) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths['feedback'], {"date_created": '', "text": text},
+        headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('feedback error ${response.statusText} ${response.body}');
+      return false;
+    }
+    return true;
+  }
+
+  Future<Map> createNotifs(String morning, String afternoon, String evening) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await post(domain + paths['notifs'], {
+      "morning": morning,
+      "afternoon": afternoon,
+      "evening": evening,
+    }, headers: {
+      "Authorization": "Token " + key
+    });
+    if (response.hasError) {
+      log('create notifs error ${response.statusText} ${response.body}');
+      return {};
+    }
+    return response.body;
   }
 
   //GET
-  Future<Response> logout() async {
+  Future<bool> logout() async {
     var response = await get(domain + paths["logout"]);
     UserSecureStorage.removeLoginKey();
-    return response;
+    if (response.hasError) {
+      log('logout error ${response.statusText}');
+      return false;
+    }
+    log('logging out.. ${response.body}');
+    return true;
   }
 
-  Future<Object> user() async {
+  Future<bool> user() async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
@@ -216,8 +255,15 @@ class UserProvider extends GetConnect {
     var map = Map<String, dynamic>.from(response.body);
     if (!response.hasError) {
       log('da map $map');
-      await UserSecureStorage.setLoginDetails(map["email"], map["nickname"] == "" ? map["first_name"] : map["nickname"],
-          map["first_name"], map["last_name"], map["date_of_birth"], map["gender"], map["anon"].toString());
+      await UserSecureStorage.setLoginDetails(
+        map["email"],
+        map["nickname"] == "" ? map["first_name"] : map["nickname"],
+        map["first_name"],
+        map["last_name"],
+        map["date_of_birth"],
+        map["gender"],
+        map["anon"].toString(),
+      );
       return true;
     } else {
       return false;
@@ -250,17 +296,28 @@ class UserProvider extends GetConnect {
     return body;
   }
 
-  Future emotionScores() async {
+  Future<List> emotionScores() async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["emotion"], headers: {"Authorization": "Token " + key});
     if (response.hasError) {
       log('emotion scores error ${response.statusText}');
-      return false;
+      return [];
     }
-    List<dynamic> body = response.body;
-    log('scores body $body');
-    return body;
+    // log('scores body $body');
+    return response.body;
+  }
+
+  Future<Map> savedNotifs() async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["notifs"], headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('emotion scores error ${response.statusText}');
+      return {};
+    }
+    log('notifs body ${response.body}');
+    return response.body[0];
   }
 
   //PUT
@@ -285,7 +342,7 @@ class UserProvider extends GetConnect {
     final response =
         await put(domain + paths["PHQ"] + '$index/', {"score": score}, headers: {"Authorization": "Token" + key});
     if (response.hasError) {
-      log('error ${response.statusText}');
+      log('error ${response.statusText} ${response.body}');
       return false;
     }
     return true;
@@ -297,7 +354,7 @@ class UserProvider extends GetConnect {
     final response =
         await put(domain + paths["SIDAS"] + '$index/', {"score": score}, headers: {"Authorization": "Token" + key});
     if (response.hasError) {
-      log('error ${response.statusText}');
+      log('error ${response.statusText} ${response.body}');
       return false;
     }
     return true;
@@ -326,5 +383,49 @@ class UserProvider extends GetConnect {
       return {"status": "Error"};
     }
     return {"status": "Updated"};
+  }
+
+  Future<Map> updateNotifs(String morning, String afternoon, String evening, String id) async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await put(domain + paths['emotion'] + '$id/', {
+      "morning": morning,
+      "afternoon": afternoon,
+      "evening": evening,
+    }, headers: {
+      "Authorization": "Token " + key
+    });
+    if (response.hasError) {
+      log('update notifs error ${response.statusText} ${response.body}');
+      return {};
+    }
+    return response.body;
+  }
+
+  Future updateEXP(Level level) async {
+    String key = "", email = '';
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    await UserSecureStorage.getEmail().then((value) => email = value.toString());
+    final response = await put(
+        domain + paths['user'], {"email": email, "exp": (level.currentLevel * level.xpForNextLevel) + level.currentXp},
+        headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('update exp error ${response.statusText} ${response.body}');
+      return false;
+    }
+    return true;
+  }
+
+  Future updateFrame(String path) async {
+    String key = "", email = '';
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    await UserSecureStorage.getEmail().then((value) => email = value.toString());
+    final response =
+        await put(domain + paths['user'], {"email": email, "frame": path}, headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('update frame error ${response.statusText} ${response.body}');
+      return false;
+    }
+    return true;
   }
 }

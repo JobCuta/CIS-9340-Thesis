@@ -103,6 +103,12 @@ class DebugScreen extends StatelessWidget {
                           log('scores $scores');
                         }),
                     ElevatedButton(
+                        child: const Text('Get Emotion Scores'),
+                        onPressed: () async {
+                          var scores = await UserProvider().emotionScores();
+                          log('scores $scores');
+                        }),
+                    ElevatedButton(
                         child: const Text('Create PHQ9 Entry'),
                         onPressed: () async {
                           var phq = Hive.box('phq');

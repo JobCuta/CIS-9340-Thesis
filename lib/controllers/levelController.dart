@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/apis/Level.dart';
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/widgets/LevelExperienceModal.dart';
 import 'package:flutter_application_1/widgets/LevelTasksTodayModal.dart';
 import 'package:flutter_application_1/widgets/LevelUpRewardsModal.dart';
@@ -22,7 +25,8 @@ class LevelController extends GetxController {
   var xpForNextLevel = 0.obs;
 
   var recentlyAddedXp = false.obs;
-  final accomplishedWithXp = {}.obs;    // cant fix bug of not appearing when it's cleared, will use taskName and taskXp instead
+  final accomplishedWithXp =
+      {}.obs; // cant fix bug of not appearing when it's cleared, will use taskName and taskXp instead
   var taskName = ''.obs;
   var taskXp = 0.obs;
   var totalXpToAdd = 0.obs;
@@ -30,33 +34,32 @@ class LevelController extends GetxController {
 
   // it randomly displays an exception if one of the region svg was displayed, that's why png is used here instead for the badge and region
   var level2Rewards = {
-      'Kalinga Badge' : 'assets/achievements/kalinga_adventure_achievements.png',
-      'Kalinga Region' : 'assets/images/kalinga_unlock.png',
-      'Kalinga Frames' : 'assets/frames/kalinga_v2.svg',
+    'Kalinga Badge': 'assets/achievements/kalinga_adventure_achievements.png',
+    'Kalinga Region': 'assets/images/kalinga_unlock.png',
+    'Kalinga Frames': 'assets/frames/kalinga_v2.svg',
   };
   var level3Rewards = {
-      'Abra Badge' : 'assets/achievements/abra_adventure_achievements.png',
-      'Abra Region' : 'assets/images/abra_region.png',
-      'Abra Frames' : 'assets/frames/abra_v2.svg'
+    'Abra Badge': 'assets/achievements/abra_adventure_achievements.png',
+    'Abra Region': 'assets/images/abra_region.png',
+    'Abra Frames': 'assets/frames/abra_v2.svg'
   };
   var level4Rewards = {
-      'Mt. Prov Badge' : 'assets/achievements/mtprovince_adventure_achievements.png',
-      'Mt. Prov Region' : 'assets/images/mtprovince_region.png',
-      'Mt. Prov Frames' : 'assets/frames/mtProvince_v2.svg'
+    'Mt. Prov Badge': 'assets/achievements/mtprovince_adventure_achievements.png',
+    'Mt. Prov Region': 'assets/images/mtprovince_region.png',
+    'Mt. Prov Frames': 'assets/frames/mtProvince_v2.svg'
   };
   var level5Rewards = {
-      'Ifugao Badge' : 'assets/achievements/ifugao_adventure_achievements.png',
-      'Ifugao Region' : 'assets/images/ifugao_region.png',
-      'Ifugao Frames' : 'assets/frames/ifugao_v2.svg'
+    'Ifugao Badge': 'assets/achievements/ifugao_adventure_achievements.png',
+    'Ifugao Region': 'assets/images/ifugao_region.png',
+    'Ifugao Frames': 'assets/frames/ifugao_v2.svg'
   };
   var level6Rewards = {
-      'Benguet Badge' : 'assets/achievements/benguet_adventure_achievements.png',
-      'Benguet Region' : 'assets/images/benguet_region.png',
-      'Benguet Frames' : 'assets/frames/benguet_v2.svg'
+    'Benguet Badge': 'assets/achievements/benguet_adventure_achievements.png',
+    'Benguet Region': 'assets/images/benguet_region.png',
+    'Benguet Frames': 'assets/frames/benguet_v2.svg'
   };
 
-
-  void prepareTheObjects() {
+  void prepareTheObjects() async {
     Box box = Hive.box<Level>('level');
     if (box.get('userLevel') == null) {
       Level level = Level(currentLevel: 1, currentXp: 0, xpForNextLevel: 1000);
@@ -96,7 +99,7 @@ class LevelController extends GetxController {
   }
 
   // call this to add all the xp initialized above to the user's experience
-  void finalizeAddingOfXp() {
+  void finalizeAddingOfXp() async {
     int xp = totalXpToAdd.value;
     Box box = Hive.box<Level>('level');
     Level level = box.get('userLevel');
@@ -111,9 +114,12 @@ class LevelController extends GetxController {
     level.currentLevel = currentLevel.value;
     level.currentXp = currentXp.value;
     level.save();
+
+    bool result = await UserProvider().updateEXP(level);
+    log('updated exp in backend $result');
   }
 
-  void addXp(String task, int xp) {
+  void addXp(String task, int xp) async {
     // accomplishedWithXp.value.putIfAbsent(task, () => xp);
     taskName.value = task;
     taskXp.value = xp;
@@ -132,6 +138,9 @@ class LevelController extends GetxController {
     level.currentLevel = currentLevel.value;
     level.currentXp = currentXp.value;
     level.save();
+
+    bool result = await UserProvider().updateEXP(level);
+    log('updated exp in backend $result');
   }
 
   void checkIfLevelUp() {
@@ -155,25 +164,21 @@ class LevelController extends GetxController {
   }
 
   void displayLevelXpModal(BuildContext context) {
-    
     if (levelUp.value && currentLevel.value < 7) {
       displayRewardsUponLevelUp(context);
     } else {
-        print("ACCOMPLISHED = " + accomplishedWithXp.value.toString());
-        Future.delayed(const Duration(seconds: 0)).then((_) {
+      print("ACCOMPLISHED = " + accomplishedWithXp.value.toString());
+      Future.delayed(const Duration(seconds: 0)).then((_) {
         showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-          ),
-          useRootNavigator: true,
-          isScrollControlled: true,
-          builder: (context) {
-            return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: const LevelWidgets());
-          });
+            context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+            ),
+            useRootNavigator: true,
+            isScrollControlled: true,
+            builder: (context) {
+              return SizedBox(height: MediaQuery.of(context).size.height * 0.75, child: const LevelWidgets());
+            });
       });
     }
     updateRecentlyAddedXp(false);
@@ -181,40 +186,33 @@ class LevelController extends GetxController {
 
   void displayTodaysTaskWithXp(BuildContext context) {
     Future.delayed(const Duration(seconds: 0)).then((_) {
-        showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-            ),
-            useRootNavigator: true,
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
-            builder: (context) {
-              return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: const LevelTasksTodayWidgets());
-            });
-      });
-      updateRecentlyAddedXp(false);
+      showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+          ),
+          useRootNavigator: true,
+          isScrollControlled: true,
+          backgroundColor: Colors.white,
+          builder: (context) {
+            return SizedBox(height: MediaQuery.of(context).size.height * 0.75, child: const LevelTasksTodayWidgets());
+          });
+    });
+    updateRecentlyAddedXp(false);
   }
-
 
   void displayRewardsUponLevelUp(BuildContext context) {
     Future.delayed(const Duration(seconds: 0)).then((_) {
       showModalBottomSheet(
           context: context,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
           ),
           useRootNavigator: true,
           // isScrollControlled: true,
           backgroundColor: Colors.white,
           builder: (context) {
-            return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: const LevelUpRewardWidgets());
+            return SizedBox(height: MediaQuery.of(context).size.height * 0.75, child: const LevelUpRewardWidgets());
           });
     });
 

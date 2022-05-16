@@ -13,6 +13,7 @@ class SettingsController extends GetxController {
   var framePath = ''.obs;
   var phqNotificationsEnabled = false.obs;
   var sidasNotificationsEnabled = false.obs;
+  var notifID = -1.obs;
 
   TimeController timeController = TimeController();
 
@@ -30,6 +31,7 @@ class SettingsController extends GetxController {
         framePath: '',
         phqNotificationsEnabled: false,
         sidasNotificationsEnabled: false,
+        notifID: -1,
       );
       box.put('settings', settings);
     }
@@ -45,24 +47,26 @@ class SettingsController extends GetxController {
     // checkValues();
   }
 
-  void updateNotificationSettings({
-    required newNotificationsEnabled,
-    required newNotificationsMorningTime,
-    required newNotificationsAfternoonTime,
-    required newNotificationsEveningTime,
-    required newPHQNotificationsEnabled,
-    required newSIDASNotificationsEnabled,
-  }) {
+  void updateNotificationSettings(
+      {required newNotificationsEnabled,
+      required newNotificationsMorningTime,
+      required newNotificationsAfternoonTime,
+      required newNotificationsEveningTime,
+      required newPHQNotificationsEnabled,
+      required newSIDASNotificationsEnabled,
+      }) {
     SettingsHive newSettings = SettingsHive(
-        notificationsEnabled: newNotificationsEnabled,
-        notificationsMorningTime: newNotificationsMorningTime,
-        notificationsAfternoonTime: newNotificationsAfternoonTime,
-        notificationsEveningTime: newNotificationsEveningTime,
-        language: language.value,
-        imagePath: imagePath.value,
-        framePath: framePath.value,
-        phqNotificationsEnabled: newPHQNotificationsEnabled,
-        sidasNotificationsEnabled: newSIDASNotificationsEnabled);
+      notificationsEnabled: newNotificationsEnabled,
+      notificationsMorningTime: newNotificationsMorningTime,
+      notificationsAfternoonTime: newNotificationsAfternoonTime,
+      notificationsEveningTime: newNotificationsEveningTime,
+      language: language.value,
+      imagePath: imagePath.value,
+      framePath: framePath.value,
+      phqNotificationsEnabled: newPHQNotificationsEnabled,
+      sidasNotificationsEnabled: newSIDASNotificationsEnabled,
+      notifID: notifID,
+    );
     box.putAt(0, newSettings);
 
     notificationsEnabled.value = newSettings.notificationsEnabled;
@@ -76,16 +80,16 @@ class SettingsController extends GetxController {
     required newLanguage,
   }) {
     SettingsHive newSettings = SettingsHive(
-      notificationsEnabled: notificationsEnabled.value,
-      notificationsMorningTime: notificationsMorningTime.value,
-      notificationsAfternoonTime: notificationsAfternoonTime.value,
-      notificationsEveningTime: notificationsEveningTime.value,
-      language: newLanguage,
-      imagePath: imagePath.value,
-      framePath: framePath.value,
-      phqNotificationsEnabled: phqNotificationsEnabled.value,
-      sidasNotificationsEnabled: sidasNotificationsEnabled.value,
-    );
+        notificationsEnabled: notificationsEnabled.value,
+        notificationsMorningTime: notificationsMorningTime.value,
+        notificationsAfternoonTime: notificationsAfternoonTime.value,
+        notificationsEveningTime: notificationsEveningTime.value,
+        language: newLanguage,
+        imagePath: imagePath.value,
+        framePath: framePath.value,
+        phqNotificationsEnabled: phqNotificationsEnabled.value,
+        sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+        notifID: notifID);
     box.putAt(0, newSettings);
 
     language.value = newLanguage;
@@ -105,6 +109,7 @@ class SettingsController extends GetxController {
       framePath: framePath.value,
       phqNotificationsEnabled: phqNotificationsEnabled.value,
       sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+      notifID: notifID,
     );
     box.putAt(0, newSettings);
 
@@ -124,6 +129,7 @@ class SettingsController extends GetxController {
       framePath: newFrame,
       phqNotificationsEnabled: phqNotificationsEnabled.value,
       sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+      notifID: notifID
     );
     box.putAt(0, newSettings);
 

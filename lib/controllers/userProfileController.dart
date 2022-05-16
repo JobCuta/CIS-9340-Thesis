@@ -11,6 +11,8 @@ class UserProfileController extends GetxController {
   var email = '';
   var gender = '';
   var anon = '';
+  var frame = '';
+  var exp = '';
   var validate = true;
 
   @override
@@ -74,6 +76,7 @@ class UserProfileController extends GetxController {
         lastNameController.text,
         birthdayController.text,
         gender,
-        anon);
+        anon,
+    );
   }
 }
