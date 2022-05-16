@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_application_1/apis/AdventureProgress.dart';
 import 'package:flutter_application_1/apis/SudokuSettings.dart';
 import 'package:flutter_application_1/controllers/adventureController.dart';
@@ -83,17 +83,5 @@ class SudokuController extends GetxController {
     sudokuGame.save();
 
     print("SUDOKU GAME PROGRESS = " + sudokuGame.sudokuProvinceCompleted.toString());
-  }
-
-  void incrementMiniGamesWarrior() {
-    Box box = Hive.box<AdventureProgress>('adventure');
-    AdventureProgress sudokuGame = box.get('adventureProgress');
-
-    int i = sudokuGame.miniGamesWarrior;
-    if (i < 10) {
-      i += 1;
-    }
-    sudokuGame.miniGamesWarrior = i;
-    sudokuGame.save();
   }
 }

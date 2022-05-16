@@ -24,7 +24,6 @@ class AdventureController extends GetxController {
         mountainProvinceCardsCompleted: [false, false, false, false, false, false, false, false],
         ifugaoCardsCompleted: [false, false, false, false, false, false, false, false],
         benguetCardsCompleted: [false, false, false, false, false, false, false, false],
-        miniGamesWarrior: 0
       );
       box.put('adventureProgress', adventureProgress);
     }

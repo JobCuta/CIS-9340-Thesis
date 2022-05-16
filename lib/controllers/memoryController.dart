@@ -16,6 +16,7 @@ class MemoryController extends GetxController{
     Province.Benguet: 5
   };
   var provinceCompleted = [false, false, false, false, false, false].obs;
+  int miniGamesWarrior = 0;
 
   void prepareTheObjects() {
     Box box = Hive.box<AdventureProgress>('adventure');
@@ -63,14 +64,6 @@ class MemoryController extends GetxController{
   }
 
   void incrementMiniGamesWarrior() {
-    Box box = Hive.box<AdventureProgress>('adventure');
-    AdventureProgress sudokuGame = box.get('adventureProgress');
 
-    int i = sudokuGame.miniGamesWarrior;
-    if (i < 10) {
-      i += 1;
-    }
-    sudokuGame.miniGamesWarrior = i;
-    sudokuGame.save();
   }
 }
