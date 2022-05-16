@@ -27,6 +27,7 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
   String first ='';
   String second ='';
   String third ='';
+  int textNum = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +85,17 @@ class _UserJourneyModalState extends State<UserJourneyModalWidget> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    first = second;
+                    if(textNum == 1){
+                      first = second;
+                    }else if (textNum == 2){
+                      second = third;
+                    }else if (textNum == 3){
+                      third = Get.offAndToNamed('/ActivitiesGameScreen') as String;
+                    }
+                    textNum++;
+                    /*first = second;
                     second = third;
-                    third = Get.offAndToNamed('/ActivitiesGameScreen') as String;
+                    third = Get.offAndToNamed('/ActivitiesGameScreen') as String;*/
                   });
                 },
                 child: Container(
