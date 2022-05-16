@@ -218,18 +218,23 @@ class UserProvider extends GetConnect {
     return true;
   }
 
-  Future<Map> createNotifs(String morning, String afternoon, String evening) async {
+  Future<Map> createNotifs(SettingsHive settings) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    formatTime(List<String> list) => '${list[0]}:${list[1]}';
     final response = await post(domain + paths['notifs'], {
-      "morning": morning,
-      "afternoon": afternoon,
-      "evening": evening,
+      "morning": formatTime(settings.notificationsMorningTime),
+      "afternoon": formatTime(settings.notificationsAfternoonTime),
+      "evening": formatTime(settings.notificationsEveningTime),
+      "notifs_enabled": settings.notificationsEnabled,
+      "phqNotif": settings.phqNotificationsEnabled,
+      "sidasNotif": settings.sidasNotificationsEnabled,
     }, headers: {
       "Authorization": "Token " + key
     });
     if (response.hasError) {
       log('create notifs error ${response.statusText} ${response.body}');
+      if (response.statusText == 'Bad Request') return {"id": -1};
       return {};
     }
     return response.body;
@@ -268,6 +273,17 @@ class UserProvider extends GetConnect {
     } else {
       return false;
     }
+  }
+
+  Future<Map> getUser() async {
+    String key = "";
+    await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
+    final response = await get(domain + paths["getUser"], headers: {"Authorization": "Token " + key});
+    if (response.hasError) {
+      log('get user error ${response.statusText} ${response.body}');
+      return {};
+    }
+    return response.body;
   }
 
   Future phqScores() async {
@@ -313,7 +329,7 @@ class UserProvider extends GetConnect {
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     final response = await get(domain + paths["notifs"], headers: {"Authorization": "Token " + key});
     if (response.hasError) {
-      log('emotion scores error ${response.statusText}');
+      log('notif settings error ${response.statusText}');
       return {};
     }
     log('notifs body ${response.body}');
@@ -385,13 +401,17 @@ class UserProvider extends GetConnect {
     return {"status": "Updated"};
   }
 
-  Future<Map> updateNotifs(String morning, String afternoon, String evening, String id) async {
+  Future<Map> updateNotifs(SettingsHive settings, String id) async {
     String key = "";
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
-    final response = await put(domain + paths['emotion'] + '$id/', {
-      "morning": morning,
-      "afternoon": afternoon,
-      "evening": evening,
+    formatTime(List<String> list) => '${list[0]}:${list[1]}';
+    final response = await put(domain + paths['notifs'] + '$id/', {
+      "morning": formatTime(settings.notificationsMorningTime),
+      "afternoon": formatTime(settings.notificationsAfternoonTime),
+      "evening": formatTime(settings.notificationsEveningTime),
+      "notifs_enabled": settings.notificationsEnabled,
+      "phqNotif": settings.phqNotificationsEnabled,
+      "sidasNotif": settings.sidasNotificationsEnabled,
     }, headers: {
       "Authorization": "Token " + key
     });
@@ -420,8 +440,8 @@ class UserProvider extends GetConnect {
     String key = "", email = '';
     await UserSecureStorage.getLoginKey().then((value) => key = value.toString());
     await UserSecureStorage.getEmail().then((value) => email = value.toString());
-    final response =
-        await put(domain + paths['user'], {"email": email, "frame": path}, headers: {"Authorization": "Token " + key});
+    final response = await put(domain + paths['getUser'], {"email": email, "frame": path},
+        headers: {"Authorization": "Token " + key});
     if (response.hasError) {
       log('update frame error ${response.statusText} ${response.body}');
       return false;

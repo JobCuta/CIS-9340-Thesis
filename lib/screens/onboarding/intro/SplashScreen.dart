@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/main/HomepageScreen.dart';
 import 'package:flutter_application_1/screens/onboarding/intro/LanguageSelectScreen.dart';
+import 'package:flutter_application_1/screens/onboarding/login_registration/LoginSplash.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter_application_1/apis/userSecureStorage.dart';
 
@@ -45,14 +46,14 @@ class _SplashState extends State<Splash> {
     // update the database - local overwriting the database with no entries
     // datebase update the local - datbase might have older entries
 
-    return Future.value(HomePageScreen(2));
+    return Future.value(const LoadingSplash());
   }
 
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-        seconds: 5,
-        navigateAfterSeconds: (isLoggedIn) ? HomePageScreen(2) : const LanguageSelect(),
+        seconds: 2,
+        navigateAfterSeconds: (isLoggedIn) ? const LoadingSplash() : const LanguageSelect(),
         // navigateAfterFuture: loadFromFuture(),
         image: Image.asset('assets/images/splash.png'),
         backgroundColor: Colors.white,

@@ -23,7 +23,7 @@ class CalendarScreen extends StatefulWidget {
 final EmotionController _emotionController = Get.put(EmotionController());
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  late DateTime installedDate;
+  late DateTime installedDate = DateTime(0);
   CalendarFormat format = CalendarFormat.month;
   late DateTime selectedDay = DateTime.now();
 

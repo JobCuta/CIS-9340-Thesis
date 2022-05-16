@@ -200,26 +200,7 @@ class SetNotificationScreenState extends State<SetNotificationScreen> {
                           .subtitle2
                           ?.copyWith(color: Theme.of(context).colorScheme.neutralWhite01, fontWeight: FontWeight.w600),
                     ),
-                    onPressed: () async {
-                      Map result = await UserProvider().createNotifs(_timeController.morningTime.value.toString(),
-                          _timeController.afternoonTime.value.toString(), _timeController.eveningTime.value.toString());
-
-                      if (result.isNotEmpty) {
-                        _settingsController.notifID = result['id'];
-                        UserSecureStorage.setNotifID(result['id']);
-                        log('notif ID saved. ${_settingsController.notifID}');
-                        Get.snackbar('Notification Saved', 'Your notification settings were saved in the backend!',
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.white60,
-                            colorText: Colors.black87);
-                      } else {
-                        Get.snackbar('There was a problem saving your settings',
-                            'Your notification settings were not saved in the backend',
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.white60,
-                            colorText: Colors.black87);
-                      }
-
+                    onPressed: () {
                       NotificationService.showMorningNotification(_timeController.morningTime.value);
 
                       NotificationService.showAfternoonNotification(_timeController.afternoonTime.value);

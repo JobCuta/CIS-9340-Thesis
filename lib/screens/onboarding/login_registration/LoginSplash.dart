@@ -5,6 +5,7 @@ import 'package:flutter_application_1/apis/EmotionEntryDetail.dart';
 import 'package:flutter_application_1/apis/apis.dart';
 import 'package:flutter_application_1/apis/emotionEntryHive.dart';
 import 'package:flutter_application_1/apis/phqHive.dart';
+import 'package:flutter_application_1/apis/settingsHive.dart';
 import 'package:flutter_application_1/apis/sidasHive.dart';
 import 'package:flutter_application_1/apis/tableSecureStorage.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -41,9 +42,6 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updatePHQ() async {
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      loadingStatus = 'Updating PHQ Entries..';
-    });
     await TableSecureStorage.getLatestPHQ().then((value) => latestPhq = value.toString());
     List phqList = await UserProvider().phqScores();
     // log('phq List $phqList');
@@ -89,10 +87,6 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updateSIDAS() async {
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      loadingStatus = 'Updating SIDAS Entries..';
-    });
-
     await TableSecureStorage.getLatestSIDAS().then((value) => latestSidas = value.toString());
     List sidasList = await UserProvider().sidasScores();
     // log('sidas List $sidasList');
@@ -141,10 +135,6 @@ class _LoadingSplashState extends State<LoadingSplash> {
     // latestEmotion is empty. update Local
     // latestEmotion is more recent than Server, update Server
     // Server is more recent than LatestEmotion, update Local
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      loadingStatus = 'Updating Emotion Entries..';
-    });
 
     await TableSecureStorage.getLatestEmotion().then((value) => latestEmotion);
     List emotionList = await UserProvider().emotionScores();
@@ -393,7 +383,24 @@ class _LoadingSplashState extends State<LoadingSplash> {
   }
 
   updateUserDetails() async {
-    
+    Box box = Hive.box<SettingsHive>('settings');
+    Map notifSettings = await UserProvider().savedNotifs();
+    Map userData = await UserProvider().getUser();
+    if (notifSettings.isNotEmpty && userData.isNotEmpty) {
+      SettingsHive newSettings = SettingsHive(
+          notificationsEnabled: notifSettings['notifs_enabled'],
+          notificationsMorningTime: notifSettings['morning'].split(':'),
+          notificationsAfternoonTime: notifSettings['afternoon'].split(':'),
+          notificationsEveningTime: notifSettings['evening'].split(':'),
+          language: 'English',
+          imagePath: '',
+          framePath: userData['frame'],
+          phqNotificationsEnabled: notifSettings['phqNotif'],
+          sidasNotificationsEnabled: notifSettings['sidasNotif']);
+      await box.put(0, newSettings);
+    } else {
+      log('something went wrong $notifSettings $userData');
+    }
   }
 
   String dateToString(DateTime dateTime) {

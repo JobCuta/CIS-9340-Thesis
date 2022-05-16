@@ -242,32 +242,7 @@ class UserProfileNotificationsScreenState extends State<UserProfileNotifications
                           primary: Theme.of(context).colorScheme.accentBlue02,
                         ),
                         onPressed: () async {
-                          String notifID = '';
-                          await UserSecureStorage.getNotifID().then((value) => notifID = value.toString());
-                          if (notifID.isEmpty || notifID == 'null') {
-                            log('notification ID did not exist. Assuming backend ID not saved, saving to backend..');
-                            log('time ${formatTime(_timeController.afternoonTime.value)}');
-                            Map result = await UserProvider().createNotifs(
-                              formatTime(_timeController.morningTime.value),
-                              formatTime(_timeController.afternoonTime.value),
-                              formatTime(_timeController.eveningTime.value),
-                            );
-                            if (result.isNotEmpty) {
-                              UserSecureStorage.setNotifID(result['id']);
-                              log('successfully saved notifs to backend');
-                            } else {
-                              log('error saving to backend..');
-                            }
-                          } else {
-                            UserProvider().updateNotifs(
-                                formatTime(_timeController.morningTime.value),
-                                formatTime(_timeController.afternoonTime.value),
-                                formatTime(_timeController.eveningTime.value),
-                                notifID);
-                            log('successfully saved notifs to backend');
-                          }
-
-                          _settingsController.updateNotificationSettings(
+                            _settingsController.updateNotificationSettings(
                             newNotificationsEnabled: _settingsController.notificationsEnabled.value,
                             newNotificationsMorningTime: [
                               _timeController.morningTime.value.hour.toString(),

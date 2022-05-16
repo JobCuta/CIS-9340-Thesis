@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/apis/apis.dart';
+import 'package:flutter_application_1/apis/userSecureStorage.dart';
 import 'package:flutter_application_1/controllers/timeController.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -13,7 +18,6 @@ class SettingsController extends GetxController {
   var framePath = ''.obs;
   var phqNotificationsEnabled = false.obs;
   var sidasNotificationsEnabled = false.obs;
-  var notifID = -1.obs;
 
   TimeController timeController = TimeController();
 
@@ -31,7 +35,6 @@ class SettingsController extends GetxController {
         framePath: '',
         phqNotificationsEnabled: false,
         sidasNotificationsEnabled: false,
-        notifID: -1,
       );
       box.put('settings', settings);
     }
@@ -47,14 +50,14 @@ class SettingsController extends GetxController {
     // checkValues();
   }
 
-  void updateNotificationSettings(
-      {required newNotificationsEnabled,
-      required newNotificationsMorningTime,
-      required newNotificationsAfternoonTime,
-      required newNotificationsEveningTime,
-      required newPHQNotificationsEnabled,
-      required newSIDASNotificationsEnabled,
-      }) {
+  Future<void> updateNotificationSettings({
+    required newNotificationsEnabled,
+    required newNotificationsMorningTime,
+    required newNotificationsAfternoonTime,
+    required newNotificationsEveningTime,
+    required newPHQNotificationsEnabled,
+    required newSIDASNotificationsEnabled,
+  }) async {
     SettingsHive newSettings = SettingsHive(
       notificationsEnabled: newNotificationsEnabled,
       notificationsMorningTime: newNotificationsMorningTime,
@@ -65,9 +68,37 @@ class SettingsController extends GetxController {
       framePath: framePath.value,
       phqNotificationsEnabled: newPHQNotificationsEnabled,
       sidasNotificationsEnabled: newSIDASNotificationsEnabled,
-      notifID: notifID,
     );
-    box.putAt(0, newSettings);
+    await box.putAt(0, newSettings);
+
+    Map result = await UserProvider().createNotifs(newSettings);
+    if (result.isNotEmpty) {
+      if (result['id'] == -1) {
+        log('user notif settings already exist, updating instead..');
+        String notifID = '';
+        await UserSecureStorage.getNotifID().then((value) => notifID = value.toString());
+        if (notifID.isEmpty || notifID == 'null') {
+          log('notifID non existent.');
+          Map result = await UserProvider().savedNotifs();
+          if (result.isNotEmpty) {
+            UserSecureStorage.setNotifID(result['id'].toString());
+            log('notifID now updated.');
+          }
+        } else {
+          Map result = await UserProvider().updateNotifs(newSettings, notifID);
+          if (result.isNotEmpty) log('notif backend updated');
+        }
+      } else {
+        UserSecureStorage.setNotifID(result['id']);
+        log('notif ID saved. ${result['id']}');
+        Get.snackbar('Notification Saved', 'Your notification settings were saved in the backend!',
+            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+      }
+    } else {
+      Get.snackbar(
+          'There was a problem saving your settings', 'Your notification settings were not saved in the backend',
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white60, colorText: Colors.black87);
+    }
 
     notificationsEnabled.value = newSettings.notificationsEnabled;
     notificationsMorningTime.value = newSettings.notificationsMorningTime;
@@ -76,21 +107,21 @@ class SettingsController extends GetxController {
     // checkValues();
   }
 
-  void updateLanguageSettings({
+  Future<void> updateLanguageSettings({
     required newLanguage,
-  }) {
+  }) async {
     SettingsHive newSettings = SettingsHive(
-        notificationsEnabled: notificationsEnabled.value,
-        notificationsMorningTime: notificationsMorningTime.value,
-        notificationsAfternoonTime: notificationsAfternoonTime.value,
-        notificationsEveningTime: notificationsEveningTime.value,
-        language: newLanguage,
-        imagePath: imagePath.value,
-        framePath: framePath.value,
-        phqNotificationsEnabled: phqNotificationsEnabled.value,
-        sidasNotificationsEnabled: sidasNotificationsEnabled.value,
-        notifID: notifID);
-    box.putAt(0, newSettings);
+      notificationsEnabled: notificationsEnabled.value,
+      notificationsMorningTime: notificationsMorningTime.value,
+      notificationsAfternoonTime: notificationsAfternoonTime.value,
+      notificationsEveningTime: notificationsEveningTime.value,
+      language: newLanguage,
+      imagePath: imagePath.value,
+      framePath: framePath.value,
+      phqNotificationsEnabled: phqNotificationsEnabled.value,
+      sidasNotificationsEnabled: sidasNotificationsEnabled.value,
+    );
+    await box.putAt(0, newSettings);
 
     language.value = newLanguage;
     // checkValues();
@@ -109,16 +140,14 @@ class SettingsController extends GetxController {
       framePath: framePath.value,
       phqNotificationsEnabled: phqNotificationsEnabled.value,
       sidasNotificationsEnabled: sidasNotificationsEnabled.value,
-      notifID: notifID,
     );
     box.putAt(0, newSettings);
-
     imagePath.value = newImage;
     update();
     // checkValues();
   }
 
-  void updateFrameSettings({required newFrame}) {
+  void updateFrameSettings({required newFrame}) async {
     SettingsHive newSettings = SettingsHive(
       notificationsEnabled: notificationsEnabled.value,
       notificationsMorningTime: notificationsMorningTime.value,
@@ -129,9 +158,10 @@ class SettingsController extends GetxController {
       framePath: newFrame,
       phqNotificationsEnabled: phqNotificationsEnabled.value,
       sidasNotificationsEnabled: sidasNotificationsEnabled.value,
-      notifID: notifID
     );
     box.putAt(0, newSettings);
+    bool result = await UserProvider().updateFrame(framePath.value);
+    log('save frame result $result');
 
     imagePath.value = newFrame;
     update();

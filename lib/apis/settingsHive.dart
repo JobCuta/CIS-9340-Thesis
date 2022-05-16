@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/apis/apis.dart';
 import 'package:hive/hive.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,6 @@ class SettingsHive extends HiveObject {
   @HiveField(8)
   bool sidasNotificationsEnabled;
 
-  @HiveField(9)
-  int notifID;
-
   SettingsHive({
     required this.notificationsEnabled,
     required this.notificationsMorningTime,
@@ -46,7 +44,6 @@ class SettingsHive extends HiveObject {
     required this.framePath,
     required this.phqNotificationsEnabled,
     required this.sidasNotificationsEnabled,
-    required this.notifID,
   });
 
   @override
@@ -63,7 +60,6 @@ class SettingsHive extends HiveObject {
       framePath: '',
       phqNotificationsEnabled: false,
       sidasNotificationsEnabled: false, 
-      notifID: -1,
     ));
   }
 }
