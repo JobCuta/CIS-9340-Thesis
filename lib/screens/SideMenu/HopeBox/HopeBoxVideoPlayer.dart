@@ -48,6 +48,7 @@ class _HopeBoxVideoPlayerState extends State<HopeBoxVideoPlayer> {
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: true,
+      showOptions: false,
       materialProgressColors: ChewieProgressColors(
         playedColor: Theme.of(context).colorScheme.accentBlue02,
         handleColor: Theme.of(context).colorScheme.accentBlue02,

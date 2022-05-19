@@ -365,4 +365,4 @@ final ThemeData themeData = ThemeData(
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
     bottomSheetTheme:
-        const BottomSheetThemeData(backgroundColor: Colors.white));
+        const BottomSheetThemeData(backgroundColor: Colors.transparent));
