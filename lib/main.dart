@@ -138,7 +138,8 @@ Future<void> main() async {
   final CopingController _copingController = Get.put(CopingController());
   _copingController.prepareTheObjects();
 
-  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
+  final MiniGamesWarriorController _miniGamesWarriorController =
+      Get.put(MiniGamesWarriorController());
   _miniGamesWarriorController.prepareTheObjects();
 
   await NotificationService().init();
@@ -364,4 +365,4 @@ final ThemeData themeData = ThemeData(
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
     bottomSheetTheme:
-        const BottomSheetThemeData(backgroundColor: Colors.transparent));
+        const BottomSheetThemeData(backgroundColor: Colors.white));
