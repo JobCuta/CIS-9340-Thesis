@@ -18,6 +18,7 @@ import 'package:get/get.dart';
 
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
+import '../../../controllers/miniGamesWarriorController.dart';
 import 'Styles.dart';
 import 'Alerts.dart';
 
@@ -40,6 +41,7 @@ class SudokuScreenState extends State<SudokuScreen> {
   static String currentAccentColor = '';
   final SudokuController _sudokuController = Get.put(SudokuController());
   final LevelController _levelController = Get.put(LevelController());
+  final MiniGamesWarriorController _miniGamesWarriorController = Get.put(MiniGamesWarriorController());
   final AdventureController _adventureController =
       Get.put(AdventureController());
   final String route = Get.arguments["route"]!;
@@ -138,6 +140,7 @@ class SudokuScreenState extends State<SudokuScreen> {
             });
           } else {
             Future.delayed(const Duration(milliseconds: 1000), () {
+              _miniGamesWarriorController.updateMGWCompletion();
               _sudokuController.updateIfCompleted();
               _levelController.addXp('Sudoku', 50);
               _levelController.displayLevelXpModal(context);

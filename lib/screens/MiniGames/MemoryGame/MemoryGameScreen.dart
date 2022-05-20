@@ -81,10 +81,12 @@ class _MemoryGameState extends State<MemoryGameScreen> {
       });
       print('previus route is' + previousRoute);
     } else {
-      _miniGamesWarriorController.updateMGWCompletion();
-      _levelController.addXp('Memory Game', 50);
-      _levelController.displayLevelXpModal(context);
-      print('previus route is' + previousRoute);
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        _miniGamesWarriorController.updateMGWCompletion();
+        _levelController.addXp('Memory Game', 50);
+        _levelController.displayLevelXpModal(context);
+        print('previus route is' + previousRoute);
+      });
     }
   }
 
